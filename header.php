@@ -65,7 +65,6 @@
 				</button>
 			</div>
 
-			<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="site-header__cta">Let's Talk</a>
 			<button class="hamburger" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-overlay">
 				<span class="hamburger__line hamburger__line--top"></span>
 				<span class="hamburger__line hamburger__line--bottom"></span>
