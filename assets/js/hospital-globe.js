@@ -54,8 +54,8 @@ import createGlobe from 'https://esm.sh/cobe@0.6.3';
     return { location: h.loc, size: 0.026 + (h.cases / MAX_CASES) * 0.052 };
   });
 
-  /* Locked default: continental US centred (-97°W → phi ≈ 2.05), slight orbital tilt */
-  var DEF_PHI   = 2.05;
+  /* Locked default: continental US centred */
+  var DEF_PHI   = 4.0;
   var DEF_THETA = -0.22;
   /* Clamp how far the user can drag from the default */
   var PHI_MIN   = DEF_PHI - 0.55;
