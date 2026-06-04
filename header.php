@@ -49,8 +49,6 @@
 
 		<div class="site-header__right">
 
-			<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="site-header__cta">Let's Talk</a>
-
 			<!-- Search -->
 			<div class="nav-search" id="nav-search">
 				<form class="nav-search__form" action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get" role="search" aria-label="Site search" autocomplete="off">
@@ -65,6 +63,7 @@
 				</button>
 			</div>
 
+			<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="site-header__cta">Let's Talk</a>
 			<button class="hamburger" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-overlay">
 				<span class="hamburger__line hamburger__line--top"></span>
 				<span class="hamburger__line hamburger__line--bottom"></span>

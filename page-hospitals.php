@@ -8,8 +8,8 @@
 			<span class="page-hero__eyebrow">For Hospitals</span>
 			<h1 class="page-hero__title">One team. Every product line we cover.</h1>
 			<p class="page-hero__lead">Leap operates as a single point of accountability across everything we carry, with the case data and billing speed your team deserves.</p>
-			<div class="hero__actions" style="opacity:1;margin-top:var(--space-10);">
-				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg">Let's talk <span aria-hidden="true">→</span></a>
+			<div class="hero__actions" style="opacity:1;margin-top:var(--space-10);justify-content:flex-start;">
+				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg" style="opacity:1;">Let's talk <span aria-hidden="true">→</span></a>
 			</div>
 		</div>
 	</div>
