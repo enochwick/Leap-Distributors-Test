@@ -54,9 +54,14 @@ import createGlobe from 'https://esm.sh/cobe@0.6.3';
     return { location: h.loc, size: 0.026 + (h.cases / MAX_CASES) * 0.052 };
   });
 
-  /* Locked default: continental US centred, slight orbital tilt */
-  var DEF_PHI   = 1.82;
-  var DEF_THETA = -0.28;
+  /* Locked default: continental US centred (-97°W → phi ≈ 2.05), slight orbital tilt */
+  var DEF_PHI   = 2.05;
+  var DEF_THETA = -0.22;
+  /* Clamp how far the user can drag from the default */
+  var PHI_MIN   = DEF_PHI - 0.55;
+  var PHI_MAX   = DEF_PHI + 0.55;
+  var THETA_MIN = DEF_THETA - 0.35;
+  var THETA_MAX = DEF_THETA + 0.35;
 
   function angleDiff(a, b) {
     return (((b - a) % (Math.PI * 2)) + Math.PI * 3) % (Math.PI * 2) - Math.PI;
@@ -92,7 +97,7 @@ import createGlobe from 'https://esm.sh/cobe@0.6.3';
 
     function scheduleReturn() {
       clearTimeout(resetTimer);
-      resetTimer = setTimeout(function () { returning = true; }, 1200);
+      resetTimer = setTimeout(function () { returning = true; }, 800);
     }
 
     canvas.addEventListener('pointerdown', function (e) {
@@ -104,8 +109,8 @@ import createGlobe from 'https://esm.sh/cobe@0.6.3';
     });
     canvas.addEventListener('pointermove', function (e) {
       if (!isDragging) return;
-      phi   += (e.clientX - prevX) * 0.005;
-      theta  = Math.max(-1.2, Math.min(0.4, theta + (e.clientY - prevY) * 0.003));
+      phi   = Math.max(PHI_MIN,   Math.min(PHI_MAX,   phi   + (e.clientX - prevX) * 0.004));
+      theta = Math.max(THETA_MIN, Math.min(THETA_MAX, theta + (e.clientY - prevY) * 0.003));
       prevX = e.clientX; prevY = e.clientY;
     });
     canvas.addEventListener('pointerup', function () {
