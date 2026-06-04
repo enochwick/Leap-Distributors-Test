@@ -4412,110 +4412,124 @@ select.form-input {
 }
 
 /* ==========================================================================
-   Hospital Coverage Globe — platform page
+   Hospital Coverage Globe — cinematic full-width, platform page
    ========================================================================== */
-.hcm-section { padding: var(--space-16) 0; }
 
 .accent-teal { color: #00d2af; }
 
-.hcm-card {
+/* ── Section ─────────────────────────────────────────────────── */
+.hcm-section {
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  border-radius: var(--radius-2xl);
-  border: 1px solid rgba(0,210,175,0.1);
-  background: linear-gradient(160deg, var(--color-surface-2, #0d1f2d) 0%, var(--color-surface-1, #091520) 100%);
   overflow: hidden;
-  min-height: 520px;
+  background:
+    /* subtle star-like dots via layered radial-gradients */
+    radial-gradient(1px 1px at  8% 12%, rgba(255,255,255,0.75) 0%, transparent 0%),
+    radial-gradient(1px 1px at 18%  6%, rgba(255,255,255,0.55) 0%, transparent 0%),
+    radial-gradient(1px 1px at 28% 18%, rgba(255,255,255,0.65) 0%, transparent 0%),
+    radial-gradient(1px 1px at 38%  4%, rgba(255,255,255,0.80) 0%, transparent 0%),
+    radial-gradient(1px 1px at 48% 14%, rgba(255,255,255,0.50) 0%, transparent 0%),
+    radial-gradient(1px 1px at 58%  8%, rgba(255,255,255,0.70) 0%, transparent 0%),
+    radial-gradient(1px 1px at 68% 16%, rgba(255,255,255,0.60) 0%, transparent 0%),
+    radial-gradient(1px 1px at 78%  5%, rgba(255,255,255,0.85) 0%, transparent 0%),
+    radial-gradient(1px 1px at 88% 11%, rgba(255,255,255,0.55) 0%, transparent 0%),
+    radial-gradient(1px 1px at 94% 20%, rgba(255,255,255,0.65) 0%, transparent 0%),
+    radial-gradient(1px 1px at  5% 28%, rgba(255,255,255,0.45) 0%, transparent 0%),
+    radial-gradient(1px 1px at 14% 35%, rgba(255,255,255,0.60) 0%, transparent 0%),
+    radial-gradient(1px 1px at 23% 42%, rgba(255,255,255,0.40) 0%, transparent 0%),
+    radial-gradient(1px 1px at 33% 30%, rgba(255,255,255,0.70) 0%, transparent 0%),
+    radial-gradient(1px 1px at 43% 38%, rgba(255,255,255,0.50) 0%, transparent 0%),
+    radial-gradient(1px 1px at 53% 25%, rgba(255,255,255,0.65) 0%, transparent 0%),
+    radial-gradient(1px 1px at 63% 40%, rgba(255,255,255,0.45) 0%, transparent 0%),
+    radial-gradient(1px 1px at 73% 32%, rgba(255,255,255,0.75) 0%, transparent 0%),
+    radial-gradient(1px 1px at 83% 22%, rgba(255,255,255,0.55) 0%, transparent 0%),
+    radial-gradient(1px 1px at 93%  9%, rgba(255,255,255,0.80) 0%, transparent 0%),
+    /* deep space gradient */
+    linear-gradient(to bottom, #00010a 0%, #000d1c 55%, #001428 100%);
+  padding-bottom: 0;
 }
 
-.hcm-card__glow {
-  position: absolute;
-  top: -10%; right: 5%;
-  width: 60%; height: 65%;
-  background: radial-gradient(ellipse at center,
-    rgba(0,210,175,0.09) 0%,
-    rgba(0,190,160,0.04) 45%,
-    transparent 70%);
-  filter: blur(60px);
-  pointer-events: none;
-  z-index: 0;
-}
 
-/* Left copy */
-.hcm-card__copy {
+/* ── Copy block ─────────────────────────────────────────────── */
+.hcm-copy-wrap {
   position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: clamp(2.5rem, 4vw, 4rem) clamp(2rem, 4vw, 4rem);
+  z-index: 3;
+  padding: clamp(4rem, 7vw, 7rem) 0 clamp(2rem, 4vw, 3.5rem);
 }
 
-.hcm-card__h {
-  font-size: clamp(1.75rem, 2.4vw, 2.6rem);
+.hcm-copy {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.hcm-copy__h {
+  font-size: clamp(2rem, 4vw, 3.2rem);
   font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-  color: var(--color-text-1, #eceff1);
-  margin: var(--space-4) 0 var(--space-4);
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+  color: #eceff1;
+  margin: var(--space-4) 0 var(--space-5);
 }
 
-.hcm-card__body {
+.hcm-copy__body {
   font-size: var(--text-base);
-  color: var(--color-text-3, rgba(236,239,241,0.55));
-  line-height: 1.65;
-  max-width: 36ch;
-  margin-bottom: var(--space-8);
+  color: rgba(236,239,241,0.52);
+  line-height: 1.7;
+  max-width: 46ch;
+  margin: 0 auto var(--space-8);
   font-weight: 300;
 }
 
+/* ── Stats ── */
 .hcm-stats {
   display: flex;
   align-items: center;
-  gap: var(--space-6);
+  justify-content: center;
+  gap: var(--space-7);
   margin-bottom: var(--space-6);
 }
 
 .hcm-stat {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 3px;
 }
 
 .hcm-stat__val {
-  font-size: 1.65rem;
+  font-size: 1.8rem;
   font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--color-text-1, #eceff1);
+  letter-spacing: -0.025em;
+  color: #eceff1;
   line-height: 1;
 }
 
 .hcm-stat__label {
   font-size: 10px;
-  color: var(--color-text-4, rgba(236,239,241,0.38));
+  color: rgba(236,239,241,0.36);
   text-transform: uppercase;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.08em;
 }
 
 .hcm-stat__divider {
   width: 1px;
-  height: 1.75rem;
-  background: rgba(255,255,255,0.09);
+  height: 2rem;
+  background: rgba(255,255,255,0.08);
   flex-shrink: 0;
 }
 
+/* ── Badge ── */
 .hcm-badge {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-2);
   font-size: var(--text-xs);
-  color: rgba(0,210,175,0.72);
+  color: rgba(0,210,175,0.75);
   background: rgba(0,210,175,0.07);
-  border: 1px solid rgba(0,210,175,0.16);
+  border: 1px solid rgba(0,210,175,0.18);
   border-radius: var(--radius-full);
-  padding: 4px 12px;
-  width: fit-content;
+  padding: 5px 14px;
 }
 
 .hcm-badge__dot {
@@ -4528,44 +4542,44 @@ select.form-input {
 
 @keyframes hcm-pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.4; transform: scale(1.35); }
+  50%       { opacity: 0.38; transform: scale(1.4); }
 }
 
-/* Right globe panel — overflow hidden for zoomed-in crop effect */
-.hcm-card__globe {
+/* ── Globe wrap — crops to top hemisphere for from-orbit look ── */
+.hcm-globe-wrap {
   position: relative;
-  z-index: 1;
+  width: 100%;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 560px;
+  height: clamp(320px, 52vw, 640px);
+  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
 }
 
 #hcm-globe {
-  /* Larger than the panel so it crops and reads as "zoomed in" */
-  width: 720px;
-  height: 720px;
-  flex-shrink: 0;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width:  min(110vw, 1200px);
+  height: min(110vw, 1200px);
   cursor: grab;
   display: block;
-  margin-right: -80px; /* shift globe right so US is centred in frame */
 }
 
 #hcm-globe:active { cursor: grabbing; }
 
-/* Hover tooltip */
+/* ── Hover tooltip ── */
 .hcm-globe-tip {
   position: absolute;
   display: none;
-  background: rgba(7, 18, 28, 0.95);
-  border: 1px solid rgba(0, 210, 175, 0.25);
+  background: rgba(4, 12, 22, 0.96);
+  border: 1px solid rgba(0,210,175,0.28);
   border-radius: 6px;
-  padding: 7px 12px;
+  padding: 7px 13px;
   pointer-events: none;
   z-index: 20;
   white-space: nowrap;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.55);
 }
 
 .hcm-globe-tip strong {
@@ -4578,22 +4592,17 @@ select.form-input {
 .hcm-globe-tip span {
   display: block;
   font-size: 10px;
-  color: rgba(0, 210, 175, 0.78);
+  color: rgba(0,210,175,0.8);
   margin-top: 2px;
 }
 
-@media (max-width: 1100px) {
-  #hcm-globe { width: 620px; height: 620px; margin-right: -40px; }
+@media (max-width: 768px) {
+  .hcm-stats { gap: var(--space-5); }
+  .hcm-stat__val { font-size: 1.5rem; }
+  .hcm-globe-wrap { height: clamp(260px, 68vw, 420px); }
 }
 
-@media (max-width: 900px) {
-  .hcm-card { grid-template-columns: 1fr; min-height: unset; }
-  .hcm-card__globe { min-height: 420px; }
-  #hcm-globe { width: 520px; height: 520px; margin-right: 0; }
-}
-
-@media (max-width: 540px) {
+@media (max-width: 480px) {
+  .hcm-copy__h { font-size: 1.75rem; }
   .hcm-stats { gap: var(--space-4); }
-  .hcm-stat__val { font-size: 1.35rem; }
-  #hcm-globe { width: 380px; height: 380px; }
 }
