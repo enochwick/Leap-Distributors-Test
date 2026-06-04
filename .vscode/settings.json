@@ -1,0 +1,24 @@
+{
+  "intelephense.stubs": [
+    "wordpress",
+    "Core",
+    "date",
+    "dom",
+    "filter",
+    "hash",
+    "json",
+    "mbstring",
+    "mysqli",
+    "openssl",
+    "pcre",
+    "PDO",
+    "Reflection",
+    "session",
+    "SimpleXML",
+    "SPL",
+    "standard",
+    "superglobals",
+    "xml",
+    "zip"
+  ]
+}

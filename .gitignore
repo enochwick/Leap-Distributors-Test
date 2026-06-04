@@ -1,0 +1,8 @@
+.DS_Store
+*.zip
+.vscode/sftp.json
+node_modules/
+.claude/
+*.log
+.env
+brand-assets/
