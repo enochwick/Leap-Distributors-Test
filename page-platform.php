@@ -225,9 +225,9 @@
 				</div>
 			</div>
 
-			<!-- Right globe -->
-			<div class="hcm-card__globe">
-				<canvas id="hcm-globe" aria-label="Interactive hospital coverage globe"></canvas>
+			<!-- Right map -->
+			<div class="hcm-card__map">
+				<div id="hcm-map" aria-label="Interactive hospital coverage map"></div>
 			</div>
 
 		</div>
