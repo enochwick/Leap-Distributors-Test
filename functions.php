@@ -80,6 +80,19 @@ function leap_enqueue_assets() {
 }
 add_action( 'wp_enqueue_scripts', 'leap_enqueue_assets' );
 
+// Hospital globe — platform page only
+add_action( 'wp_enqueue_scripts', function() {
+	if ( is_page( 'platform' ) ) {
+		wp_enqueue_script(
+			'leap-hospital-globe',
+			get_template_directory_uri() . '/assets/js/hospital-globe.js',
+			[],
+			LEAP_VERSION,
+			true
+		);
+	}
+} );
+
 // Remove WordPress emoji scripts
 add_action( 'init', function() {
 	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );

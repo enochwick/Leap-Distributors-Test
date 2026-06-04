@@ -4410,3 +4410,160 @@ select.form-input {
 @media (max-width: 768px) {
   .surgeon-trey { grid-template-columns: 1fr; }
 }
+
+/* ==========================================================================
+   Hospital Coverage Globe — platform page
+   ========================================================================== */
+.hcm-section { padding: var(--space-16) 0; }
+
+.hcm-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-radius: var(--radius-2xl);
+  border: 1px solid rgba(0, 210, 175, 0.12);
+  background: linear-gradient(160deg, var(--color-surface-2) 0%, var(--color-surface-1) 100%);
+  overflow: hidden;
+  min-height: 520px;
+}
+
+.hcm-card__glow {
+  position: absolute;
+  top: -20%;
+  right: 10%;
+  width: 55%;
+  height: 70%;
+  background: radial-gradient(ellipse at center,
+    rgba(0, 210, 175, 0.10) 0%,
+    rgba(0, 190, 160, 0.05) 40%,
+    transparent 70%
+  );
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hcm-card__copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2.5rem, 4vw, 4rem) clamp(2rem, 4vw, 4rem);
+}
+
+.hcm-card__h {
+  font-size: clamp(1.75rem, 2.5vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--color-text-1);
+  margin: var(--space-4) 0 var(--space-4);
+}
+
+.hcm-card__body {
+  font-size: var(--text-base);
+  color: var(--color-text-3);
+  line-height: 1.65;
+  max-width: 38ch;
+  margin-bottom: var(--space-8);
+}
+
+.hcm-stats {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  margin-bottom: var(--space-7);
+}
+
+.hcm-stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.hcm-stat__val {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text-1);
+  line-height: 1;
+}
+
+.hcm-stat__label {
+  font-size: var(--text-xs);
+  color: var(--color-text-4);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.hcm-stat__divider {
+  width: 1px;
+  height: 2rem;
+  background: var(--color-border);
+  flex-shrink: 0;
+}
+
+.accent-teal { color: #00d2af; }
+
+.hcm-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--color-text-4);
+  background: rgba(0, 210, 175, 0.06);
+  border: 1px solid rgba(0, 210, 175, 0.14);
+  border-radius: var(--radius-full);
+  padding: var(--space-1-5) var(--space-4);
+  width: fit-content;
+}
+
+.hcm-badge__dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00d2af;
+  animation: hcm-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes hcm-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(1.3); }
+}
+
+.hcm-card__globe {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+}
+
+.hcm-canvas {
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  cursor: grab;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .hcm-card {
+    grid-template-columns: 1fr;
+    min-height: unset;
+  }
+  .hcm-card__globe {
+    min-height: 360px;
+    padding: 0 var(--space-4) var(--space-6);
+  }
+  .hcm-canvas { min-height: 340px; }
+}
+
+@media (max-width: 540px) {
+  .hcm-stats { gap: var(--space-4); }
+  .hcm-stat__val { font-size: 1.4rem; }
+}
