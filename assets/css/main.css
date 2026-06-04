@@ -4550,18 +4550,18 @@ select.form-input {
   position: relative;
   width: 100%;
   overflow: hidden;
-  height: clamp(320px, 52vw, 640px);
-  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  height: clamp(360px, 60vw, 720px);
+  mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
 }
 
 #hcm-globe {
   position: absolute;
   left: 50%;
-  top: 0;
+  top: -40px; /* shift up slightly so more of the globe fills the frame */
   transform: translateX(-50%);
-  width:  min(110vw, 1200px);
-  height: min(110vw, 1200px);
+  width:  min(130vw, 1440px);
+  height: min(130vw, 1440px);
   cursor: grab;
   display: block;
 }

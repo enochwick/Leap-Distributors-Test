@@ -54,9 +54,9 @@ import createGlobe from 'https://esm.sh/cobe@0.6.3';
     return { location: h.loc, size: 0.026 + (h.cases / MAX_CASES) * 0.052 };
   });
 
-  /* Tilt so we're looking at the US from slightly below in orbit */
-  var DEF_PHI   = 1.78;
-  var DEF_THETA = -0.32;
+  /* Locked default: continental US centred, slight orbital tilt */
+  var DEF_PHI   = 1.82;
+  var DEF_THETA = -0.28;
 
   function angleDiff(a, b) {
     return (((b - a) % (Math.PI * 2)) + Math.PI * 3) % (Math.PI * 2) - Math.PI;
@@ -92,7 +92,7 @@ import createGlobe from 'https://esm.sh/cobe@0.6.3';
 
     function scheduleReturn() {
       clearTimeout(resetTimer);
-      resetTimer = setTimeout(function () { returning = true; }, 2500);
+      resetTimer = setTimeout(function () { returning = true; }, 1200);
     }
 
     canvas.addEventListener('pointerdown', function (e) {
@@ -168,7 +168,7 @@ import createGlobe from 'https://esm.sh/cobe@0.6.3';
           var dP = angleDiff(phi, DEF_PHI), dT = DEF_THETA - theta;
           if (Math.abs(dP) < 0.002 && Math.abs(dT) < 0.002) {
             phi = DEF_PHI; theta = DEF_THETA; returning = false;
-          } else { phi += dP * 0.07; theta += dT * 0.07; }
+          } else { phi += dP * 0.10; theta += dT * 0.10; }
         }
 
         state.markers = MARKERS.map(function (m, i) {
