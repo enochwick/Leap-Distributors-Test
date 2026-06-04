@@ -1,128 +1,148 @@
-/* Hospital Coverage Map — platform page */
+import createGlobe from 'https://esm.sh/cobe@0.6.3';
+
 (function () {
   'use strict';
 
-  var HOSPITALS = [
-    { lat: 32.90, lng: -97.05, city: 'Fort Worth',     state: 'TX', cases: 280, type: 'consignment' },
-    { lat: 32.78, lng: -96.80, city: 'Dallas',          state: 'TX', cases: 210, type: 'stock'       },
-    { lat: 33.15, lng: -97.10, city: 'Denton',          state: 'TX', cases: 190, type: 'consignment' },
-    { lat: 32.50, lng: -97.35, city: 'Mansfield',       state: 'TX', cases: 175, type: 'consignment' },
-    { lat: 33.20, lng: -96.65, city: 'McKinney',        state: 'TX', cases: 160, type: 'stock'       },
-    { lat: 32.95, lng: -96.45, city: 'Rockwall',        state: 'TX', cases: 140, type: 'consignment' },
-    { lat: 33.05, lng: -97.52, city: 'Keller',          state: 'TX', cases: 120, type: 'stock'       },
-    { lat: 32.35, lng: -97.00, city: 'Cleburne',        state: 'TX', cases: 115, type: 'consignment' },
-    { lat: 31.55, lng: -97.15, city: 'Waco',            state: 'TX', cases: 108, type: 'consignment' },
-    { lat: 31.10, lng: -97.73, city: 'Temple',          state: 'TX', cases: 95,  type: 'stock'       },
-    { lat: 30.27, lng: -97.74, city: 'Austin',          state: 'TX', cases: 190, type: 'consignment' },
-    { lat: 30.50, lng: -97.85, city: 'Round Rock',      state: 'TX', cases: 155, type: 'stock'       },
-    { lat: 29.76, lng: -95.37, city: 'Houston',         state: 'TX', cases: 245, type: 'consignment' },
-    { lat: 29.90, lng: -95.55, city: 'Cypress',         state: 'TX', cases: 180, type: 'stock'       },
-    { lat: 29.62, lng: -95.62, city: 'Sugar Land',      state: 'TX', cases: 145, type: 'consignment' },
-    { lat: 29.42, lng: -98.49, city: 'San Antonio',     state: 'TX', cases: 198, type: 'consignment' },
-    { lat: 29.60, lng: -98.62, city: 'San Antonio NW',  state: 'TX', cases: 165, type: 'stock'       },
-    { lat: 29.30, lng: -98.35, city: 'San Antonio SE',  state: 'TX', cases: 130, type: 'consignment' },
-    { lat: 29.10, lng: -99.10, city: 'Uvalde',          state: 'TX', cases: 88,  type: 'stock'       },
-    { lat: 27.80, lng: -97.40, city: 'Corpus Christi',  state: 'TX', cases: 72,  type: 'consignment' },
-    { lat: 26.20, lng: -98.25, city: 'McAllen',         state: 'TX', cases: 64,  type: 'stock'       },
-    { lat: 31.77, lng: -106.50,city: 'El Paso',         state: 'TX', cases: 49,  type: 'consignment' },
-    { lat: 35.47, lng: -97.52, city: 'Oklahoma City',   state: 'OK', cases: 140, type: 'consignment' },
-    { lat: 36.15, lng: -95.99, city: 'Tulsa',           state: 'OK', cases: 112, type: 'stock'       },
-    { lat: 35.38, lng: -94.40, city: 'Fort Smith',      state: 'AR', cases: 88,  type: 'consignment' },
-    { lat: 36.37, lng: -94.21, city: 'Bentonville',     state: 'AR', cases: 74,  type: 'stock'       },
-    { lat: 34.74, lng: -92.33, city: 'Little Rock',     state: 'AR', cases: 66,  type: 'consignment' },
-    { lat: 36.17, lng: -86.78, city: 'Nashville',       state: 'TN', cases: 108, type: 'consignment' },
-    { lat: 35.15, lng: -90.05, city: 'Memphis',         state: 'TN', cases: 58,  type: 'stock'       },
-    { lat: 32.30, lng: -90.18, city: 'Jackson',         state: 'MS', cases: 44,  type: 'consignment' },
-    { lat: 33.75, lng: -84.39, city: 'Atlanta',         state: 'GA', cases: 65,  type: 'stock'       },
-    { lat: 35.23, lng: -101.83,city: 'Amarillo',        state: 'TX', cases: 52,  type: 'stock'       },
-    { lat: 33.45, lng: -112.07,city: 'Phoenix',         state: 'AZ', cases: 145, type: 'consignment' },
-    { lat: 33.42, lng: -111.94,city: 'Mesa',            state: 'AZ', cases: 98,  type: 'stock'       },
-    { lat: 32.22, lng: -110.97,city: 'Tucson',          state: 'AZ', cases: 58,  type: 'consignment' },
-    { lat: 36.18, lng: -115.14,city: 'Las Vegas',       state: 'NV', cases: 42,  type: 'stock'       },
-    { lat: 34.05, lng: -118.24,city: 'Los Angeles',     state: 'CA', cases: 97,  type: 'consignment' },
-    { lat: 32.73, lng: -117.15,city: 'San Diego',       state: 'CA', cases: 45,  type: 'stock'       },
-    { lat: 39.74, lng: -104.98,city: 'Denver',          state: 'CO', cases: 88,  type: 'consignment' },
-    { lat: 43.05, lng: -83.68, city: 'Flint',           state: 'MI', cases: 38,  type: 'stock'       },
-    { lat: 43.05, lng: -87.95, city: 'Milwaukee',       state: 'WI', cases: 34,  type: 'consignment' },
-    { lat: 41.88, lng: -87.63, city: 'Chicago',         state: 'IL', cases: 55,  type: 'stock'       },
-    { lat: 44.98, lng: -93.27, city: 'Minneapolis',     state: 'MN', cases: 42,  type: 'consignment' },
+  /* Hospital markers — [lat, lng], size scaled by case volume */
+  var RAW = [
+    { loc: [32.90, -97.05], cases: 280 },  // Fort Worth
+    { loc: [32.78, -96.80], cases: 210 },  // Dallas
+    { loc: [33.15, -97.10], cases: 190 },  // Denton
+    { loc: [32.50, -97.35], cases: 175 },  // Mansfield
+    { loc: [33.20, -96.65], cases: 160 },  // McKinney
+    { loc: [32.95, -96.45], cases: 140 },  // Rockwall
+    { loc: [33.05, -97.52], cases: 120 },  // Keller
+    { loc: [32.35, -97.00], cases: 115 },  // Cleburne
+    { loc: [31.55, -97.15], cases: 108 },  // Waco
+    { loc: [31.10, -97.73], cases: 95  },  // Temple
+    { loc: [30.27, -97.74], cases: 190 },  // Austin
+    { loc: [30.50, -97.85], cases: 155 },  // Round Rock
+    { loc: [29.76, -95.37], cases: 245 },  // Houston
+    { loc: [29.90, -95.55], cases: 180 },  // Cypress
+    { loc: [29.62, -95.62], cases: 145 },  // Sugar Land
+    { loc: [29.42, -98.49], cases: 198 },  // San Antonio
+    { loc: [29.60, -98.62], cases: 165 },  // San Antonio NW
+    { loc: [29.30, -98.35], cases: 130 },  // San Antonio SE
+    { loc: [29.10, -99.10], cases: 88  },  // Uvalde
+    { loc: [27.80, -97.40], cases: 72  },  // Corpus Christi
+    { loc: [26.20, -98.25], cases: 64  },  // McAllen
+    { loc: [31.77,-106.50], cases: 49  },  // El Paso
+    { loc: [35.47, -97.52], cases: 140 },  // Oklahoma City
+    { loc: [36.15, -95.99], cases: 112 },  // Tulsa
+    { loc: [35.38, -94.40], cases: 88  },  // Fort Smith
+    { loc: [36.37, -94.21], cases: 74  },  // Bentonville
+    { loc: [34.74, -92.33], cases: 66  },  // Little Rock
+    { loc: [36.17, -86.78], cases: 108 },  // Nashville
+    { loc: [35.15, -90.05], cases: 58  },  // Memphis
+    { loc: [32.30, -90.18], cases: 44  },  // Jackson MS
+    { loc: [33.75, -84.39], cases: 65  },  // Atlanta
+    { loc: [35.23,-101.83], cases: 52  },  // Amarillo
+    { loc: [33.45,-112.07], cases: 145 },  // Phoenix
+    { loc: [33.42,-111.94], cases: 98  },  // Mesa
+    { loc: [32.22,-110.97], cases: 58  },  // Tucson
+    { loc: [36.18,-115.14], cases: 42  },  // Las Vegas
+    { loc: [34.05,-118.24], cases: 97  },  // Los Angeles
+    { loc: [32.73,-117.15], cases: 45  },  // San Diego
+    { loc: [39.74,-104.98], cases: 88  },  // Denver
+    { loc: [43.05, -83.68], cases: 38  },  // Flint MI
+    { loc: [43.05, -87.95], cases: 34  },  // Milwaukee
+    { loc: [41.88, -87.63], cases: 55  },  // Chicago
+    { loc: [44.98, -93.27], cases: 42  },  // Minneapolis
   ];
 
+  var MAX_CASES = 280;
+  var MARKERS   = RAW.map(function (h) {
+    return { location: h.loc, size: 0.022 + (h.cases / MAX_CASES) * 0.048 };
+  });
+
+  /* Default orientation: face continental US */
+  var DEF_PHI   = 1.75;
+  var DEF_THETA = 0.28;
+
+  function angleDiff(a, b) {
+    return (((b - a) % (Math.PI * 2)) + Math.PI * 3) % (Math.PI * 2) - Math.PI;
+  }
+
   function init() {
-    var mapEl = document.getElementById('hcm-map');
-    if (!mapEl || typeof L === 'undefined') return;
+    var canvas = document.getElementById('hcm-globe');
+    if (!canvas) return;
 
-    var DEF_CENTER = [32.5, -97.5];
-    var DEF_ZOOM   = 5;
+    var phi       = DEF_PHI;
+    var theta     = DEF_THETA;
+    var isDragging = false;
+    var prevX = 0, prevY = 0;
+    var returning  = false;
     var resetTimer = null;
+    var time       = 0;
 
-    var map = L.map('hcm-map', {
-      center:             DEF_CENTER,
-      zoom:               DEF_ZOOM,
-      zoomControl:        true,
-      scrollWheelZoom:    false,
-      attributionControl: true,
-      minZoom: 3,
-      maxZoom: 10,
-    });
-
-    /* Dark techy tiles — no labels */
-    L.tileLayer(
-      'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png',
-      { attribution: '&copy; CARTO', subdomains: 'abcd', maxZoom: 19 }
-    ).addTo(map);
-
-    /* Teal state borders — light */
-    fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
-      .then(function (r) { return r.json(); })
-      .then(function (data) {
-        L.geoJSON(data, {
-          style: { color: '#00d2af', weight: 0.9, opacity: 0.28, fill: false },
-          interactive: false,
-        }).addTo(map);
-      });
-
-    /* Markers */
-    var maxCases = Math.max.apply(null, HOSPITALS.map(function (h) { return h.cases; }));
-
-    HOSPITALS.forEach(function (h) {
-      var r     = 5 + Math.round((h.cases / maxCases) * 13);
-      var color = h.type === 'consignment' ? '#00d2af' : '#2a7de1';
-      var d     = r * 2;
-
-      var icon = L.divIcon({
-        className: '',
-        html: '<div style="width:' + d + 'px;height:' + d + 'px;border-radius:50%;'
-          + 'background:' + color + ';opacity:0.85;'
-          + 'border:1.5px solid rgba(255,255,255,0.28);'
-          + 'box-shadow:0 0 ' + (r + 5) + 'px ' + color + '88;"></div>',
-        iconSize:   [d, d],
-        iconAnchor: [r, r],
-      });
-
-      L.marker([h.lat, h.lng], { icon: icon })
-        .bindTooltip(
-          '<div class="hcm-tip">'
-            + '<strong>' + h.city + ', ' + h.state + '</strong>'
-            + '<span>' + h.cases + ' cases &middot; ' + (h.type === 'consignment' ? 'Consignment' : 'Stock & Bill') + '</span>'
-          + '</div>',
-          { className: 'hcm-tip-wrap', direction: 'top', offset: [0, -r - 2] }
-        )
-        .addTo(map);
-    });
-
-    /* Auto-reset after 3s of no interaction */
-    function scheduleReset() {
+    function scheduleReturn() {
       clearTimeout(resetTimer);
-      resetTimer = setTimeout(function () {
-        map.flyTo(DEF_CENTER, DEF_ZOOM, { duration: 1.4, easeLinearity: 0.3 });
-      }, 3000);
+      resetTimer = setTimeout(function () { returning = true; }, 2500);
     }
-    map.on('moveend zoomend', scheduleReset);
-    map.on('mousedown touchstart', function () { clearTimeout(resetTimer); });
 
-    mapEl.addEventListener('mouseenter', function () { map.scrollWheelZoom.enable(); });
-    mapEl.addEventListener('mouseleave', function () { map.scrollWheelZoom.disable(); });
+    canvas.addEventListener('pointerdown', function (e) {
+      isDragging = true; returning = false; clearTimeout(resetTimer);
+      prevX = e.clientX; prevY = e.clientY;
+      canvas.setPointerCapture(e.pointerId);
+      canvas.style.cursor = 'grabbing';
+    });
+    canvas.addEventListener('pointermove', function (e) {
+      if (!isDragging) return;
+      phi   += (e.clientX - prevX) * 0.005;
+      theta  = Math.max(-0.7, Math.min(0.7, theta + (e.clientY - prevY) * 0.003));
+      prevX  = e.clientX; prevY = e.clientY;
+    });
+    canvas.addEventListener('pointerup', function () {
+      isDragging = false; canvas.style.cursor = 'grab'; scheduleReturn();
+    });
+    canvas.addEventListener('pointerleave', function () {
+      if (isDragging) { isDragging = false; canvas.style.cursor = 'grab'; scheduleReturn(); }
+    });
+
+    var globe = createGlobe(canvas, {
+      devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
+      width:           canvas.offsetWidth  * 2,
+      height:          canvas.offsetHeight * 2,
+      phi:             DEF_PHI,
+      theta:           DEF_THETA,
+      dark:            1,
+      diffuse:         1.4,
+      mapSamples:      20000,
+      mapBrightness:   5,
+      baseColor:       [0.05, 0.14, 0.22],   /* dark navy land */
+      markerColor:     [0.0,  0.82, 0.68],   /* #00d2af teal   */
+      glowColor:       [0.0,  0.45, 0.38],   /* teal atmosphere */
+      markers:         MARKERS,
+      onRender: function (state) {
+        time += 0.015;
+
+        /* Smooth snap back to US when idle */
+        if (returning && !isDragging) {
+          var dPhi   = angleDiff(phi,   DEF_PHI);
+          var dTheta = DEF_THETA - theta;
+          if (Math.abs(dPhi) < 0.002 && Math.abs(dTheta) < 0.002) {
+            phi = DEF_PHI; theta = DEF_THETA; returning = false;
+          } else {
+            phi   += dPhi   * 0.07;
+            theta += dTheta * 0.07;
+          }
+        }
+
+        /* Pulsing markers — staggered sine per marker */
+        state.markers = MARKERS.map(function (m, i) {
+          var pulse = 0.88 + 0.12 * Math.sin(time * 2.2 + i * 0.55);
+          return { location: m.location, size: m.size * pulse };
+        });
+
+        state.phi    = phi;
+        state.theta  = theta;
+        state.width  = canvas.offsetWidth  * 2;
+        state.height = canvas.offsetHeight * 2;
+      },
+    });
+
+    /* Cleanup on page unload */
+    window.addEventListener('beforeunload', function () { globe.destroy(); });
   }
 
   if (document.readyState === 'loading') {

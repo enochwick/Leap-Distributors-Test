@@ -80,14 +80,20 @@ function leap_enqueue_assets() {
 }
 add_action( 'wp_enqueue_scripts', 'leap_enqueue_assets' );
 
-// Hospital coverage map — platform page only
+// Hospital coverage globe — platform page only (COBE WebGL)
 add_action( 'wp_enqueue_scripts', function() {
 	if ( is_page( 'platform' ) ) {
-		wp_enqueue_style(  'leaflet',           'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css', [], '1.9.4' );
-		wp_enqueue_script( 'leaflet',           'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',  [], '1.9.4', true );
-		wp_enqueue_script( 'leap-hospital-map', get_template_directory_uri() . '/assets/js/hospital-globe.js', [ 'leaflet' ], LEAP_VERSION, true );
+		wp_enqueue_script( 'leap-hospital-globe', get_template_directory_uri() . '/assets/js/hospital-globe.js', [], LEAP_VERSION, true );
 	}
 } );
+
+// Mark the globe script as type="module" so the ES import works
+add_filter( 'script_loader_tag', function( $tag, $handle ) {
+	if ( $handle === 'leap-hospital-globe' ) {
+		return str_replace( '<script ', '<script type="module" ', $tag );
+	}
+	return $tag;
+}, 10, 2 );
 
 // Remove WordPress emoji scripts
 add_action( 'init', function() {
