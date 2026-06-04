@@ -228,6 +228,7 @@
 			<!-- Right globe (COBE WebGL) -->
 			<div class="hcm-card__globe">
 				<canvas id="hcm-globe" aria-label="Interactive hospital coverage globe"></canvas>
+				<div id="hcm-globe-tip" class="hcm-globe-tip" aria-hidden="true"></div>
 			</div>
 
 		</div>

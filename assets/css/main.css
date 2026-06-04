@@ -4531,35 +4531,69 @@ select.form-input {
   50%       { opacity: 0.4; transform: scale(1.35); }
 }
 
-/* Right globe panel */
+/* Right globe panel — overflow hidden for zoomed-in crop effect */
 .hcm-card__globe {
   position: relative;
   z-index: 1;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-4);
+  min-height: 560px;
 }
 
 #hcm-globe {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  max-width: 580px;
+  /* Larger than the panel so it crops and reads as "zoomed in" */
+  width: 720px;
+  height: 720px;
+  flex-shrink: 0;
   cursor: grab;
   display: block;
-  border-radius: 50%;
+  margin-right: -80px; /* shift globe right so US is centred in frame */
 }
 
 #hcm-globe:active { cursor: grabbing; }
 
+/* Hover tooltip */
+.hcm-globe-tip {
+  position: absolute;
+  display: none;
+  background: rgba(7, 18, 28, 0.95);
+  border: 1px solid rgba(0, 210, 175, 0.25);
+  border-radius: 6px;
+  padding: 7px 12px;
+  pointer-events: none;
+  z-index: 20;
+  white-space: nowrap;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+}
+
+.hcm-globe-tip strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #eceff1;
+}
+
+.hcm-globe-tip span {
+  display: block;
+  font-size: 10px;
+  color: rgba(0, 210, 175, 0.78);
+  margin-top: 2px;
+}
+
+@media (max-width: 1100px) {
+  #hcm-globe { width: 620px; height: 620px; margin-right: -40px; }
+}
+
 @media (max-width: 900px) {
   .hcm-card { grid-template-columns: 1fr; min-height: unset; }
-  .hcm-card__globe { padding: var(--space-2) var(--space-4) var(--space-6); }
-  #hcm-globe { max-width: 420px; }
+  .hcm-card__globe { min-height: 420px; }
+  #hcm-globe { width: 520px; height: 520px; margin-right: 0; }
 }
 
 @media (max-width: 540px) {
   .hcm-stats { gap: var(--space-4); }
   .hcm-stat__val { font-size: 1.35rem; }
-  #hcm-globe { max-width: 320px; }
+  #hcm-globe { width: 380px; height: 380px; }
 }
