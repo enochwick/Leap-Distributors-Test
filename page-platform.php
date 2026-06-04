@@ -189,49 +189,45 @@
 	</div>
 </section>
 
-<!-- ── Hospital Coverage Map ──────────────────────────────────── -->
+<!-- ── Hospital Coverage Globe ───────────────────────────────── -->
 <section class="content-section hcm-section">
-	<div class="container container--wide">
+	<div class="container">
 		<div class="hcm-card reveal">
 
-			<!-- Card header — mirrors Power BI layout -->
-			<div class="hcm-card__header">
-				<div class="hcm-card__header-left">
-					<span class="hcm-card__title">Hospital Map by Case</span>
-					<span class="hcm-badge">
-						<span class="hcm-badge__dot"></span>
-						Live data
-					</span>
+			<div class="hcm-card__glow" aria-hidden="true"></div>
+
+			<!-- Left copy -->
+			<div class="hcm-card__copy">
+				<span class="section-label section-label--blue">Live coverage</span>
+				<h2 class="hcm-card__h">Every hospital.<br>Every case. Mapped.</h2>
+				<p class="hcm-card__body">Stride tracks every surgical case across our hospital network in real time — giving our team, our reps, and our partners full visibility into where we operate and how we perform.</p>
+
+				<div class="hcm-stats">
+					<div class="hcm-stat">
+						<span class="hcm-stat__val">300<span class="accent-teal">+</span></span>
+						<span class="hcm-stat__label">Hospitals</span>
+					</div>
+					<div class="hcm-stat__divider"></div>
+					<div class="hcm-stat">
+						<span class="hcm-stat__val">10k<span class="accent-teal">+</span></span>
+						<span class="hcm-stat__label">Cases / yr</span>
+					</div>
+					<div class="hcm-stat__divider"></div>
+					<div class="hcm-stat">
+						<span class="hcm-stat__val">15<span class="accent-teal">+</span></span>
+						<span class="hcm-stat__label">States</span>
+					</div>
 				</div>
-				<div class="hcm-card__header-right">
-					<div class="hcm-stats">
-						<div class="hcm-stat">
-							<span class="hcm-stat__val">300<span class="accent-teal">+</span></span>
-							<span class="hcm-stat__label">Hospitals</span>
-						</div>
-						<div class="hcm-stat__divider"></div>
-						<div class="hcm-stat">
-							<span class="hcm-stat__val">10k<span class="accent-teal">+</span></span>
-							<span class="hcm-stat__label">Cases / yr</span>
-						</div>
-						<div class="hcm-stat__divider"></div>
-						<div class="hcm-stat">
-							<span class="hcm-stat__val">15<span class="accent-teal">+</span></span>
-							<span class="hcm-stat__label">States</span>
-						</div>
-					</div>
-					<!-- Product type toggle matching Power BI -->
-					<div class="hcm-toggle" role="group" aria-label="Filter by product type">
-						<button class="hcm-toggle__btn is-active" data-type="all">All</button>
-						<button class="hcm-toggle__btn" data-type="consignment">Consignment</button>
-						<button class="hcm-toggle__btn" data-type="stock">Stock &amp; Bill</button>
-					</div>
+
+				<div class="hcm-badge">
+					<span class="hcm-badge__dot"></span>
+					All data updated in real time
 				</div>
 			</div>
 
-			<!-- Full-width Leaflet map -->
-			<div class="hcm-map-wrap">
-				<div id="hcm-leaflet-map" aria-label="Interactive hospital coverage map"></div>
+			<!-- Right globe -->
+			<div class="hcm-card__globe">
+				<canvas id="hcm-globe" aria-label="Interactive hospital coverage globe"></canvas>
 			</div>
 
 		</div>

@@ -80,26 +80,13 @@ function leap_enqueue_assets() {
 }
 add_action( 'wp_enqueue_scripts', 'leap_enqueue_assets' );
 
-// Hospital coverage map — platform page only
+// Hospital coverage globe — platform page only
 add_action( 'wp_enqueue_scripts', function() {
 	if ( is_page( 'platform' ) ) {
-		wp_enqueue_style(
-			'leaflet',
-			'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
-			[],
-			'1.9.4'
-		);
 		wp_enqueue_script(
-			'leaflet',
-			'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
-			[],
-			'1.9.4',
-			true
-		);
-		wp_enqueue_script(
-			'leap-hospital-map',
+			'leap-hospital-globe',
 			get_template_directory_uri() . '/assets/js/hospital-globe.js',
-			[ 'leaflet' ],
+			[],
 			LEAP_VERSION,
 			true
 		);
