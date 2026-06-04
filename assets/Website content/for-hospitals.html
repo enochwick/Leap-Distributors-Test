@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospitals | Leap Distributors</title>
+  <meta name="description" content="One team across every product line we cover. Fewer vendors, cleaner records, one contact.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aleo:wght@500;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/placeholders.css">
+</head>
+<body>
+
+  <header class="nav" data-nav>
+    <div class="container">
+      <div class="nav__inner">
+        <a class="nav__brand" href="index.html" aria-label="Leap Distributors">
+          <img class="nav__brand-mark" src="assets/img/leap-mark.png" alt="">
+        </a>
+        <nav class="nav__pillbar" aria-label="Primary">
+          <a class="nav__link" href="platform.html" data-nav-link>Platform</a>
+          <a class="nav__link" href="for-surgeons.html" data-nav-link>Surgeons</a>
+          <a class="nav__link" href="for-hospitals.html" data-nav-link>Hospitals</a>
+          <a class="nav__link" href="for-manufacturers.html" data-nav-link>Manufacturers</a>
+          <a class="nav__link" href="about.html" data-nav-link>About</a>
+          <a class="nav__link" href="news.html" data-nav-link>News &amp; Insights</a>
+          <a class="nav__link" href="careers.html" data-nav-link>Careers</a>
+        </nav>
+        <a class="btn nav__cta" href="contact.html">Contact</a>
+        <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false" data-nav-toggle>
+          <span class="nav__toggle-bars" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="nav__overlay" data-nav-overlay aria-hidden="true"></div>
+    <aside class="nav__drawer" aria-label="Menu">
+      <div class="nav__drawer-head">
+        <span class="nav__drawer-label">Menu</span>
+        <button class="nav__drawer-close" type="button" aria-label="Close menu" data-nav-close>×</button>
+      </div>
+      <div class="nav__drawer-list">
+        <a class="nav__drawer-link" href="platform.html" data-nav-link>Platform</a>
+        <a class="nav__drawer-link" href="for-surgeons.html" data-nav-link>Surgeons</a>
+        <a class="nav__drawer-link" href="for-hospitals.html" data-nav-link>Hospitals</a>
+        <a class="nav__drawer-link" href="for-manufacturers.html" data-nav-link>Manufacturers</a>
+        <a class="nav__drawer-link" href="about.html" data-nav-link>About</a>
+        <a class="nav__drawer-link" href="news.html" data-nav-link>News &amp; Insights</a>
+        <a class="nav__drawer-link" href="careers.html" data-nav-link>Careers</a>
+      </div>
+      <a class="btn nav__drawer-cta" href="contact.html">Contact <span class="btn__arrow" aria-hidden="true">→</span></a>
+    </aside>
+  </header>
+
+  <main>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+      <div class="container container--wide">
+        <div class="hero__grid">
+          <div class="hero__copy reveal">
+                        <h1 class="hero__h1">One team. Every product line we cover.</h1>
+            <p class="hero__subhead">Leap operates as a single point of accountability across everything we carry, with the case data and billing speed your team deserves.</p>
+            <div class="hero__ctas cta-group">
+              <a class="btn" href="contact.html">Let's talk <span class="btn__arrow" aria-hidden="true">→</span></a>
+            </div>
+          </div>
+
+          <!-- design note: Stride UI fragment of a clean case record or billing flow -->
+          <div class="hero__visual reveal" aria-hidden="true">
+            <div class="hero-stride">
+              <div class="hero-stride__grid"></div>
+              <div class="hero-stride__inner" style="transform: rotate(-1.5deg);">
+                <div class="ui-frame">
+                  <div class="ui-frame__bar">
+                    <span class="ui-frame__dot"></span>
+                    <span class="ui-frame__dot"></span>
+                    <span class="ui-frame__dot"></span>
+                    <span class="ui-frame__title">Stride · Billing Queue</span>
+                  </div>
+                  <div class="ui-frame__body">
+                    <div class="stride-case">
+                      <div class="stride-case__head">
+                        <span class="stride-case__title">Auto-billing</span>
+                        <span class="stride-case__live">Live</span>
+                      </div>
+                      <dl class="stride-case__meta">
+                        <div><dt>Cases this week</dt><dd>87</dd></div>
+                        <div><dt>Avg bill time</dt><dd>2.4d</dd></div>
+                        <div><dt>Disputes</dt><dd>0</dd></div>
+                      </dl>
+                      <div class="stride-case__rows">
+                        <div class="stride-row">
+                          <span class="stride-row__check stride-row__check--done"></span>
+                          <span class="stride-row__name">Case #4218 · L4–L5 Fusion</span>
+                          <span class="stride-row__mfr">Cleared</span>
+                          <span class="stride-row__time">2.1d</span>
+                        </div>
+                        <div class="stride-row">
+                          <span class="stride-row__check stride-row__check--done"></span>
+                          <span class="stride-row__name">Case #4219 · ACL Recon</span>
+                          <span class="stride-row__mfr">Cleared</span>
+                          <span class="stride-row__time">1.8d</span>
+                        </div>
+                        <div class="stride-row">
+                          <span class="stride-row__check stride-row__check--done"></span>
+                          <span class="stride-row__name">Case #4220 · Total Knee</span>
+                          <span class="stride-row__mfr">Cleared</span>
+                          <span class="stride-row__time">2.4d</span>
+                        </div>
+                        <div class="stride-row">
+                          <span class="stride-row__check"></span>
+                          <span class="stride-row__name">Case #4221 · Shoulder Arth</span>
+                          <span class="stride-row__mfr">In queue</span>
+                          <span class="stride-row__time">—</span>
+                        </div>
+                      </div>
+                      <div class="stride-case__footer">
+                        <span class="stride-case__status">All routed by Mfr</span>
+                        <span class="stride-case__count">3 cleared</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ===== WHAT WORKING WITH LEAP LOOKS LIKE ===== -->
+    <section class="section">
+      <div class="container">
+        <div class="section-intro reveal">
+          <div>
+                        <h2 class="section-h2">Fewer vendors. Cleaner records. One contact.</h2>
+          </div>
+          <div>
+            <p class="section-intro__body">Hospital supply chains don't need more vendors. They need fewer, running cleaner. Leap operates as one team across every product line we cover, with a single point of accountability behind it. When something needs to move, we move it. When something needs an answer, we have one.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ===== WHY HOSPITALS CHOOSE LEAP ===== -->
+    <section class="section">
+      <div class="container">
+        <div class="section-intro reveal">
+          <div>
+                        <h2 class="section-h2">Built for supply chain leaders.</h2>
+          </div>
+        </div>
+
+        <div class="reason-grid reason-grid--3">
+          <article class="reason reveal">
+                        <h3 class="reason__h">Accountable, end to end.</h3>
+            <p class="reason__body">Most distribution feels like a coalition of independent reps wearing the same logo. We don't operate that way. Same standards, same platform, same team behind every product line we cover. Whatever Leap covers, Leap owns.</p>
+          </article>
+          <article class="reason reveal">
+                        <h3 class="reason__h">Live case data. Faster billing.</h3>
+            <p class="reason__body">Our reps log every product in the OR as it's used, on our own platform. Scrub sheets generate themselves and route by manufacturer. Billing on Leap's side of the invoice moves faster than the traditional paper-and-email approach. Your team stops chasing paperwork.</p>
+          </article>
+          <article class="reason reveal">
+                        <h3 class="reason__h">One vendor. Multiple manufacturers. Surgeon preference protected.</h3>
+            <p class="reason__body">Most distributors force a choice between surgeon preference and vendor consolidation. We don't. The Leap relationship gives your team a single accountable partner across multiple product lines, so finance gets the consolidation it needs and surgeons get the products they want.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ===== THE NUMBERS ===== -->
+    <section class="section">
+      <div class="container">
+        <div class="section-intro reveal">
+          <div>
+                        <h2 class="section-h2">Proof, briefly.</h2>
+          </div>
+        </div>
+
+        <div class="proof-bar reveal">
+          <div class="proof-bar__item">
+            <span class="proof-bar__stat tnum">10,000<span class="accent-azure">+</span></span>
+            <span class="proof-bar__label">Surgeries annually</span>
+          </div>
+          <div class="proof-bar__item">
+            <span class="proof-bar__stat tnum">750<span class="accent-azure">+</span></span>
+            <span class="proof-bar__label">Surgeons supported</span>
+          </div>
+          <div class="proof-bar__item">
+            <span class="proof-bar__stat tnum">350<span class="accent-azure">+</span></span>
+            <span class="proof-bar__label">Facilities, GPOs &amp; IDNs</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ===== WHERE SURGEON PREFERENCE MEETS SUPPLY CHAIN ===== -->
+    <section class="section">
+      <div class="container">
+        <div class="section-intro reveal">
+          <div>
+                        <h2 class="section-h2">This is where surgeon preference meets supply chain.</h2>
+          </div>
+          <div>
+            <p class="section-intro__body">Surgeons who get what they need stay. Cases that run well drive volume. Service lines that perform compound revenue. Leap doesn't ask hospitals to choose between surgeon preference and supply chain discipline. We make both work at once.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CLOSING CTA ===== -->
+    <section class="closing-cta">
+      <div class="container">
+        <div class="closing-cta__inner reveal">
+          <div>
+                        <h2 class="closing-cta__h2">Let's start a conversation.</h2>
+          </div>
+          <div>
+            <p class="closing-cta__body">Tell us what your team is dealing with. We'll find a time to talk.</p>
+            <div class="closing-cta__ctas">
+              <a class="btn" href="contact.html">Let's talk <span class="btn__arrow" aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container container--wide">
+      <div class="footer__grid">
+        <div>
+          <a class="nav__brand" href="index.html" aria-label="Leap Distributors" style="margin-bottom: var(--s-5);">
+            <img class="nav__brand-mark" src="assets/img/leap-mark.png" alt="">
+          </a>
+          <p class="footer__about-text" style="margin-top: var(--s-4);">Leap is the new standard in medical device distribution. One distribution partner across surgeons, hospitals, and manufacturers, all running in Stride.</p>
+          <a class="footer__social" href="#" target="_blank" rel="noopener" aria-label="Leap Distributors on LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+          </a>
+        </div>
+
+        <div>
+          <h2 class="footer__col-h">Site</h2>
+          <ul class="footer__links">
+            <li><a class="footer__link" href="platform.html">Platform</a></li>
+            <li><a class="footer__link" href="for-surgeons.html">Surgeons</a></li>
+            <li><a class="footer__link" href="for-hospitals.html">Hospitals</a></li>
+            <li><a class="footer__link" href="for-manufacturers.html">Manufacturers</a></li>
+            <li><a class="footer__link" href="about.html">About</a></li>
+            <li><a class="footer__link" href="news.html">News &amp; Insights</a></li>
+            <li><a class="footer__link" href="careers.html">Careers</a></li>
+            <li><a class="footer__link" href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="footer__col-h">Quick links</h2>
+          <ul class="footer__links">
+            <li><a class="footer__link" href="distributors.html">Distributors</a></li>
+          </ul>
+          <h2 class="footer__col-h" style="margin-top: var(--s-6);">Newsletter</h2>
+          <form class="newsletter" data-newsletter-form>
+            <div class="newsletter__row" data-newsletter-row>
+              <input class="newsletter__input" type="email" name="email" placeholder="Email address" required aria-label="Email address">
+            </div>
+            <div class="newsletter__row" data-newsletter-row>
+              <button class="btn btn--ghost" type="submit" style="padding: 0.7rem 1.25rem; font-size: 0.85rem;">Subscribe</button>
+            </div>
+            <p class="newsletter__success" data-newsletter-success style="display:none;"></p>
+          </form>
+        </div>
+
+        <div>
+          <h2 class="footer__col-h">Contact</h2>
+          <div class="footer__contact">
+            <div>
+              <span class="footer__address-label">Dallas HQ</span>
+              <a class="footer__link" href="tel:">[Phone number]</a>
+            </div>
+            <div>
+              <span class="footer__address-label">General inbox</span>
+              <a class="footer__link" href="mailto:info@leapdistributors.com">info@leapdistributors.com</a>
+            </div>
+            <address class="footer__address">
+              <span class="footer__address-label">Dallas office</span>
+              3151 Halifax Street, Suite 160<br>
+              Dallas, TX 75219
+            </address>
+            <address class="footer__address">
+              <span class="footer__address-label">Houston office</span>
+              [Houston office address]
+            </address>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer__strip">
+        <span>© <span data-year></span> Leap Distributors. All rights reserved.</span>
+        <span>Better. Together.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

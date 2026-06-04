@@ -1,0 +1,116 @@
+/* Leap Distributors — design tokens
+   Brand fonts: Poppins (body + headlines) and Aleo (subheadings).
+   Brand colors: Azure Blue, Dark Teal, Persimmon, Light Gray.
+   Dark-first palette inspired by eco.com / tilt.com. */
+
+:root {
+  /* Brand colors */
+  --brand-azure: #2A7DE1;
+  --brand-azure-bright: #3E8EE8;
+  --brand-teal: #003B4D;
+  --brand-persimmon: #E35F2A;
+  --brand-light-gray: #D8DFE1;
+
+  /* Surface palette (dark-first) */
+  --bg: #07090B;
+  --bg-elevated: #0E1417;
+  --bg-card: #11181C;
+  --bg-deep: #04060740;
+
+  /* Foreground */
+  --fg: #ECEFF1;
+  --fg-soft: #B9C2C8;
+  --fg-dim: #8693A0;
+  --fg-muted: #5A6770;
+
+  /* Lines */
+  --line: rgba(236, 239, 241, 0.07);
+  --line-strong: rgba(236, 239, 241, 0.14);
+  --line-azure: rgba(42, 125, 225, 0.4);
+
+  /* Accent surfaces */
+  --accent-azure: var(--brand-azure);
+  --accent-azure-soft: rgba(42, 125, 225, 0.12);
+  --accent-azure-line: rgba(42, 125, 225, 0.32);
+  --accent-teal: var(--brand-teal);
+  --accent-persimmon: var(--brand-persimmon);
+
+  /* Type */
+  --font-display: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-eyebrow: 'Aleo', Georgia, 'Times New Roman', serif;
+
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+
+  /* Fluid type scale — tightened for "fits in viewport" reading */
+  --fs-meta: 0.78rem;
+  --fs-body-sm: 0.92rem;
+  --fs-body: 1rem;
+  --fs-body-lg: 1.0625rem;
+  --fs-lead: clamp(1.0625rem, 0.92rem + 0.6vw, 1.25rem);
+  --fs-h4: clamp(1.0625rem, 0.92rem + 0.6vw, 1.25rem);
+  --fs-h3: clamp(1.35rem, 1.05rem + 1vw, 1.75rem);
+  --fs-h2: clamp(1.75rem, 1.2rem + 1.8vw, 2.75rem);
+  --fs-h1: clamp(2.25rem, 1.4rem + 2.8vw, 4rem);
+  --fs-display: clamp(2.75rem, 1.5rem + 4.5vw, 5.5rem);
+
+  --lh-tight: 1.05;
+  --lh-snug: 1.18;
+  --lh-normal: 1.5;
+  --lh-relaxed: 1.6;
+
+  --tracking-tight: -0.02em;
+  --tracking-tighter: -0.03em;
+  --tracking-snug: -0.01em;
+  --tracking-wide: 0.16em;
+
+  /* Spacing scale (rem) */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.25rem;
+  --s-6: 1.75rem;
+  --s-7: 2.5rem;
+  --s-8: 3.5rem;
+  --s-9: 4.5rem;
+  --s-10: 6rem;
+  --s-11: 8rem;
+
+  /* Section padding (tightened so each section fits in a single viewport) */
+  --section-py: clamp(2.5rem, 1.5rem + 3vw, 4.25rem);
+  --section-py-loose: clamp(3rem, 2rem + 3.5vw, 5.25rem);
+  --section-py-tight: clamp(1.75rem, 1rem + 2vw, 3rem);
+
+  /* Container widths */
+  --w-narrow: 56rem;
+  --w-default: 76rem;
+  --w-wide: 88rem;
+
+  /* Radii */
+  --r-sm: 4px;
+  --r-md: 10px;
+  --r-lg: 16px;
+  --r-xl: 22px;
+  --r-pill: 999px;
+
+  /* Motion */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  --duration-fast: 160ms;
+  --duration-base: 260ms;
+  --duration-slow: 480ms;
+  --duration-deliberate: 800ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
