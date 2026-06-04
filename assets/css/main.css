@@ -3916,15 +3916,15 @@ select.form-input {
   top: 48%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 60%;
-  height: 45%;
+  width: 75%;
+  height: 55%;
   background: radial-gradient(ellipse at center,
-    rgba(0, 220, 185, 0.5)  0%,
-    rgba(0, 190, 165, 0.25) 30%,
-    rgba(0, 160, 145, 0.08) 55%,
+    rgba(0, 220, 185, 0.7)  0%,
+    rgba(0, 190, 165, 0.38) 30%,
+    rgba(0, 160, 145, 0.14) 55%,
     transparent 75%
   );
-  filter: blur(50px);
+  filter: blur(55px);
   border-radius: 50%;
   pointer-events: none;
   z-index: 1;
@@ -3948,17 +3948,17 @@ select.form-input {
 @keyframes phg-edge-glow {
   0%, 100% {
     box-shadow:
-      0 0 0 1px    rgba(0, 220, 185, 0.15),
-      0 0 30px 8px  rgba(0, 210, 180, 0.12),
-      0 0 80px 20px rgba(0, 190, 165, 0.07),
-      0 24px 80px   rgba(0, 0, 0, 0.5);
+      0 0 0 1px     rgba(0, 220, 185, 0.22),
+      0 0 40px 12px  rgba(0, 210, 180, 0.18),
+      0 0 100px 30px rgba(0, 190, 165, 0.11),
+      0 24px 80px    rgba(0, 0, 0, 0.5);
   }
   50% {
     box-shadow:
-      0 0 0 1px    rgba(0, 230, 195, 0.22),
-      0 0 45px 14px rgba(0, 215, 185, 0.18),
-      0 0 110px 35px rgba(0, 190, 165, 0.1),
-      0 24px 80px   rgba(0, 0, 0, 0.5);
+      0 0 0 1px     rgba(0, 230, 195, 0.32),
+      0 0 60px 20px  rgba(0, 215, 185, 0.26),
+      0 0 140px 50px rgba(0, 190, 165, 0.15),
+      0 24px 80px    rgba(0, 0, 0, 0.5);
   }
 }
 .phg-single img {
