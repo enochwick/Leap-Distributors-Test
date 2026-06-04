@@ -37,28 +37,38 @@
     var mapEl = document.getElementById('hcm-leaflet-map');
     if (!mapEl || typeof L === 'undefined') return;
 
+    var DEFAULT_CENTER = [37.5, -96.5];
+    var DEFAULT_ZOOM   = 4;
+    var resetTimer     = null;
+
     var map = L.map('hcm-leaflet-map', {
-      center: [37.5, -96.5],
-      zoom: 4,
+      center: DEFAULT_CENTER,
+      zoom:   DEFAULT_ZOOM,
       zoomControl: true,
       scrollWheelZoom: false,
       attributionControl: true,
     });
 
-    /* Satellite tiles — matches the Power BI screenshot look */
+    /* Dark techy tiles — CartoDB Dark Matter */
     L.tileLayer(
-      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+      'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
       {
-        attribution: 'Tiles &copy; Esri',
-        maxZoom: 18,
+        attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 19,
       }
     ).addTo(map);
 
-    /* State/label overlay for readability */
-    L.tileLayer(
-      'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',
-      { maxZoom: 18, opacity: 0.5 }
-    ).addTo(map);
+    /* Auto-reset to US after 3s of inactivity */
+    function scheduleReset() {
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(function() {
+        map.flyTo(DEFAULT_CENTER, DEFAULT_ZOOM, { duration: 1.4, easeLinearity: 0.3 });
+      }, 3000);
+    }
+
+    map.on('moveend zoomend', scheduleReset);
+    map.on('mousedown touchstart', function() { clearTimeout(resetTimer); });
 
     var maxCases = Math.max.apply(null, HOSPITALS.map(function(h){ return h.cases; }));
 
