@@ -182,7 +182,14 @@ import { feature } from 'https://esm.sh/topojson-client@3';
 
   /* ── Load geo data ───────────────────────────── */
   function loadData() {
-    var base = (typeof window.leapData !== 'undefined') ? window.leapData.themeUrl : '';
+    var base = '';
+    if (typeof window.leapData !== 'undefined' && window.leapData.themeUrl) {
+      base = window.leapData.themeUrl;
+    } else {
+      /* Derive theme URL from this script's own src */
+      var scripts = document.querySelectorAll('script[src*="hospital-globe"]');
+      if (scripts.length) base = scripts[0].src.replace(/\/assets\/js\/hospital-globe\.js.*$/, '');
+    }
     var p1 = fetch(base + '/assets/js/world-land.json')
       .then(function (r) { return r.json(); })
       .then(function (topo) {
@@ -214,6 +221,10 @@ import { feature } from 'https://esm.sh/topojson-client@3';
     var canvas = document.getElementById('hcm-globe');
     if (!canvas) return;
 
+    /* Make visible immediately — CSS sets opacity:0 for COBE fade-in */
+    canvas.style.opacity = '1';
+    canvas.style.transition = 'opacity 1s ease';
+
     var dpr  = Math.min(window.devicePixelRatio || 1, 2);
     var lat0 = DEF_LAT, lng0 = DEF_LNG;
     var isDragging = false, prevX = 0, prevY = 0;
@@ -221,7 +232,7 @@ import { feature } from 'https://esm.sh/topojson-client@3';
     var time = 0;
 
     function resize() {
-      var s = canvas.offsetWidth;
+      var s = canvas.offsetWidth || 600; /* fallback if not laid out yet */
       canvas.width  = s * dpr;
       canvas.height = s * dpr;
       render(canvas, lat0, lng0, time);
