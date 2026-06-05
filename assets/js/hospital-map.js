@@ -84,15 +84,23 @@
     };
   }
 
+  var DEFAULT_CENTER = [-96, 37.8];
+  var DEFAULT_ZOOM   = 4;
+  /* Bounds the user can pan within — generous padding around continental US */
+  var MAX_BOUNDS     = [[-145, 17], [-50, 57]];
+  /* Tighter inner bounds — drifting outside this triggers auto-reset */
+  var RESET_BOUNDS   = new maplibregl.LngLatBounds([-130, 22], [-62, 52]);
+
   function init() {
     var el = document.getElementById('hcm-map');
     if (!el || typeof maplibregl === 'undefined') return;
 
     var map = new maplibregl.Map({
       container: 'hcm-map',
-      /* Minimal inline style — dark teal background + CartoDB labels raster on top */
       style: {
         version: 8,
+        /* Stadia font server — needed for state name symbol layer */
+        glyphs: 'https://fonts.stadiamaps.com/fonts/{fontstack}/{range}.pbf',
         sources: {
           'carto-labels': {
             type: 'raster',
@@ -115,12 +123,15 @@
             id: 'carto-labels',
             type: 'raster',
             source: 'carto-labels',
-            paint: { 'raster-opacity': 0.5 },
+            paint: { 'raster-opacity': 0.45 },
           },
         ],
       },
-      center:    [-96, 37.8],
-      zoom:      4,
+      center:    DEFAULT_CENTER,
+      zoom:      DEFAULT_ZOOM,
+      minZoom:   3,
+      maxZoom:   9,
+      maxBounds: MAX_BOUNDS,
       attributionControl: { compact: true },
     });
 
@@ -130,6 +141,26 @@
       new maplibregl.NavigationControl({ showCompass: false }),
       'bottom-right'
     );
+
+    /* ── Auto-reset ─────────────────────────────────────────────
+       2.5 s after the user stops moving, if the center has drifted
+       outside the US region fly back to the default view.        */
+    var resetTimer = null;
+    map.on('moveend', function () {
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(function () {
+        var c    = map.getCenter();
+        var zoom = map.getZoom();
+        if (!RESET_BOUNDS.contains(c) || zoom < 3.2) {
+          map.flyTo({
+            center:   DEFAULT_CENTER,
+            zoom:     DEFAULT_ZOOM,
+            duration: 1400,
+            essential: true,
+          });
+        }
+      }, 2500);
+    });
 
     map.on('load', function () {
       /* ── US states GeoJSON ── */
@@ -169,6 +200,26 @@
             paint: {
               'line-color': 'rgba(0, 210, 190, 0.6)',
               'line-width': 1,
+            },
+          });
+
+          /* Faded state name labels */
+          map.addLayer({
+            id: 'us-state-names',
+            type: 'symbol',
+            source: 'us-states',
+            layout: {
+              'text-field':          ['get', 'name'],
+              'text-font':           ['Open Sans Semibold'],
+              'text-size':           ['interpolate', ['linear'], ['zoom'], 3, 9, 6, 13],
+              'text-transform':      'uppercase',
+              'text-letter-spacing': 0.1,
+              'text-max-width':      6,
+            },
+            paint: {
+              'text-color':      'rgba(0, 210, 190, 0.28)',
+              'text-halo-color': '#0b3030',
+              'text-halo-width': 1.5,
             },
           });
 
