@@ -116,17 +116,17 @@
 				</div>
 			</a>
 
-			<a class="news-card news-card--editorial reveal" href="#" data-stagger-child>
-				<div class="news-card__visual news-card__visual--blue">
+			<a class="news-card news-card--editorial reveal" href="<?php echo esc_url( home_url( '/insight-surgeon-voice/' ) ); ?>" data-stagger-child>
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog/surgeon-voice-wide.png' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">Leap Insights</span>
 				</div>
 				<div class="news-card__body">
 					<div class="news-card__meta">
 						<span class="news-card__type news-card__type--insight">Insight</span>
-						<span>January 2025</span>
+						<span>June 2026</span>
 					</div>
-					<h3 class="news-card__hed">Surgeon Preference Isn't the Problem</h3>
-					<p class="news-card__excerpt">Why the loudest argument in supply chain is the wrong one.</p>
+					<h3 class="news-card__hed">Surgeons Don't Wing It. Neither Should Their Supply Chain.</h3>
+					<p class="news-card__excerpt">Why the distributor is the missing link in surgeon voice — and what happens when that changes.</p>
 					<div class="news-card__footer">
 						<span class="news-card__source">Leap Distributors</span>
 						<span class="news-card__arrow" aria-hidden="true">→</span>
