@@ -4562,12 +4562,15 @@ select.form-input {
 #hcm-globe {
   position: absolute;
   left: 50%;
-  top: -40px; /* shift up slightly so more of the globe fills the frame */
+  top: -40px;
   transform: translateX(-50%);
   width:  min(130vw, 1440px);
   height: min(130vw, 1440px);
   cursor: grab;
   display: block;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  border-radius: 50%;
 }
 
 #hcm-globe:active { cursor: grabbing; }

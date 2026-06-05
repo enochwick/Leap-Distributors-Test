@@ -1,170 +1,78 @@
-import { feature } from 'https://esm.sh/topojson-client@3';
+import createGlobe from 'https://esm.sh/cobe@0.6.3';
 
 (function () {
   'use strict';
 
-  var DEF_LAT =  32 * Math.PI / 180;
-  var DEF_LNG = -96 * Math.PI / 180;
-  var LAT_MIN = DEF_LAT - 0.5;
-  var LAT_MAX = DEF_LAT + 0.5;
-  var LNG_MIN = DEF_LNG - 0.7;
-  var LNG_MAX = DEF_LNG + 0.7;
+  /* ── Hospital markers (US locations) ─────────── */
+  var HOSPITALS = [
+    { id: 'fw',  location: [32.90, -97.05], delay: 0.0 },
+    { id: 'hou', location: [29.76, -95.37], delay: 0.6 },
+    { id: 'dal', location: [32.78, -96.80], delay: 1.1 },
+    { id: 'sa',  location: [29.42, -98.49], delay: 0.3 },
+    { id: 'okc', location: [35.47, -97.52], delay: 0.9 },
+    { id: 'nas', location: [36.17, -86.78], delay: 1.5 },
+    { id: 'phx', location: [33.45,-112.07], delay: 0.7 },
+    { id: 'atl', location: [33.75, -84.39], delay: 1.2 },
+    { id: 'aus', location: [30.27, -97.74], delay: 0.4 },
+    { id: 'den', location: [39.74,-104.98], delay: 1.8 },
+  ];
 
-  var landRings  = null;
-  var stateRings = null;
-
-  /* ── Orthographic projection ─────────────────── */
-  function project(latR, lngR, lat0, lng0, R, cx, cy) {
-    var dLng = lngR - lng0;
-    var sLat = Math.sin(latR),  cLat = Math.cos(latR);
-    var sLat0 = Math.sin(lat0), cLat0 = Math.cos(lat0);
-    var cDL  = Math.cos(dLng);
-    if (sLat0 * sLat + cLat0 * cLat * cDL < 0) return null;
-    return [
-      cx + R * cLat * Math.sin(dLng),
-      cy - R * (cLat0 * sLat - sLat0 * cLat * cDL),
-    ];
+  /* ── Projection (matches COBE's internal math) ─ */
+  function toXYZ(lat, lng) {
+    var pr = lat * Math.PI / 180, lr = lng * Math.PI / 180;
+    return [Math.cos(pr) * Math.cos(lr), Math.sin(pr), Math.cos(pr) * Math.sin(lr)];
+  }
+  function applyRot(v, phi, theta) {
+    var x = v[0], y = v[1], z = v[2];
+    var cp = Math.cos(phi), sp = Math.sin(phi);
+    var x2 = x*cp + z*sp, z2 = -x*sp + z*cp; x = x2; z = z2;
+    var ct = Math.cos(theta), st = Math.sin(theta);
+    var y2 = y*ct + z*st, z3 = -y*st + z*ct; y = y2; z = z3;
+    return [x, y, z];
   }
 
-  function tracePath(ctx, ring, lat0, lng0, R, cx, cy) {
-    var started = false;
-    for (var i = 0; i < ring.length; i++) {
-      var pt = project(
-        ring[i][1] * Math.PI / 180,
-        ring[i][0] * Math.PI / 180,
-        lat0, lng0, R, cx, cy
-      );
-      if (!pt) { started = false; continue; }
-      if (!started) { ctx.moveTo(pt[0], pt[1]); started = true; }
-      else           { ctx.lineTo(pt[0], pt[1]); }
-    }
-  }
+  /* ── Draw pulse rings on overlay canvas ──────── */
+  function drawPulses(ctx, phi, theta, time, cw, ch) {
+    ctx.clearRect(0, 0, cw, ch);
+    var r = Math.min(cw, ch) / 2;
 
-  /* ── Render ──────────────────────────────────── */
-  function render(canvas, lat0, lng0) {
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    var w = canvas.width, h = canvas.height;
-    var R = Math.min(w, h) * 0.47;
-    var cx = w / 2, cy = h / 2;
-    var ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, w, h);
+    HOSPITALS.forEach(function (h) {
+      var rot = applyRot(toXYZ(h.location[0], h.location[1]), phi, theta);
+      if (rot[2] > 0) return;
 
-    /* ── Clip to sphere ── */
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(cx, cy, R, 0, Math.PI * 2);
-    ctx.clip();
+      var visibility = Math.min(1, Math.max(0, -rot[2] * 3));
+      if (visibility < 0.05) return;
 
-    /* Deep ocean — nearly black, matches COBE backdrop */
-    var ocean = ctx.createRadialGradient(cx, cy - R * 0.3, 0, cx, cy, R);
-    ocean.addColorStop(0,    '#0b2044');
-    ocean.addColorStop(0.5,  '#061428');
-    ocean.addColorStop(1,    '#020810');
-    ctx.fillStyle = ocean;
-    ctx.fillRect(0, 0, w, h);
+      var sx = cw / 2 + rot[0] * r;
+      var sy = ch / 2 - rot[1] * r;
 
-    /* Land fills — same mid-blue as COBE dots */
-    if (landRings) {
-      ctx.fillStyle = '#0f2f5c';
-      landRings.forEach(function (ring) {
+      /* Two offset pulse rings */
+      [0, 0.7].forEach(function (offset) {
+        var t = ((time * 0.5 + h.delay + offset) % 2);
+        var pr = r * 0.009 + r * 0.022 * t;
+        var alpha = (1 - t / 2) * visibility * 0.85;
+        if (alpha < 0.01) return;
         ctx.beginPath();
-        tracePath(ctx, ring, lat0, lng0, R, cx, cy);
-        ctx.closePath();
-        ctx.fill();
-      });
-
-      /* Subtle top-light to match COBE's map brightness */
-      var lit = ctx.createLinearGradient(cx, cy - R, cx, cy + R * 0.3);
-      lit.addColorStop(0,   'rgba(60, 140, 255, 0.18)');
-      lit.addColorStop(0.45,'rgba(30,  90, 200, 0.07)');
-      lit.addColorStop(1,   'rgba(0,   0,   0,  0)');
-      ctx.fillStyle = lit;
-      landRings.forEach(function (ring) {
-        ctx.beginPath();
-        tracePath(ctx, ring, lat0, lng0, R, cx, cy);
-        ctx.closePath();
-        ctx.fill();
-      });
-    }
-
-    /* US state borders — teal, same as COBE markers */
-    if (stateRings) {
-      ctx.strokeStyle = 'rgba(0, 215, 185, 0.7)';
-      ctx.lineWidth   = 1.5;
-      ctx.lineJoin    = 'round';
-      stateRings.forEach(function (ring) {
-        ctx.beginPath();
-        tracePath(ctx, ring, lat0, lng0, R, cx, cy);
+        ctx.arc(sx, sy, pr, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(0,220,185,' + alpha + ')';
+        ctx.lineWidth   = 1.5;
         ctx.stroke();
       });
-    }
 
-    /* Edge vignette — sells the sphere curvature */
-    var vignette = ctx.createRadialGradient(cx, cy, R * 0.65, cx, cy, R);
-    vignette.addColorStop(0, 'rgba(0,0,0,0)');
-    vignette.addColorStop(1, 'rgba(0,0,0,0.7)');
-    ctx.fillStyle = vignette;
-    ctx.fillRect(0, 0, w, h);
+      /* Centre dot */
+      var dotR = 3 * visibility;
+      ctx.beginPath();
+      ctx.arc(sx, sy, dotR, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0,230,195,' + visibility + ')';
+      ctx.fill();
 
-    ctx.restore();
-
-    /* ── Atmosphere glow — matches COBE's blue rim ── */
-    var halo = ctx.createRadialGradient(cx, cy, R * 0.89, cx, cy, R * 1.3);
-    halo.addColorStop(0,    'rgba(30, 160, 255, 0.60)');
-    halo.addColorStop(0.25, 'rgba(20, 120, 240, 0.28)');
-    halo.addColorStop(0.6,  'rgba(10,  70, 200, 0.10)');
-    halo.addColorStop(1,    'rgba(0,   30, 140, 0)');
-    ctx.beginPath();
-    ctx.arc(cx, cy, R * 1.3, 0, Math.PI * 2);
-    ctx.fillStyle = halo;
-    ctx.fill();
-
-    /* Crisp glowing rim */
-    ctx.beginPath();
-    ctx.arc(cx, cy, R, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(60, 190, 255, 0.95)';
-    ctx.lineWidth   = 3;
-    ctx.shadowColor = 'rgba(40, 170, 255, 1)';
-    ctx.shadowBlur  = 22;
-    ctx.stroke();
-    ctx.shadowBlur  = 0;
-  }
-
-  /* ── Load data ───────────────────────────────── */
-  function loadData() {
-    var base = (typeof window.leapData !== 'undefined') ? window.leapData.themeUrl : '';
-
-    var p1 = fetch(base + '/assets/js/world-land.json')
-      .then(function (r) { return r.json(); })
-      .then(function (topo) {
-        var f = feature(topo, topo.objects.land);
-        landRings = [];
-        var geoms = (f.type === 'FeatureCollection')
-          ? f.features.map(function (x) { return x.geometry; })
-          : [f.geometry];
-        geoms.forEach(function (g) {
-          var polys = g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
-          polys.forEach(function (poly) {
-            poly.forEach(function (ring) { landRings.push(ring); });
-          });
-        });
-      });
-
-    var p2 = fetch(base + '/assets/js/us-states.json')
-      .then(function (r) { return r.json(); })
-      .then(function (topo) {
-        var features = feature(topo, topo.objects.states).features;
-        stateRings = [];
-        features.forEach(function (f) {
-          var geom = f.geometry;
-          var polys = geom.type === 'Polygon' ? [geom.coordinates] : geom.coordinates;
-          polys.forEach(function (poly) {
-            poly.forEach(function (ring) { stateRings.push(ring); });
-          });
-        });
-      });
-
-    return Promise.all([p1, p2]).catch(function (e) { console.warn('Globe data:', e); });
+      /* Dot ring */
+      ctx.beginPath();
+      ctx.arc(sx, sy, dotR + 3, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(0,220,185,' + (visibility * 0.6) + ')';
+      ctx.lineWidth   = 1;
+      ctx.stroke();
+    });
   }
 
   /* ── Init ────────────────────────────────────── */
@@ -172,58 +80,100 @@ import { feature } from 'https://esm.sh/topojson-client@3';
     var canvas = document.getElementById('hcm-globe');
     if (!canvas) return;
 
-    var dpr  = Math.min(window.devicePixelRatio || 1, 2);
-    var lat0 = DEF_LAT, lng0 = DEF_LNG;
-    var isDragging = false, prevX = 0, prevY = 0;
-    var returning  = false, resetTimer = null, rafId = null;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    function resize() {
-      var s = canvas.offsetWidth;
-      canvas.width  = s * dpr;
-      canvas.height = s * dpr;
-      render(canvas, lat0, lng0);
-    }
+    /* Pulse overlay canvas */
+    var overlay = document.createElement('canvas');
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.style.cssText = [
+      'position:absolute',
+      'left:50%',
+      'top:-40px',
+      'transform:translateX(-50%)',
+      'width:min(130vw,1440px)',
+      'height:min(130vw,1440px)',
+      'pointer-events:none',
+      'z-index:1',
+    ].join(';');
+    canvas.parentNode.appendChild(overlay);
+    var octx = overlay.getContext('2d');
 
-    function loop() {
-      if (returning && !isDragging) {
-        var dLat = DEF_LAT - lat0, dLng = DEF_LNG - lng0;
-        if (Math.abs(dLat) < 0.001 && Math.abs(dLng) < 0.001) {
-          lat0 = DEF_LAT; lng0 = DEF_LNG; returning = false;
-        } else {
-          lat0 += dLat * 0.1; lng0 += dLng * 0.1;
-          render(canvas, lat0, lng0);
-        }
-      }
-      rafId = requestAnimationFrame(loop);
-    }
-
-    function scheduleReturn() {
-      clearTimeout(resetTimer);
-      resetTimer = setTimeout(function () { returning = true; }, 800);
-    }
+    /* State */
+    var phi = 0, time = 0;
+    var isDragging  = false, prevX = 0, prevY = 0;
+    var phiOffset   = 0, thetaOffset = 0;
+    var dragPhi     = 0, dragTheta  = 0;
 
     canvas.style.cursor = 'grab';
+
     canvas.addEventListener('pointerdown', function (e) {
-      isDragging = true; returning = false; clearTimeout(resetTimer);
+      isDragging = true;
       prevX = e.clientX; prevY = e.clientY;
       canvas.setPointerCapture(e.pointerId);
       canvas.style.cursor = 'grabbing';
     });
     canvas.addEventListener('pointermove', function (e) {
       if (!isDragging) return;
-      lng0 = Math.max(LNG_MIN, Math.min(LNG_MAX, lng0 - (e.clientX - prevX) * 0.004));
-      lat0 = Math.max(LAT_MIN, Math.min(LAT_MAX, lat0 - (e.clientY - prevY) * 0.003));
-      prevX = e.clientX; prevY = e.clientY;
-      render(canvas, lat0, lng0);
+      dragPhi   = (e.clientX - prevX) / 300;
+      dragTheta = (e.clientY - prevY) / 1000;
     });
-    canvas.addEventListener('pointerup',    function () { isDragging = false; canvas.style.cursor = 'grab'; scheduleReturn(); });
-    canvas.addEventListener('pointerleave', function () { if (isDragging) { isDragging = false; canvas.style.cursor = 'grab'; scheduleReturn(); } });
+    canvas.addEventListener('pointerup', function () {
+      phiOffset   += dragPhi;
+      thetaOffset += dragTheta;
+      dragPhi = dragTheta = 0;
+      isDragging = false;
+      canvas.style.cursor = 'grab';
+    });
+    canvas.addEventListener('pointerleave', function () {
+      if (!isDragging) return;
+      phiOffset   += dragPhi;
+      thetaOffset += dragTheta;
+      dragPhi = dragTheta = 0;
+      isDragging = false;
+      canvas.style.cursor = 'grab';
+    });
 
-    window.addEventListener('resize', resize);
-    resize();
-    loop();
-    loadData().then(function () { render(canvas, lat0, lng0); });
-    window.addEventListener('beforeunload', function () { cancelAnimationFrame(rafId); });
+    var globe = createGlobe(canvas, {
+      devicePixelRatio: dpr,
+      width:            canvas.offsetWidth  * dpr,
+      height:           canvas.offsetHeight * dpr,
+      phi:              0,
+      theta:            0.2,
+      dark:             1,
+      diffuse:          1.5,
+      mapSamples:       16000,
+      mapBrightness:    8,
+      baseColor:        [0.08, 0.22, 0.48],
+      markerColor:      [0.0,  0.88, 0.74],
+      glowColor:        [0.12, 0.40, 0.90],
+      markers: HOSPITALS.map(function (h) {
+        return { location: h.location, size: 0.028 };
+      }),
+      onRender: function (state) {
+        if (!isDragging) phi += 0.003;
+        time += 0.016;
+
+        var curPhi   = phi + phiOffset   + dragPhi;
+        var curTheta = 0.2 + thetaOffset + dragTheta;
+
+        state.phi    = curPhi;
+        state.theta  = curTheta;
+        state.width  = canvas.offsetWidth  * dpr;
+        state.height = canvas.offsetHeight * dpr;
+
+        var cw = state.width, ch = state.height;
+        if (overlay.width !== cw || overlay.height !== ch) {
+          overlay.width = cw; overlay.height = ch;
+        }
+        drawPulses(octx, curPhi, curTheta, time, cw, ch);
+      },
+    });
+
+    setTimeout(function () {
+      if (canvas) canvas.style.opacity = '1';
+    }, 100);
+
+    window.addEventListener('beforeunload', function () { globe.destroy(); });
   }
 
   if (document.readyState === 'loading') {
