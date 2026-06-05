@@ -4615,7 +4615,7 @@ select.form-input {
 
 /* Reset MapLibre canvas + container defaults */
 #hcm-map .maplibregl-map,
-#hcm-map .maplibregl-canvas-container { background: #0b3030; }
+#hcm-map .maplibregl-canvas-container { background: #0d0d0d; }
 #hcm-map .maplibregl-canvas { display: block; }
 
 /* Hover popup */

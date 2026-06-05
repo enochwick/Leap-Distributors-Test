@@ -96,42 +96,14 @@
     if (!el || typeof maplibregl === 'undefined') return;
 
     var map = new maplibregl.Map({
-      container: 'hcm-map',
-      style: {
-        version: 8,
-        /* Stadia font server — required for the state-name symbol layer */
-        glyphs: 'https://fonts.stadiamaps.com/fonts/{fontstack}/{range}.pbf',
-        sources: {
-          'carto-labels': {
-            type: 'raster',
-            tiles: [
-              'https://a.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png',
-              'https://b.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png',
-              'https://c.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png',
-            ],
-            tileSize: 256,
-            attribution: '© <a href="https://carto.com">CARTO</a>',
-          },
-        },
-        layers: [
-          {
-            id: 'background',
-            type: 'background',
-            paint: { 'background-color': '#0b3030' },
-          },
-          {
-            id: 'carto-labels',
-            type: 'raster',
-            source: 'carto-labels',
-            paint: { 'raster-opacity': 0.45 },
-          },
-        ],
-      },
-      center:    DEFAULT_CENTER,
-      zoom:      DEFAULT_ZOOM,
-      minZoom:   3,
-      maxZoom:   9,
-      maxBounds: MAX_BOUNDS,
+      container:  'hcm-map',
+      /* CartoDB dark-matter vector style — same as the mapcn component */
+      style:      'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
+      center:     DEFAULT_CENTER,
+      zoom:       DEFAULT_ZOOM,
+      minZoom:    3,
+      maxZoom:    9,
+      maxBounds:  MAX_BOUNDS,
       attributionControl: { compact: true },
     });
 
@@ -197,23 +169,23 @@
             },
           });
 
-          /* Faded state name labels */
+          /* Faded state name labels — uses CartoDB dark-matter's built-in fonts */
           map.addLayer({
             id: 'us-state-names',
             type: 'symbol',
             source: 'us-states',
             layout: {
               'text-field':          ['get', 'name'],
-              'text-font':           ['Open Sans Semibold'],
+              'text-font':           ['DIN Offc Pro Medium', 'Arial Unicode MS Regular'],
               'text-size':           ['interpolate', ['linear'], ['zoom'], 3, 9, 7, 13],
               'text-transform':      'uppercase',
               'text-letter-spacing': 0.1,
               'text-max-width':      6,
             },
             paint: {
-              'text-color':      'rgba(0, 210, 190, 0.28)',
-              'text-halo-color': '#0b3030',
-              'text-halo-width': 1.5,
+              'text-color':      'rgba(255, 255, 255, 0.22)',
+              'text-halo-color': 'rgba(0, 0, 0, 0.4)',
+              'text-halo-width': 1,
             },
           });
 
