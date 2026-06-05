@@ -4613,9 +4613,12 @@ select.form-input {
   box-shadow: 0 8px 64px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 180, 220, 0.12);
 }
 
-/* Techy blue/cyan tint — applied only to the base tile layer, not labels */
+/* Techy blue tint on the Positron light base:
+   sepia → hue-rotate converts warm whites/blues to cyan-blue palette
+   brightness+contrast push ocean (0.80 luminance) dark and keep land (0.94) lighter
+   the medium-gray borders (~0.56) land darkest of all after contrast */
 #hcm-map .hcm-base-layer {
-  filter: brightness(0.62) sepia(1) hue-rotate(175deg) saturate(9) contrast(1.15);
+  filter: sepia(1) hue-rotate(175deg) saturate(7) brightness(0.38) contrast(1.75);
 }
 
 /* Map background color (visible before tiles load) */

@@ -85,16 +85,17 @@
       attributionControl: false,
     });
 
-    /* Dark basemap — this layer gets the techy blue/cyan CSS filter */
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+    /* Light Positron base — near-white land, light-blue ocean, visible state borders.
+       The CSS filter shifts this to: dark navy ocean, medium-bright blue land, dark borders. */
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
       maxZoom: 19,
       className: 'hcm-base-layer',
     }).addTo(map);
 
-    /* Labels layer — no filter class so text stays legible */
+    /* Labels on top — dark_only_labels gives white text that reads on the blue map */
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png', {
       maxZoom: 19,
-      opacity: 0.65,
+      opacity: 0.7,
     }).addTo(map);
 
     /* Hospital markers — each city gets its own color */
