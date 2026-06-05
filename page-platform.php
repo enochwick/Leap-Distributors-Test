@@ -190,6 +190,47 @@
 </section>
 
 
+<!-- ── Hospital Coverage Globe ────────────────────────────── -->
+<section class="hcm-section">
+
+	<div class="hcm-copy-wrap">
+		<div class="container">
+			<div class="hcm-copy reveal">
+				<span class="section-label section-label--blue">Live coverage</span>
+				<h2 class="hcm-copy__h">Every hospital.<br>Every case. Mapped.</h2>
+				<p class="hcm-copy__body">Stride tracks every surgical case across our hospital network in real time — giving our team, our reps, and our partners full visibility into where we operate and how we perform.</p>
+
+				<div class="hcm-stats">
+					<div class="hcm-stat">
+						<span class="hcm-stat__val">300<span class="accent-teal">+</span></span>
+						<span class="hcm-stat__label">Hospitals</span>
+					</div>
+					<div class="hcm-stat__divider"></div>
+					<div class="hcm-stat">
+						<span class="hcm-stat__val">10k<span class="accent-teal">+</span></span>
+						<span class="hcm-stat__label">Cases / yr</span>
+					</div>
+					<div class="hcm-stat__divider"></div>
+					<div class="hcm-stat">
+						<span class="hcm-stat__val">15<span class="accent-teal">+</span></span>
+						<span class="hcm-stat__label">States</span>
+					</div>
+				</div>
+
+				<div class="hcm-badge">
+					<span class="hcm-badge__dot"></span>
+					All data updated in real time
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="hcm-globe-wrap">
+		<canvas id="hcm-globe" aria-label="Interactive hospital coverage globe"></canvas>
+	</div>
+
+</section>
+
 <!-- ── What's Next ────────────────────────────────────────────── -->
 <section class="content-section">
 	<div class="container">
