@@ -1,6 +1,6 @@
 <?php
 
-define( 'LEAP_VERSION', '4.4.0' );
+define( 'LEAP_VERSION', '4.4.1' );
 
 // Fallback so get_field() never fatal-errors when ACF isn't installed
 if ( ! function_exists( 'get_field' ) ) {
