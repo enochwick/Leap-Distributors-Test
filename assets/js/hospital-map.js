@@ -59,6 +59,14 @@
     { lat: 44.98, lng: -93.27, city: 'Minneapolis',     state: 'MN', cases:  42 },
   ];
 
+  /* Distinct color palette matching the platform screenshot */
+  var COLORS = [
+    '#4db8ff', '#ff6b6b', '#a78bfa', '#34d399', '#f59e0b',
+    '#f472b6', '#60a5fa', '#fb923c', '#2dd4bf', '#e879f9',
+    '#86efac', '#fbbf24', '#c084fc', '#38bdf8', '#f87171',
+    '#4ade80', '#fb7185', '#818cf8', '#facc15', '#22d3ee',
+  ];
+
   var MAX_CASES = 280;
 
   function markerRadius(cases) {
@@ -77,26 +85,28 @@
       attributionControl: false,
     });
 
-    /* Dark CartoDB tiles */
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+    /* ESRI satellite imagery */
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
       maxZoom: 19,
+      attribution: 'Tiles &copy; Esri',
     }).addTo(map);
 
-    /* Subtle state labels layer on top */
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png', {
+    /* State/city boundary labels on top */
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
       maxZoom: 19,
-      opacity: 0.5,
+      opacity: 0.85,
     }).addTo(map);
 
-    /* Hospital markers */
-    HOSPITALS.forEach(function (h) {
-      var r = markerRadius(h.cases);
+    /* Hospital markers — each city gets its own color */
+    HOSPITALS.forEach(function (h, i) {
+      var r     = markerRadius(h.cases);
+      var color = COLORS[i % COLORS.length];
 
       var circle = L.circleMarker([h.lat, h.lng], {
         radius:      r,
-        fillColor:   '#00dbb7',
-        fillOpacity: 0.75,
-        color:       'rgba(0,220,185,0.9)',
+        fillColor:   color,
+        fillOpacity: 0.82,
+        color:       'rgba(255,255,255,0.55)',
         weight:      1.5,
       }).addTo(map);
 
@@ -111,18 +121,17 @@
         }
       );
 
-      /* Pulse on hover */
       circle.on('mouseover', function () {
-        this.setStyle({ fillOpacity: 1, weight: 2.5 });
+        this.setStyle({ fillOpacity: 1, weight: 2.5, color: '#fff' });
+        this.bringToFront();
       });
       circle.on('mouseout', function () {
-        this.setStyle({ fillOpacity: 0.75, weight: 1.5 });
+        this.setStyle({ fillOpacity: 0.82, weight: 1.5, color: 'rgba(255,255,255,0.55)' });
       });
     });
 
-    /* Attribution */
     L.control.attribution({ prefix: false })
-      .addAttribution('© <a href="https://carto.com">CARTO</a>')
+      .addAttribution('© <a href="https://www.esri.com">Esri</a>')
       .addTo(map);
   }
 
