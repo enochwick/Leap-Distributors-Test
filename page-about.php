@@ -199,8 +199,8 @@
 		</div>
 	</div>
 
-	<div class="hcm-globe-wrap">
-		<canvas id="hcm-globe" aria-label="Interactive hospital coverage globe"></canvas>
+	<div class="container">
+		<div id="hcm-map" aria-label="Interactive hospital coverage map"></div>
 	</div>
 
 </section>
