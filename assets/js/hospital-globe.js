@@ -63,17 +63,18 @@ import { feature } from 'https://esm.sh/topojson-client@3';
     ctx.arc(cx, cy, R, 0, Math.PI * 2);
     ctx.clip();
 
-    /* Ocean */
-    var ocean = ctx.createRadialGradient(cx, cy - R * 0.3, 0, cx, cy, R);
-    ocean.addColorStop(0,   '#071e1c');
-    ocean.addColorStop(0.5, '#040f0e');
-    ocean.addColorStop(1,   '#020908');
+    /* Deep navy ocean — dark at edges, slightly lighter centre */
+    var ocean = ctx.createRadialGradient(cx - R * 0.15, cy - R * 0.2, 0, cx, cy, R);
+    ocean.addColorStop(0,   '#0e2d5c');
+    ocean.addColorStop(0.5, '#071a3a');
+    ocean.addColorStop(1,   '#030c20');
     ctx.fillStyle = ocean;
     ctx.fillRect(0, 0, w, h);
 
-    /* Solid dark teal continents */
+    /* Blue continents */
     if (landRings) {
-      ctx.fillStyle = '#0d3530';
+      /* Base fill */
+      ctx.fillStyle = '#1a4d82';
       landRings.forEach(function (ring) {
         ctx.beginPath();
         tracePath(ctx, ring, lat0, lng0, R, cx, cy);
@@ -81,11 +82,11 @@ import { feature } from 'https://esm.sh/topojson-client@3';
         ctx.fill();
       });
 
-      /* Subtle top highlight */
-      var lit = ctx.createLinearGradient(cx, cy - R, cx, cy + R * 0.4);
-      lit.addColorStop(0,   'rgba(0,180,150,0.12)');
-      lit.addColorStop(0.5, 'rgba(0,120,100,0.04)');
-      lit.addColorStop(1,   'rgba(0,0,0,0)');
+      /* Sunlight from upper-left — bright blue highlight */
+      var lit = ctx.createLinearGradient(cx - R * 0.4, cy - R, cx + R * 0.2, cy + R * 0.6);
+      lit.addColorStop(0,   'rgba(80, 170, 255, 0.32)');
+      lit.addColorStop(0.4, 'rgba(50, 130, 220, 0.14)');
+      lit.addColorStop(1,   'rgba(0,   0,   0,  0)');
       ctx.fillStyle = lit;
       landRings.forEach(function (ring) {
         ctx.beginPath();
@@ -95,10 +96,10 @@ import { feature } from 'https://esm.sh/topojson-client@3';
       });
     }
 
-    /* US state borders — lighter teal */
+    /* US state borders — bright teal lines */
     if (stateRings) {
-      ctx.strokeStyle = 'rgba(0, 200, 165, 0.45)';
-      ctx.lineWidth   = 0.9;
+      ctx.strokeStyle = 'rgba(80, 200, 255, 0.55)';
+      ctx.lineWidth   = 1.0;
       ctx.lineJoin    = 'round';
       stateRings.forEach(function (ring) {
         ctx.beginPath();
@@ -157,24 +158,24 @@ import { feature } from 'https://esm.sh/topojson-client@3';
 
     ctx.restore();
 
-    /* Atmosphere glow — teal-blue rim */
-    var halo = ctx.createRadialGradient(cx, cy, R * 0.88, cx, cy, R * 1.28);
-    halo.addColorStop(0,    'rgba(0, 200, 160, 0.45)');
-    halo.addColorStop(0.3,  'rgba(0, 160, 130, 0.18)');
-    halo.addColorStop(0.65, 'rgba(0, 100,  80, 0.07)');
-    halo.addColorStop(1,    'rgba(0,  50,  40, 0)');
+    /* Wide atmosphere halo — matches the bright blue glow in reference */
+    var halo = ctx.createRadialGradient(cx, cy, R * 0.86, cx, cy, R * 1.35);
+    halo.addColorStop(0,    'rgba(60, 190, 255, 0.65)');
+    halo.addColorStop(0.25, 'rgba(40, 150, 240, 0.30)');
+    halo.addColorStop(0.55, 'rgba(20,  90, 200, 0.12)');
+    halo.addColorStop(1,    'rgba(0,   40, 140, 0)');
     ctx.beginPath();
-    ctx.arc(cx, cy, R * 1.28, 0, Math.PI * 2);
+    ctx.arc(cx, cy, R * 1.35, 0, Math.PI * 2);
     ctx.fillStyle = halo;
     ctx.fill();
 
-    /* Crisp rim */
+    /* Bright crisp rim */
     ctx.beginPath();
     ctx.arc(cx, cy, R, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(0, 210, 170, 0.85)';
-    ctx.lineWidth   = 2.5;
-    ctx.shadowColor = 'rgba(0, 200, 160, 0.9)';
-    ctx.shadowBlur  = 18;
+    ctx.strokeStyle = 'rgba(100, 210, 255, 0.95)';
+    ctx.lineWidth   = 3;
+    ctx.shadowColor = 'rgba(80, 200, 255, 1)';
+    ctx.shadowBlur  = 24;
     ctx.stroke();
     ctx.shadowBlur  = 0;
   }
