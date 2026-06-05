@@ -130,57 +130,69 @@
 
     map.on('load', function () {
 
-      /* ── Hide rivers and lakes from the CartoDB dark-matter style ──────────
-         Iterate every layer in the loaded style and suppress anything that
-         belongs to the waterway or water source-layers (rivers, streams,
-         lakes, ponds, reservoirs). Country/state admin layers are untouched. */
+      /* ── 1. Hide rivers, lakes and all city / place labels ─────────────────
+         Water features (rivers, lakes, reservoirs) are removed for a clean
+         look. City and place name labels are hidden — we render only our own
+         faded state names below.                                              */
       map.getStyle().layers.forEach(function (layer) {
-        var sl = layer['source-layer'] || '';
-        var id = layer.id;
-        if (
-          sl === 'waterway' ||
-          sl === 'water' ||
-          id === 'water' ||
-          id === 'water-shadow' ||
-          id === 'water-pattern' ||
-          id.indexOf('waterway') !== -1 ||
+        var sl  = layer['source-layer'] || '';
+        var id  = layer.id;
+        var hide =
+          sl === 'waterway' || sl === 'water' ||
+          id === 'water' || id === 'water-shadow' || id === 'water-pattern' ||
+          id.indexOf('waterway')    !== -1 ||
           id.indexOf('water-label') !== -1 ||
-          id.indexOf('water_label') !== -1
-        ) {
-          try { map.setLayoutProperty(id, 'visibility', 'none'); } catch (e) { /* layer may not exist */ }
+          id.indexOf('water_label') !== -1 ||
+          /* city / place / POI labels */
+          sl === 'place' || sl === 'poi' ||
+          id.indexOf('place')       !== -1 ||
+          id.indexOf('poi')         !== -1;
+        if (hide) {
+          try { map.setLayoutProperty(id, 'visibility', 'none'); } catch (e) {}
         }
       });
 
-      /* ── US states GeoJSON ── */
-      fetch('https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_admin_1_states_provinces_shp.geojson')
+      /* ── 2. Load local TopoJSON (topologically correct — no cut-off borders) */
+      var base = '';
+      if (typeof window.leapData !== 'undefined' && window.leapData.themeUrl) {
+        base = window.leapData.themeUrl;
+      } else {
+        var scripts = document.querySelectorAll('script[src*="hospital-map"]');
+        if (scripts.length) base = scripts[0].src.replace(/\/assets\/js\/hospital-map\.js.*$/, '');
+      }
+
+      fetch(base + '/assets/js/us-states.json')
         .then(function (r) { return r.json(); })
-        .then(function (data) {
-          var usStates = {
-            type: 'FeatureCollection',
-            features: data.features.filter(function (f) {
-              var p = f.properties;
-              return (
-                p.admin   === 'United States of America' ||
-                p.iso_a2  === 'US' ||
-                p.adm0_a3 === 'USA'
-              );
-            }),
-          };
+        .then(function (topo) {
+          var states = topojson.feature(topo, topo.objects.states);
+          var nation = topojson.feature(topo, topo.objects.nation);
 
-          map.addSource('us-states', { type: 'geojson', data: usStates });
+          map.addSource('us-states', { type: 'geojson', data: states });
+          map.addSource('us-nation',  { type: 'geojson', data: nation });
 
-          /* State border lines — light teal, on top of CartoDB land */
+          /* Individual state borders */
           map.addLayer({
-            id: 'us-borders',
+            id: 'us-state-borders',
             type: 'line',
             source: 'us-states',
             paint: {
-              'line-color': 'rgba(0, 210, 190, 0.6)',
-              'line-width': 1,
+              'line-color': 'rgba(0, 210, 190, 0.55)',
+              'line-width': 0.8,
             },
           });
 
-          /* Faded state name labels — uses CartoDB dark-matter's built-in fonts */
+          /* Outer US national border — slightly thicker to close the perimeter */
+          map.addLayer({
+            id: 'us-national-border',
+            type: 'line',
+            source: 'us-nation',
+            paint: {
+              'line-color': 'rgba(0, 210, 190, 0.75)',
+              'line-width': 1.2,
+            },
+          });
+
+          /* Faded state name labels — all 50 states, no cities */
           map.addLayer({
             id: 'us-state-names',
             type: 'symbol',
@@ -194,8 +206,8 @@
               'text-max-width':      6,
             },
             paint: {
-              'text-color':      'rgba(255, 255, 255, 0.22)',
-              'text-halo-color': 'rgba(0, 0, 0, 0.4)',
+              'text-color':      'rgba(255, 255, 255, 0.28)',
+              'text-halo-color': 'rgba(0, 0, 0, 0.5)',
               'text-halo-width': 1,
             },
           });
