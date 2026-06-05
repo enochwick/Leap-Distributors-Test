@@ -5,7 +5,7 @@ import { feature } from 'https://esm.sh/topojson-client@3';
   'use strict';
 
   /* ── Globe defaults ──────────────────────────────── */
-  var DEF_PHI   = 0.31;
+  var DEF_PHI   = 3.14;
   var DEF_THETA = -0.22;
   var PHI_MIN   = DEF_PHI - 0.55;
   var PHI_MAX   = DEF_PHI + 0.55;
@@ -70,7 +70,7 @@ import { feature } from 'https://esm.sh/topojson-client@3';
   function drawBorders(ctx, phi, theta, cw, ch) {
     if (!stateRings) return;
     ctx.clearRect(0, 0, cw, ch);
-    ctx.strokeStyle = 'rgba(0, 220, 185, 0.55)';
+    ctx.strokeStyle = 'rgba(0, 220, 185, 0.6)';
     ctx.lineWidth   = 1.3;
     ctx.lineJoin    = 'round';
     ctx.beginPath();
@@ -95,7 +95,9 @@ import { feature } from 'https://esm.sh/topojson-client@3';
     var canvas = document.getElementById('hcm-globe');
     if (!canvas) return;
 
-    /* Overlay canvas — same position/size as COBE canvas, no pointer events */
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    /* Overlay canvas — identical position/size as COBE canvas */
     var overlay = document.createElement('canvas');
     overlay.setAttribute('aria-hidden', 'true');
     overlay.style.cssText = [
@@ -111,7 +113,6 @@ import { feature } from 'https://esm.sh/topojson-client@3';
     canvas.parentNode.appendChild(overlay);
     var octx = overlay.getContext('2d');
 
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
     var phi = DEF_PHI, theta = DEF_THETA;
     var isDragging = false, prevX = 0, prevY = 0;
     var returning = false, resetTimer = null;
@@ -169,7 +170,6 @@ import { feature } from 'https://esm.sh/topojson-client@3';
         state.width  = canvas.offsetWidth  * dpr;
         state.height = canvas.offsetHeight * dpr;
 
-        /* Keep overlay pixel dims in sync with COBE canvas */
         var cw = state.width, ch = state.height;
         if (overlay.width !== cw || overlay.height !== ch) {
           overlay.width = cw; overlay.height = ch;
