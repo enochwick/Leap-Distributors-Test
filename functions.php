@@ -87,12 +87,12 @@ add_action( 'wp_enqueue_scripts', function() {
 	}
 } );
 
-// Hospital Leaflet map — about page
+// Hospital MapLibre GL map — about page
 add_action( 'wp_enqueue_scripts', function() {
 	if ( is_page( 'about' ) ) {
-		wp_enqueue_style(  'leaflet',           'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',  [], '1.9.4' );
-		wp_enqueue_script( 'leaflet',           'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',   [], '1.9.4', true );
-		wp_enqueue_script( 'leap-hospital-map', get_template_directory_uri() . '/assets/js/hospital-map.js', [ 'leaflet' ], LEAP_VERSION, true );
+		wp_enqueue_style(  'maplibre-gl',       'https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css', [], '4' );
+		wp_enqueue_script( 'maplibre-gl',       'https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.js',  [], '4', true );
+		wp_enqueue_script( 'leap-hospital-map', get_template_directory_uri() . '/assets/js/hospital-map.js', [ 'maplibre-gl' ], LEAP_VERSION, true );
 	}
 } );
 

@@ -4603,7 +4603,7 @@ select.form-input {
   margin-top: 2px;
 }
 
-/* ── Leaflet map container ───────────────────────────────── */
+/* ── MapLibre GL map container ───────────────────────────── */
 #hcm-map {
   height: clamp(360px, 50vw, 580px);
   border-radius: 12px;
@@ -4613,35 +4613,68 @@ select.form-input {
   box-shadow: 0 8px 64px rgba(0, 0, 0, 0.7), 0 0 48px rgba(0, 160, 140, 0.14);
 }
 
-/* Ocean + world background = same dark teal as US land fill */
-#hcm-map .leaflet-container {
-  background: #0b3030 !important;
-}
+/* Reset MapLibre canvas + container defaults */
+#hcm-map .maplibregl-map,
+#hcm-map .maplibregl-canvas-container { background: #0b3030; }
+#hcm-map .maplibregl-canvas { display: block; }
 
-/* Tooltip styling */
-.hcm-tooltip {
-  background: rgba(5, 18, 30, 0.94) !important;
-  border: 1px solid rgba(255, 255, 255, 0.18) !important;
-  border-radius: 6px !important;
-  color: #fff !important;
-  font-family: var(--font-primary) !important;
-  font-size: 13px !important;
-  padding: 8px 12px !important;
+/* Hover popup */
+#hcm-map .hcm-popup .maplibregl-popup-content {
+  background: rgba(5, 18, 30, 0.94);
+  border: 1px solid rgba(0, 210, 190, 0.35);
+  border-radius: 7px;
+  color: #fff;
+  font-family: var(--font-primary);
+  font-size: 13px;
+  padding: 9px 13px;
   backdrop-filter: blur(8px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
   white-space: nowrap;
+  line-height: 1.4;
 }
-.hcm-tooltip::before { border-top-color: rgba(255, 255, 255, 0.18) !important; }
+#hcm-map .hcm-popup .maplibregl-popup-content strong {
+  display: block;
+  font-weight: 600;
+  color: #eceff1;
+}
+#hcm-map .hcm-popup .maplibregl-popup-content span {
+  display: block;
+  font-size: 11px;
+  opacity: 0.72;
+  margin-top: 2px;
+  color: rgba(0, 210, 190, 0.9);
+}
+#hcm-map .hcm-popup .maplibregl-popup-tip {
+  border-top-color: rgba(0, 210, 190, 0.35) !important;
+}
 
-/* Leaflet zoom controls */
-#hcm-map .leaflet-control-zoom a {
+/* Navigation (zoom) controls */
+#hcm-map .maplibregl-ctrl-group {
   background: rgba(6, 30, 30, 0.9) !important;
-  color: rgba(0, 210, 190, 0.9) !important;
-  border-color: rgba(0, 210, 190, 0.22) !important;
+  border: 1px solid rgba(0, 210, 190, 0.22) !important;
+  box-shadow: none !important;
 }
-#hcm-map .leaflet-control-zoom a:hover {
-  background: rgba(0, 210, 190, 0.12) !important;
+#hcm-map .maplibregl-ctrl-group button {
+  background: transparent !important;
+  color: rgba(0, 210, 190, 0.85) !important;
 }
+#hcm-map .maplibregl-ctrl-group button:hover {
+  background: rgba(0, 210, 190, 0.1) !important;
+}
+#hcm-map .maplibregl-ctrl-group button + button {
+  border-top: 1px solid rgba(0, 210, 190, 0.15) !important;
+}
+#hcm-map .maplibregl-ctrl-icon {
+  filter: invert(0.7) sepia(1) hue-rotate(130deg) saturate(4);
+}
+
+/* Attribution */
+#hcm-map .maplibregl-ctrl-attrib {
+  background: rgba(6, 30, 30, 0.75) !important;
+  color: rgba(255,255,255,0.45) !important;
+  font-size: 10px !important;
+}
+#hcm-map .maplibregl-ctrl-attrib a { color: rgba(0,210,190,0.7) !important; }
 
 @media (max-width: 768px) {
   .hcm-stats { gap: var(--space-5); }
