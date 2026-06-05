@@ -1,52 +1,127 @@
-import createGlobe from 'https://esm.sh/cobe@0.6.3';
 import { feature } from 'https://esm.sh/topojson-client@3';
 
 (function () {
   'use strict';
 
-  var DEF_PHI   = 3.14;
-  var DEF_THETA = -0.22;
-  var PHI_MIN   = DEF_PHI - 0.55;
-  var PHI_MAX   = DEF_PHI + 0.55;
-  var THETA_MIN = DEF_THETA - 0.35;
-  var THETA_MAX = DEF_THETA + 0.35;
+  /* ── Default view centred on continental US ── */
+  var DEF_LAT =  38 * Math.PI / 180;
+  var DEF_LNG = -96 * Math.PI / 180;
+  var LAT_MIN = DEF_LAT - 0.45;
+  var LAT_MAX = DEF_LAT + 0.45;
+  var LNG_MIN = DEF_LNG - 0.65;
+  var LNG_MAX = DEF_LNG + 0.65;
 
-  function angleDiff(a, b) {
-    return (((b - a) % (Math.PI * 2)) + Math.PI * 3) % (Math.PI * 2) - Math.PI;
-  }
+  var stateRings = null;
 
-  /* Correct spherical coords matching COBE's internal convention */
-  function toXYZ(lat, lng) {
-    var phi_r = lat * Math.PI / 180;
-    var lam   = lng * Math.PI / 180;
+  /* ── Orthographic projection ───────────────── */
+  function project(latRad, lngRad, lat0, lng0, R, cx, cy) {
+    var dLng    = lngRad - lng0;
+    var sinLat  = Math.sin(latRad), cosLat  = Math.cos(latRad);
+    var sinLat0 = Math.sin(lat0),   cosLat0 = Math.cos(lat0);
+    var cosDLng = Math.cos(dLng);
+    if (sinLat0 * sinLat + cosLat0 * cosLat * cosDLng < 0) return null;
     return [
-      Math.cos(phi_r) * Math.cos(lam),
-      Math.sin(phi_r),
-      Math.cos(phi_r) * Math.sin(lam),
+      cx + R * cosLat * Math.sin(dLng),
+      cy - R * (cosLat0 * sinLat - sinLat0 * cosLat * cosDLng),
     ];
   }
 
-  function applyRot(v, phi, theta) {
-    var x = v[0], y = v[1], z = v[2];
-    var cp = Math.cos(phi), sp = Math.sin(phi);
-    var x2 = x * cp + z * sp, z2 = -x * sp + z * cp;
-    x = x2; z = z2;
-    var ct = Math.cos(theta), st = Math.sin(theta);
-    var y2 = y * ct + z * st, z3 = -y * st + z * ct;
-    y = y2; z = z3;
-    return [x, y, z];
+  /* ── Draw one ring of a polygon ────────────── */
+  function tracePath(ctx, ring, lat0, lng0, R, cx, cy) {
+    var started = false;
+    for (var i = 0; i < ring.length; i++) {
+      var pt = project(
+        ring[i][1] * Math.PI / 180,
+        ring[i][0] * Math.PI / 180,
+        lat0, lng0, R, cx, cy
+      );
+      if (!pt) { started = false; continue; }
+      if (!started) { ctx.moveTo(pt[0], pt[1]); started = true; }
+      else           { ctx.lineTo(pt[0], pt[1]); }
+    }
   }
 
-  function toScreen(xyz, w, h) {
-    var r = Math.min(w, h) / 2;
-    return [w / 2 + xyz[0] * r, h / 2 - xyz[1] * r];
+  /* ── Main render ────────────────────────────── */
+  function render(canvas, lat0, lng0) {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var w   = canvas.width, h = canvas.height;
+    var R   = Math.min(w, h) * 0.47;
+    var cx  = w / 2, cy = h / 2;
+    var ctx = canvas.getContext('2d');
+
+    ctx.clearRect(0, 0, w, h);
+
+    /* Clip everything to the globe circle */
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx, cy, R, 0, Math.PI * 2);
+    ctx.clip();
+
+    /* Ocean background */
+    var bg = ctx.createRadialGradient(cx - R * 0.15, cy - R * 0.25, R * 0.05, cx, cy, R);
+    bg.addColorStop(0,   '#0e2647');
+    bg.addColorStop(0.55,'#071830');
+    bg.addColorStop(1,   '#030c1a');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, w, h);
+
+    /* State fills */
+    if (stateRings) {
+      ctx.fillStyle = 'rgba(18, 52, 95, 0.85)';
+      stateRings.forEach(function (ring) {
+        ctx.beginPath();
+        tracePath(ctx, ring, lat0, lng0, R, cx, cy);
+        ctx.closePath();
+        ctx.fill();
+      });
+
+      /* State border lines */
+      ctx.strokeStyle = 'rgba(0, 225, 190, 0.72)';
+      ctx.lineWidth   = Math.max(1, 1.4 * dpr * 0.5);
+      ctx.lineJoin    = 'round';
+      stateRings.forEach(function (ring) {
+        ctx.beginPath();
+        tracePath(ctx, ring, lat0, lng0, R, cx, cy);
+        ctx.stroke();
+      });
+    }
+
+    ctx.restore(); /* end clip */
+
+    /* Atmosphere glow ring */
+    var atm = ctx.createRadialGradient(cx, cy, R * 0.90, cx, cy, R * 1.22);
+    atm.addColorStop(0,    'rgba(0, 200, 245, 0.55)');
+    atm.addColorStop(0.35, 'rgba(0, 155, 220, 0.22)');
+    atm.addColorStop(1,    'rgba(0,  80, 180, 0)');
+    ctx.beginPath();
+    ctx.arc(cx, cy, R * 1.22, 0, Math.PI * 2);
+    ctx.fillStyle = atm;
+    ctx.fill();
+
+    /* Crisp edge highlight */
+    ctx.beginPath();
+    ctx.arc(cx, cy, R, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(0, 210, 255, 0.75)';
+    ctx.lineWidth   = 2.5;
+    ctx.stroke();
+
+    /* Inner edge shadow to sell the sphere */
+    var inner = ctx.createRadialGradient(cx, cy, R * 0.7, cx, cy, R);
+    inner.addColorStop(0,   'rgba(0,0,0,0)');
+    inner.addColorStop(0.75,'rgba(0,0,0,0)');
+    inner.addColorStop(1,   'rgba(0,0,0,0.55)');
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx, cy, R, 0, Math.PI * 2);
+    ctx.clip();
+    ctx.fillStyle = inner;
+    ctx.fillRect(0, 0, w, h);
+    ctx.restore();
   }
 
-  /* ── Load US state rings from local file ─────────── */
-  var stateRings = null;
-
+  /* ── Load state data and kick off ────────────── */
   function loadStateRings() {
-    var base = (typeof leapData !== 'undefined') ? leapData.themeUrl : '';
+    var base = (typeof window.leapData !== 'undefined') ? window.leapData.themeUrl : '';
     return fetch(base + '/assets/js/us-states.json')
       .then(function (r) { return r.json(); })
       .then(function (topo) {
@@ -60,64 +135,47 @@ import { feature } from 'https://esm.sh/topojson-client@3';
           });
         });
       })
-      .catch(function (e) { console.warn('State borders:', e); });
+      .catch(function (e) { console.warn('State data:', e); });
   }
 
-  /* ── Draw state borders on overlay ──────────────── */
-  function drawBorders(ctx, phi, theta, cw, ch) {
-    if (!stateRings) return;
-    ctx.clearRect(0, 0, cw, ch);
-    ctx.strokeStyle = 'rgba(0, 225, 190, 0.7)';
-    ctx.lineWidth   = 1.5;
-    ctx.lineJoin    = 'round';
-    ctx.beginPath();
-
-    for (var ri = 0; ri < stateRings.length; ri++) {
-      var ring = stateRings[ri];
-      var penDown = false;
-      for (var i = 0; i < ring.length; i++) {
-        var lng = ring[i][0], lat = ring[i][1];
-        var rot = applyRot(toXYZ(lat, lng), phi, theta);
-        if (rot[2] > 0) { penDown = false; continue; }
-        var sp = toScreen(rot, cw, ch);
-        if (!penDown) { ctx.moveTo(sp[0], sp[1]); penDown = true; }
-        else          { ctx.lineTo(sp[0], sp[1]); }
-      }
-    }
-    ctx.stroke();
-  }
-
-  /* ── Init ────────────────────────────────────────── */
+  /* ── Init ────────────────────────────────────── */
   function init() {
     var canvas = document.getElementById('hcm-globe');
     if (!canvas) return;
 
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-    /* Overlay canvas — same position & size as COBE canvas */
-    var overlay = document.createElement('canvas');
-    overlay.setAttribute('aria-hidden', 'true');
-    overlay.style.cssText = [
-      'position:absolute',
-      'left:50%',
-      'top:-40px',
-      'transform:translateX(-50%)',
-      'width:min(130vw,1440px)',
-      'height:min(130vw,1440px)',
-      'pointer-events:none',
-      'z-index:1',
-    ].join(';');
-    canvas.parentNode.appendChild(overlay);
-    var octx = overlay.getContext('2d');
-
-    var phi = DEF_PHI, theta = DEF_THETA;
+    var dpr   = Math.min(window.devicePixelRatio || 1, 2);
+    var lat0  = DEF_LAT, lng0 = DEF_LNG;
     var isDragging = false, prevX = 0, prevY = 0;
-    var returning = false, resetTimer = null;
+    var returning  = false, resetTimer = null, rafId = null;
+
+    /* Size canvas to match CSS dimensions */
+    function resize() {
+      var size = canvas.offsetWidth;
+      canvas.width  = size * dpr;
+      canvas.height = size * dpr;
+      render(canvas, lat0, lng0);
+    }
+
+    function loop() {
+      if (returning && !isDragging) {
+        var dLat = DEF_LAT - lat0, dLng = DEF_LNG - lng0;
+        if (Math.abs(dLat) < 0.001 && Math.abs(dLng) < 0.001) {
+          lat0 = DEF_LAT; lng0 = DEF_LNG; returning = false;
+        } else {
+          lat0 += dLat * 0.10;
+          lng0 += dLng * 0.10;
+        }
+        render(canvas, lat0, lng0);
+      }
+      rafId = requestAnimationFrame(loop);
+    }
 
     function scheduleReturn() {
       clearTimeout(resetTimer);
       resetTimer = setTimeout(function () { returning = true; }, 800);
     }
+
+    canvas.style.cursor = 'grab';
 
     canvas.addEventListener('pointerdown', function (e) {
       isDragging = true; returning = false; clearTimeout(resetTimer);
@@ -127,55 +185,23 @@ import { feature } from 'https://esm.sh/topojson-client@3';
     });
     canvas.addEventListener('pointermove', function (e) {
       if (!isDragging) return;
-      phi   = Math.max(PHI_MIN,   Math.min(PHI_MAX,   phi   + (e.clientX - prevX) * 0.004));
-      theta = Math.max(THETA_MIN, Math.min(THETA_MAX, theta + (e.clientY - prevY) * 0.003));
+      lng0 = Math.max(LNG_MIN, Math.min(LNG_MAX, lng0 - (e.clientX - prevX) * 0.004));
+      lat0 = Math.max(LAT_MIN, Math.min(LAT_MAX, lat0 - (e.clientY - prevY) * 0.003));
       prevX = e.clientX; prevY = e.clientY;
+      render(canvas, lat0, lng0);
     });
-    canvas.addEventListener('pointerup', function () {
-      isDragging = false; canvas.style.cursor = 'grab'; scheduleReturn();
+    canvas.addEventListener('pointerup',    function () { isDragging = false; canvas.style.cursor = 'grab'; scheduleReturn(); });
+    canvas.addEventListener('pointerleave', function () { if (isDragging) { isDragging = false; canvas.style.cursor = 'grab'; scheduleReturn(); } });
+
+    window.addEventListener('resize', resize);
+    resize();
+    loop();
+
+    loadStateRings().then(function () { render(canvas, lat0, lng0); });
+
+    window.addEventListener('beforeunload', function () {
+      cancelAnimationFrame(rafId);
     });
-    canvas.addEventListener('pointerleave', function () {
-      if (isDragging) { isDragging = false; canvas.style.cursor = 'grab'; scheduleReturn(); }
-    });
-
-    loadStateRings();
-
-    var globe = createGlobe(canvas, {
-      devicePixelRatio: dpr,
-      width:            canvas.offsetWidth  * dpr,
-      height:           canvas.offsetHeight * dpr,
-      phi:              DEF_PHI,
-      theta:            DEF_THETA,
-      dark:             1,
-      diffuse:          1.2,
-      mapSamples:       1,
-      mapBrightness:    0,
-      baseColor:        [0.05, 0.18, 0.42],
-      markerColor:      [0.0,  0.92, 0.74],
-      glowColor:        [0.18, 0.55, 1.0],
-      markers:          [],
-      onRender: function (state) {
-        if (returning && !isDragging) {
-          var dP = angleDiff(phi, DEF_PHI), dT = DEF_THETA - theta;
-          if (Math.abs(dP) < 0.002 && Math.abs(dT) < 0.002) {
-            phi = DEF_PHI; theta = DEF_THETA; returning = false;
-          } else { phi += dP * 0.10; theta += dT * 0.10; }
-        }
-
-        state.phi    = phi;
-        state.theta  = theta;
-        state.width  = canvas.offsetWidth  * dpr;
-        state.height = canvas.offsetHeight * dpr;
-
-        var cw = state.width, ch = state.height;
-        if (overlay.width !== cw || overlay.height !== ch) {
-          overlay.width = cw; overlay.height = ch;
-        }
-        drawBorders(octx, phi, theta, cw, ch);
-      },
-    });
-
-    window.addEventListener('beforeunload', function () { globe.destroy(); });
   }
 
   if (document.readyState === 'loading') {
