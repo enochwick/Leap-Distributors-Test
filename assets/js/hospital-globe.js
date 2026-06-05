@@ -1,23 +1,24 @@
-import { feature } from 'https://esm.sh/topojson-client@3';
+import { feature, mesh } from 'https://esm.sh/topojson-client@3';
 
 (function () {
   'use strict';
 
-  /* ── Default view centred on continental US ── */
-  var DEF_LAT =  38 * Math.PI / 180;
+  /* ── Default view centred on US ─────────────── */
+  var DEF_LAT =  30 * Math.PI / 180;   /* slightly south so US is upper-centre */
   var DEF_LNG = -96 * Math.PI / 180;
-  var LAT_MIN = DEF_LAT - 0.45;
-  var LAT_MAX = DEF_LAT + 0.45;
-  var LNG_MIN = DEF_LNG - 0.65;
-  var LNG_MAX = DEF_LNG + 0.65;
+  var LAT_MIN = DEF_LAT - 0.5;
+  var LAT_MAX = DEF_LAT + 0.5;
+  var LNG_MIN = DEF_LNG - 0.7;
+  var LNG_MAX = DEF_LNG + 0.7;
 
-  var stateRings = null;
+  var landRings  = null;   /* world land polygons   */
+  var stateRings = null;   /* US state borders only */
 
-  /* ── Orthographic projection ───────────────── */
+  /* ── Orthographic projection ─────────────────── */
   function project(latRad, lngRad, lat0, lng0, R, cx, cy) {
     var dLng    = lngRad - lng0;
-    var sinLat  = Math.sin(latRad), cosLat  = Math.cos(latRad);
-    var sinLat0 = Math.sin(lat0),   cosLat0 = Math.cos(lat0);
+    var sinLat  = Math.sin(latRad),  cosLat  = Math.cos(latRad);
+    var sinLat0 = Math.sin(lat0),    cosLat0 = Math.cos(lat0);
     var cosDLng = Math.cos(dLng);
     if (sinLat0 * sinLat + cosLat0 * cosLat * cosDLng < 0) return null;
     return [
@@ -26,103 +27,129 @@ import { feature } from 'https://esm.sh/topojson-client@3';
     ];
   }
 
-  /* ── Draw one ring of a polygon ────────────── */
-  function tracePath(ctx, ring, lat0, lng0, R, cx, cy) {
+  function tracePath(ctx, ring, lat0, lng0, R, cx, cy, isDeg) {
     var started = false;
     for (var i = 0; i < ring.length; i++) {
-      var pt = project(
-        ring[i][1] * Math.PI / 180,
-        ring[i][0] * Math.PI / 180,
-        lat0, lng0, R, cx, cy
-      );
+      var rawLng = isDeg ? ring[i][0] * Math.PI / 180 : ring[i][0];
+      var rawLat = isDeg ? ring[i][1] * Math.PI / 180 : ring[i][1];
+      var pt = project(rawLat, rawLng, lat0, lng0, R, cx, cy);
       if (!pt) { started = false; continue; }
       if (!started) { ctx.moveTo(pt[0], pt[1]); started = true; }
       else           { ctx.lineTo(pt[0], pt[1]); }
     }
   }
 
-  /* ── Main render ────────────────────────────── */
+  /* ── Render ──────────────────────────────────── */
   function render(canvas, lat0, lng0) {
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    var w   = canvas.width, h = canvas.height;
-    var R   = Math.min(w, h) * 0.47;
-    var cx  = w / 2, cy = h / 2;
+    var w = canvas.width, h = canvas.height;
+    var R = Math.min(w, h) * 0.47;
+    var cx = w / 2, cy = h / 2;
     var ctx = canvas.getContext('2d');
 
     ctx.clearRect(0, 0, w, h);
 
-    /* Clip everything to the globe circle */
+    /* ── Globe sphere ── */
     ctx.save();
     ctx.beginPath();
     ctx.arc(cx, cy, R, 0, Math.PI * 2);
     ctx.clip();
 
-    /* Ocean background */
-    var bg = ctx.createRadialGradient(cx - R * 0.15, cy - R * 0.25, R * 0.05, cx, cy, R);
-    bg.addColorStop(0,   '#0e2647');
-    bg.addColorStop(0.55,'#071830');
-    bg.addColorStop(1,   '#030c1a');
+    /* Deep ocean gradient — lighter in upper-centre like sunlit */
+    var bg = ctx.createRadialGradient(cx, cy - R * 0.25, R * 0.05, cx, cy, R);
+    bg.addColorStop(0,    '#0e2e55');
+    bg.addColorStop(0.45, '#071c38');
+    bg.addColorStop(1,    '#020d1f');
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, w, h);
 
-    /* State fills */
-    if (stateRings) {
-      ctx.fillStyle = 'rgba(18, 52, 95, 0.85)';
-      stateRings.forEach(function (ring) {
+    /* Land fills */
+    if (landRings) {
+      ctx.fillStyle = '#123466';
+      landRings.forEach(function (ring) {
         ctx.beginPath();
-        tracePath(ctx, ring, lat0, lng0, R, cx, cy);
+        tracePath(ctx, ring, lat0, lng0, R, cx, cy, true);
         ctx.closePath();
         ctx.fill();
       });
 
-      /* State border lines */
-      ctx.strokeStyle = 'rgba(0, 225, 190, 0.72)';
-      ctx.lineWidth   = Math.max(1, 1.4 * dpr * 0.5);
+      /* Subtle land highlight (lit from above) */
+      var landLight = ctx.createLinearGradient(cx, cy - R, cx, cy + R);
+      landLight.addColorStop(0,   'rgba(0,180,240,0.13)');
+      landLight.addColorStop(0.4, 'rgba(0,140,210,0.06)');
+      landLight.addColorStop(1,   'rgba(0,0,0,0)');
+      ctx.fillStyle = landLight;
+      if (landRings) {
+        landRings.forEach(function (ring) {
+          ctx.beginPath();
+          tracePath(ctx, ring, lat0, lng0, R, cx, cy, true);
+          ctx.closePath();
+          ctx.fill();
+        });
+      }
+    }
+
+    /* US state border lines */
+    if (stateRings) {
+      ctx.strokeStyle = 'rgba(0, 220, 190, 0.65)';
+      ctx.lineWidth   = Math.max(0.8, 1.2 / dpr);
       ctx.lineJoin    = 'round';
       stateRings.forEach(function (ring) {
         ctx.beginPath();
-        tracePath(ctx, ring, lat0, lng0, R, cx, cy);
+        tracePath(ctx, ring, lat0, lng0, R, cx, cy, true);
         ctx.stroke();
       });
     }
 
-    ctx.restore(); /* end clip */
+    /* Edge darkening to sell sphere curvature */
+    var edge = ctx.createRadialGradient(cx, cy, R * 0.68, cx, cy, R);
+    edge.addColorStop(0, 'rgba(0,0,0,0)');
+    edge.addColorStop(1, 'rgba(0,0,0,0.62)');
+    ctx.fillStyle = edge;
+    ctx.fillRect(0, 0, w, h);
 
-    /* Atmosphere glow ring */
-    var atm = ctx.createRadialGradient(cx, cy, R * 0.90, cx, cy, R * 1.22);
-    atm.addColorStop(0,    'rgba(0, 200, 245, 0.55)');
-    atm.addColorStop(0.35, 'rgba(0, 155, 220, 0.22)');
-    atm.addColorStop(1,    'rgba(0,  80, 180, 0)');
+    ctx.restore();
+
+    /* ── Atmosphere glow (outside clip) ── */
+    /* Wide soft halo */
+    var halo = ctx.createRadialGradient(cx, cy, R * 0.88, cx, cy, R * 1.28);
+    halo.addColorStop(0,    'rgba(0, 195, 255, 0.50)');
+    halo.addColorStop(0.3,  'rgba(0, 160, 230, 0.22)');
+    halo.addColorStop(0.65, 'rgba(0, 100, 200, 0.08)');
+    halo.addColorStop(1,    'rgba(0,  50, 160, 0)');
     ctx.beginPath();
-    ctx.arc(cx, cy, R * 1.22, 0, Math.PI * 2);
-    ctx.fillStyle = atm;
+    ctx.arc(cx, cy, R * 1.28, 0, Math.PI * 2);
+    ctx.fillStyle = halo;
     ctx.fill();
 
-    /* Crisp edge highlight */
+    /* Bright crisp rim */
     ctx.beginPath();
     ctx.arc(cx, cy, R, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(0, 210, 255, 0.75)';
+    ctx.strokeStyle = 'rgba(0, 220, 255, 0.9)';
     ctx.lineWidth   = 2.5;
+    ctx.shadowColor = 'rgba(0, 200, 255, 0.9)';
+    ctx.shadowBlur  = 18;
     ctx.stroke();
-
-    /* Inner edge shadow to sell the sphere */
-    var inner = ctx.createRadialGradient(cx, cy, R * 0.7, cx, cy, R);
-    inner.addColorStop(0,   'rgba(0,0,0,0)');
-    inner.addColorStop(0.75,'rgba(0,0,0,0)');
-    inner.addColorStop(1,   'rgba(0,0,0,0.55)');
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(cx, cy, R, 0, Math.PI * 2);
-    ctx.clip();
-    ctx.fillStyle = inner;
-    ctx.fillRect(0, 0, w, h);
-    ctx.restore();
+    ctx.shadowBlur  = 0;
   }
 
-  /* ── Load state data and kick off ────────────── */
-  function loadStateRings() {
+  /* ── Load data ───────────────────────────────── */
+  function loadData() {
     var base = (typeof window.leapData !== 'undefined') ? window.leapData.themeUrl : '';
-    return fetch(base + '/assets/js/us-states.json')
+
+    var p1 = fetch(base + '/assets/js/world-land.json')
+      .then(function (r) { return r.json(); })
+      .then(function (topo) {
+        var f = feature(topo, topo.objects.land);
+        landRings = [];
+        var geoms = f.type === 'FeatureCollection' ? f.features.map(function(x){ return x.geometry; }) : [f.geometry];
+        geoms.forEach(function (geom) {
+          var polys = geom.type === 'Polygon' ? [geom.coordinates] : geom.coordinates;
+          polys.forEach(function (poly) { poly.forEach(function (ring) { landRings.push(ring); }); });
+        });
+      });
+
+    var p2 = fetch(base + '/assets/js/us-states.json')
       .then(function (r) { return r.json(); })
       .then(function (topo) {
         var features = feature(topo, topo.objects.states).features;
@@ -130,12 +157,11 @@ import { feature } from 'https://esm.sh/topojson-client@3';
         features.forEach(function (f) {
           var geom = f.geometry;
           var polys = geom.type === 'Polygon' ? [geom.coordinates] : geom.coordinates;
-          polys.forEach(function (poly) {
-            poly.forEach(function (ring) { stateRings.push(ring); });
-          });
+          polys.forEach(function (poly) { poly.forEach(function (ring) { stateRings.push(ring); }); });
         });
-      })
-      .catch(function (e) { console.warn('State data:', e); });
+      });
+
+    return Promise.all([p1, p2]).catch(function (e) { console.warn('Globe data:', e); });
   }
 
   /* ── Init ────────────────────────────────────── */
@@ -143,16 +169,15 @@ import { feature } from 'https://esm.sh/topojson-client@3';
     var canvas = document.getElementById('hcm-globe');
     if (!canvas) return;
 
-    var dpr   = Math.min(window.devicePixelRatio || 1, 2);
-    var lat0  = DEF_LAT, lng0 = DEF_LNG;
+    var dpr  = Math.min(window.devicePixelRatio || 1, 2);
+    var lat0 = DEF_LAT, lng0 = DEF_LNG;
     var isDragging = false, prevX = 0, prevY = 0;
     var returning  = false, resetTimer = null, rafId = null;
 
-    /* Size canvas to match CSS dimensions */
     function resize() {
-      var size = canvas.offsetWidth;
-      canvas.width  = size * dpr;
-      canvas.height = size * dpr;
+      var s = canvas.offsetWidth;
+      canvas.width  = s * dpr;
+      canvas.height = s * dpr;
       render(canvas, lat0, lng0);
     }
 
@@ -162,10 +187,9 @@ import { feature } from 'https://esm.sh/topojson-client@3';
         if (Math.abs(dLat) < 0.001 && Math.abs(dLng) < 0.001) {
           lat0 = DEF_LAT; lng0 = DEF_LNG; returning = false;
         } else {
-          lat0 += dLat * 0.10;
-          lng0 += dLng * 0.10;
+          lat0 += dLat * 0.1; lng0 += dLng * 0.1;
+          render(canvas, lat0, lng0);
         }
-        render(canvas, lat0, lng0);
       }
       rafId = requestAnimationFrame(loop);
     }
@@ -197,11 +221,9 @@ import { feature } from 'https://esm.sh/topojson-client@3';
     resize();
     loop();
 
-    loadStateRings().then(function () { render(canvas, lat0, lng0); });
+    loadData().then(function () { render(canvas, lat0, lng0); });
 
-    window.addEventListener('beforeunload', function () {
-      cancelAnimationFrame(rafId);
-    });
+    window.addEventListener('beforeunload', function () { cancelAnimationFrame(rafId); });
   }
 
   if (document.readyState === 'loading') {
