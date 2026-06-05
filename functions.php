@@ -82,7 +82,7 @@ add_action( 'wp_enqueue_scripts', 'leap_enqueue_assets' );
 
 // Hospital coverage globe — platform page only (COBE WebGL)
 add_action( 'wp_enqueue_scripts', function() {
-	if ( is_page( 'platform' ) ) {
+	if ( is_page( 'platform' ) || is_page( 'about' ) ) {
 		wp_enqueue_script( 'leap-hospital-globe', get_template_directory_uri() . '/assets/js/hospital-globe.js', [], LEAP_VERSION, true );
 	}
 } );
