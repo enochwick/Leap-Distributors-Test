@@ -85,16 +85,16 @@
       attributionControl: false,
     });
 
-    /* ESRI satellite imagery */
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    /* Dark basemap — this layer gets the techy blue/cyan CSS filter */
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
       maxZoom: 19,
-      attribution: 'Tiles &copy; Esri',
+      className: 'hcm-base-layer',
     }).addTo(map);
 
-    /* State/city boundary labels on top */
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+    /* Labels layer — no filter class so text stays legible */
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png', {
       maxZoom: 19,
-      opacity: 0.85,
+      opacity: 0.65,
     }).addTo(map);
 
     /* Hospital markers — each city gets its own color */
