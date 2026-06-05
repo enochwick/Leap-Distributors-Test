@@ -48,7 +48,8 @@ import { feature } from 'https://esm.sh/topojson-client@3';
   var stateRings = null;
 
   function loadStateRings() {
-    return fetch('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json')
+    var url = (typeof leapData !== 'undefined' ? leapData.themeUrl : '') + '/assets/js/us-states.json';
+    return fetch(url)
       .then(function (r) { return r.json(); })
       .then(function (topo) {
         var features = feature(topo, topo.objects.states).features;
@@ -70,8 +71,8 @@ import { feature } from 'https://esm.sh/topojson-client@3';
   function drawBorders(ctx, phi, theta, cw, ch) {
     if (!stateRings) return;
     ctx.clearRect(0, 0, cw, ch);
-    ctx.strokeStyle = 'rgba(0, 220, 185, 0.6)';
-    ctx.lineWidth   = 1.3;
+    ctx.strokeStyle = 'rgba(0, 230, 195, 0.75)';
+    ctx.lineWidth   = 1.8;
     ctx.lineJoin    = 'round';
     ctx.beginPath();
 
@@ -149,10 +150,10 @@ import { feature } from 'https://esm.sh/topojson-client@3';
       height:           canvas.offsetHeight * dpr,
       phi:              DEF_PHI,
       theta:            DEF_THETA,
-      dark:             0.8,
-      diffuse:          2.2,
-      mapSamples:       24000,
-      mapBrightness:    8,
+      dark:             1,
+      diffuse:          1.2,
+      mapSamples:       1,
+      mapBrightness:    0,
       baseColor:        [0.05, 0.18, 0.42],
       markerColor:      [0.0,  0.92, 0.74],
       glowColor:        [0.18, 0.55, 1.0],
