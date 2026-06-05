@@ -129,6 +129,28 @@
     );
 
     map.on('load', function () {
+
+      /* ── Hide rivers and lakes from the CartoDB dark-matter style ──────────
+         Iterate every layer in the loaded style and suppress anything that
+         belongs to the waterway or water source-layers (rivers, streams,
+         lakes, ponds, reservoirs). Country/state admin layers are untouched. */
+      map.getStyle().layers.forEach(function (layer) {
+        var sl = layer['source-layer'] || '';
+        var id = layer.id;
+        if (
+          sl === 'waterway' ||
+          sl === 'water' ||
+          id === 'water' ||
+          id === 'water-shadow' ||
+          id === 'water-pattern' ||
+          id.indexOf('waterway') !== -1 ||
+          id.indexOf('water-label') !== -1 ||
+          id.indexOf('water_label') !== -1
+        ) {
+          try { map.setLayoutProperty(id, 'visibility', 'none'); } catch (e) { /* layer may not exist */ }
+        }
+      });
+
       /* ── US states GeoJSON ── */
       fetch('https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_admin_1_states_provinces_shp.geojson')
         .then(function (r) { return r.json(); })
@@ -147,18 +169,7 @@
 
           map.addSource('us-states', { type: 'geojson', data: usStates });
 
-          /* Land fill — same dark teal as ocean so they read as one surface */
-          map.addLayer({
-            id: 'us-fill',
-            type: 'fill',
-            source: 'us-states',
-            paint: {
-              'fill-color':   '#0b3030',
-              'fill-opacity': 1,
-            },
-          });
-
-          /* State borders — light teal lines */
+          /* State border lines — light teal, on top of CartoDB land */
           map.addLayer({
             id: 'us-borders',
             type: 'line',
