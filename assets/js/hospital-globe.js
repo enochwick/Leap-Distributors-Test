@@ -1,38 +1,39 @@
-import { feature, mesh } from 'https://esm.sh/topojson-client@3';
+import { feature } from 'https://esm.sh/topojson-client@3';
 
 (function () {
   'use strict';
 
-  /* ── Default view centred on US ─────────────── */
-  var DEF_LAT =  30 * Math.PI / 180;   /* slightly south so US is upper-centre */
+  var DEF_LAT =  32 * Math.PI / 180;
   var DEF_LNG = -96 * Math.PI / 180;
   var LAT_MIN = DEF_LAT - 0.5;
   var LAT_MAX = DEF_LAT + 0.5;
   var LNG_MIN = DEF_LNG - 0.7;
   var LNG_MAX = DEF_LNG + 0.7;
 
-  var landRings  = null;   /* world land polygons   */
-  var stateRings = null;   /* US state borders only */
+  var landRings  = null;
+  var stateRings = null;
 
   /* ── Orthographic projection ─────────────────── */
-  function project(latRad, lngRad, lat0, lng0, R, cx, cy) {
-    var dLng    = lngRad - lng0;
-    var sinLat  = Math.sin(latRad),  cosLat  = Math.cos(latRad);
-    var sinLat0 = Math.sin(lat0),    cosLat0 = Math.cos(lat0);
-    var cosDLng = Math.cos(dLng);
-    if (sinLat0 * sinLat + cosLat0 * cosLat * cosDLng < 0) return null;
+  function project(latR, lngR, lat0, lng0, R, cx, cy) {
+    var dLng = lngR - lng0;
+    var sLat = Math.sin(latR),  cLat = Math.cos(latR);
+    var sLat0 = Math.sin(lat0), cLat0 = Math.cos(lat0);
+    var cDL  = Math.cos(dLng);
+    if (sLat0 * sLat + cLat0 * cLat * cDL < 0) return null;
     return [
-      cx + R * cosLat * Math.sin(dLng),
-      cy - R * (cosLat0 * sinLat - sinLat0 * cosLat * cosDLng),
+      cx + R * cLat * Math.sin(dLng),
+      cy - R * (cLat0 * sLat - sLat0 * cLat * cDL),
     ];
   }
 
-  function tracePath(ctx, ring, lat0, lng0, R, cx, cy, isDeg) {
+  function tracePath(ctx, ring, lat0, lng0, R, cx, cy) {
     var started = false;
     for (var i = 0; i < ring.length; i++) {
-      var rawLng = isDeg ? ring[i][0] * Math.PI / 180 : ring[i][0];
-      var rawLat = isDeg ? ring[i][1] * Math.PI / 180 : ring[i][1];
-      var pt = project(rawLat, rawLng, lat0, lng0, R, cx, cy);
+      var pt = project(
+        ring[i][1] * Math.PI / 180,
+        ring[i][0] * Math.PI / 180,
+        lat0, lng0, R, cx, cy
+      );
       if (!pt) { started = false; continue; }
       if (!started) { ctx.moveTo(pt[0], pt[1]); started = true; }
       else           { ctx.lineTo(pt[0], pt[1]); }
@@ -46,89 +47,85 @@ import { feature, mesh } from 'https://esm.sh/topojson-client@3';
     var R = Math.min(w, h) * 0.47;
     var cx = w / 2, cy = h / 2;
     var ctx = canvas.getContext('2d');
-
     ctx.clearRect(0, 0, w, h);
 
-    /* ── Globe sphere ── */
+    /* ── Clip to sphere ── */
     ctx.save();
     ctx.beginPath();
     ctx.arc(cx, cy, R, 0, Math.PI * 2);
     ctx.clip();
 
-    /* Deep ocean gradient — lighter in upper-centre like sunlit */
-    var bg = ctx.createRadialGradient(cx, cy - R * 0.25, R * 0.05, cx, cy, R);
-    bg.addColorStop(0,    '#0e2e55');
-    bg.addColorStop(0.45, '#071c38');
-    bg.addColorStop(1,    '#020d1f');
-    ctx.fillStyle = bg;
+    /* Deep ocean — nearly black, matches COBE backdrop */
+    var ocean = ctx.createRadialGradient(cx, cy - R * 0.3, 0, cx, cy, R);
+    ocean.addColorStop(0,    '#0b2044');
+    ocean.addColorStop(0.5,  '#061428');
+    ocean.addColorStop(1,    '#020810');
+    ctx.fillStyle = ocean;
     ctx.fillRect(0, 0, w, h);
 
-    /* Land fills */
+    /* Land fills — same mid-blue as COBE dots */
     if (landRings) {
-      ctx.fillStyle = '#123466';
+      ctx.fillStyle = '#0f2f5c';
       landRings.forEach(function (ring) {
         ctx.beginPath();
-        tracePath(ctx, ring, lat0, lng0, R, cx, cy, true);
+        tracePath(ctx, ring, lat0, lng0, R, cx, cy);
         ctx.closePath();
         ctx.fill();
       });
 
-      /* Subtle land highlight (lit from above) */
-      var landLight = ctx.createLinearGradient(cx, cy - R, cx, cy + R);
-      landLight.addColorStop(0,   'rgba(0,180,240,0.13)');
-      landLight.addColorStop(0.4, 'rgba(0,140,210,0.06)');
-      landLight.addColorStop(1,   'rgba(0,0,0,0)');
-      ctx.fillStyle = landLight;
-      if (landRings) {
-        landRings.forEach(function (ring) {
-          ctx.beginPath();
-          tracePath(ctx, ring, lat0, lng0, R, cx, cy, true);
-          ctx.closePath();
-          ctx.fill();
-        });
-      }
+      /* Subtle top-light to match COBE's map brightness */
+      var lit = ctx.createLinearGradient(cx, cy - R, cx, cy + R * 0.3);
+      lit.addColorStop(0,   'rgba(60, 140, 255, 0.18)');
+      lit.addColorStop(0.45,'rgba(30,  90, 200, 0.07)');
+      lit.addColorStop(1,   'rgba(0,   0,   0,  0)');
+      ctx.fillStyle = lit;
+      landRings.forEach(function (ring) {
+        ctx.beginPath();
+        tracePath(ctx, ring, lat0, lng0, R, cx, cy);
+        ctx.closePath();
+        ctx.fill();
+      });
     }
 
-    /* US state border lines */
+    /* US state borders — teal, same as COBE markers */
     if (stateRings) {
-      ctx.strokeStyle = 'rgba(0, 220, 190, 0.65)';
-      ctx.lineWidth   = Math.max(0.8, 1.2 / dpr);
+      ctx.strokeStyle = 'rgba(0, 215, 185, 0.7)';
+      ctx.lineWidth   = 1.5;
       ctx.lineJoin    = 'round';
       stateRings.forEach(function (ring) {
         ctx.beginPath();
-        tracePath(ctx, ring, lat0, lng0, R, cx, cy, true);
+        tracePath(ctx, ring, lat0, lng0, R, cx, cy);
         ctx.stroke();
       });
     }
 
-    /* Edge darkening to sell sphere curvature */
-    var edge = ctx.createRadialGradient(cx, cy, R * 0.68, cx, cy, R);
-    edge.addColorStop(0, 'rgba(0,0,0,0)');
-    edge.addColorStop(1, 'rgba(0,0,0,0.62)');
-    ctx.fillStyle = edge;
+    /* Edge vignette — sells the sphere curvature */
+    var vignette = ctx.createRadialGradient(cx, cy, R * 0.65, cx, cy, R);
+    vignette.addColorStop(0, 'rgba(0,0,0,0)');
+    vignette.addColorStop(1, 'rgba(0,0,0,0.7)');
+    ctx.fillStyle = vignette;
     ctx.fillRect(0, 0, w, h);
 
     ctx.restore();
 
-    /* ── Atmosphere glow (outside clip) ── */
-    /* Wide soft halo */
-    var halo = ctx.createRadialGradient(cx, cy, R * 0.88, cx, cy, R * 1.28);
-    halo.addColorStop(0,    'rgba(0, 195, 255, 0.50)');
-    halo.addColorStop(0.3,  'rgba(0, 160, 230, 0.22)');
-    halo.addColorStop(0.65, 'rgba(0, 100, 200, 0.08)');
-    halo.addColorStop(1,    'rgba(0,  50, 160, 0)');
+    /* ── Atmosphere glow — matches COBE's blue rim ── */
+    var halo = ctx.createRadialGradient(cx, cy, R * 0.89, cx, cy, R * 1.3);
+    halo.addColorStop(0,    'rgba(30, 160, 255, 0.60)');
+    halo.addColorStop(0.25, 'rgba(20, 120, 240, 0.28)');
+    halo.addColorStop(0.6,  'rgba(10,  70, 200, 0.10)');
+    halo.addColorStop(1,    'rgba(0,   30, 140, 0)');
     ctx.beginPath();
-    ctx.arc(cx, cy, R * 1.28, 0, Math.PI * 2);
+    ctx.arc(cx, cy, R * 1.3, 0, Math.PI * 2);
     ctx.fillStyle = halo;
     ctx.fill();
 
-    /* Bright crisp rim */
+    /* Crisp glowing rim */
     ctx.beginPath();
     ctx.arc(cx, cy, R, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(0, 220, 255, 0.9)';
-    ctx.lineWidth   = 2.5;
-    ctx.shadowColor = 'rgba(0, 200, 255, 0.9)';
-    ctx.shadowBlur  = 18;
+    ctx.strokeStyle = 'rgba(60, 190, 255, 0.95)';
+    ctx.lineWidth   = 3;
+    ctx.shadowColor = 'rgba(40, 170, 255, 1)';
+    ctx.shadowBlur  = 22;
     ctx.stroke();
     ctx.shadowBlur  = 0;
   }
@@ -142,10 +139,14 @@ import { feature, mesh } from 'https://esm.sh/topojson-client@3';
       .then(function (topo) {
         var f = feature(topo, topo.objects.land);
         landRings = [];
-        var geoms = f.type === 'FeatureCollection' ? f.features.map(function(x){ return x.geometry; }) : [f.geometry];
-        geoms.forEach(function (geom) {
-          var polys = geom.type === 'Polygon' ? [geom.coordinates] : geom.coordinates;
-          polys.forEach(function (poly) { poly.forEach(function (ring) { landRings.push(ring); }); });
+        var geoms = (f.type === 'FeatureCollection')
+          ? f.features.map(function (x) { return x.geometry; })
+          : [f.geometry];
+        geoms.forEach(function (g) {
+          var polys = g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
+          polys.forEach(function (poly) {
+            poly.forEach(function (ring) { landRings.push(ring); });
+          });
         });
       });
 
@@ -157,7 +158,9 @@ import { feature, mesh } from 'https://esm.sh/topojson-client@3';
         features.forEach(function (f) {
           var geom = f.geometry;
           var polys = geom.type === 'Polygon' ? [geom.coordinates] : geom.coordinates;
-          polys.forEach(function (poly) { poly.forEach(function (ring) { stateRings.push(ring); }); });
+          polys.forEach(function (poly) {
+            poly.forEach(function (ring) { stateRings.push(ring); });
+          });
         });
       });
 
@@ -200,7 +203,6 @@ import { feature, mesh } from 'https://esm.sh/topojson-client@3';
     }
 
     canvas.style.cursor = 'grab';
-
     canvas.addEventListener('pointerdown', function (e) {
       isDragging = true; returning = false; clearTimeout(resetTimer);
       prevX = e.clientX; prevY = e.clientY;
@@ -220,9 +222,7 @@ import { feature, mesh } from 'https://esm.sh/topojson-client@3';
     window.addEventListener('resize', resize);
     resize();
     loop();
-
     loadData().then(function () { render(canvas, lat0, lng0); });
-
     window.addEventListener('beforeunload', function () { cancelAnimationFrame(rafId); });
   }
 
