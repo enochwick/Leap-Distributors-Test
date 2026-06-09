@@ -21,7 +21,7 @@
 	<div class="phg-scroll" id="phg-scroll">
 		<div class="phg-sticky" id="phg-sticky">
 			<div class="phg-single" id="phg-gallery">
-				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/platform screenshots/business_central_dashboard_anonymized_clean_v2.png' ); ?>" alt="Stride dashboard" loading="eager">
+				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/platform screenshots/Soft Minimalist Download Multiple Devices Mockup (1).png' ); ?>" alt="Stride platform across devices" loading="eager">
 			</div>
 		</div>
 	</div>
