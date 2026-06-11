@@ -221,6 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (activeLink) activeLink.setAttribute('aria-current', 'page');
 
   const moveTo = el => {
+    links.forEach(a => a.classList.toggle('is-on', a === el));
     if (!el) { cursor.style.opacity = '0'; return; }
     const item = el.parentElement; // the <li>
     cursor.style.left    = item.offsetLeft + 'px';

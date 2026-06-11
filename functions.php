@@ -38,12 +38,12 @@ function leap_enqueue_assets() {
 		null
 	);
 
-	// Main stylesheet
+	// Main stylesheet — versioned by file mtime so edits always bust browser cache
 	wp_enqueue_style(
 		'leap-main',
 		get_template_directory_uri() . '/assets/css/main.css',
 		[ 'leap-fonts' ],
-		LEAP_VERSION
+		filemtime( get_template_directory() . '/assets/css/main.css' )
 	);
 
 	// GSAP + ScrollTrigger via CDN
@@ -62,12 +62,12 @@ function leap_enqueue_assets() {
 		true
 	);
 
-	// Main JS
+	// Main JS — versioned by file mtime so edits always bust browser cache
 	wp_enqueue_script(
 		'leap-main',
 		get_template_directory_uri() . '/assets/js/main.js',
 		[ 'gsap', 'gsap-scroll-trigger' ],
-		LEAP_VERSION,
+		filemtime( get_template_directory() . '/assets/js/main.js' ),
 		true
 	);
 
