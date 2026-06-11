@@ -47,6 +47,21 @@
 			<img src="<?php echo esc_url( $logo ); ?>" alt="<?php bloginfo( 'name' ); ?>" class="logo--white" width="210" height="58">
 		</a>
 
+		<!-- Desktop pill nav -->
+		<nav class="nav-pill" aria-label="Primary">
+			<ul class="nav-pill__list">
+				<li class="nav-pill__item"><a class="nav-pill__link" href="<?php echo esc_url( home_url( '/platform/' ) ); ?>">Platform</a></li>
+				<li class="nav-pill__item"><a class="nav-pill__link" href="<?php echo esc_url( home_url( '/surgeons/' ) ); ?>">Surgeons</a></li>
+				<li class="nav-pill__item"><a class="nav-pill__link" href="<?php echo esc_url( home_url( '/partnerships/hospitals/' ) ); ?>">Hospitals</a></li>
+				<li class="nav-pill__item"><a class="nav-pill__link" href="<?php echo esc_url( home_url( '/partnerships/manufacturers/' ) ); ?>">Manufacturers</a></li>
+				<li class="nav-pill__item"><a class="nav-pill__link" href="<?php echo esc_url( home_url( '/distributors/' ) ); ?>">Distributors</a></li>
+				<li class="nav-pill__item"><a class="nav-pill__link" href="<?php echo esc_url( home_url( '/about/' ) ); ?>">About</a></li>
+				<li class="nav-pill__item"><a class="nav-pill__link" href="<?php echo esc_url( home_url( '/news/' ) ); ?>">News</a></li>
+				<li class="nav-pill__item"><a class="nav-pill__link" href="<?php echo esc_url( home_url( '/careers/' ) ); ?>">Careers</a></li>
+				<span class="nav-pill__cursor" aria-hidden="true"></span>
+			</ul>
+		</nav>
+
 		<div class="site-header__right">
 
 			<!-- Search -->

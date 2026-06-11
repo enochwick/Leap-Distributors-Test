@@ -202,6 +202,49 @@ function createMeshBackground(canvas) {
 document.querySelectorAll('.mesh-canvas').forEach(createMeshBackground);
 
 
+// ── Desktop pill nav (sliding highlight) ──────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const pill = document.querySelector('.nav-pill');
+  if (!pill) return;
+
+  const list   = pill.querySelector('.nav-pill__list');
+  const cursor = pill.querySelector('.nav-pill__cursor');
+  const links  = Array.from(pill.querySelectorAll('.nav-pill__link'));
+  if (!list || !cursor || !links.length) return;
+
+  // Mark the link matching the current page
+  const here = location.pathname.replace(/\/+$/, '');
+  const activeLink = links.find(a => {
+    const path = new URL(a.href).pathname.replace(/\/+$/, '');
+    return path && (path === here || here.startsWith(path + '/'));
+  }) || null;
+  if (activeLink) activeLink.setAttribute('aria-current', 'page');
+
+  const moveTo = el => {
+    if (!el) { cursor.style.opacity = '0'; return; }
+    const item = el.parentElement; // the <li>
+    cursor.style.left    = item.offsetLeft + 'px';
+    cursor.style.width   = item.offsetWidth + 'px';
+    cursor.style.opacity = '1';
+  };
+
+  // When idle, rest on the current page (or hide if none matches)
+  const rest = () => moveTo(activeLink);
+
+  links.forEach(a => {
+    a.addEventListener('mouseenter', () => moveTo(a));
+    a.addEventListener('focus', () => moveTo(a));
+  });
+  list.addEventListener('mouseleave', rest);
+  pill.addEventListener('focusout', e => {
+    if (!pill.contains(e.relatedTarget)) rest();
+  });
+  window.addEventListener('resize', rest, { passive: true });
+
+  requestAnimationFrame(rest);
+  window.addEventListener('load', rest);
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   if (typeof gsap === 'undefined') return;
 
