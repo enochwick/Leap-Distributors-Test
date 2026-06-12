@@ -212,16 +212,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const links  = Array.from(pill.querySelectorAll('.nav-pill__link'));
   if (!list || !cursor || !links.length) return;
 
-  // Mark the link matching the current page
+  // Mark the link matching the current page.
+  // Also match on the last path segment — WP may serve a nav URL like
+  // /partnerships/hospitals/ from /hospitals/ depending on page nesting.
   const here = location.pathname.replace(/\/+$/, '');
+  const lastSeg = p => p.split('/').filter(Boolean).pop() || '';
   const activeLink = links.find(a => {
     const path = new URL(a.href).pathname.replace(/\/+$/, '');
-    return path && (path === here || here.startsWith(path + '/'));
+    if (!path) return false;
+    return path === here || here.startsWith(path + '/') || (here && lastSeg(path) === lastSeg(here));
   }) || null;
   if (activeLink) activeLink.setAttribute('aria-current', 'page');
 
-  const moveTo = el => {
+  const moveTo = (el, instant = false) => {
     links.forEach(a => a.classList.toggle('is-on', a === el));
+    if (instant) {
+      cursor.style.transition = 'none';
+      // flush so the jump isn't animated, then restore the CSS transition
+      requestAnimationFrame(() => requestAnimationFrame(() => { cursor.style.transition = ''; }));
+    }
     if (!el) { cursor.style.opacity = '0'; return; }
     const item = el.parentElement; // the <li>
     cursor.style.left    = item.offsetLeft + 'px';
@@ -230,20 +239,24 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // When idle, rest on the current page (or hide if none matches)
-  const rest = () => moveTo(activeLink);
+  const rest = (instant = false) => moveTo(activeLink, instant);
 
   links.forEach(a => {
     a.addEventListener('mouseenter', () => moveTo(a));
     a.addEventListener('focus', () => moveTo(a));
   });
-  list.addEventListener('mouseleave', rest);
+  list.addEventListener('mouseleave', () => rest());
   pill.addEventListener('focusout', e => {
     if (!pill.contains(e.relatedTarget)) rest();
   });
-  window.addEventListener('resize', rest, { passive: true });
+  window.addEventListener('resize', () => rest(true), { passive: true });
 
-  requestAnimationFrame(rest);
-  window.addEventListener('load', rest);
+  // Place instantly on load, and re-place once webfonts settle link widths
+  rest(true);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => rest(true));
+  }
+  window.addEventListener('load', () => rest(true));
 });
 
 document.addEventListener('DOMContentLoaded', () => {
