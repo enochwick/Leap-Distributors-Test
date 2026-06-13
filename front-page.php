@@ -196,13 +196,13 @@ if ( $hero_headline_raw ) {
 			<div class="vt-right">
 				<div class="vt-gallery" id="vt-gallery">
 					<div class="vt-slide is-active" data-vt-slide="0">
-						<img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&q=80" alt="Surgeons" loading="lazy">
+						<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/surgeons.png' ); ?>" alt="A surgical team at work in a modern operating room" loading="lazy">
 					</div>
 					<div class="vt-slide" data-vt-slide="1">
-						<img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1200&q=80" alt="Hospitals" loading="lazy">
+						<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/hospitals.png' ); ?>" alt="A clinician in a modern hospital corridor" loading="lazy">
 					</div>
 					<div class="vt-slide" data-vt-slide="2">
-						<img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1200&q=80" alt="Manufacturers" loading="lazy">
+						<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/manufacturers.png' ); ?>" alt="Precision-machined surgical implants and instruments" loading="lazy">
 					</div>
 
 					<!-- Prev / Next -->
