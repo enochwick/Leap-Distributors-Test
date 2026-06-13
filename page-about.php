@@ -48,6 +48,16 @@
 	</div>
 </section>
 
+<!-- ── Feature Band ───────────────────────────────────────── -->
+<section class="feature-band reveal">
+	<div class="container">
+		<figure class="feature-band__media">
+			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/about-band.png' ); ?>" alt="The Dallas skyline at dusk" loading="lazy">
+			<figcaption class="feature-band__caption">Headquartered in Dallas, with a hub in Houston and reach across the country.</figcaption>
+		</figure>
+	</div>
+</section>
+
 <!-- ── Why We're Here ─────────────────────────────────────── -->
 <section class="why-leap">
 	<div class="why-leap__bg">

@@ -29,6 +29,16 @@
 	</div>
 </section>
 
+<!-- ── Feature Band ───────────────────────────────────────── -->
+<section class="feature-band reveal">
+	<div class="container">
+		<figure class="feature-band__media">
+			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/hospitals-band.png' ); ?>" alt="A clinician reviewing inventory in a hospital central supply area" loading="lazy">
+			<figcaption class="feature-band__caption">One team across every product line — with live case data behind it.</figcaption>
+		</figure>
+	</div>
+</section>
+
 <!-- ── Why Hospitals Choose Leap ─────────────────────────── -->
 <section class="why-leap">
 	<div class="why-leap__bg">
