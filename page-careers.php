@@ -38,7 +38,7 @@
 			</div>
 			<div class="reveal-right">
 				<div style="border-radius:var(--radius-2xl);overflow:hidden;aspect-ratio:4/5;background:var(--color-surface);">
-					<img src="<?php echo get_template_directory_uri(); ?>/assets/images/careers-team.png" alt="Leap Distributors team" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
+					<img src="<?php echo get_template_directory_uri(); ?>/assets/images/built-for/careers-culture.png" alt="The Leap Distributors team collaborating in the office" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
 				</div>
 			</div>
 		</div>
@@ -94,6 +94,16 @@
 			<p style="color:var(--color-text-3);margin-bottom:var(--space-4);">Don't see what you're looking for?</p>
 			<a href="mailto:careers@leapdistributors.com" class="btn btn--primary">Send Us Your Resume</a>
 		</div>
+	</div>
+</section>
+
+<!-- ── Feature Band ───────────────────────────────────────── -->
+<section class="feature-band reveal">
+	<div class="container">
+		<figure class="feature-band__media">
+			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/careers-band.jpg' ); ?>" alt="The Leap operations team at work in a modern medical-device distribution center" loading="lazy">
+			<figcaption class="feature-band__caption">Every role here ends at the patient bedside. That's the work.</figcaption>
+		</figure>
 	</div>
 </section>
 
