@@ -4039,11 +4039,61 @@ select.form-input {
 }
 .phg-single img {
   width: 100%;
-  max-width: 1340px;
   height: auto;
-  border-radius: var(--radius-2xl);
+  border-radius: var(--radius-sm);
   display: block;
+}
+
+/* Laptop mockup frame around the dashboard screenshot */
+.laptop-mockup {
+  width: 100%;
+  max-width: 1340px;
+}
+
+.laptop-mockup__screen {
+  position: relative;
+  background: #0b0f12;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-xl) var(--radius-xl) var(--radius-sm) var(--radius-sm);
+  padding: var(--space-5) var(--space-3) var(--space-3);
   animation: phg-edge-glow 3.5s ease-in-out infinite;
+}
+
+.laptop-mockup__camera {
+  position: absolute;
+  top: var(--space-2);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+}
+
+.laptop-mockup__base {
+  position: relative;
+  height: 16px;
+  margin: 0 -3%;
+  background: linear-gradient(to bottom, #1c2226, #0b0f12);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.45);
+}
+
+.laptop-mockup__base::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16%;
+  height: 6px;
+  background: #0b0f12;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+}
+
+@media (max-width: 768px) {
+  .laptop-mockup__screen { padding: var(--space-4) var(--space-2) var(--space-2); }
+  .laptop-mockup__base { height: 12px; }
 }
 
 @media (max-width: 768px) {
