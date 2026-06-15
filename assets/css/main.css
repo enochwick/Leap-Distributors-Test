@@ -2351,6 +2351,10 @@ p { line-height: 1.7; }
   max-width: 760px;
 }
 
+.page-hero__inner .hero__actions {
+  justify-content: flex-start;
+}
+
 .page-hero__eyebrow {
   display: inline-flex;
   align-items: center;
