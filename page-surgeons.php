@@ -78,11 +78,6 @@
 		<div class="surgeon-trey reveal">
 			<div class="surgeon-trey__video">
 				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/rep-or-wide.png' ); ?>" alt="A Leap rep in scrubs supporting a case in the operating room" loading="lazy">
-				<div class="surgeon-trey__video-overlay">
-					<div class="surgeon-trey__play" aria-label="Play video">
-						<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-					</div>
-				</div>
 			</div>
 			<blockquote class="surgeon-trey__quote">
 				<p>"The OR is the easy part. What earns the trust is everything around it."</p>
