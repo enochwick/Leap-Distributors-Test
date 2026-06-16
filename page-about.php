@@ -126,7 +126,7 @@
 				<div class="founder-tile__info">
 					<span class="founder-tile__role">Co-Founder, CEO</span>
 					<h3 class="founder-tile__name">Allen Mason</h3>
-					<p class="founder-tile__bio">Allen leads Leap as CEO. Years in technical infrastructure before he moved into medical devices, where he watched the big players prioritize margins over surgeons. Leap is the answer he built.</p>
+					<p class="founder-tile__bio">Allen leads Leap as CEO. Years in technical infrastructure before he moved into medical devices, where he watched the big players prioritize their margins over their customers and surgeons. Leap is the answer he built.</p>
 				</div>
 			</div>
 
@@ -135,7 +135,7 @@
 				<div class="founder-tile__info">
 					<span class="founder-tile__role">Co-Founder, VP of Spine</span>
 					<h3 class="founder-tile__name">Jonathan Knickerbocker</h3>
-					<p class="founder-tile__bio">A career field operator who has carried trays, stood in ORs, and built surgeon relationships firsthand. Known for authentic partnerships with physicians and identifying market opportunities.</p>
+					<p class="founder-tile__bio">Jonathan is a career field operator who has carried trays, stood in ORs, and built surgeon relationships firsthand. He's known for developing authentic partnerships with physicians and identifying market opportunities for innovative products. He co-founded Leap with Allen to build something better for surgeons and reps alike.</p>
 				</div>
 			</div>
 
@@ -144,7 +144,7 @@
 				<div class="founder-tile__info">
 					<span class="founder-tile__role">Co-Founder, VP of Sales</span>
 					<h3 class="founder-tile__name">Wes Lambard</h3>
-					<p class="founder-tile__bio">Decades of experience in medical device distribution with deep market expertise and established hospital relationships. Known for hands-on field leadership and building trust with surgeons.</p>
+					<p class="founder-tile__bio">Wes brings decades of experience in medical device distribution with deep market expertise and established hospital relationships. He's known for hands-on field leadership, team development, and an ability to build trust with surgeons and facility stakeholders.</p>
 				</div>
 			</div>
 
@@ -153,7 +153,7 @@
 				<div class="founder-tile__info">
 					<span class="founder-tile__role">Co-Founder, VP of Orthopedics</span>
 					<h3 class="founder-tile__name">Peyton Woodyard</h3>
-					<p class="founder-tile__bio">Deep market relationships and operational expertise across the distribution landscape. Drives process discipline, team scaling, and the execution that enables reps and manufacturer partners to grow.</p>
+					<p class="founder-tile__bio">Peyton brings deep market relationships and operational expertise across the distribution landscape. He drives process discipline, team scaling, and the day-to-day execution that enables both reps and manufacturer partners to grow.</p>
 				</div>
 			</div>
 
