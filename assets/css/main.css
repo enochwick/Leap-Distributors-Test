@@ -5295,3 +5295,90 @@ select.form-input {
   .feature-band__media { aspect-ratio: 4 / 3; }
   .feature-band__caption { padding: var(--space-6) var(--space-5) var(--space-5); }
 }
+
+/* ════════════════════════════════════════════════════════════
+   Mobile card carousels (≤640px)
+   Turns repeating card rows into swipeable, snap-scrolling
+   carousels with a sliver of the next card peeking + dot
+   indicators (dots are injected by main.js). Desktop (>1024px)
+   and tablet grids above are intentionally left untouched.
+   ════════════════════════════════════════════════════════════ */
+
+/* Dots are hidden until a carousel is active (mobile only) */
+.carousel-dots { display: none; }
+
+@media (max-width: 640px) {
+
+  .news-grid,
+  .news-list,
+  .capability-grid,
+  .why-leap__grid,
+  .reason-grid {
+    display: flex;
+    position: relative;
+    flex-wrap: nowrap;
+    grid-template-columns: none;     /* drop any inherited grid */
+    gap: var(--space-4);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    /* bleed to the screen edges so cards can swipe edge-to-edge */
+    margin-inline: calc(var(--container-pad) * -1);
+    padding-inline: var(--container-pad);
+    padding-bottom: var(--space-2);
+    scroll-padding-inline: var(--container-pad);
+    scrollbar-width: none;           /* Firefox */
+  }
+
+  .news-grid::-webkit-scrollbar,
+  .news-list::-webkit-scrollbar,
+  .capability-grid::-webkit-scrollbar,
+  .why-leap__grid::-webkit-scrollbar,
+  .reason-grid::-webkit-scrollbar { display: none; }
+
+  /* Each card takes ~85% so the next one peeks in */
+  .news-grid > *,
+  .news-list > *,
+  .capability-grid > *,
+  .why-leap__grid > *,
+  .reason-grid > * {
+    flex: 0 0 85%;
+    min-width: 85%;
+    max-width: 85%;
+    scroll-snap-align: start;
+  }
+
+  /* Cards that were divider-separated in the stacked layout now
+     read as discrete tiles in the carousel */
+  .capability-card,
+  .reason-card,
+  .why-leap__grid > .feature-card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+  }
+
+  /* Dot indicators */
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: var(--space-5);
+  }
+
+  .carousel-dots__dot {
+    width: 7px;
+    height: 7px;
+    padding: 0;
+    border-radius: var(--radius-full);
+    background: var(--color-text-4);
+    cursor: pointer;
+    transition: background 0.25s var(--ease-out),
+                transform 0.25s var(--ease-out);
+  }
+
+  .carousel-dots__dot.is-active {
+    background: var(--color-blue);
+    transform: scale(1.35);
+  }
+}

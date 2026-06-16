@@ -826,3 +826,71 @@ document.addEventListener('DOMContentLoaded', () => {
     input.focus();
   });
 })();
+
+
+// ── Mobile card carousels — dot indicators + scroll sync ────
+// The horizontal swipe/snap behaviour is pure CSS (≤640px). This
+// only adds dot indicators and keeps the active dot in sync. Dots
+// are hidden by CSS above 640px, so this is a no-op on desktop.
+(function () {
+  const SELECTORS = [
+    '.news-grid',
+    '.news-list',
+    '.capability-grid',
+    '.why-leap__grid',
+    '.reason-grid',
+  ];
+
+  function initCarousel(track) {
+    const cards = Array.from(track.children);
+    if (cards.length < 2) return;
+
+    // Build the dots once; CSS controls whether they're visible.
+    const dots = document.createElement('div');
+    dots.className = 'carousel-dots';
+
+    // Position of a card's left edge relative to the track's content
+    // origin (accounts for current scroll). Independent of offsetParent.
+    function cardLeft(card) {
+      return card.getBoundingClientRect().left - track.getBoundingClientRect().left + track.scrollLeft;
+    }
+
+    cards.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'carousel-dots__dot';
+      dot.setAttribute('aria-label', 'Go to card ' + (i + 1));
+      dot.addEventListener('click', () => {
+        const padLeft = parseFloat(getComputedStyle(track).paddingLeft) || 0;
+        track.scrollTo({ left: cardLeft(cards[i]) - padLeft, behavior: 'smooth' });
+      });
+      dots.appendChild(dot);
+    });
+
+    track.insertAdjacentElement('afterend', dots);
+    const dotEls = Array.from(dots.children);
+
+    function syncActive() {
+      const mid = track.clientWidth / 2;
+      const trackLeft = track.getBoundingClientRect().left;
+      let active = 0;
+      cards.forEach((card, i) => {
+        if (card.getBoundingClientRect().left - trackLeft <= mid) active = i;
+      });
+      dotEls.forEach((d, i) => d.classList.toggle('is-active', i === active));
+    }
+
+    let ticking = false;
+    track.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => { syncActive(); ticking = false; });
+    }, { passive: true });
+
+    syncActive();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll(SELECTORS.join(',')).forEach(initCarousel);
+  });
+})();
