@@ -3125,78 +3125,74 @@ select.form-input {
 }
 
 /* ── Founders Grid ───────────────────────────────────────── */
-/* ── Founders Group (About page) ──────────────────────────── */
-.founders-group {
-  position: relative;
-  margin-top: var(--space-12);
+/* ── Founders Mosaic (About page) ─────────────────────────── */
+.founders-mosaic {
+  display: flex;
+  gap: 0;
   border-radius: var(--radius-2xl);
-  overflow: visible;
-}
-
-.founders-group__photo {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: var(--radius-2xl);
-  transition: filter 0.45s ease;
-}
-
-/* Desaturate the whole group photo when any hotspot is active */
-.founders-group:has(.founders-group__hotspot:hover) .founders-group__photo {
-  filter: grayscale(1) brightness(0.7) blur(4px);
-}
-
-.founders-group__hotspot {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  cursor: pointer;
-  z-index: 2;
-}
-
-/* Color portrait overlay — fills the hotspot at full height */
-.founder-float {
-  position: absolute;
-  inset: 0;
   overflow: hidden;
-  opacity: 0;
-  transform: scale(0.97);
-  pointer-events: none;
-  z-index: 10;
-  transition: opacity 0.4s ease,
+  margin-top: var(--space-12);
+  min-height: 540px;
+}
+
+.founder-tile {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  cursor: pointer;
+  transition: flex 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.4s ease,
               transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  filter: grayscale(0.15);
 }
 
-.founders-group__hotspot:hover .founder-float {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.founder-float__photo {
+.founder-tile img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: top center;
   display: block;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Name / bio overlay at the bottom of the color portrait */
-.founder-float__info {
+/* When mosaic has any hover — dim and blur non-hovered tiles */
+.founders-mosaic:has(.founder-tile:hover) .founder-tile {
+  filter: grayscale(1) brightness(0.6) blur(3px);
+  flex: 0.7;
+}
+
+/* Hovered tile — full color, expands, lifts */
+.founders-mosaic:has(.founder-tile:hover) .founder-tile:hover {
+  filter: none;
+  flex: 1.6;
+  transform: translateY(-12px);
+  z-index: 5;
+}
+
+.founders-mosaic:has(.founder-tile:hover) .founder-tile:hover img {
+  transform: scale(1.04);
+}
+
+/* Bio info pinned to bottom of each tile */
+.founder-tile__info {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: var(--space-5) var(--space-4) var(--space-4);
-  background: linear-gradient(to top, rgba(0,10,18,0.95) 0%, rgba(0,10,18,0.6) 55%, transparent 100%);
-  transform: translateY(6px);
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+  padding: var(--space-8) var(--space-5) var(--space-5);
+  background: linear-gradient(to top, rgba(0,10,18,0.96) 0%, rgba(0,10,18,0.6) 50%, transparent 100%);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.35s ease,
+              transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.founders-group__hotspot:hover .founder-float__info {
+.founder-tile:hover .founder-tile__info {
+  opacity: 1;
   transform: translateY(0);
 }
 
-.founder-float__role {
+.founder-tile__role {
   display: block;
   font-size: 10px;
   font-weight: 600;
@@ -3206,20 +3202,37 @@ select.form-input {
   margin-bottom: var(--space-1);
 }
 
-.founder-float__name {
-  font-size: var(--text-base);
+.founder-tile__name {
+  font-size: var(--text-lg);
   font-weight: 700;
   color: var(--color-white);
   line-height: 1.2;
   margin: 0 0 var(--space-2);
 }
 
-.founder-float__bio {
-  font-size: 11px;
+.founder-tile__bio {
+  font-size: var(--text-sm);
   color: rgba(255,255,255,0.75);
-  line-height: 1.55;
+  line-height: 1.6;
   font-weight: 300;
   margin: 0;
+}
+
+@media (max-width: 768px) {
+  .founders-mosaic {
+    flex-direction: column;
+    min-height: unset;
+  }
+  .founder-tile {
+    min-height: 280px;
+    flex: unset !important;
+    transform: none !important;
+    filter: none !important;
+  }
+  .founder-tile__info {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ── Reason Grid (Distributors page) ────────────────────── */

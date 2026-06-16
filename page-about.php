@@ -119,56 +119,44 @@
 			</div>
 		</div>
 
-		<div class="founders-group reveal">
-			<img class="founders-group__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founders-group.jpg' ); ?>" alt="Leap founding partners" loading="lazy">
+		<div class="founders-mosaic reveal">
 
-			<!-- Allen Mason — far left ~0–22% -->
-			<div class="founders-group__hotspot" style="left:0;width:22%;">
-				<div class="founder-float">
-					<img class="founder-float__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-allen.png' ); ?>" alt="Allen Mason" loading="lazy">
-					<div class="founder-float__info">
-						<span class="founder-float__role">Co-Founder, CEO</span>
-						<h3 class="founder-float__name">Allen Mason</h3>
-						<p class="founder-float__bio">Allen leads Leap as CEO. Years in technical infrastructure before he moved into medical devices, where he watched the big players prioritize margins over surgeons. Leap is the answer he built.</p>
-					</div>
+			<div class="founder-tile">
+				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-allen.png' ); ?>" alt="Allen Mason" loading="lazy">
+				<div class="founder-tile__info">
+					<span class="founder-tile__role">Co-Founder, CEO</span>
+					<h3 class="founder-tile__name">Allen Mason</h3>
+					<p class="founder-tile__bio">Allen leads Leap as CEO. Years in technical infrastructure before he moved into medical devices, where he watched the big players prioritize margins over surgeons. Leap is the answer he built.</p>
 				</div>
 			</div>
 
-			<!-- Jonathan Knickerbocker — center-left ~22–48% -->
-			<div class="founders-group__hotspot" style="left:22%;width:26%;">
-				<div class="founder-float">
-					<img class="founder-float__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-jonathan.png' ); ?>" alt="Jonathan Knickerbocker" loading="lazy">
-					<div class="founder-float__info">
-						<span class="founder-float__role">Co-Founder, VP of Spine</span>
-						<h3 class="founder-float__name">Jonathan Knickerbocker</h3>
-						<p class="founder-float__bio">A career field operator who has carried trays, stood in ORs, and built surgeon relationships firsthand. Known for authentic partnerships with physicians and identifying market opportunities.</p>
-					</div>
+			<div class="founder-tile">
+				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-jonathan.png' ); ?>" alt="Jonathan Knickerbocker" loading="lazy">
+				<div class="founder-tile__info">
+					<span class="founder-tile__role">Co-Founder, VP of Spine</span>
+					<h3 class="founder-tile__name">Jonathan Knickerbocker</h3>
+					<p class="founder-tile__bio">A career field operator who has carried trays, stood in ORs, and built surgeon relationships firsthand. Known for authentic partnerships with physicians and identifying market opportunities.</p>
 				</div>
 			</div>
 
-			<!-- Wes Lambard — center-right ~48–73% -->
-			<div class="founders-group__hotspot" style="left:48%;width:25%;">
-				<div class="founder-float">
-					<img class="founder-float__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-wes.png' ); ?>" alt="Wes Lambard" loading="lazy">
-					<div class="founder-float__info">
-						<span class="founder-float__role">Co-Founder, VP of Sales</span>
-						<h3 class="founder-float__name">Wes Lambard</h3>
-						<p class="founder-float__bio">Decades of experience in medical device distribution with deep market expertise and established hospital relationships. Known for hands-on field leadership and building trust with surgeons.</p>
-					</div>
+			<div class="founder-tile">
+				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-wes.png' ); ?>" alt="Wes Lambard" loading="lazy">
+				<div class="founder-tile__info">
+					<span class="founder-tile__role">Co-Founder, VP of Sales</span>
+					<h3 class="founder-tile__name">Wes Lambard</h3>
+					<p class="founder-tile__bio">Decades of experience in medical device distribution with deep market expertise and established hospital relationships. Known for hands-on field leadership and building trust with surgeons.</p>
 				</div>
 			</div>
 
-			<!-- Peyton Woodyard — far right ~73–100% -->
-			<div class="founders-group__hotspot" style="left:73%;width:27%;">
-				<div class="founder-float">
-					<img class="founder-float__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-peyton.png' ); ?>" alt="Peyton Woodyard" loading="lazy">
-					<div class="founder-float__info">
-						<span class="founder-float__role">Co-Founder, VP of Orthopedics</span>
-						<h3 class="founder-float__name">Peyton Woodyard</h3>
-						<p class="founder-float__bio">Deep market relationships and operational expertise across the distribution landscape. Drives process discipline, team scaling, and the execution that enables reps and manufacturer partners to grow.</p>
-					</div>
+			<div class="founder-tile">
+				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-peyton.png' ); ?>" alt="Peyton Woodyard" loading="lazy">
+				<div class="founder-tile__info">
+					<span class="founder-tile__role">Co-Founder, VP of Orthopedics</span>
+					<h3 class="founder-tile__name">Peyton Woodyard</h3>
+					<p class="founder-tile__bio">Deep market relationships and operational expertise across the distribution landscape. Drives process discipline, team scaling, and the execution that enables reps and manufacturer partners to grow.</p>
 				</div>
 			</div>
+
 		</div>
 	</div>
 </section>
