@@ -3158,10 +3158,11 @@ select.form-input {
   margin-left: -9%;
 }
 
-/* Slight depth stagger so the group doesn't look flat */
-.founder-tile:nth-child(1) { z-index: 2; transform: translateY(8px); }
+/* Slight depth stagger so the group doesn't look flat.
+   Allen (1) and Peyton (3) are a touch shorter, so size them down a bit. */
+.founder-tile:nth-child(1) { z-index: 2; width: 26.5%; transform: translateY(8px); }
 .founder-tile:nth-child(2) { z-index: 3; }
-.founder-tile:nth-child(3) { z-index: 3; transform: translateY(6px); }
+.founder-tile:nth-child(3) { z-index: 3; width: 26.5%; transform: translateY(6px); }
 .founder-tile:nth-child(4) { z-index: 2; transform: translateY(12px); }
 
 .founder-tile img {
