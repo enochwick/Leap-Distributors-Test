@@ -3143,7 +3143,7 @@ select.form-input {
 
 /* Desaturate the whole group photo when any hotspot is active */
 .founders-group:has(.founders-group__hotspot:hover) .founders-group__photo {
-  filter: grayscale(1) brightness(0.7);
+  filter: grayscale(1) brightness(0.7) blur(4px);
 }
 
 .founders-group__hotspot {
