@@ -131,16 +131,7 @@
 			</div>
 
 			<div class="founder-tile">
-				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-jonathan.png' ); ?>" alt="Jonathan Knickerbocker" loading="lazy">
-				<div class="founder-tile__info">
-					<span class="founder-tile__role">Co-Founder, VP of Spine</span>
-					<h3 class="founder-tile__name">Jonathan Knickerbocker</h3>
-					<p class="founder-tile__bio">Jonathan is a career field operator who has carried trays, stood in ORs, and built surgeon relationships firsthand. He's known for developing authentic partnerships with physicians and identifying market opportunities for innovative products. He co-founded Leap with Allen to build something better for surgeons and reps alike.</p>
-				</div>
-			</div>
-
-			<div class="founder-tile">
-				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-wes.png' ); ?>" alt="Wes Lambard" loading="lazy">
+				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-jonathan.png' ); ?>" alt="Wes Lambard" loading="lazy">
 				<div class="founder-tile__info">
 					<span class="founder-tile__role">Co-Founder, VP of Sales</span>
 					<h3 class="founder-tile__name">Wes Lambard</h3>
@@ -149,11 +140,20 @@
 			</div>
 
 			<div class="founder-tile">
-				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-peyton.png' ); ?>" alt="Peyton Woodyard" loading="lazy">
+				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-wes.png' ); ?>" alt="Peyton Woodyard" loading="lazy">
 				<div class="founder-tile__info">
 					<span class="founder-tile__role">Co-Founder, VP of Orthopedics</span>
 					<h3 class="founder-tile__name">Peyton Woodyard</h3>
 					<p class="founder-tile__bio">Peyton brings deep market relationships and operational expertise across the distribution landscape. He drives process discipline, team scaling, and the day-to-day execution that enables both reps and manufacturer partners to grow.</p>
+				</div>
+			</div>
+
+			<div class="founder-tile">
+				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-peyton.png' ); ?>" alt="Jonathan Knickerbocker" loading="lazy">
+				<div class="founder-tile__info">
+					<span class="founder-tile__role">Co-Founder, VP of Spine</span>
+					<h3 class="founder-tile__name">Jonathan Knickerbocker</h3>
+					<p class="founder-tile__bio">Jonathan is a career field operator who has carried trays, stood in ORs, and built surgeon relationships firsthand. He's known for developing authentic partnerships with physicians and identifying market opportunities for innovative products. He co-founded Leap with Allen to build something better for surgeons and reps alike.</p>
 				</div>
 			</div>
 
