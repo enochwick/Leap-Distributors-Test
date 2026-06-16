@@ -3138,6 +3138,12 @@ select.form-input {
   height: auto;
   display: block;
   border-radius: var(--radius-2xl);
+  transition: filter 0.4s ease;
+}
+
+/* When any hotspot is hovered, desaturate the group photo */
+.founders-group:has(.founders-group__hotspot:hover) .founders-group__photo {
+  filter: grayscale(1) brightness(0.75);
 }
 
 .founders-group__hotspot {
@@ -3151,22 +3157,22 @@ select.form-input {
 /* Float card — individual portrait that rises on hover */
 .founder-float {
   position: absolute;
-  bottom: 0;
+  bottom: 10%;
   left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  width: 200px;
+  transform: translateX(-50%) translateY(0px) scale(0.92);
+  width: 220px;
   border-radius: var(--radius-xl);
   overflow: hidden;
   opacity: 0;
   pointer-events: none;
   z-index: 10;
-  box-shadow: 0 32px 64px rgba(0,0,0,0.55), 0 0 0 1px rgba(42,125,225,0.18);
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+  box-shadow: 0 32px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(42,125,225,0.22);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
               opacity 0.3s ease;
 }
 
 .founders-group__hotspot:hover .founder-float {
-  transform: translateX(-50%) translateY(-110%);
+  transform: translateX(-50%) translateY(-55%) scale(1);
   opacity: 1;
 }
 
