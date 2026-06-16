@@ -3125,71 +3125,91 @@ select.form-input {
 }
 
 /* ── Founders Grid ───────────────────────────────────────── */
-/* ── Founders Mosaic (About page) ─────────────────────────── */
+/* ── Founders Group Photo (About page) ────────────────────── */
 .founders-mosaic {
+  position: relative;
   display: flex;
+  align-items: flex-end;
+  justify-content: center;
   gap: 0;
+  margin-top: var(--space-12);
+  padding-top: var(--space-12);
+  min-height: 560px;
   border-radius: var(--radius-2xl);
   overflow: hidden;
-  margin-top: var(--space-12);
-  min-height: 540px;
+  /* Studio backdrop so the cutout figures read as one group shot */
+  background:
+    radial-gradient(120% 90% at 50% 15%, rgba(0,77,104,0.35) 0%, transparent 60%),
+    linear-gradient(to bottom, var(--color-surface) 0%, var(--color-teal-dark) 100%);
 }
 
 .founder-tile {
   position: relative;
-  flex: 1;
-  overflow: hidden;
+  flex: 0 0 auto;
+  width: 30%;
   cursor: pointer;
-  transition: flex 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-              filter 0.4s ease,
-              transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-  filter: grayscale(0.15);
+  align-self: flex-end;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.4s ease;
 }
+
+/* Overlap each figure onto the previous one, like a posed group photo */
+.founder-tile:not(:first-child) {
+  margin-left: -9%;
+}
+
+/* Slight depth stagger so the group doesn't look flat */
+.founder-tile:nth-child(1) { z-index: 2; transform: translateY(8px); }
+.founder-tile:nth-child(2) { z-index: 3; }
+.founder-tile:nth-child(3) { z-index: 3; transform: translateY(6px); }
+.founder-tile:nth-child(4) { z-index: 2; transform: translateY(12px); }
 
 .founder-tile img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
+  height: auto;
   display: block;
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  object-fit: contain;
+  object-position: bottom center;
+  filter: drop-shadow(0 24px 36px rgba(0,0,0,0.45));
+  transition: filter 0.4s ease;
 }
 
-/* When mosaic has any hover — dim and blur non-hovered tiles */
+/* When any figure is hovered, push the rest back: grayscale + blur + dim */
 .founders-mosaic:has(.founder-tile:hover) .founder-tile {
-  filter: grayscale(1) brightness(0.6) blur(3px);
-  flex: 0.7;
+  filter: grayscale(1) brightness(0.55) blur(3px);
 }
 
-/* Hovered tile — full color, expands, lifts */
+/* Hovered figure steps forward — full color, raised, on top */
 .founders-mosaic:has(.founder-tile:hover) .founder-tile:hover {
   filter: none;
-  flex: 1.6;
-  transform: translateY(-12px);
-  z-index: 5;
+  z-index: 10;
+  transform: translateY(-14px) scale(1.04);
 }
 
-.founders-mosaic:has(.founder-tile:hover) .founder-tile:hover img {
-  transform: scale(1.04);
-}
-
-/* Bio info pinned to bottom of each tile */
+/* Bio card floats in beside/under the lifted figure */
 .founder-tile__info {
   position: absolute;
   bottom: 0;
-  left: 0;
-  right: 0;
-  padding: var(--space-8) var(--space-5) var(--space-5);
-  background: linear-gradient(to top, rgba(0,10,18,0.96) 0%, rgba(0,10,18,0.6) 50%, transparent 100%);
+  left: 50%;
+  width: 280px;
+  max-width: 80vw;
+  transform: translate(-50%, 12px);
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  background: rgba(0,16,24,0.92);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
   opacity: 0;
-  transform: translateY(8px);
+  pointer-events: none;
+  z-index: 11;
   transition: opacity 0.35s ease,
               transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .founder-tile:hover .founder-tile__info {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate(-50%, 0);
 }
 
 .founder-tile__role {
@@ -3220,18 +3240,25 @@ select.form-input {
 
 @media (max-width: 768px) {
   .founders-mosaic {
-    flex-direction: column;
+    flex-wrap: wrap;
     min-height: unset;
+    padding: var(--space-6) var(--space-3);
+    gap: var(--space-2);
   }
   .founder-tile {
-    min-height: 280px;
-    flex: unset !important;
+    width: 46%;
+    margin-left: 0 !important;
     transform: none !important;
     filter: none !important;
   }
   .founder-tile__info {
+    position: static;
+    transform: none;
     opacity: 1;
-    transform: translateY(0);
+    pointer-events: auto;
+    width: 100%;
+    max-width: none;
+    margin-top: var(--space-3);
   }
 }
 
