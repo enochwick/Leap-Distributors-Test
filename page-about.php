@@ -125,7 +125,7 @@
 			<!-- Allen Mason — far left ~0–22% -->
 			<div class="founders-group__hotspot" style="left:0;width:22%;">
 				<div class="founder-float">
-					<img class="founder-float__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-allen.jpg' ); ?>" alt="Allen Mason" loading="lazy">
+					<img class="founder-float__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-allen.png' ); ?>" alt="Allen Mason" loading="lazy">
 					<div class="founder-float__info">
 						<span class="founder-float__role">Co-Founder, CEO</span>
 						<h3 class="founder-float__name">Allen Mason</h3>
@@ -137,7 +137,7 @@
 			<!-- Jonathan Knickerbocker — center-left ~22–48% -->
 			<div class="founders-group__hotspot" style="left:22%;width:26%;">
 				<div class="founder-float">
-					<img class="founder-float__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-jonathan.jpg' ); ?>" alt="Jonathan Knickerbocker" loading="lazy">
+					<img class="founder-float__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-jonathan.png' ); ?>" alt="Jonathan Knickerbocker" loading="lazy">
 					<div class="founder-float__info">
 						<span class="founder-float__role">Co-Founder, VP of Spine</span>
 						<h3 class="founder-float__name">Jonathan Knickerbocker</h3>
@@ -149,7 +149,7 @@
 			<!-- Wes Lambard — center-right ~48–73% -->
 			<div class="founders-group__hotspot" style="left:48%;width:25%;">
 				<div class="founder-float">
-					<img class="founder-float__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-wes.jpg' ); ?>" alt="Wes Lambard" loading="lazy">
+					<img class="founder-float__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-wes.png' ); ?>" alt="Wes Lambard" loading="lazy">
 					<div class="founder-float__info">
 						<span class="founder-float__role">Co-Founder, VP of Sales</span>
 						<h3 class="founder-float__name">Wes Lambard</h3>
@@ -161,7 +161,7 @@
 			<!-- Peyton Woodyard — far right ~73–100% -->
 			<div class="founders-group__hotspot" style="left:73%;width:27%;">
 				<div class="founder-float">
-					<img class="founder-float__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-peyton.jpg' ); ?>" alt="Peyton Woodyard" loading="lazy">
+					<img class="founder-float__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-peyton.png' ); ?>" alt="Peyton Woodyard" loading="lazy">
 					<div class="founder-float__info">
 						<span class="founder-float__role">Co-Founder, VP of Orthopedics</span>
 						<h3 class="founder-float__name">Peyton Woodyard</h3>
