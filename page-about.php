@@ -119,48 +119,56 @@
 			</div>
 		</div>
 
-		<div class="founders-grid" data-stagger>
+		<div class="founders-group reveal">
+			<img class="founders-group__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founders-group.jpg' ); ?>" alt="Leap founding partners" loading="lazy">
 
-			<div class="founder-card reveal" data-stagger-child>
-				<img class="founder-card__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-allen.jpg' ); ?>" alt="Allen Mason" loading="lazy">
-				<div class="founder-card__overlay"></div>
-				<div class="founder-card__info">
-					<p class="founder-card__bio-text">Allen leads Leap as CEO. Years in technical infrastructure before he moved into medical devices, where he watched the big players prioritize their margins over their customers and surgeons. Leap is the answer he built.</p>
-					<span class="founder-card__role">Co-Founder, CEO</span>
-					<h3 class="founder-card__name">Allen Mason</h3>
+			<!-- Allen Mason — far left ~0–22% -->
+			<div class="founders-group__hotspot" style="left:0;width:22%;">
+				<div class="founder-float">
+					<img class="founder-float__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-allen.jpg' ); ?>" alt="Allen Mason" loading="lazy">
+					<div class="founder-float__info">
+						<span class="founder-float__role">Co-Founder, CEO</span>
+						<h3 class="founder-float__name">Allen Mason</h3>
+						<p class="founder-float__bio">Allen leads Leap as CEO. Years in technical infrastructure before he moved into medical devices, where he watched the big players prioritize margins over surgeons. Leap is the answer he built.</p>
+					</div>
 				</div>
 			</div>
 
-			<div class="founder-card reveal" data-stagger-child>
-				<img class="founder-card__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-jonathan.jpg' ); ?>" alt="Jonathan Knickerbocker" loading="lazy">
-				<div class="founder-card__overlay"></div>
-				<div class="founder-card__info">
-					<p class="founder-card__bio-text">Jonathan is a career field operator who has carried trays, stood in ORs, and built surgeon relationships firsthand. He's known for developing authentic partnerships with physicians and identifying market opportunities.</p>
-					<span class="founder-card__role">Co-Founder, VP of Spine</span>
-					<h3 class="founder-card__name">Jonathan Knickerbocker</h3>
+			<!-- Jonathan Knickerbocker — center-left ~22–48% -->
+			<div class="founders-group__hotspot" style="left:22%;width:26%;">
+				<div class="founder-float">
+					<img class="founder-float__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-jonathan.jpg' ); ?>" alt="Jonathan Knickerbocker" loading="lazy">
+					<div class="founder-float__info">
+						<span class="founder-float__role">Co-Founder, VP of Spine</span>
+						<h3 class="founder-float__name">Jonathan Knickerbocker</h3>
+						<p class="founder-float__bio">A career field operator who has carried trays, stood in ORs, and built surgeon relationships firsthand. Known for authentic partnerships with physicians and identifying market opportunities.</p>
+					</div>
 				</div>
 			</div>
 
-			<div class="founder-card reveal" data-stagger-child>
-				<img class="founder-card__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-wes.jpg' ); ?>" alt="Wes Lambard" loading="lazy">
-				<div class="founder-card__overlay"></div>
-				<div class="founder-card__info">
-					<p class="founder-card__bio-text">Wes brings decades of experience in medical device distribution with deep market expertise and established hospital relationships. Known for hands-on field leadership, team development, and building trust with surgeons.</p>
-					<span class="founder-card__role">Co-Founder, VP of Sales</span>
-					<h3 class="founder-card__name">Wes Lambard</h3>
+			<!-- Wes Lambard — center-right ~48–73% -->
+			<div class="founders-group__hotspot" style="left:48%;width:25%;">
+				<div class="founder-float">
+					<img class="founder-float__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-wes.jpg' ); ?>" alt="Wes Lambard" loading="lazy">
+					<div class="founder-float__info">
+						<span class="founder-float__role">Co-Founder, VP of Sales</span>
+						<h3 class="founder-float__name">Wes Lambard</h3>
+						<p class="founder-float__bio">Decades of experience in medical device distribution with deep market expertise and established hospital relationships. Known for hands-on field leadership and building trust with surgeons.</p>
+					</div>
 				</div>
 			</div>
 
-			<div class="founder-card reveal" data-stagger-child>
-				<img class="founder-card__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-peyton.jpg' ); ?>" alt="Peyton Woodyard" loading="lazy">
-				<div class="founder-card__overlay"></div>
-				<div class="founder-card__info">
-					<p class="founder-card__bio-text">Peyton brings deep market relationships and operational expertise across the distribution landscape. He drives process discipline, team scaling, and the execution that enables reps and manufacturer partners to grow.</p>
-					<span class="founder-card__role">Co-Founder, VP of Orthopedics</span>
-					<h3 class="founder-card__name">Peyton Woodyard</h3>
+			<!-- Peyton Woodyard — far right ~73–100% -->
+			<div class="founders-group__hotspot" style="left:73%;width:27%;">
+				<div class="founder-float">
+					<img class="founder-float__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-peyton.jpg' ); ?>" alt="Peyton Woodyard" loading="lazy">
+					<div class="founder-float__info">
+						<span class="founder-float__role">Co-Founder, VP of Orthopedics</span>
+						<h3 class="founder-float__name">Peyton Woodyard</h3>
+						<p class="founder-float__bio">Deep market relationships and operational expertise across the distribution landscape. Drives process discipline, team scaling, and the execution that enables reps and manufacturer partners to grow.</p>
+					</div>
 				</div>
 			</div>
-
 		</div>
 	</div>
 </section>
