@@ -121,39 +121,43 @@
 
 		<div class="founders-grid" data-stagger>
 
-			<div class="founder-card reveal" data-stagger-child data-glow>
-				<div class="founder-card__portrait founder-card__portrait--azure">AM</div>
-				<div class="founder-card__bio">
+			<div class="founder-card reveal" data-stagger-child>
+				<img class="founder-card__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-allen.jpg' ); ?>" alt="Allen Mason" loading="lazy">
+				<div class="founder-card__overlay"></div>
+				<div class="founder-card__info">
+					<p class="founder-card__bio-text">Allen leads Leap as CEO. Years in technical infrastructure before he moved into medical devices, where he watched the big players prioritize their margins over their customers and surgeons. Leap is the answer he built.</p>
 					<span class="founder-card__role">Co-Founder, CEO</span>
 					<h3 class="founder-card__name">Allen Mason</h3>
-					<p>Allen leads Leap as CEO. Years in technical infrastructure before he moved into medical devices, where he watched the big players prioritize their margins over their customers and surgeons. Leap is the answer he built.</p>
 				</div>
 			</div>
 
-			<div class="founder-card reveal" data-stagger-child data-glow>
-				<div class="founder-card__portrait founder-card__portrait--teal">JK</div>
-				<div class="founder-card__bio">
+			<div class="founder-card reveal" data-stagger-child>
+				<img class="founder-card__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-jonathan.jpg' ); ?>" alt="Jonathan Knickerbocker" loading="lazy">
+				<div class="founder-card__overlay"></div>
+				<div class="founder-card__info">
+					<p class="founder-card__bio-text">Jonathan is a career field operator who has carried trays, stood in ORs, and built surgeon relationships firsthand. He's known for developing authentic partnerships with physicians and identifying market opportunities.</p>
 					<span class="founder-card__role">Co-Founder, VP of Spine</span>
 					<h3 class="founder-card__name">Jonathan Knickerbocker</h3>
-					<p>Jonathan is a career field operator who has carried trays, stood in ORs, and built surgeon relationships firsthand. He's known for developing authentic partnerships with physicians and identifying market opportunities for innovative products.</p>
 				</div>
 			</div>
 
-			<div class="founder-card reveal" data-stagger-child data-glow>
-				<div class="founder-card__portrait founder-card__portrait--orange">WL</div>
-				<div class="founder-card__bio">
+			<div class="founder-card reveal" data-stagger-child>
+				<img class="founder-card__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-wes.jpg' ); ?>" alt="Wes Lambard" loading="lazy">
+				<div class="founder-card__overlay"></div>
+				<div class="founder-card__info">
+					<p class="founder-card__bio-text">Wes brings decades of experience in medical device distribution with deep market expertise and established hospital relationships. Known for hands-on field leadership, team development, and building trust with surgeons.</p>
 					<span class="founder-card__role">Co-Founder, VP of Sales</span>
 					<h3 class="founder-card__name">Wes Lambard</h3>
-					<p>Wes brings decades of experience in medical device distribution with deep market expertise and established hospital relationships. He's known for hands-on field leadership, team development, and an ability to build trust with surgeons and facility stakeholders.</p>
 				</div>
 			</div>
 
-			<div class="founder-card reveal" data-stagger-child data-glow>
-				<div class="founder-card__portrait founder-card__portrait--azure">PW</div>
-				<div class="founder-card__bio">
+			<div class="founder-card reveal" data-stagger-child>
+				<img class="founder-card__photo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-peyton.jpg' ); ?>" alt="Peyton Woodyard" loading="lazy">
+				<div class="founder-card__overlay"></div>
+				<div class="founder-card__info">
+					<p class="founder-card__bio-text">Peyton brings deep market relationships and operational expertise across the distribution landscape. He drives process discipline, team scaling, and the execution that enables reps and manufacturer partners to grow.</p>
 					<span class="founder-card__role">Co-Founder, VP of Orthopedics</span>
 					<h3 class="founder-card__name">Peyton Woodyard</h3>
-					<p>Peyton brings deep market relationships and operational expertise across the distribution landscape. He drives process discipline, team scaling, and the day-to-day execution that enables both reps and manufacturer partners to grow.</p>
 				</div>
 			</div>
 
