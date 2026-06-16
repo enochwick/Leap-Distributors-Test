@@ -3138,12 +3138,12 @@ select.form-input {
   height: auto;
   display: block;
   border-radius: var(--radius-2xl);
-  transition: filter 0.4s ease;
+  transition: filter 0.45s ease;
 }
 
-/* When any hotspot is hovered, desaturate the group photo */
+/* Desaturate the whole group photo when any hotspot is active */
 .founders-group:has(.founders-group__hotspot:hover) .founders-group__photo {
-  filter: grayscale(1) brightness(0.75);
+  filter: grayscale(1) brightness(0.7);
 }
 
 .founders-group__hotspot {
@@ -3154,43 +3154,46 @@ select.form-input {
   z-index: 2;
 }
 
-/* Float card — individual portrait that rises on hover */
+/* Color portrait overlay — fills the hotspot at full height */
 .founder-float {
   position: absolute;
-  bottom: 10%;
-  left: 50%;
-  transform: translateX(-50%) translateY(0px) scale(0.92);
-  width: 220px;
-  border-radius: var(--radius-xl);
+  inset: 0;
   overflow: hidden;
   opacity: 0;
+  transform: scale(0.97);
   pointer-events: none;
   z-index: 10;
-  box-shadow: 0 32px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(42,125,225,0.22);
-  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-              opacity 0.3s ease;
+  transition: opacity 0.4s ease,
+              transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .founders-group__hotspot:hover .founder-float {
-  transform: translateX(-50%) translateY(-55%) scale(1);
   opacity: 1;
+  transform: scale(1);
 }
 
 .founder-float__photo {
   width: 100%;
-  aspect-ratio: 3 / 4;
+  height: 100%;
   object-fit: cover;
   object-position: top center;
   display: block;
 }
 
+/* Name / bio overlay at the bottom of the color portrait */
 .founder-float__info {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: var(--space-4);
-  background: linear-gradient(to top, rgba(0,21,32,0.98) 0%, rgba(0,21,32,0.8) 50%, transparent 100%);
+  padding: var(--space-5) var(--space-4) var(--space-4);
+  background: linear-gradient(to top, rgba(0,10,18,0.95) 0%, rgba(0,10,18,0.6) 55%, transparent 100%);
+  transform: translateY(6px);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+}
+
+.founders-group__hotspot:hover .founder-float__info {
+  transform: translateY(0);
 }
 
 .founder-float__role {
@@ -3213,16 +3216,10 @@ select.form-input {
 
 .founder-float__bio {
   font-size: 11px;
-  color: rgba(255,255,255,0.72);
+  color: rgba(255,255,255,0.75);
   line-height: 1.55;
   font-weight: 300;
   margin: 0;
-}
-
-@media (max-width: 768px) {
-  .founder-float {
-    width: 150px;
-  }
 }
 
 /* ── Reason Grid (Distributors page) ────────────────────── */
