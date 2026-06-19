@@ -627,6 +627,11 @@ p { line-height: 1.7; }
   color: var(--color-teal-dark);
 }
 
+/* While hovering/focusing a link the pill turns dark — keep its text light */
+.nav-pill.is-hovering .nav-pill__link.is-on {
+  color: var(--color-white);
+}
+
 .nav-pill__link:focus-visible {
   outline: 2px solid var(--color-white);
   outline-offset: 2px;
@@ -644,7 +649,13 @@ p { line-height: 1.7; }
   pointer-events: none;
   transition: left 0.32s var(--ease-out),
               width 0.32s var(--ease-out),
-              opacity 0.25s var(--ease-out);
+              opacity 0.25s var(--ease-out),
+              background 0.25s var(--ease-out);
+}
+
+/* Darker pill while hovering/focusing a link (active page stays white when idle) */
+.nav-pill.is-hovering .nav-pill__cursor {
+  background: var(--color-teal);
 }
 
 @media (min-width: 1200px) {

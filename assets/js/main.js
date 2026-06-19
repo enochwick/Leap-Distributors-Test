@@ -238,12 +238,21 @@ document.addEventListener('DOMContentLoaded', () => {
     cursor.style.opacity = '1';
   };
 
-  // When idle, rest on the current page (or hide if none matches)
-  const rest = (instant = false) => moveTo(activeLink, instant);
+  // When idle, rest on the current page (white pill) — or hide if none matches
+  const rest = (instant = false) => {
+    pill.classList.remove('is-hovering');
+    moveTo(activeLink, instant);
+  };
+
+  // Hovering/focusing a link turns the pill dark
+  const hover = a => {
+    pill.classList.add('is-hovering');
+    moveTo(a);
+  };
 
   links.forEach(a => {
-    a.addEventListener('mouseenter', () => moveTo(a));
-    a.addEventListener('focus', () => moveTo(a));
+    a.addEventListener('mouseenter', () => hover(a));
+    a.addEventListener('focus', () => hover(a));
   });
   list.addEventListener('mouseleave', () => rest());
   pill.addEventListener('focusout', e => {
