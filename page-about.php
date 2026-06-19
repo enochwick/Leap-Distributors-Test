@@ -157,6 +157,9 @@
 				</div>
 			</div>
 
+			<!-- Bio bubble — floats across the group photo on hover (desktop) -->
+			<div class="founders-mosaic__bubble" id="founders-bubble" aria-hidden="true"></div>
+
 		</div>
 	</div>
 </section>
@@ -186,17 +189,17 @@
 
 				<div class="hcm-stats">
 					<div class="hcm-stat">
-						<span class="hcm-stat__val">300<span class="accent-teal">+</span></span>
+						<span class="hcm-stat__val" data-count="300" data-suffix="+">300+</span>
 						<span class="hcm-stat__label">Hospitals</span>
 					</div>
 					<div class="hcm-stat__divider"></div>
 					<div class="hcm-stat">
-						<span class="hcm-stat__val">10k<span class="accent-teal">+</span></span>
+						<span class="hcm-stat__val" data-count="10" data-suffix="k+">10k+</span>
 						<span class="hcm-stat__label">Cases / yr</span>
 					</div>
 					<div class="hcm-stat__divider"></div>
 					<div class="hcm-stat">
-						<span class="hcm-stat__val">15<span class="accent-teal">+</span></span>
+						<span class="hcm-stat__val" data-count="15" data-suffix="+">15+</span>
 						<span class="hcm-stat__label">States</span>
 					</div>
 				</div>

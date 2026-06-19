@@ -3212,9 +3212,44 @@ select.form-input {
               transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.founder-tile:hover .founder-tile__info {
+/* On desktop the per-figure card stays hidden — it's only the data source
+   for the shared bubble (.founders-mosaic__bubble) shown on hover. */
+
+/* Bio bubble floating across the whole group photo */
+.founders-mosaic__bubble {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, calc(-50% + 16px));
+  width: min(600px, 84%);
+  padding: var(--space-6) var(--space-7);
+  border-radius: var(--radius-2xl);
+  background: rgba(0,16,24,0.92);
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 28px 64px rgba(0,0,0,0.55);
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 20;
+  transition: opacity 0.35s ease,
+              transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.founders-mosaic__bubble.is-visible {
   opacity: 1;
-  transform: translate(-50%, 0);
+  transform: translate(-50%, -50%);
+}
+
+/* Little speech-bubble tail pointing down toward the figures */
+.founders-mosaic__bubble::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  border: 12px solid transparent;
+  border-top-color: rgba(0,16,24,0.92);
 }
 
 .founder-tile__role {
@@ -3265,6 +3300,7 @@ select.form-input {
     max-width: none;
     margin-top: var(--space-3);
   }
+  .founders-mosaic__bubble { display: none; }
 }
 
 /* ── Reason Grid (Distributors page) ────────────────────── */

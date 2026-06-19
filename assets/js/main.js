@@ -767,6 +767,21 @@ document.addEventListener('DOMContentLoaded', () => {
       card.style.setProperty('--opacity', '0');
     });
   });
+
+  // ── Founders mosaic — bio bubble across the group photo ────
+  const mosaic = document.querySelector('.founders-mosaic');
+  const bubble = document.getElementById('founders-bubble');
+  if (mosaic && bubble) {
+    mosaic.querySelectorAll('.founder-tile').forEach(tile => {
+      const info = tile.querySelector('.founder-tile__info');
+      if (!info) return;
+      tile.addEventListener('mouseenter', () => {
+        bubble.innerHTML = info.innerHTML;
+        bubble.classList.add('is-visible');
+      });
+    });
+    mosaic.addEventListener('mouseleave', () => bubble.classList.remove('is-visible'));
+  }
 });
 
 // ── AI Chat Widget ────────────────────────────────────────────
