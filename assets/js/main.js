@@ -244,9 +244,10 @@ document.addEventListener('DOMContentLoaded', () => {
     moveTo(activeLink, instant);
   };
 
-  // Hovering/focusing a link turns the pill dark
+  // Hovering/focusing a link turns the pill dark — except the active page,
+  // which stays white even when hovered.
   const hover = a => {
-    pill.classList.add('is-hovering');
+    pill.classList.toggle('is-hovering', a !== activeLink);
     moveTo(a);
   };
 
