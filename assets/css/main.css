@@ -3196,8 +3196,8 @@ select.form-input {
   position: absolute;
   bottom: 6%;
   left: 50%;
-  width: 280px;
-  max-width: 80vw;
+  width: 340px;
+  max-width: 85vw;
   transform: translate(-50%, 12px);
   padding: var(--space-5);
   border-radius: var(--radius-xl);
