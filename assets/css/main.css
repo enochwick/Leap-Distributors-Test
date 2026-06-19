@@ -2099,14 +2099,13 @@ p { line-height: 1.7; }
 .why-leap__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.06);
+  gap: var(--space-4);
 }
 
 .feature-card {
   background: rgba(255,255,255,0.04);
   padding: var(--space-10) var(--space-8);
+  border-radius: var(--radius-xl);
   transition: background 0.3s var(--ease-out);
   position: relative;
 }
@@ -2965,8 +2964,7 @@ select.form-input {
 .capability-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0;
-  border: 1px solid var(--color-border);
+  gap: var(--space-4);
 }
 
 .capability-card {
@@ -2974,12 +2972,9 @@ select.form-input {
   flex-direction: column;
   gap: var(--space-8);
   padding: var(--space-10) var(--space-8);
-  border-right: 1px solid var(--color-border);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
   transition: background 0.25s var(--ease-out);
-}
-
-.capability-card:last-child {
-  border-right: none;
 }
 
 .capability-card:not([data-glow]):hover {
@@ -3276,27 +3271,18 @@ select.form-input {
 .reason-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0;
-  border: 1px solid var(--color-border);
+  gap: var(--space-4);
   margin-top: var(--space-10);
 }
 
 .reason-card {
   padding: var(--space-10) var(--space-10);
-  border-right: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
   transition: background 0.25s var(--ease-out);
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
-}
-
-.reason-card:nth-child(2n) {
-  border-right: none;
-}
-
-.reason-card:nth-last-child(-n+2) {
-  border-bottom: none;
 }
 
 .reason-card:hover {
@@ -3446,15 +3432,6 @@ select.form-input {
     grid-template-columns: 1fr;
   }
 
-  .capability-card {
-    border-right: none;
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .capability-card:last-child {
-    border-bottom: none;
-  }
-
   .footprint-cities {
     grid-template-columns: 1fr;
   }
@@ -3472,18 +3449,6 @@ select.form-input {
 
   .reason-grid {
     grid-template-columns: 1fr;
-  }
-
-  .reason-card {
-    border-right: none;
-  }
-
-  .reason-card:nth-last-child(-n+2) {
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .reason-card:last-child {
-    border-bottom: none;
   }
 
   .better-together-section__inner {
