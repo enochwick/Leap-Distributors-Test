@@ -157,9 +157,6 @@
 				</div>
 			</div>
 
-			<!-- Bio bubble — floats across the group photo on hover (desktop) -->
-			<div class="founders-mosaic__bubble" id="founders-bubble" aria-hidden="true"></div>
-
 		</div>
 	</div>
 </section>
