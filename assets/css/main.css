@@ -4344,6 +4344,43 @@ select.form-input {
   text-transform: uppercase;
 }
 
+/* Platform capabilities — sticky stacking cards */
+.platform-stack {
+  position: relative;
+  margin-top: var(--space-12);
+}
+.platform-stack__card {
+  position: sticky;
+  transform-origin: top center;
+  will-change: transform;
+  /* each capability becomes a self-contained surface panel */
+  border-top: none;
+  margin-bottom: var(--space-10);
+  padding: clamp(var(--space-8), 4vw, var(--space-16));
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--color-border);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012)),
+    var(--color-surface);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.45), 0 0 0 1px rgba(42,125,225,0.06);
+}
+.platform-stack__card:last-child { margin-bottom: 0; }
+/* staggered pin offsets so stacked cards peek above one another */
+.platform-stack__card:nth-child(1) { top: 96px;  z-index: 1; }
+.platform-stack__card:nth-child(2) { top: 116px; z-index: 2; }
+.platform-stack__card:nth-child(3) { top: 136px; z-index: 3; }
+/* dimming veil that fades in as a card gets covered (driven by --stack-dim) */
+.platform-stack__card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(0,21,32,0.55);
+  opacity: var(--stack-dim, 0);
+  pointer-events: none;
+  transition: opacity 0.1s linear;
+}
+
 /* Stride BI dashboard */
 .stride-bi {
   display: grid;
@@ -4494,6 +4531,21 @@ select.form-input {
   .platform-cap--reverse .platform-cap__copy,
   .platform-cap--reverse .platform-cap__visual { order: unset; }
   .stride-bi { grid-template-columns: 1fr 1fr; }
+
+  /* stacking effect is desktop-only — fall back to a clean vertical list */
+  .platform-stack { margin-top: var(--space-8); }
+  .platform-stack__card {
+    position: static;
+    transform: none !important;
+    margin-bottom: var(--space-6);
+    padding: var(--space-8);
+  }
+  .platform-stack__card::after { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .platform-stack__card { position: static; transform: none !important; }
+  .platform-stack__card::after { display: none; }
 }
 
 /* ── Surgeons Page ───────────────────────────────────────── */

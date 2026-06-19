@@ -645,6 +645,41 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ── Platform capabilities — sticky stacking cards ─────────
+  const platformStack = document.getElementById('platform-stack');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (platformStack && window.matchMedia('(min-width: 901px)').matches && !prefersReducedMotion) {
+    const cards = gsap.utils.toArray('.platform-stack__card', platformStack);
+
+    cards.forEach((card, i) => {
+      // The last card sits on top and never scales/dims.
+      if (i === cards.length - 1) return;
+
+      // Mirrors the reference: cards further down the stack shrink more.
+      const targetScale = Math.max(0.86, 1 - (cards.length - i - 1) * 0.05);
+
+      gsap.fromTo(
+        card,
+        { scale: 1, '--stack-dim': 0 },
+        {
+          scale: targetScale,
+          '--stack-dim': 0.4,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 140px',          // when the card reaches its pinned spot
+            endTrigger: cards[i + 1],
+            end: 'top 140px',            // finishes once the next card pins over it
+            scrub: 0.4,
+          },
+        }
+      );
+    });
+
+    ScrollTrigger.refresh();
+  }
+
   // ── Horizontal marquee (if used) ──────────────────────────
   const marquees = document.querySelectorAll('.marquee-track');
   marquees.forEach(track => {
