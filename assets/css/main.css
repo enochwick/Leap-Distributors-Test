@@ -3668,8 +3668,8 @@ select.form-input {
 
 /* Per-card color tokens */
 .capability-card[data-glow] {
-  --base:               210;   /* left edge = brand blue */
-  --spread:             -188;   /* right/bottom edge = brand orange (~hue 22), no purple */
+  --base:               210;
+  --spread:             120;
   --backdrop:           rgba(2, 40, 58, 0.6);
   --backup-border:      rgba(255,255,255,0.07);
   --bg-spot-opacity:    0.07;
@@ -3681,7 +3681,7 @@ select.form-input {
 
 .news-card[data-glow] {
   --base:               210;
-  --spread:             -188;
+  --spread:             100;
   --backdrop:           rgba(2, 40, 58, 0.7);
   --backup-border:      rgba(255,255,255,0.07);
   --bg-spot-opacity:    0.07;
@@ -3694,7 +3694,7 @@ select.form-input {
 .feature-card[data-glow],
 .reason-card[data-glow] {
   --base:               210;
-  --spread:             -188;
+  --spread:             100;
   --backdrop:           rgba(2, 40, 58, 0.5);
   --backup-border:      rgba(255,255,255,0.07);
   --bg-spot-opacity:    0.07;
@@ -3706,7 +3706,7 @@ select.form-input {
 
 .founder-card[data-glow] {
   --base:               210;
-  --spread:             -188;
+  --spread:             80;
   --backdrop:           rgba(2, 40, 58, 0.5);
   --backup-border:      rgba(255,255,255,0.07);
   --bg-spot-opacity:    0.07;
@@ -3718,7 +3718,7 @@ select.form-input {
 
 .card[data-glow] {
   --base:               210;
-  --spread:             -188;
+  --spread:             80;
   --backdrop:           rgba(2, 40, 58, 0.5);
   --backup-border:      rgba(255,255,255,0.07);
   --bg-spot-opacity:    0.06;
