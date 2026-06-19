@@ -238,27 +238,10 @@ document.addEventListener('DOMContentLoaded', () => {
     cursor.style.opacity = '1';
   };
 
-  // When idle, rest on the current page (white pill) — or hide if none matches
-  const rest = (instant = false) => {
-    pill.classList.remove('is-hovering');
-    moveTo(activeLink, instant);
-  };
+  // The white pill always rests on the active page. Hover/focus on other
+  // links is handled purely in CSS (their own dark-teal background).
+  const rest = (instant = false) => moveTo(activeLink, instant);
 
-  // Hovering/focusing a link turns the pill dark — except the active page,
-  // which stays white even when hovered.
-  const hover = a => {
-    pill.classList.toggle('is-hovering', a !== activeLink);
-    moveTo(a);
-  };
-
-  links.forEach(a => {
-    a.addEventListener('mouseenter', () => hover(a));
-    a.addEventListener('focus', () => hover(a));
-  });
-  list.addEventListener('mouseleave', () => rest());
-  pill.addEventListener('focusout', e => {
-    if (!pill.contains(e.relatedTarget)) rest();
-  });
   window.addEventListener('resize', () => rest(true), { passive: true });
 
   // Place instantly on load, and re-place once webfonts settle link widths

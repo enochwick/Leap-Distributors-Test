@@ -619,16 +619,20 @@ p { line-height: 1.7; }
   white-space: nowrap;
   color: rgba(255,255,255,0.85);
   border-radius: var(--radius-full);
-  transition: color 0.25s var(--ease-out);
+  transition: color 0.25s var(--ease-out),
+              background 0.25s var(--ease-out);
 }
 
-/* Link the sliding cursor is currently under — dark text on white pill */
+/* Active page — dark text sitting on the white pill */
 .nav-pill__link.is-on {
   color: var(--color-teal-dark);
 }
 
-/* While hovering/focusing a link the pill turns dark — keep its text light */
-.nav-pill.is-hovering .nav-pill__link.is-on {
+/* Hover/focus any link except the active one — its own dark-teal background.
+   The active page keeps its white pill untouched. */
+.nav-pill__link:not(.is-on):hover,
+.nav-pill__link:not(.is-on):focus-visible {
+  background: var(--color-teal);
   color: var(--color-white);
 }
 
@@ -649,13 +653,7 @@ p { line-height: 1.7; }
   pointer-events: none;
   transition: left 0.32s var(--ease-out),
               width 0.32s var(--ease-out),
-              opacity 0.25s var(--ease-out),
-              background 0.25s var(--ease-out);
-}
-
-/* Darker pill while hovering/focusing a link (active page stays white when idle) */
-.nav-pill.is-hovering .nav-pill__cursor {
-  background: var(--color-teal);
+              opacity 0.25s var(--ease-out);
 }
 
 @media (min-width: 1200px) {
