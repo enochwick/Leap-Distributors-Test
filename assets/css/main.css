@@ -3340,13 +3340,9 @@ select.form-input {
   color: var(--color-white);
   letter-spacing: -0.05em;
   line-height: 0.9;
-  opacity: 0.15;
+  opacity: 1;
   display: block;
   transition: opacity 0.4s var(--ease-out);
-}
-
-.better-together-section:hover .better-together-section__words span {
-  opacity: 0.25;
 }
 
 .better-together-section__body {
