@@ -4689,7 +4689,7 @@ select.form-input {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-7);
+  gap: var(--space-10);
   margin-bottom: var(--space-6);
 }
 
@@ -4701,25 +4701,39 @@ select.form-input {
 }
 
 .hcm-stat__val {
-  font-size: 1.8rem;
+  font-size: clamp(1.8rem, 3vw, var(--text-5xl));
   font-weight: 700;
-  letter-spacing: -0.025em;
-  color: #eceff1;
+  letter-spacing: -0.04em;
+  color: var(--color-orange-light);
   line-height: 1;
 }
 
+/* Match the stats-strip — the "+" takes the same orange as the number */
+.hcm-stat__val .accent-teal {
+  color: inherit;
+}
+
 .hcm-stat__label {
-  font-size: 10px;
-  color: rgba(236,239,241,0.36);
+  font-size: var(--text-xs);
+  color: var(--color-text-3);
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
 }
 
 .hcm-stat__divider {
-  width: 1px;
-  height: 2rem;
-  background: rgba(255,255,255,0.08);
+  width: auto;
+  height: auto;
+  background: none;
+  color: var(--color-border);
+  font-size: var(--text-xl);
+  font-weight: 100;
+  line-height: 1;
   flex-shrink: 0;
+}
+
+.hcm-stat__divider::before {
+  content: "—";
 }
 
 /* ── Badge ── */
