@@ -12,8 +12,6 @@
 	</div>
 </section>
 
-<hr class="divider">
-
 <!-- ── Press ──────────────────────────────────────────────── -->
 <section class="content-section">
 	<div class="container">
@@ -98,8 +96,6 @@
 	</div>
 </section>
 
-<hr class="divider">
-
 <!-- ── Insights ───────────────────────────────────────────── -->
 <section class="content-section">
 	<div class="container">
@@ -113,7 +109,7 @@
 			</div>
 		</div>
 
-		<div class="news-list" data-stagger>
+		<div class="news-list" data-stagger data-paginate="4">
 
 			<a class="news-card news-card--editorial reveal" href="<?php echo esc_url( home_url( '/insight-surgeon-voice/' ) ); ?>" data-stagger-child>
 				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog/surgeon-voice-wide.png' ); ?>');background-size:cover;background-position:center;">

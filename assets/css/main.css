@@ -5085,6 +5085,64 @@ select.form-input {
   transform: translateX(4px);
 }
 
+/* ── News pagination ─────────────────────────────────────── */
+/* Paginated cards stay visible on every page (override reveal/stagger) */
+.news-list[data-paginate] .news-card {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.news-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-10);
+}
+
+.news-pagination__pages {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.news-pagination__page,
+.news-pagination__arrow {
+  min-width: 40px;
+  height: 40px;
+  padding: 0 var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background: rgba(255,255,255,0.04);
+  color: var(--color-text-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: background 0.2s var(--ease-out),
+              color 0.2s var(--ease-out),
+              border-color 0.2s var(--ease-out);
+}
+
+.news-pagination__page:hover,
+.news-pagination__arrow:not(:disabled):hover {
+  background: rgba(255,255,255,0.09);
+  color: var(--color-text);
+}
+
+.news-pagination__page.is-active {
+  background: var(--color-white);
+  border-color: var(--color-white);
+  color: var(--color-teal-dark);
+}
+
+.news-pagination__arrow:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
 @media (max-width: 1024px) {
   .news-list { grid-template-columns: repeat(2, 1fr); }
 }
@@ -5406,6 +5464,21 @@ select.form-input {
   .why-leap__grid > .feature-card {
     border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
+  }
+
+  /* Paginated list keeps a simple stacked layout (no carousel) on mobile */
+  .news-list[data-paginate] {
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow: visible;
+    margin-inline: 0;
+    padding-inline: 0;
+    scroll-snap-type: none;
+  }
+  .news-list[data-paginate] > * {
+    flex: none;
+    min-width: 0;
+    max-width: none;
   }
 
   /* Dot indicators */

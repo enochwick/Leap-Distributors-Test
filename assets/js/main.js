@@ -769,6 +769,68 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// ── News list pagination ──────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-paginate]').forEach(list => {
+    const perPage = parseInt(list.dataset.paginate, 10) || 4;
+    const cards = Array.from(list.children).filter(el => el.classList.contains('news-card'));
+    const pageCount = Math.ceil(cards.length / perPage);
+    if (pageCount <= 1) return;
+
+    let current = 0;
+
+    const nav = document.createElement('nav');
+    nav.className = 'news-pagination';
+    nav.setAttribute('aria-label', 'More articles');
+
+    const prev = document.createElement('button');
+    prev.type = 'button';
+    prev.className = 'news-pagination__arrow';
+    prev.innerHTML = '<span aria-hidden="true">←</span>';
+    prev.setAttribute('aria-label', 'Previous articles');
+
+    const pages = document.createElement('div');
+    pages.className = 'news-pagination__pages';
+
+    const next = document.createElement('button');
+    next.type = 'button';
+    next.className = 'news-pagination__arrow';
+    next.innerHTML = '<span aria-hidden="true">→</span>';
+    next.setAttribute('aria-label', 'Next articles');
+
+    const pageBtns = [];
+    for (let i = 0; i < pageCount; i++) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'news-pagination__page';
+      b.textContent = String(i + 1);
+      b.setAttribute('aria-label', 'Page ' + (i + 1));
+      b.addEventListener('click', () => show(i, true));
+      pages.appendChild(b);
+      pageBtns.push(b);
+    }
+
+    prev.addEventListener('click', () => show(current - 1, true));
+    next.addEventListener('click', () => show(current + 1, true));
+
+    nav.append(prev, pages, next);
+    list.after(nav);
+
+    function show(page, scroll) {
+      current = Math.max(0, Math.min(pageCount - 1, page));
+      cards.forEach((card, i) => {
+        card.style.display = Math.floor(i / perPage) === current ? '' : 'none';
+      });
+      pageBtns.forEach((b, i) => b.classList.toggle('is-active', i === current));
+      prev.disabled = current === 0;
+      next.disabled = current === pageCount - 1;
+      if (scroll) list.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    show(0, false);
+  });
+});
+
 // ── AI Chat Widget ────────────────────────────────────────────
 (function initLeapChat() {
   const widget   = document.getElementById('leap-chat');
@@ -919,6 +981,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll(SELECTORS.join(',')).forEach(initCarousel);
+    document.querySelectorAll(SELECTORS.join(',')).forEach(track => {
+      // Paginated lists manage their own paging — skip the carousel.
+      if (!track.hasAttribute('data-paginate')) initCarousel(track);
+    });
   });
 })();
