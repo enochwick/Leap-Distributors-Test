@@ -170,7 +170,7 @@
 			</a>
 
 			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/creating-your-sales-system-oct-2025/" target="_blank" rel="noopener" data-stagger-child>
-				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LeapDistributorsBlog2.png' ); ?>');background-size:cover;background-position:center;">
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/Leap-Distributors-BlogImg1-2.png' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">Leap Insights</span>
 				</div>
 				<div class="news-card__body">
@@ -187,13 +187,13 @@
 			</a>
 
 			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/surgeon-choice-august-2025/" target="_blank" rel="noopener" data-stagger-child>
-				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LeapDistributorsBlog1-e1755620018111.png' ); ?>');background-size:cover;background-position:center;">
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/Leap-Distributors-BlogImg1-2.png' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">Leap Insights</span>
 				</div>
 				<div class="news-card__body">
 					<div class="news-card__meta">
-						<span class="news-card__type news-card__type--insight">Insight</span>
-						<span>September 2025</span>
+						<span class="news-card__type news-card__type--insight">Newsletter</span>
+						<span>August 2025</span>
 					</div>
 					<h3 class="news-card__hed">The Value of Surgeon Choice in an Aggregated Model</h3>
 					<p class="news-card__excerpt">Everyone in the medical device world is under pressure — with competing needs among hospitals, distributors, suppliers, and surgeons.</p>
@@ -215,6 +215,96 @@
 					</div>
 					<h3 class="news-card__hed">Surgeon Preference Isn't the Problem — It's the Point</h3>
 					<p class="news-card__excerpt">Their preferences aren't personal quirks. They're clinical judgments backed by thousands of hours in the OR.</p>
+					<div class="news-card__footer">
+						<span class="news-card__source">Leap Distributors</span>
+						<span class="news-card__arrow" aria-hidden="true">→</span>
+					</div>
+				</div>
+			</a>
+
+			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/hospitals-should-rethink-distributor-partnerships/" target="_blank" rel="noopener" data-stagger-child>
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LeapDistributorsBlog1-e1755620018111.png' ); ?>');background-size:cover;background-position:center;">
+					<span class="news-card__pubmark">Leap Insights</span>
+				</div>
+				<div class="news-card__body">
+					<div class="news-card__meta">
+						<span class="news-card__type news-card__type--insight">Insight</span>
+						<span>August 2025</span>
+					</div>
+					<h3 class="news-card__hed">Hospitals Should Rethink Distributor Partnerships</h3>
+					<p class="news-card__excerpt">Hospitals are tired. Tired of fragmented systems. Tired of bloated vendor lists.</p>
+					<div class="news-card__footer">
+						<span class="news-card__source">Leap Distributors</span>
+						<span class="news-card__arrow" aria-hidden="true">→</span>
+					</div>
+				</div>
+			</a>
+
+			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/the-magic-of-aggregation-jul-2025/" target="_blank" rel="noopener" data-stagger-child>
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/Leap-Distributors-BlogImg1-2.png' ); ?>');background-size:cover;background-position:center;">
+					<span class="news-card__pubmark">Leap Insights</span>
+				</div>
+				<div class="news-card__body">
+					<div class="news-card__meta">
+						<span class="news-card__type news-card__type--insight">Newsletter</span>
+						<span>July 2025</span>
+					</div>
+					<h3 class="news-card__hed">The Magic of Aggregation</h3>
+					<p class="news-card__excerpt">Our monthly roundup of industry insights, product spotlights, and company news.</p>
+					<div class="news-card__footer">
+						<span class="news-card__source">Leap Distributors</span>
+						<span class="news-card__arrow" aria-hidden="true">→</span>
+					</div>
+				</div>
+			</a>
+
+			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/why-independent-doesnt-mean-alone-anymore/" target="_blank" rel="noopener" data-stagger-child>
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/Leap-Distributors-BlogImg-1.png' ); ?>');background-size:cover;background-position:center;">
+					<span class="news-card__pubmark">Leap Insights</span>
+				</div>
+				<div class="news-card__body">
+					<div class="news-card__meta">
+						<span class="news-card__type news-card__type--insight">Insight</span>
+						<span>July 2025</span>
+					</div>
+					<h3 class="news-card__hed">Why Independent Doesn't Mean Alone Anymore</h3>
+					<p class="news-card__excerpt">A note to the reps and groups making decisions about what comes next.</p>
+					<div class="news-card__footer">
+						<span class="news-card__source">Leap Distributors</span>
+						<span class="news-card__arrow" aria-hidden="true">→</span>
+					</div>
+				</div>
+			</a>
+
+			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/building-an-infrastructure-meant-to-share/" target="_blank" rel="noopener" data-stagger-child>
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/Leap-Distributors-BlogImg-e1752595306217.png' ); ?>');background-size:cover;background-position:center;">
+					<span class="news-card__pubmark">Leap Insights</span>
+				</div>
+				<div class="news-card__body">
+					<div class="news-card__meta">
+						<span class="news-card__type news-card__type--insight">Insight</span>
+						<span>July 2025</span>
+					</div>
+					<h3 class="news-card__hed">Building an Infrastructure Meant to Share</h3>
+					<p class="news-card__excerpt">What it takes to run the back office once — and share it across every rep and partner.</p>
+					<div class="news-card__footer">
+						<span class="news-card__source">Leap Distributors</span>
+						<span class="news-card__arrow" aria-hidden="true">→</span>
+					</div>
+				</div>
+			</a>
+
+			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/scaling-smarter/" target="_blank" rel="noopener" data-stagger-child>
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LD_Blog-feature-image_16_1.png' ); ?>');background-size:cover;background-position:center;">
+					<span class="news-card__pubmark">Leap Insights</span>
+				</div>
+				<div class="news-card__body">
+					<div class="news-card__meta">
+						<span class="news-card__type news-card__type--insight">Insight</span>
+						<span>June 2025</span>
+					</div>
+					<h3 class="news-card__hed">Scaling Smarter: How Leap Is Building the Future of Med Device Distribution</h3>
+					<p class="news-card__excerpt">The current medical device distribution model is broken. Here's how we're rebuilding it.</p>
 					<div class="news-card__footer">
 						<span class="news-card__source">Leap Distributors</span>
 						<span class="news-card__arrow" aria-hidden="true">→</span>
