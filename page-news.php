@@ -147,6 +147,24 @@
 				</div>
 			</a>
 
+			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/medtech-incubator-partners-with-leap-distributors-to-support-us-market-expansion-efforts/" target="_blank" rel="noopener" data-stagger-child>
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LEAP-X-MEDTECH-07.png' ); ?>');background-size:cover;background-position:center;">
+					<span class="news-card__pubmark">Leap Insights</span>
+				</div>
+				<div class="news-card__body">
+					<div class="news-card__meta">
+						<span class="news-card__type news-card__type--insight">Insight</span>
+						<span>January 2026</span>
+					</div>
+					<h3 class="news-card__hed">Medtech Incubator Partners with Leap Distributors to Support U.S. Market Expansion Efforts</h3>
+					<p class="news-card__excerpt">Medtech Incubator has partnered with Leap Distributors to support market adoption and expansion for emerging medical technologies.</p>
+					<div class="news-card__footer">
+						<span class="news-card__source">Leap Distributors</span>
+						<span class="news-card__arrow" aria-hidden="true">→</span>
+					</div>
+				</div>
+			</a>
+
 			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/the-leap-dec-edition/" target="_blank" rel="noopener" data-stagger-child>
 				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/Leap-Distributors-BlogImg1-2.png' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">Leap Insights</span>
