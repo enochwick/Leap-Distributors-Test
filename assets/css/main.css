@@ -5466,20 +5466,10 @@ select.form-input {
     border-radius: var(--radius-xl);
   }
 
-  /* Paginated list keeps a simple stacked layout (no carousel) on mobile */
-  .news-list[data-paginate] {
-    display: grid;
-    grid-template-columns: 1fr;
-    overflow: visible;
-    margin-inline: 0;
-    padding-inline: 0;
-    scroll-snap-type: none;
-  }
-  .news-list[data-paginate] > * {
-    flex: none;
-    min-width: 0;
-    max-width: none;
-  }
+  /* On mobile the paginated list becomes a swipe carousel like the others:
+     show every card (override pagination's hiding) and drop the page controls. */
+  .news-list[data-paginate] .news-card { display: flex !important; }
+  .news-pagination { display: none; }
 
   /* Dot indicators */
   .carousel-dots {

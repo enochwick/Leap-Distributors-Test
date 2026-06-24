@@ -981,9 +981,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll(SELECTORS.join(',')).forEach(track => {
-      // Paginated lists manage their own paging — skip the carousel.
-      if (!track.hasAttribute('data-paginate')) initCarousel(track);
-    });
+    document.querySelectorAll(SELECTORS.join(',')).forEach(initCarousel);
   });
 })();
