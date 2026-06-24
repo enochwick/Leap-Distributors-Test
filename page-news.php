@@ -291,7 +291,7 @@
 			</a>
 
 			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/scaling-smarter/" target="_blank" rel="noopener" data-stagger-child>
-				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LD_Blog-feature-image_16_1.png' ); ?>');background-size:cover;background-position:center;">
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LD_Blog-feature-image_16_1.png' ); ?>');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#02283A;">
 					<span class="news-card__pubmark">Leap Insights</span>
 				</div>
 				<div class="news-card__body">
