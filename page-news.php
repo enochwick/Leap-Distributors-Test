@@ -111,24 +111,6 @@
 
 		<div class="news-list" data-stagger data-paginate="6">
 
-			<a class="news-card news-card--editorial reveal" href="<?php echo esc_url( home_url( '/insight-surgeon-voice/' ) ); ?>" data-stagger-child>
-				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog/surgeon-voice-wide.png' ); ?>');background-size:cover;background-position:center;">
-					<span class="news-card__pubmark">Leap Insights</span>
-				</div>
-				<div class="news-card__body">
-					<div class="news-card__meta">
-						<span class="news-card__type news-card__type--insight">Insight</span>
-						<span>June 2026</span>
-					</div>
-					<h3 class="news-card__hed">Surgeons Don't Wing It. Neither Should Their Supply Chain.</h3>
-					<p class="news-card__excerpt">Why the distributor is the missing link in surgeon voice — and what happens when that changes.</p>
-					<div class="news-card__footer">
-						<span class="news-card__source">Leap Distributors</span>
-						<span class="news-card__arrow" aria-hidden="true">→</span>
-					</div>
-				</div>
-			</a>
-
 			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/product-agnostic-distribution-wins-for-surgeons-and-hospitals/" target="_blank" rel="noopener" data-stagger-child>
 				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LeapDistributors3-e1769101290191.jpeg' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">Leap Insights</span>
