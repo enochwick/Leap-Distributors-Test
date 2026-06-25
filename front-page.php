@@ -228,50 +228,54 @@ if ( $hero_headline_raw ) {
 		</div>
 		<div class="news-grid" data-stagger>
 
-			<a class="news-card" href="https://www.orthospinenews.com/" target="_blank" rel="noopener" data-stagger-child data-glow>
-				<div data-glow-inner></div>
-				<div class="news-card__image" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LEAP-X-MEDTECH-07.png' ); ?>');background-size:cover;background-position:center;"></div>
+			<a class="news-card news-card--editorial reveal" href="https://orthospinenews.com/2026/01/06/medtech-incubator-partners-with-leap-distributors-to-support-u-s-market-expansion-efforts/" target="_blank" rel="noopener" data-stagger-child>
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LEAP-X-MEDTECH-07.png' ); ?>');background-size:cover;background-position:center;">
+					<span class="news-card__pubmark">OrthoSpineNews</span>
+				</div>
 				<div class="news-card__body">
-					<div style="display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-3);">
-						<span class="news-card__cat">Press</span>
-						<span style="font-size:var(--text-xs);color:var(--color-text-4);">April 2025</span>
+					<div class="news-card__meta">
+						<span class="news-card__type">Press</span>
+						<span>January 2026</span>
 					</div>
-					<h3 class="news-card__title">Medtech Incubator Partners with Leap Distributors</h3>
-					<div style="display:flex;align-items:center;justify-content:space-between;margin-top:var(--space-5);">
-						<span style="font-size:var(--text-xs);color:var(--color-text-3);">OrthoSpineNews</span>
-						<span style="font-size:var(--text-lg);color:var(--color-text-3);">↗</span>
+					<h3 class="news-card__hed">Medtech Incubator Partners with Leap Distributors to Support U.S. Market Expansion Efforts</h3>
+					<div class="news-card__footer">
+						<span class="news-card__source">OrthoSpineNews</span>
+						<span class="news-card__arrow" aria-hidden="true">→</span>
 					</div>
 				</div>
 			</a>
 
-			<a class="news-card" href="https://dallasinnovates.com/" target="_blank" rel="noopener" data-stagger-child data-glow>
-				<div data-glow-inner></div>
-				<div class="news-card__image" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/pexels-karolina-grabowska-7875996-1-scaled.jpg' ); ?>');background-size:cover;background-position:center;"></div>
+			<a class="news-card news-card--editorial reveal" href="https://dallasinnovates.com/dallas-leap-distributors-acquires-leap-surgical-and-dub-enterprises/" target="_blank" rel="noopener" data-stagger-child>
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/pexels-karolina-grabowska-7875996-1-scaled.jpg' ); ?>');background-size:cover;background-position:center;">
+					<span class="news-card__pubmark">Dallas Innovates</span>
+				</div>
 				<div class="news-card__body">
-					<div style="display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-3);">
-						<span class="news-card__cat">Press</span>
-						<span style="font-size:var(--text-xs);color:var(--color-text-4);">March 2025</span>
+					<div class="news-card__meta">
+						<span class="news-card__type">Press</span>
+						<span>September 2024</span>
 					</div>
-					<h3 class="news-card__title">Dallas' Leap Distributors Acquires Leap Surgical and DUB Enterprises</h3>
-					<div style="display:flex;align-items:center;justify-content:space-between;margin-top:var(--space-5);">
-						<span style="font-size:var(--text-xs);color:var(--color-text-3);">Dallas Innovates</span>
-						<span style="font-size:var(--text-lg);color:var(--color-text-3);">↗</span>
+					<h3 class="news-card__hed">Dallas' Leap Distributors Acquires Leap Surgical and DUB Enterprises</h3>
+					<div class="news-card__footer">
+						<span class="news-card__source">Dallas Innovates</span>
+						<span class="news-card__arrow" aria-hidden="true">→</span>
 					</div>
 				</div>
 			</a>
 
-			<a class="news-card" href="<?php echo esc_url( home_url( '/news/' ) ); ?>" data-stagger-child data-glow>
-				<div data-glow-inner></div>
-				<div class="news-card__image" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LeapDistributors3-e1769101290191.jpeg' ); ?>');background-size:cover;background-position:center;"></div>
+			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/product-agnostic-distribution-wins-for-surgeons-and-hospitals/" target="_blank" rel="noopener" data-stagger-child>
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LeapDistributors3-e1769101290191.jpeg' ); ?>');background-size:cover;background-position:center;">
+					<span class="news-card__pubmark">Leap Insights</span>
+				</div>
 				<div class="news-card__body">
-					<div style="display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-3);">
-						<span class="news-card__cat" style="color:var(--color-orange);background:rgba(230,83,0,0.08);">Insight</span>
-						<span style="font-size:var(--text-xs);color:var(--color-text-4);">February 2025</span>
+					<div class="news-card__meta">
+						<span class="news-card__type news-card__type--insight">Insight</span>
+						<span>January 2026</span>
 					</div>
-					<h3 class="news-card__title">Why Product-Agnostic Distribution Wins for Surgeons and Hospitals</h3>
-					<div style="display:flex;align-items:center;justify-content:space-between;margin-top:var(--space-5);">
-						<span style="font-size:var(--text-xs);color:var(--color-text-3);">Leap Distributors</span>
-						<span style="font-size:var(--text-lg);color:var(--color-text-3);">→</span>
+					<h3 class="news-card__hed">Why Product-Agnostic Distribution Wins for Surgeons and Hospitals</h3>
+					<p class="news-card__excerpt">A great distributor makes access, service, and execution work across the real-world mix of products surgeons need.</p>
+					<div class="news-card__footer">
+						<span class="news-card__source">Leap Distributors</span>
+						<span class="news-card__arrow" aria-hidden="true">→</span>
 					</div>
 				</div>
 			</a>
