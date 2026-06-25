@@ -2334,7 +2334,7 @@ p { line-height: 1.7; }
 
 /* ── Page Hero (Inner Pages) ─────────────────────────────── */
 .page-hero {
-  padding-top: calc(var(--nav-height) + var(--space-20));
+  padding-top: calc(var(--nav-height) + var(--space-32));
   padding-bottom: var(--space-24);
   position: relative;
   overflow: hidden;

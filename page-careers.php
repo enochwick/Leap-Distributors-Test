@@ -36,7 +36,7 @@
 				</div>
 			</div>
 			<div class="reveal-right">
-				<div style="border-radius:var(--radius-2xl);overflow:hidden;aspect-ratio:4/5;background:var(--color-surface);">
+				<div style="border-radius:var(--radius-2xl);overflow:hidden;aspect-ratio:1/1;background:var(--color-surface);">
 					<img src="<?php echo get_template_directory_uri(); ?>/assets/images/built-for/careers-culture.png" alt="The Leap Distributors team collaborating in the office" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
 				</div>
 			</div>
