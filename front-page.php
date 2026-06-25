@@ -289,6 +289,8 @@ if ( $hero_headline_raw ) {
 
 <!-- ── CTA Banner ─────────────────────────────────────────── -->
 <section class="cta-banner">
+	<div class="cta-banner__bg-grid"></div>
+	<canvas class="mesh-canvas" aria-hidden="true"></canvas>
 	<div class="container">
 		<div class="cta-banner__inner">
 			<span class="section-label section-label--white section-label--no-line reveal" style="justify-content:center;">Keep up with Leap</span>

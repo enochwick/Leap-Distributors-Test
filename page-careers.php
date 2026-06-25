@@ -106,6 +106,8 @@
 </section>
 
 <section class="cta-banner">
+	<div class="cta-banner__bg-grid"></div>
+	<canvas class="mesh-canvas" aria-hidden="true"></canvas>
 	<div class="container">
 		<div class="cta-banner__inner">
 			<h2 class="reveal">Let's Build Something Together</h2>
