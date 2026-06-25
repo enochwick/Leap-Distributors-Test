@@ -4,11 +4,10 @@
 <section class="page-hero">
 	<canvas class="mesh-canvas" aria-hidden="true"></canvas>
 	<div class="container">
-		<div class="page-hero__inner">
-			<nav class="breadcrumb"><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a> <span class="breadcrumb-sep">›</span> <span>Surgeons</span></nav>
-			<span class="page-hero__eyebrow">For Surgeons</span>
-			<h1 class="page-hero__title">Your call. Our coverage.</h1>
-			<p class="page-hero__lead">A Leap rep doesn't just cover your cases. They learn your practice, your preferences, and your patients. The OR is just where it starts.</p>
+		<div class="page-hero__inner page-hero__inner--center">
+			<span class="page-hero__eyebrow page-hero__eyebrow--no-line">For Surgeons</span>
+			<h1 class="page-hero__title">The products you trust. The partner you deserve.</h1>
+			<p class="page-hero__lead">Full choice, real support, no trade-off. We learn your practice, your preferences, and your standards. The OR is just where it starts.</p>
 			<div class="hero__actions" style="opacity:1;margin-top:var(--space-10);">
 				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg">Let's talk <span aria-hidden="true">→</span></a>
 			</div>
@@ -21,10 +20,10 @@
 	<div class="container">
 		<div class="leap-intro reveal">
 			<div>
-				<h2 class="leap-intro__h">We earn the room. Then we earn everything after it.</h2>
+				<h2 class="leap-intro__h">We earn the room.<br>Then we earn everything after it.</h2>
 			</div>
 			<div class="leap-intro__body">
-				<p>Most distributor relationships stop at the case. Ours start there. A Leap rep learns the practice the way a partner does: the patients, the procedures, the way the clinic runs, the small things that turn a good week into a great one. The work in the OR has to be flawless. The work around it is what makes the relationship last.</p>
+				<p>Most reps think the relationship stops at the case. Ours starts there. A Leap rep learns the practice like a partner does: patient mix, procedure mix, the way the clinic runs, the small things that turn your week from good to great. Flawless in the OR is the minimum. What we do around it is what sets us apart.</p>
 			</div>
 		</div>
 	</div>
@@ -38,25 +37,24 @@
 	<div class="container">
 		<div class="why-leap__inner">
 			<div class="why-leap__header">
-				<span class="section-label section-label--white reveal">Why Surgeons Choose Leap</span>
-				<h2 class="reveal">Three things you can count on.</h2>
+				<h2 class="reveal">You have standards. So do we.</h2>
 			</div>
 
 			<div class="why-leap__grid" data-stagger>
 				<div class="feature-card" data-stagger-child data-glow>
 					<div class="feature-card__num">01</div>
 					<div class="feature-card__title">Reps who think like partners.</div>
-					<p class="feature-card__desc">A Leap rep walks in ready. Ready means knowing the procedure, the room, the surgeon, and the practice well enough to anticipate what's needed before it's asked for. The best service in any field starts with attention. Ours does too.</p>
+					<p class="feature-card__desc">Our reps walk in ready. For us, that means knowing the procedure, the room, your preferences, and your practice well enough to anticipate what's needed before it's asked for. The best service in any field starts with attention. Ours does too.</p>
 				</div>
 				<div class="feature-card" data-stagger-child data-glow>
 					<div class="feature-card__num">02</div>
 					<div class="feature-card__title">Patients before products.</div>
-					<p class="feature-card__desc">We advocate for your choice every step of the way. If a product isn't right for the patient, we say so. If a manufacturer pushes something we wouldn't put in our own family member, it doesn't move forward. That's how we do business.</p>
+					<p class="feature-card__desc">We advocate for your choice every step of the way. And if something isn't right for the patient, we say so. If we wouldn't put it in our own family member, it doesn't make the cut. That's how we do business.</p>
 				</div>
 				<div class="feature-card" data-stagger-child data-glow>
 					<div class="feature-card__num">03</div>
 					<div class="feature-card__title">Trusted with the small things, too.</div>
-					<p class="feature-card__desc">A 6 a.m. question gets a 6:02 a.m. reply. A last-minute schedule change gets handled. The logistics that aren't anyone's job — we handle those too. We treat the small things as seriously as the cases.</p>
+					<p class="feature-card__desc">A 6 a.m. question gets a 6:02 a.m. reply. A last-minute schedule change gets handled before it becomes your problem. The logistics that aren't anyone's job, we make them ours. The small things break a good day. We take them seriously.</p>
 				</div>
 			</div>
 		</div>
@@ -66,23 +64,17 @@
 <!-- ── Meet Trey ──────────────────────────────────────────── -->
 <section class="content-section">
 	<div class="container">
-		<div class="leap-intro reveal">
-			<div>
-				<h2 class="leap-intro__h">This is what a Leap rep looks like.</h2>
-			</div>
-			<div class="leap-intro__body">
-				<p>Trey is one of our reps. He'll tell you what working with Leap actually looks like.</p>
-			</div>
-		</div>
-
 		<div class="surgeon-trey reveal">
+			<div class="surgeon-trey__intro">
+				<h2 class="leap-intro__h">Meet Trey</h2>
+				<blockquote class="surgeon-trey__quote">
+					<p>"The OR is the easy part. What earns the trust is everything around it."</p>
+					<cite>Trey, Leap rep</cite>
+				</blockquote>
+			</div>
 			<div class="surgeon-trey__video">
 				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/rep-or-wide.png' ); ?>" alt="A Leap rep in scrubs supporting a case in the operating room" loading="lazy">
 			</div>
-			<blockquote class="surgeon-trey__quote">
-				<p>"The OR is the easy part. What earns the trust is everything around it."</p>
-				<cite>Trey, Leap rep</cite>
-			</blockquote>
 		</div>
 	</div>
 </section>
@@ -92,19 +84,31 @@
 	<div class="container">
 		<div class="leap-intro reveal">
 			<div>
-				<h2 class="leap-intro__h">Where we work.</h2>
+				<h2 class="leap-intro__h">Your Specialty? Covered.</h2>
 			</div>
 			<div class="leap-intro__body">
-				<p>Our core coverage is spine, orthopedics, biologics, and soft tissue. Our reps and product lines extend well beyond that. Not sure if we cover what you do? Ask us. The answer's usually yes.</p>
+				<p>Spine, orthopedics, biologics, and soft tissue are just the start. Our reps and product lines reach across the surgical board. Don't see yours? Ask. The answer's usually yes.</p>
 			</div>
 		</div>
 
-		<div class="specialties reveal">
-			<span class="specialty">Spine</span>
-			<span class="specialty">Orthopedics</span>
-			<span class="specialty">Biologics</span>
-			<span class="specialty">Soft Tissue</span>
-			<span class="specialty specialty--more">+ more</span>
+		<?php
+		$leap_specialties = array(
+			'Spine', 'Orthopedics', 'Biologics', 'Soft Tissue', 'Neurosurgery',
+			'Plastics & Reconstructive', 'General Surgery', 'Colorectal', 'Gastroenterology',
+			'Otolaryngology', 'Wound Care', 'Podiatry', 'Sports Medicine', 'Trauma',
+			'Cardiothoracic', 'Vascular', 'Urology', 'Gynecology', 'Bariatric',
+			'Ophthalmology', 'Pain Management', 'Hand & Upper Extremity', 'Foot & Ankle',
+			'Maxillofacial', 'Plastics', 'Surgical Oncology',
+		);
+		?>
+		<div class="specialty-marquee reveal" aria-label="Specialties we cover">
+			<ul class="specialty-marquee__track">
+				<?php for ( $copy = 0; $copy < 2; $copy++ ) : ?>
+					<?php foreach ( $leap_specialties as $specialty ) : ?>
+						<li<?php echo $copy === 1 ? ' aria-hidden="true"' : ''; ?>><?php echo esc_html( $specialty ); ?></li>
+					<?php endforeach; ?>
+				<?php endfor; ?>
+			</ul>
 		</div>
 	</div>
 </section>
@@ -133,6 +137,7 @@
 <section class="cta-banner">
 	<div class="container">
 		<div class="cta-banner__inner">
+			<span class="section-label section-label--white section-label--no-line reveal" style="justify-content:center;">See what the right partner can do.</span>
 			<h2 class="reveal">Let's start a<br>conversation.</h2>
 			<p class="reveal">Tell us what you're working on. We'll find a time to talk.</p>
 			<div class="cta-banner__actions reveal">

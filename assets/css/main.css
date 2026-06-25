@@ -2382,6 +2382,26 @@ p { line-height: 1.7; }
   justify-content: flex-start;
 }
 
+/* Centered variant of the page hero */
+.page-hero__inner--center {
+  margin-inline: auto;
+  text-align: center;
+}
+.page-hero__inner--center .page-hero__lead {
+  margin-inline: auto;
+}
+.page-hero__inner--center .hero__actions {
+  justify-content: center;
+}
+
+/* Eyebrow without the leading dash/line */
+.page-hero__eyebrow--no-line {
+  gap: 0;
+}
+.page-hero__eyebrow--no-line::before {
+  display: none;
+}
+
 .page-hero__eyebrow {
   display: inline-flex;
   align-items: center;
@@ -4656,6 +4676,58 @@ select.form-input {
   background: transparent;
   color: var(--color-text-4);
 }
+
+/* Meet Trey — headline + quote stacked to the left of the video */
+.surgeon-trey__intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* Specialty auto-scroller (marquee) */
+.specialty-marquee {
+  margin-top: var(--space-10);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.specialty-marquee__track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  animation: specialty-scroll 90s linear infinite;
+}
+.specialty-marquee:hover .specialty-marquee__track {
+  animation-play-state: paused;
+}
+.specialty-marquee__track li {
+  white-space: nowrap;
+  font-size: var(--text-lg);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--color-text-2);
+}
+.specialty-marquee__track li::after {
+  content: '•';
+  margin: 0 var(--space-6);
+  color: var(--color-blue);
+  opacity: 0.5;
+}
+@keyframes specialty-scroll {
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .specialty-marquee__track {
+    animation: none;
+    flex-wrap: wrap;
+    width: auto;
+    gap: var(--space-3) 0;
+  }
+}
+
 @media (max-width: 768px) {
   .surgeon-trey { grid-template-columns: 1fr; }
 }
