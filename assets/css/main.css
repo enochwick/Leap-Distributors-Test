@@ -1139,6 +1139,17 @@ p { line-height: 1.7; }
   color: rgba(255,255,255,0.55);
   line-height: 1.65;
   max-width: 520px;
+  text-wrap: balance;
+}
+
+/* Tagline sitting under the CTA buttons */
+.hero__tagline {
+  font-size: clamp(0.9rem, 1.3vw, var(--text-base));
+  font-weight: 400;
+  color: rgba(255,255,255,0.72);
+  line-height: 1.6;
+  max-width: 600px;
+  text-wrap: balance;
 }
 
 /* CTA button row */

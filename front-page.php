@@ -2,8 +2,8 @@
 
 <?php
 // ── Hero ACF fields with fallbacks ────────────────────────
-$hero_eyebrow  = get_field( 'hero_eyebrow' )  ?: 'Medical Device Distribution';
-$hero_subtext  = get_field( 'hero_subtext' )  ?: 'Sharper reps. Smarter platform. Cleaner data on every side of the OR door. One distribution partner across surgeons, hospitals, and manufacturers, all running in Stride.';
+$hero_subtext  = get_field( 'hero_subtext' )  ?: 'Sharper reps. Smarter platform. Cleaner data on every side of the OR door.';
+$hero_tagline  = get_field( 'hero_tagline' )  ?: 'One distribution partner across surgeons, hospitals, and manufacturers, all running in Stride.';
 $hero_cta1_text = get_field( 'hero_cta1_text' ) ?: 'Talk to our team';
 $hero_cta1_url  = get_field( 'hero_cta1_url' )  ?: home_url( '/contact/' );
 $hero_cta2_text = get_field( 'hero_cta2_text' ) ?: 'Explore the platform';
@@ -35,11 +35,6 @@ if ( $hero_headline_raw ) {
 	<div class="hero__video-overlay"></div>
 
 	<div class="hero__body">
-		<div class="hero__badge hero__eyebrow">
-			<span><?php echo esc_html( $hero_eyebrow ); ?></span>
-			<span aria-hidden="true">→</span>
-		</div>
-
 		<h1 class="hero__headline">
 			<?php echo $headline_html; ?>
 		</h1>
@@ -54,6 +49,11 @@ if ( $hero_headline_raw ) {
 				<a href="<?php echo esc_url( $hero_cta2_url ); ?>" class="btn btn--hero-ghost"><?php echo esc_html( $hero_cta2_text ); ?></a>
 				<?php endif; ?>
 			</div>
+			<?php if ( $hero_tagline ) : ?>
+			<p class="hero__tagline">
+				<?php echo esc_html( $hero_tagline ); ?>
+			</p>
+			<?php endif; ?>
 		</div>
 	</div>
 
@@ -89,10 +89,10 @@ if ( $hero_headline_raw ) {
 	<div class="container">
 		<div class="leap-intro reveal">
 			<div>
-				<h2 class="leap-intro__h">We earn the room one case at a time. Every case after, we earn it again.</h2>
+				<h2 class="leap-intro__h">We earn the room one case at a time.<br>Every case after, we earn it again.</h2>
 			</div>
 			<div class="leap-intro__body">
-				<p>Surgeons choose Leap because we're partners, not pushers. Hospitals stay because we operate as one team across every product line we cover. We run Leap on Stride, our custom tech platform that logs every case in the OR as it happens. The paperwork generates itself. The billing moves faster. The data sharpens with every case.</p>
+				<p>Surgeons choose Leap for the freedom to choose, from one patient-first partner. Hospitals stay because we operate as a single team across every product line we offer. Everything runs in Stride, our custom platform that logs every case as it happens. The paperwork generates itself. The billing moves faster. The data sharpens with every case.</p>
 				<a href="<?php echo esc_url( home_url( '/platform/' ) ); ?>" class="arrow-link" style="margin-top: var(--space-6); display:inline-flex;">Explore the platform <span aria-hidden="true">→</span></a>
 			</div>
 		</div>
@@ -103,7 +103,7 @@ if ( $hero_headline_raw ) {
 <section class="capabilities-section">
 	<div class="container">
 		<div class="section-header reveal">
-			<span class="section-label section-label--blue">Three Capabilities. One Platform.</span>
+			<h2>Three Capabilities. One Platform.</h2>
 		</div>
 
 		<div class="capability-grid">
@@ -112,8 +112,8 @@ if ( $hero_headline_raw ) {
 				<div data-glow-inner></div>
 				<span class="capability-card__num">01</span>
 				<div class="capability-card__content">
-					<h3>Built to move.</h3>
-					<p>Every product logged the moment it's used. Pricing structures pre-loaded. Scrub sheets generate themselves and route by manufacturer. Cleaner records, faster billing, no paper chase.</p>
+					<h3>Live case logging.</h3>
+					<p>Every product logged in the OR as it's used. Pricing pre-loaded. Scrub sheets that write themselves and route by manufacturer. The case closes cleaner than it started.</p>
 				</div>
 			</div>
 
@@ -121,8 +121,8 @@ if ( $hero_headline_raw ) {
 				<div data-glow-inner></div>
 				<span class="capability-card__num">02</span>
 				<div class="capability-card__content">
-					<h3>Patients before products.</h3>
-					<p>We think holistically about the surgeon's practice, the patient on the table, and the case in front of us. Our reps are the sharpest in the room, and they advocate for surgeon choice every step of the way. Patient care comes first. Not with our team.</p>
+					<h3>Clinical-first coverage.</h3>
+					<p>Reps who know the procedure, the surgeon, and the patient on the table. They advocate for surgeon choice and the right call for the patient, every case.</p>
 				</div>
 			</div>
 
@@ -130,8 +130,8 @@ if ( $hero_headline_raw ) {
 				<div data-glow-inner></div>
 				<span class="capability-card__num">03</span>
 				<div class="capability-card__content">
-					<h3>Engineered for intelligence.</h3>
-					<p>Every case generates data, and we put it to work. Real-time visibility into product trends, case volume, surgeon trends, and rep performance. Today, it powers our work and informs our partners.</p>
+					<h3>Real-time visibility.</h3>
+					<p>Live insights into product trends, case volume, and rep performance. Today, the data powers our work and informs our partners. Partner dashboards and AI-assisted billing checks are in development.</p>
 				</div>
 			</div>
 
@@ -147,8 +147,7 @@ if ( $hero_headline_raw ) {
 			<!-- Left: header + vertical tabs -->
 			<div class="vt-left">
 				<div class="vt-header">
-					<span class="section-label section-label--blue">Built For</span>
-					<h2>Built for the people on both sides of the OR door.</h2>
+					<h2>Built for the people on both sides of the OR&nbsp;door.</h2>
 				</div>
 
 				<div class="vt-tabs" id="vt-tabs">
