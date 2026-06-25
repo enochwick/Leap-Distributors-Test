@@ -918,6 +918,72 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 
 
+// ── Floating search (mobile/tablet) ────────────────────────
+(function initFabSearch() {
+  const wrap    = document.getElementById('leap-fab-search');
+  const toggle  = document.getElementById('fabs-toggle');
+  const panel   = document.getElementById('fabs-panel');
+  const input   = document.getElementById('fabs-input');
+  const results = document.getElementById('fabs-results');
+  if (!wrap || !toggle || !input) return;
+
+  const index = typeof leapSearchIndex !== 'undefined' ? leapSearchIndex : [];
+
+  function open() {
+    wrap.classList.add('is-open');
+    toggle.setAttribute('aria-expanded', 'true');
+    panel.setAttribute('aria-hidden', 'false');
+    setTimeout(() => input.focus(), 50);
+  }
+  function close() {
+    wrap.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    panel.setAttribute('aria-hidden', 'true');
+  }
+
+  function queryIndex(q) {
+    const terms = q.toLowerCase().trim().split(/\s+/).filter(Boolean);
+    if (!terms.length) return [];
+    return index.filter(item => {
+      const hay = (item.title + ' ' + item.description + ' ' + item.keywords).toLowerCase();
+      return terms.every(t => hay.includes(t));
+    }).slice(0, 6);
+  }
+  function highlight(text, q) {
+    const esc = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return text.replace(new RegExp(`(${esc})`, 'gi'), '<mark>$1</mark>');
+  }
+  function render(list, q) {
+    if (!list.length) {
+      results.innerHTML = '<p class="nav-search__empty">No results found</p>';
+      return;
+    }
+    results.innerHTML = list.map(r =>
+      `<a class="nav-search__result" href="${r.url}">
+        <span class="nav-search__result-type">${r.type}</span>
+        <span class="nav-search__result-title">${highlight(r.title, q)}</span>
+        <span class="nav-search__result-desc">${highlight(r.description.slice(0, 80), q)}…</span>
+      </a>`
+    ).join('');
+  }
+
+  toggle.addEventListener('click', () => wrap.classList.contains('is-open') ? close() : open());
+
+  input.addEventListener('input', () => {
+    const q = input.value.trim();
+    if (q.length < 2) { results.innerHTML = ''; return; }
+    render(queryIndex(q), q);
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && wrap.classList.contains('is-open')) close();
+  });
+  document.addEventListener('click', e => {
+    if (wrap.classList.contains('is-open') && !wrap.contains(e.target)) close();
+  });
+})();
+
+
 // ── Mobile card carousels — dot indicators + scroll sync ────
 // The horizontal swipe/snap behaviour is pure CSS (≤640px). This
 // only adds dot indicators and keeps the active dot in sync. Dots

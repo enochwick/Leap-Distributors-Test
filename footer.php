@@ -67,6 +67,20 @@
 	</div>
 </footer>
 
+<!-- ── Floating Search (mobile/tablet) ─────────────────── -->
+<div id="leap-fab-search" class="fabs">
+	<div class="fabs__panel" id="fabs-panel" aria-hidden="true">
+		<form class="fabs__form" role="search" autocomplete="off">
+			<input class="fabs__input" id="fabs-input" type="search" name="s" placeholder="Search Leap…" aria-label="Search" maxlength="100">
+		</form>
+		<div class="fabs__results" id="fabs-results" aria-live="polite"></div>
+	</div>
+	<button class="fabs__toggle" id="fabs-toggle" aria-label="Open search" aria-expanded="false">
+		<svg class="fabs__icon-search" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+		<svg class="fabs__icon-close" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+	</button>
+</div>
+
 <!-- ── AI Chat Widget ─────────────────────────────────── -->
 <div id="leap-chat" class="lc" aria-live="polite" aria-label="Leap AI Assistant">
 

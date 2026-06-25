@@ -282,6 +282,54 @@ add_action( 'wp_enqueue_scripts', function() {
 	] );
 }, 20 );
 
+// ── Leap AI settings page — store the Google AI (Gemini) key safely ──
+// The chat handler reads GOOGLE_AI_KEY (wp-config constant) first, then this option.
+add_action( 'admin_menu', function() {
+	add_options_page(
+		'Leap AI',
+		'Leap AI',
+		'manage_options',
+		'leap-ai',
+		'leap_ai_settings_page'
+	);
+} );
+
+add_action( 'admin_init', function() {
+	register_setting( 'leap_ai_settings', 'leap_google_ai_key', [
+		'type'              => 'string',
+		'sanitize_callback' => 'sanitize_text_field',
+		'default'           => '',
+	] );
+} );
+
+function leap_ai_settings_page() {
+	$key_constant = defined( 'GOOGLE_AI_KEY' ) && GOOGLE_AI_KEY;
+	?>
+	<div class="wrap">
+		<h1>Leap AI Assistant</h1>
+		<?php if ( $key_constant ) : ?>
+			<div class="notice notice-info"><p>A key is currently set via the <code>GOOGLE_AI_KEY</code> constant in <code>wp-config.php</code>, which takes priority over the field below.</p></div>
+		<?php endif; ?>
+		<p>Paste your Google AI (Gemini) API key to power the chat widget. Get one at <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a>.</p>
+		<form method="post" action="options.php">
+			<?php settings_fields( 'leap_ai_settings' ); ?>
+			<table class="form-table" role="presentation">
+				<tr>
+					<th scope="row"><label for="leap_google_ai_key">Gemini API Key</label></th>
+					<td>
+						<input name="leap_google_ai_key" id="leap_google_ai_key" type="password" autocomplete="off"
+							value="<?php echo esc_attr( get_option( 'leap_google_ai_key', '' ) ); ?>"
+							class="regular-text" placeholder="AIza…">
+						<p class="description">Stored in the database. For higher security, define <code>GOOGLE_AI_KEY</code> in <code>wp-config.php</code> instead.</p>
+					</td>
+				</tr>
+			</table>
+			<?php submit_button(); ?>
+		</form>
+	</div>
+	<?php
+}
+
 // ACF Options Page (if ACF Pro is active)
 if ( function_exists( 'acf_add_options_page' ) ) {
 	acf_add_options_page( [
