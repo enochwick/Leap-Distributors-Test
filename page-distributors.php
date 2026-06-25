@@ -4,11 +4,11 @@
 <section class="page-hero">
 	<canvas class="mesh-canvas" aria-hidden="true"></canvas>
 	<div class="container">
-		<div class="page-hero__inner">
+		<div class="page-hero__inner page-hero__inner--center">
 			<span class="page-hero__eyebrow">For Distributors &amp; Independent Reps</span>
-			<h1 class="page-hero__title">You know what good distribution looks like. So do we.</h1>
+			<h1 class="page-hero__title">You know what good distribution looks like.<br>So do we.</h1>
 			<p class="page-hero__lead">Leap is built for reps who want better infrastructure, real back-office support, and a brand that puts more weight behind them. If that's the kind of move you're considering, let's talk.</p>
-			<div class="hero__actions" style="opacity:1;margin-top:var(--space-10);">
+			<div class="hero__actions" style="opacity:1;margin-top:var(--space-10);justify-content:center;">
 				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg">Let's talk <span aria-hidden="true">→</span></a>
 			</div>
 		</div>
