@@ -223,17 +223,14 @@ if ( $hero_headline_raw ) {
 <!-- ── News ───────────────────────────────────────────────── -->
 <section class="content-section content-section--alt">
 	<div class="container">
-		<div class="section-header reveal" style="display:flex;align-items:flex-end;justify-content:space-between;max-width:100%;flex-wrap:wrap;gap:var(--space-4);">
+		<div class="section-header reveal">
 			<h2 style="margin:0;">What we're up to.</h2>
-			<a href="<?php echo esc_url( home_url( '/news/' ) ); ?>" class="arrow-link reveal">More from Leap <span aria-hidden="true">→</span></a>
 		</div>
 		<div class="news-grid" data-stagger>
 
 			<a class="news-card" href="https://www.orthospinenews.com/" target="_blank" rel="noopener" data-stagger-child data-glow>
 				<div data-glow-inner></div>
-				<div class="news-card__image" style="background:var(--color-teal-dark);display:flex;align-items:center;justify-content:center;">
-					<span style="font-size:var(--text-xs);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);">OrthoSpineNews</span>
-				</div>
+				<div class="news-card__image" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LEAP-X-MEDTECH-07.png' ); ?>');background-size:cover;background-position:center;"></div>
 				<div class="news-card__body">
 					<div style="display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-3);">
 						<span class="news-card__cat">Press</span>
@@ -249,9 +246,7 @@ if ( $hero_headline_raw ) {
 
 			<a class="news-card" href="https://dallasinnovates.com/" target="_blank" rel="noopener" data-stagger-child data-glow>
 				<div data-glow-inner></div>
-				<div class="news-card__image" style="background:var(--color-blue);display:flex;align-items:center;justify-content:center;">
-					<span style="font-size:var(--text-xs);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.7);">Dallas Innovates</span>
-				</div>
+				<div class="news-card__image" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/pexels-karolina-grabowska-7875996-1-scaled.jpg' ); ?>');background-size:cover;background-position:center;"></div>
 				<div class="news-card__body">
 					<div style="display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-3);">
 						<span class="news-card__cat">Press</span>
@@ -267,9 +262,7 @@ if ( $hero_headline_raw ) {
 
 			<a class="news-card" href="<?php echo esc_url( home_url( '/news/' ) ); ?>" data-stagger-child data-glow>
 				<div data-glow-inner></div>
-				<div class="news-card__image" style="background:var(--color-orange);display:flex;align-items:center;justify-content:center;">
-					<span style="font-size:var(--text-xs);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.8);">Leap Insights</span>
-				</div>
+				<div class="news-card__image" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LeapDistributors3-e1769101290191.jpeg' ); ?>');background-size:cover;background-position:center;"></div>
 				<div class="news-card__body">
 					<div style="display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-3);">
 						<span class="news-card__cat" style="color:var(--color-orange);background:rgba(230,83,0,0.08);">Insight</span>
@@ -284,6 +277,9 @@ if ( $hero_headline_raw ) {
 			</a>
 
 		</div>
+		<div class="reveal" style="margin-top:var(--space-8);">
+			<a href="<?php echo esc_url( home_url( '/news/' ) ); ?>" class="arrow-link">More from Leap <span aria-hidden="true">→</span></a>
+		</div>
 	</div>
 </section>
 
@@ -291,7 +287,7 @@ if ( $hero_headline_raw ) {
 <section class="cta-banner">
 	<div class="container">
 		<div class="cta-banner__inner">
-			<span class="section-label section-label--white reveal" style="justify-content:center;">Keep up with Leap</span>
+			<span class="section-label section-label--white section-label--no-line reveal" style="justify-content:center;">Keep up with Leap</span>
 			<h2 class="reveal">Better.<br>Together.</h2>
 			<p class="reveal">Monthly. The good stuff. No noise.</p>
 			<?php if ( isset( $_GET['newsletter'] ) && $_GET['newsletter'] === 'success' ) : ?>
@@ -311,6 +307,7 @@ if ( $hero_headline_raw ) {
 						<option value="hospital">Hospital or health system</option>
 						<option value="manufacturer">Manufacturer</option>
 						<option value="distributor">Independent rep or distributor</option>
+						<option value="other">Other</option>
 					</select>
 				</div>
 				<button type="submit" class="btn btn--primary btn--lg">Subscribe <span aria-hidden="true">→</span></button>

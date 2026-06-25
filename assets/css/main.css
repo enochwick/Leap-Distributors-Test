@@ -281,6 +281,14 @@ p { line-height: 1.7; }
   background: rgba(255,255,255,0.4);
 }
 
+/* Drop the leading dash/line for labels that don't want it */
+.section-label--no-line {
+  gap: 0;
+}
+.section-label--no-line::before {
+  display: none;
+}
+
 .text-gradient {
   background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-blue-light) 100%);
   -webkit-background-clip: text;
