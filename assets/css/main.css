@@ -667,12 +667,13 @@ p { line-height: 1.7; }
 @media (min-width: 1200px) {
   .nav-pill { display: block; }
   .site-header .hamburger { display: none; }
+  .nav-search { display: flex; }
 }
 
 /* ── Nav Search ─────────────────────────────────────────── */
 .nav-search {
   position: relative;
-  display: flex;
+  display: none; /* desktop only — shown at >=1200px */
   align-items: center;
 }
 
@@ -692,30 +693,30 @@ p { line-height: 1.7; }
 }
 .nav-search__toggle:hover { color: var(--color-white); background: rgba(255,255,255,0.08); }
 
+/* Search opens as a panel below the header — never expands over the menu */
 .nav-search__form {
   display: flex;
   align-items: center;
   position: absolute;
+  top: calc(100% + 8px);
   right: 0;
-  width: 0;
+  width: 300px;
   opacity: 0;
   pointer-events: none;
+  transform: translateY(-6px);
   overflow: hidden;
   background: rgba(0,21,32,0.85);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: var(--radius-full);
-  transition: width 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 9100;
 }
 
 .nav-search.is-open .nav-search__form {
-  width: 300px;
   opacity: 1;
   pointer-events: all;
-}
-.nav-search.is-open .nav-search__toggle {
-  opacity: 0;
-  pointer-events: none;
+  transform: translateY(0);
 }
 
 .nav-search__input {
@@ -752,7 +753,7 @@ p { line-height: 1.7; }
 .nav-search__dropdown {
   display: none;
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 56px);
   right: 0;
   width: 320px;
   background: rgba(0,21,32,0.96);
@@ -2107,7 +2108,7 @@ p { line-height: 1.7; }
 }
 
 .why-leap__lead {
-  color: rgba(255,255,255,0.45);
+  color: var(--color-text-2);
   font-size: var(--text-lg);
   font-weight: 300;
   max-width: 560px;
@@ -2155,7 +2156,7 @@ p { line-height: 1.7; }
 
 .feature-card__desc {
   font-size: var(--text-sm);
-  color: rgba(255,255,255,0.45);
+  color: var(--color-text-2);
   line-height: 1.7;
   font-weight: 300;
 }
@@ -2250,7 +2251,7 @@ p { line-height: 1.7; }
 }
 
 .cta-banner__inner p {
-  color: rgba(255,255,255,0.55);
+  color: var(--color-text-2);
   font-size: var(--text-lg);
   font-weight: 300;
   margin-bottom: var(--space-12);
@@ -2425,7 +2426,7 @@ p { line-height: 1.7; }
 }
 
 .page-hero__lead {
-  color: rgba(255,255,255,0.6);
+  color: var(--color-text-2);
   font-size: var(--text-xl);
   font-weight: 300;
   line-height: 1.65;
@@ -3381,7 +3382,7 @@ select.form-input {
 
 .reason-card p {
   font-size: var(--text-base);
-  color: var(--color-text-3);
+  color: var(--color-text-2);
   font-weight: 300;
   line-height: 1.7;
   margin: 0;
@@ -3426,7 +3427,7 @@ select.form-input {
 
 .better-together-section__body p {
   font-size: var(--text-base);
-  color: rgba(255,255,255,0.5);
+  color: var(--color-text-2);
   font-weight: 300;
   line-height: 1.75;
 }
@@ -4038,7 +4039,7 @@ select.form-input {
 }
 .phg-lead {
   font-size: var(--text-lg);
-  color: var(--color-text-3);
+  color: var(--color-text-2);
   font-weight: 300;
   line-height: 1.65;
   max-width: 560px;
@@ -4817,7 +4818,7 @@ select.form-input {
 
 .hcm-copy__body {
   font-size: var(--text-base);
-  color: rgba(236,239,241,0.52);
+  color: var(--color-text-2);
   line-height: 1.7;
   max-width: 46ch;
   margin: 0 auto var(--space-8);

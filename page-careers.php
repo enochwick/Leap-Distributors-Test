@@ -19,7 +19,7 @@
 			<div>
 				<span class="section-label section-label--no-line reveal">Life at Leap</span>
 				<h2 class="reveal" style="margin-bottom:var(--space-6);">A Place Where Your Work Actually Matters</h2>
-				<p class="reveal" style="color:var(--color-text-3);font-weight:300;margin-bottom:var(--space-8);">At Leap, you're not just filling an order, you're part of a chain that changes patients' lives. Every role here contributes to healthcare getting better. That's not something you find everywhere.</p>
+				<p class="reveal" style="color:var(--color-text-2);font-weight:300;margin-bottom:var(--space-8);">At Leap, you're not just filling an order, you're part of a chain that changes patients' lives. Every role here contributes to healthcare getting better. That's not something you find everywhere.</p>
 				<div style="display:flex;flex-direction:column;gap:var(--space-5);">
 					<div class="reveal" style="display:flex;gap:var(--space-4);align-items:flex-start;">
 						<div style="width:8px;height:8px;border-radius:50%;background:var(--color-orange);margin-top:6px;flex-shrink:0;"></div>
@@ -89,7 +89,7 @@
 		</div>
 
 		<div class="text-center reveal" style="margin-top:var(--space-10);">
-			<p style="color:var(--color-text-3);margin-bottom:var(--space-4);">Don't see the perfect fit? Reach out anyway! We're always open to talking to exceptional people.</p>
+			<p style="color:var(--color-text-2);margin-bottom:var(--space-4);">Don't see the perfect fit? Reach out anyway! We're always open to talking to exceptional people.</p>
 			<a href="mailto:careers@leapdistributors.com" class="btn btn--primary">Send Us Your Resume</a>
 		</div>
 	</div>

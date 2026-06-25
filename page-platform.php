@@ -198,7 +198,7 @@
 	<div class="container">
 		<div class="section-header reveal">
 			<h2>Stride keeps moving forward.</h2>
-			<p style="margin-top:var(--space-4);color:var(--color-text-3);font-weight:300;">Three things shipping over the next twelve months:</p>
+			<p style="margin-top:var(--space-4);color:var(--color-text-2);font-weight:300;">Three things shipping over the next twelve months:</p>
 		</div>
 
 		<ol class="platform-list reveal">
