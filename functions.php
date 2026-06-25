@@ -189,6 +189,9 @@ function leap_handle_newsletter_form() {
 add_action( 'admin_post_leap_newsletter_form',        'leap_handle_newsletter_form' );
 add_action( 'admin_post_nopriv_leap_newsletter_form', 'leap_handle_newsletter_form' );
 
+// ── Knowledge base / RAG ──────────────────────────────────────
+require_once get_template_directory() . '/inc/rag.php';
+
 // ── AI Chat Handler ───────────────────────────────────────────
 function leap_ai_chat() {
 	check_ajax_referer( 'leap_chat_nonce', 'nonce' );
@@ -205,32 +208,35 @@ function leap_ai_chat() {
 		wp_send_json_error( 'AI not configured' );
 	}
 
-	$system = "You are the AI assistant for Leap Distributors, a premium medical device distribution company based in Dallas, TX.
+	// ── Retrieve grounding context from the knowledge base ──
+	$retrieval = leap_kb_search( $message, 5 );
+	$matches   = $retrieval['matches'];
 
-ABOUT LEAP:
-Leap Distributors is the new standard in medical device distribution. We serve surgeons, hospitals, and manufacturers across the south central United States with national reach. We operate on Stride — our proprietary technology platform that logs every OR case in real time, auto-generates paperwork, and sharpens data with every case.
+	// Hard refusal when nothing relevant is in our materials.
+	if ( empty( $matches ) ) {
+		wp_send_json_success( [
+			'reply' => "I don't have that in our materials. For specifics, reach our team at info@leapdistributors.com or call +1 888-776-5553.",
+		] );
+	}
 
-WHAT WE DO:
-- OR case coverage: Our reps are the sharpest in the room, present for every case, knowing surgeon preferences before walking in
-- Multi-line distribution: One team covering every product line across every manufacturer we represent
-- Stride platform: Real-time case logging, auto-generated scrub sheets, faster billing, live field data and analytics
-- We are product-agnostic — we advocate for surgeon choice, not manufacturer preference
+	$context = '';
+	foreach ( $matches as $i => $m ) {
+		$r = $m['record'];
+		$label = $r['source'] . ': ' . $r['title'];
+		$context .= '[' . ( $i + 1 ) . '] (' . $label . ")\n" . $r['text'] . "\n\n";
+	}
 
-WHO WE SERVE:
-- Surgeons: Know your preferences, your procedures, and your room. Broader product access without losing trusted reps.
-- Hospitals & Health Systems: One team, every product line, live case data, faster billing, streamlined supply chain.
-- Manufacturers: Direct rep coverage in south central hub, national distributor reach, real field data on product movement.
+	$system = "You are the AI assistant for Leap Distributors, a medical device distribution company in Dallas, TX.
 
-KEY STATS:
-- 10,000+ surgeries annually
-- 750+ surgeons served
-- 350+ facilities, GPOs & IDNs
+STRICT RULES:
+- Answer ONLY using the CONTEXT below. Do not use outside knowledge or assumptions.
+- If the answer is not clearly supported by the CONTEXT, reply exactly: \"I don't have that in our materials. For specifics, reach our team at info@leapdistributors.com or call +1 888-776-5553.\"
+- Never invent facts, numbers, names, products, prices, or capabilities.
+- Be concise, confident, and professional. Keep answers short and direct.
+- You may summarize and combine information across the context items, but only what is stated there.
 
-CONTACT:
-- Email: info@leapdistributors.com
-- Address: 3151 Halifax Street, Suite 160, Dallas, TX 75219
-
-TONE: Be concise, confident, and professional. Keep answers short and direct. If asked about something outside Leap's services, politely redirect to what Leap can help with. Always offer to connect the user with the team for specific questions.";
+CONTEXT:
+" . trim( $context );
 
 	// Build Gemini contents array (roles: user / model)
 	$contents = [];
@@ -254,7 +260,7 @@ TONE: Be concise, confident, and professional. Keep answers short and direct. If
 		'body'    => json_encode( [
 			'system_instruction' => [ 'parts' => [ [ 'text' => $system ] ] ],
 			'contents'           => $contents,
-			'generationConfig'   => [ 'maxOutputTokens' => 400, 'temperature' => 0.7 ],
+			'generationConfig'   => [ 'maxOutputTokens' => 400, 'temperature' => 0.2 ],
 		] ),
 	] );
 
@@ -302,14 +308,38 @@ add_action( 'admin_init', function() {
 	] );
 } );
 
+// Handle the "Rebuild Knowledge Base" action.
+add_action( 'admin_post_leap_kb_rebuild', function() {
+	if ( ! current_user_can( 'manage_options' ) ) { wp_die( 'Not allowed' ); }
+	check_admin_referer( 'leap_kb_rebuild' );
+
+	$result = leap_kb_build();
+	if ( is_wp_error( $result ) ) {
+		$args = [ 'page' => 'leap-ai', 'kb' => 'error', 'msg' => rawurlencode( $result->get_error_message() ) ];
+	} else {
+		$args = [ 'page' => 'leap-ai', 'kb' => 'ok', 'chunks' => $result['chunks'], 'sources' => $result['sources'] ];
+	}
+	wp_safe_redirect( add_query_arg( $args, admin_url( 'options-general.php' ) ) );
+	exit;
+} );
+
 function leap_ai_settings_page() {
 	$key_constant = defined( 'GOOGLE_AI_KEY' ) && GOOGLE_AI_KEY;
+	$kb_exists    = file_exists( LEAP_KB_FILE );
+	$kb_built     = $kb_exists ? ( json_decode( file_get_contents( LEAP_KB_FILE ), true )['built'] ?? '' ) : '';
 	?>
 	<div class="wrap">
 		<h1>Leap AI Assistant</h1>
 		<?php if ( $key_constant ) : ?>
 			<div class="notice notice-info"><p>A key is currently set via the <code>GOOGLE_AI_KEY</code> constant in <code>wp-config.php</code>, which takes priority over the field below.</p></div>
 		<?php endif; ?>
+		<?php if ( isset( $_GET['kb'] ) && $_GET['kb'] === 'ok' ) : ?>
+			<div class="notice notice-success is-dismissible"><p>Knowledge base rebuilt: <?php echo (int) ( $_GET['chunks'] ?? 0 ); ?> passages from <?php echo (int) ( $_GET['sources'] ?? 0 ); ?> sources.</p></div>
+		<?php elseif ( isset( $_GET['kb'] ) && $_GET['kb'] === 'error' ) : ?>
+			<div class="notice notice-error is-dismissible"><p>Rebuild failed: <?php echo esc_html( wp_unslash( $_GET['msg'] ?? '' ) ); ?></p></div>
+		<?php endif; ?>
+
+		<h2>1. API key</h2>
 		<p>Paste your Google AI (Gemini) API key to power the chat widget. Get one at <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a>.</p>
 		<form method="post" action="options.php">
 			<?php settings_fields( 'leap_ai_settings' ); ?>
@@ -324,7 +354,26 @@ function leap_ai_settings_page() {
 					</td>
 				</tr>
 			</table>
-			<?php submit_button(); ?>
+			<?php submit_button( 'Save Key' ); ?>
+		</form>
+
+		<hr>
+		<h2>2. Knowledge base</h2>
+		<p>The chat answers <strong>only</strong> from your website content and the documents in
+			<code>wp-content/themes/<?php echo esc_html( get_template() ); ?>/knowledge/</code>
+			(drop <code>.txt</code> or <code>.md</code> files there). Rebuild after changing site copy or documents.</p>
+		<p>
+			<?php if ( $kb_exists ) : ?>
+				Status: <strong style="color:#1a7f37;">Built</strong> <?php echo $kb_built ? '· last built ' . esc_html( $kb_built ) : ''; ?>.
+			<?php else : ?>
+				Status: <strong style="color:#b32d2e;">Not built yet</strong> — the chat will refuse all questions until you build it.
+			<?php endif; ?>
+		</p>
+		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+			<input type="hidden" name="action" value="leap_kb_rebuild">
+			<?php wp_nonce_field( 'leap_kb_rebuild' ); ?>
+			<?php submit_button( 'Rebuild Knowledge Base', 'primary', 'submit', false ); ?>
+			<span class="description" style="margin-left:8px;">This calls the embedding API for each passage; takes a few seconds.</span>
 		</form>
 	</div>
 	<?php
