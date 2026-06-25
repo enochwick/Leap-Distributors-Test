@@ -4,7 +4,7 @@
 <section class="page-hero">
 	<canvas class="mesh-canvas" aria-hidden="true"></canvas>
 	<div class="container">
-		<div class="page-hero__inner">
+		<div class="page-hero__inner page-hero__inner--center">
 			<span class="page-hero__eyebrow">About Leap</span>
 			<h1 class="page-hero__title">We're Leap. The New Standard.</h1>
 			<p class="page-hero__lead">Most distribution companies want to be the biggest. We want to be the best. Big tends to follow.</p>
