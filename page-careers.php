@@ -50,7 +50,6 @@
 		<div class="section-header section-header--center">
 			<span class="section-label section-label--blue reveal">Open Roles</span>
 			<h2 class="reveal">Current Opportunities</h2>
-			<p class="reveal">Don't see the perfect fit? Reach out anyway! We're always open to talking to exceptional people.</p>
 		</div>
 
 		<div style="max-width:800px;margin-inline:auto;">
@@ -90,7 +89,7 @@
 		</div>
 
 		<div class="text-center reveal" style="margin-top:var(--space-10);">
-			<p style="color:var(--color-text-3);margin-bottom:var(--space-4);">Don't see what you're looking for?</p>
+			<p style="color:var(--color-text-3);margin-bottom:var(--space-4);">Don't see the perfect fit? Reach out anyway! We're always open to talking to exceptional people.</p>
 			<a href="mailto:careers@leapdistributors.com" class="btn btn--primary">Send Us Your Resume</a>
 		</div>
 	</div>

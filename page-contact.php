@@ -4,7 +4,7 @@
 	<canvas class="mesh-canvas" aria-hidden="true"></canvas>
 	<div class="hero__gradient"></div>
 	<div class="container">
-		<div class="page-hero__inner">
+		<div class="page-hero__inner page-hero__inner--center">
 			<span class="page-hero__eyebrow">Get in Touch</span>
 			<h1 class="page-hero__title">Let's Talk.</h1>
 			<p class="page-hero__lead">Whether you're exploring a partnership, need support, or just want to learn more, we'd love to hear from you.</p>
