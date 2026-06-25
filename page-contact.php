@@ -5,10 +5,9 @@
 	<div class="hero__gradient"></div>
 	<div class="container">
 		<div class="page-hero__inner">
-			<nav class="breadcrumb"><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a> <span class="breadcrumb-sep">›</span> <span>Contact</span></nav>
 			<span class="page-hero__eyebrow">Get in Touch</span>
 			<h1 class="page-hero__title">Let's Talk.</h1>
-			<p class="page-hero__lead">Whether you're exploring a partnership, need support, or just want to learn more — we'd love to hear from you.</p>
+			<p class="page-hero__lead">Whether you're exploring a partnership, need support, or just want to learn more, we'd love to hear from you.</p>
 		</div>
 	</div>
 </section>
@@ -18,7 +17,7 @@
 		<div class="grid-2" style="gap:var(--space-16);align-items:flex-start;">
 
 			<div>
-				<span class="section-label reveal">Send a Message</span>
+				<span class="section-label section-label--no-line reveal">Send a Message</span>
 
 				<?php if ( isset( $_GET['contact'] ) && $_GET['contact'] === 'success' ) : ?>
 					<div class="form-feedback form-feedback--success reveal" style="margin-top:var(--space-6);">
@@ -68,7 +67,7 @@
 			</div>
 
 			<div>
-				<span class="section-label reveal">Contact Info</span>
+				<span class="section-label section-label--no-line reveal">Contact Info</span>
 				<div style="margin-top:var(--space-6);display:flex;flex-direction:column;gap:var(--space-6);">
 					<div class="card reveal" data-glow>
 						<div style="display:flex;gap:var(--space-4);align-items:center;">

@@ -4,9 +4,9 @@
 <section class="page-hero">
 	<canvas class="mesh-canvas" aria-hidden="true"></canvas>
 	<div class="container">
-		<div class="page-hero__inner">
+		<div class="page-hero__inner page-hero__inner--center">
 			<span class="page-hero__eyebrow">News &amp; Insights</span>
-			<h1 class="page-hero__title">News and insights.</h1>
+			<h1 class="page-hero__title">News. Insights. Updates.</h1>
 			<p class="page-hero__lead">Where Leap shows up in the press, and where we share what we're thinking.</p>
 		</div>
 	</div>
@@ -299,10 +299,8 @@
 	<div class="container">
 		<div class="cta-banner__inner">
 			<h2 class="reveal">Let's start a<br>conversation.</h2>
-			<p class="reveal">Whatever brought you here, we'd like to know. Tell us what you're working on.</p>
 			<div class="cta-banner__actions reveal">
 				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg">Let's talk <span aria-hidden="true">→</span></a>
-				<a href="<?php echo esc_url( home_url( '/careers/' ) ); ?>" class="arrow-link arrow-link--white">Join the team <span aria-hidden="true">→</span></a>
 			</div>
 		</div>
 	</div>

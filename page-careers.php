@@ -4,8 +4,7 @@
 	<canvas class="mesh-canvas" aria-hidden="true"></canvas>
 	<div class="hero__gradient"></div>
 	<div class="container">
-		<div class="page-hero__inner">
-			<nav class="breadcrumb"><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a> <span class="breadcrumb-sep">›</span> <span>Careers</span></nav>
+		<div class="page-hero__inner page-hero__inner--center">
 			<span class="page-hero__eyebrow">Join the Team</span>
 			<h1 class="page-hero__title">Build the Future of Healthcare Distribution.</h1>
 			<p class="page-hero__lead">We're a fast-moving, mission-driven team that values people who are hungry, humble, and committed to doing good work. Come help us move healthcare forward.</p>
@@ -18,9 +17,9 @@
 	<div class="container">
 		<div class="grid-2" style="gap:var(--space-20);align-items:center;">
 			<div>
-				<span class="section-label reveal">Life at Leap</span>
+				<span class="section-label section-label--no-line reveal">Life at Leap</span>
 				<h2 class="reveal" style="margin-bottom:var(--space-6);">A Place Where Your Work Actually Matters</h2>
-				<p class="reveal" style="color:var(--color-text-3);font-weight:300;margin-bottom:var(--space-8);">At Leap, you're not just filling an order — you're part of a chain that ends at the patient bedside. Every role here contributes to healthcare getting better. That's not something you find at many companies.</p>
+				<p class="reveal" style="color:var(--color-text-3);font-weight:300;margin-bottom:var(--space-8);">At Leap, you're not just filling an order, you're part of a chain that changes patients' lives. Every role here contributes to healthcare getting better. That's not something you find everywhere.</p>
 				<div style="display:flex;flex-direction:column;gap:var(--space-5);">
 					<div class="reveal" style="display:flex;gap:var(--space-4);align-items:flex-start;">
 						<div style="width:8px;height:8px;border-radius:50%;background:var(--color-orange);margin-top:6px;flex-shrink:0;"></div>
@@ -51,7 +50,7 @@
 		<div class="section-header section-header--center">
 			<span class="section-label section-label--blue reveal">Open Roles</span>
 			<h2 class="reveal">Current Opportunities</h2>
-			<p class="reveal">Don't see the perfect fit? Reach out anyway — we're always open to talking to exceptional people.</p>
+			<p class="reveal">Don't see the perfect fit? Reach out anyway! We're always open to talking to exceptional people.</p>
 		</div>
 
 		<div style="max-width:800px;margin-inline:auto;">
