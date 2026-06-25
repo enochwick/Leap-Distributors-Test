@@ -6,7 +6,7 @@
 	<div class="container">
 		<div class="page-hero__inner page-hero__inner--center">
 			<span class="page-hero__eyebrow">About Leap</span>
-			<h1 class="page-hero__title" style="white-space:nowrap;">We're Leap. The New Standard.</h1>
+			<h1 class="page-hero__title page-hero__title--nowrap-lg">We're Leap. The New Standard.</h1>
 			<p class="page-hero__lead">Most distribution companies want to be the biggest. We want to be the best. Big tends to follow.</p>
 			<p class="page-hero__lead" style="margin-top:var(--space-5);">We've earned that confidence. We have decades of experience in the OR, in the clinic, in hospitals, and at the manufacturer. Now we're building the standard the industry's been missing.</p>
 		</div>
@@ -32,7 +32,7 @@
 <section class="feature-band reveal">
 	<div class="container">
 		<figure class="feature-band__media">
-			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/about-band.png' ); ?>" alt="The Dallas skyline at dusk" loading="lazy">
+			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/about-band.webp' ); ?>" alt="The Dallas skyline at dusk" loading="lazy" decoding="async">
 			<figcaption class="feature-band__caption">Headquartered in Dallas, with a hub in Houston and reach across the country.</figcaption>
 		</figure>
 	</div>
@@ -101,7 +101,7 @@
 		<div class="founders-mosaic reveal">
 
 			<div class="founder-tile">
-				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-allen.png' ); ?>" alt="Allen Mason" loading="lazy">
+				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-allen.webp' ); ?>" alt="Allen Mason" loading="lazy" decoding="async">
 				<div class="founder-tile__info">
 					<span class="founder-tile__role">Co-Founder, CEO</span>
 					<h3 class="founder-tile__name">Allen Mason</h3>
@@ -110,7 +110,7 @@
 			</div>
 
 			<div class="founder-tile">
-				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-jonathan.png' ); ?>" alt="Wes Lambard" loading="lazy">
+				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-jonathan.webp' ); ?>" alt="Wes Lambard" loading="lazy" decoding="async">
 				<div class="founder-tile__info">
 					<span class="founder-tile__role">Co-Founder, VP of Sales</span>
 					<h3 class="founder-tile__name">Wes Lambard</h3>
@@ -119,7 +119,7 @@
 			</div>
 
 			<div class="founder-tile">
-				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-wes.png' ); ?>" alt="Peyton Woodyard" loading="lazy">
+				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-wes.webp' ); ?>" alt="Peyton Woodyard" loading="lazy" decoding="async">
 				<div class="founder-tile__info">
 					<span class="founder-tile__role">Co-Founder, VP of Orthopedics</span>
 					<h3 class="founder-tile__name">Peyton Woodyard</h3>
@@ -128,7 +128,7 @@
 			</div>
 
 			<div class="founder-tile">
-				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-peyton.png' ); ?>" alt="Jonathan Knickerbocker" loading="lazy">
+				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-peyton.webp' ); ?>" alt="Jonathan Knickerbocker" loading="lazy" decoding="async">
 				<div class="founder-tile__info">
 					<span class="founder-tile__role">Co-Founder, VP of Spine</span>
 					<h3 class="founder-tile__name">Jonathan Knickerbocker</h3>

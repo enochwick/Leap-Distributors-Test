@@ -37,7 +37,7 @@
 			</div>
 			<div class="reveal-right">
 				<div style="border-radius:var(--radius-2xl);overflow:hidden;aspect-ratio:1/1;background:var(--color-surface);">
-					<img src="<?php echo get_template_directory_uri(); ?>/assets/images/built-for/careers-culture.png" alt="The Leap Distributors team collaborating in the office" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
+					<img src="<?php echo get_template_directory_uri(); ?>/assets/images/built-for/careers-culture.webp" alt="The Leap Distributors team collaborating in the office" style="width:100%;height:100%;object-fit:cover;" loading="lazy" decoding="async">
 				</div>
 			</div>
 		</div>
@@ -99,7 +99,7 @@
 <section class="feature-band reveal">
 	<div class="container">
 		<figure class="feature-band__media">
-			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/careers-band.jpg' ); ?>" alt="The Leap operations team at work in a modern medical-device distribution center" loading="lazy">
+			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/careers-band.webp' ); ?>" alt="The Leap operations team at work in a modern medical-device distribution center" loading="lazy" decoding="async">
 			<figcaption class="feature-band__caption">Every role here ends at the patient bedside. That's the work.</figcaption>
 		</figure>
 	</div>

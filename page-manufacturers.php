@@ -33,7 +33,7 @@
 <section class="feature-band reveal">
 	<div class="container">
 		<figure class="feature-band__media">
-			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/manufacturers-band.png' ); ?>" alt="Robotic precision machining of titanium orthopedic implants in a medical device facility" loading="lazy">
+			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/manufacturers-band.webp' ); ?>" alt="Robotic precision machining of titanium orthopedic implants in a medical device facility" loading="lazy" decoding="async">
 			<figcaption class="feature-band__caption">We sell your line like it's ours — with field data that tells the truth.</figcaption>
 		</figure>
 	</div>

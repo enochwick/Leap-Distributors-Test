@@ -72,7 +72,7 @@ $img_base = get_template_directory_uri() . '/assets/images/blog';
 			<img
 				src="<?php echo esc_url( $img_base . '/surgeon-voice-banner.png' ); ?>"
 				alt="Surgeon focused in the operating room — black and white"
-				loading="lazy"
+				loading="lazy" decoding="async"
 			>
 		</div>
 	</div>
@@ -140,7 +140,7 @@ $img_base = get_template_directory_uri() . '/assets/images/blog';
 			<img
 				src="<?php echo esc_url( $img_base . '/surgeon-voice-feature.png' ); ?>"
 				alt="Surgeon standing in the operating room doorway, ready"
-				loading="lazy"
+				loading="lazy" decoding="async"
 			>
 		</div>
 	</div>

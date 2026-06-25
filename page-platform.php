@@ -98,7 +98,7 @@
 				<p>The platform doesn't replace the rep. It frees them to do the real work — knowing the procedure, the surgeon, and the patient on the table. Stride handles the paperwork so our reps don't have to look down. They stay in the case, advocating for surgeon choice and the right call for the patient.</p>
 			</div>
 			<div class="platform-cap__visual platform-cap__visual--photo">
-				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/rep-or.png' ); ?>" alt="A Leap rep passing an instrument during OR coverage" loading="lazy">
+				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/rep-or.webp' ); ?>" alt="A Leap rep passing an instrument during OR coverage" loading="lazy" decoding="async">
 				<div class="platform-cap__photo-overlay">
 					<span class="platform-cap__photo-label">Leap rep · OR coverage</span>
 				</div>

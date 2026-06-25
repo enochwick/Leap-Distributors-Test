@@ -25,7 +25,7 @@
 		<div class="news-list" data-stagger>
 
 			<a class="news-card news-card--editorial reveal" href="https://orthospinenews.com/2026/01/06/medtech-incubator-partners-with-leap-distributors-to-support-u-s-market-expansion-efforts/" target="_blank" rel="noopener" data-stagger-child>
-				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LEAP-X-MEDTECH-07.png' ); ?>');background-size:cover;background-position:center;">
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LEAP-X-MEDTECH-07.webp' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">OrthoSpineNews</span>
 				</div>
 				<div class="news-card__body">
@@ -42,7 +42,7 @@
 			</a>
 
 			<a class="news-card news-card--editorial reveal" href="https://dallasinnovates.com/dallas-leap-distributors-acquires-leap-surgical-and-dub-enterprises/" target="_blank" rel="noopener" data-stagger-child>
-				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/pexels-karolina-grabowska-7875996-1-scaled.jpg' ); ?>');background-size:cover;background-position:center;">
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/pexels-karolina-grabowska-7875996-1-scaled.webp' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">Dallas Innovates</span>
 				</div>
 				<div class="news-card__body">
@@ -59,7 +59,7 @@
 			</a>
 
 			<a class="news-card news-card--editorial reveal" href="https://www.odtmag.com/contents/view_breaking-news/2024-09-19/leap-distributors-expands-product-range-with-pair-of-acquisitions/" target="_blank" rel="noopener" data-stagger-child>
-				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/264_main1.png' ); ?>');background-size:cover;background-position:center;">
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/264_main1.webp' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">ODT Magazine</span>
 				</div>
 				<div class="news-card__body">
@@ -76,7 +76,7 @@
 			</a>
 
 			<a class="news-card news-card--editorial reveal" href="https://www.bizjournals.com/dallas/news/2024/09/25/leap-distributors-acquisitions-network-growth.html" target="_blank" rel="noopener" data-stagger-child>
-				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/leap-distributors-allen-masonv11.jpg' ); ?>');background-size:cover;background-position:center;">
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/leap-distributors-allen-masonv11.webp' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">Dallas Business Journal</span>
 				</div>
 				<div class="news-card__body">
@@ -112,7 +112,7 @@
 		<div class="news-list" data-stagger data-paginate="6">
 
 			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/product-agnostic-distribution-wins-for-surgeons-and-hospitals/" target="_blank" rel="noopener" data-stagger-child>
-				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LeapDistributors3-e1769101290191.jpeg' ); ?>');background-size:cover;background-position:center;">
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LeapDistributors3-e1769101290191.webp' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">Leap Insights</span>
 				</div>
 				<div class="news-card__body">
@@ -130,7 +130,7 @@
 			</a>
 
 			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/the-leap-dec-edition/" target="_blank" rel="noopener" data-stagger-child>
-				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/Leap-Distributors-BlogImg1-2.png' ); ?>');background-size:cover;background-position:center;">
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/Leap-Distributors-BlogImg1-2.webp' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">Leap Insights</span>
 				</div>
 				<div class="news-card__body">
@@ -148,7 +148,7 @@
 			</a>
 
 			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/creating-your-sales-system-oct-2025/" target="_blank" rel="noopener" data-stagger-child>
-				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/Leap-Distributors-BlogImg1-2.png' ); ?>');background-size:cover;background-position:center;">
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/Leap-Distributors-BlogImg1-2.webp' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">Leap Insights</span>
 				</div>
 				<div class="news-card__body">
@@ -165,7 +165,7 @@
 			</a>
 
 			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/surgeon-choice-august-2025/" target="_blank" rel="noopener" data-stagger-child>
-				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/Leap-Distributors-BlogImg1-2.png' ); ?>');background-size:cover;background-position:center;">
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/Leap-Distributors-BlogImg1-2.webp' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">Leap Insights</span>
 				</div>
 				<div class="news-card__body">
@@ -183,7 +183,7 @@
 			</a>
 
 			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/surgeon-preference-isnt-the-problem-its-the-point/" target="_blank" rel="noopener" data-stagger-child>
-				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LeapDistributors00-e1757003978173.png' ); ?>');background-size:cover;background-position:center;">
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LeapDistributors00-e1757003978173.webp' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">Leap Insights</span>
 				</div>
 				<div class="news-card__body">
@@ -201,7 +201,7 @@
 			</a>
 
 			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/hospitals-should-rethink-distributor-partnerships/" target="_blank" rel="noopener" data-stagger-child>
-				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LeapDistributorsBlog1-e1755620018111.png' ); ?>');background-size:cover;background-position:center;">
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LeapDistributorsBlog1-e1755620018111.webp' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">Leap Insights</span>
 				</div>
 				<div class="news-card__body">
@@ -219,7 +219,7 @@
 			</a>
 
 			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/the-magic-of-aggregation-jul-2025/" target="_blank" rel="noopener" data-stagger-child>
-				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/Leap-Distributors-BlogImg1-2.png' ); ?>');background-size:cover;background-position:center;">
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/Leap-Distributors-BlogImg1-2.webp' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">Leap Insights</span>
 				</div>
 				<div class="news-card__body">
@@ -237,7 +237,7 @@
 			</a>
 
 			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/why-independent-doesnt-mean-alone-anymore/" target="_blank" rel="noopener" data-stagger-child>
-				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/Leap-Distributors-BlogImg-1.png' ); ?>');background-size:cover;background-position:center;">
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/Leap-Distributors-BlogImg-1.webp' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">Leap Insights</span>
 				</div>
 				<div class="news-card__body">
@@ -255,7 +255,7 @@
 			</a>
 
 			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/building-an-infrastructure-meant-to-share/" target="_blank" rel="noopener" data-stagger-child>
-				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/Leap-Distributors-BlogImg-e1752595306217.png' ); ?>');background-size:cover;background-position:center;">
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/Leap-Distributors-BlogImg-e1752595306217.webp' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">Leap Insights</span>
 				</div>
 				<div class="news-card__body">
@@ -273,7 +273,7 @@
 			</a>
 
 			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/scaling-smarter/" target="_blank" rel="noopener" data-stagger-child>
-				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LD_Blog-feature-image_16_1.png' ); ?>');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#02283A;">
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LD_Blog-feature-image_16_1.webp' ); ?>');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#02283A;">
 					<span class="news-card__pubmark">Leap Insights</span>
 				</div>
 				<div class="news-card__body">

@@ -195,13 +195,13 @@ if ( $hero_headline_raw ) {
 			<div class="vt-right">
 				<div class="vt-gallery" id="vt-gallery">
 					<div class="vt-slide is-active" data-vt-slide="0">
-						<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/surgeons.png' ); ?>" alt="A surgical team at work in a modern operating room" loading="lazy">
+						<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/surgeons.webp' ); ?>" alt="A surgical team at work in a modern operating room" loading="lazy" decoding="async">
 					</div>
 					<div class="vt-slide" data-vt-slide="1">
-						<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/hospitals.png' ); ?>" alt="A clinician in a modern hospital corridor" loading="lazy">
+						<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/hospitals.webp' ); ?>" alt="A clinician in a modern hospital corridor" loading="lazy" decoding="async">
 					</div>
 					<div class="vt-slide" data-vt-slide="2">
-						<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/manufacturers.png' ); ?>" alt="Precision-machined surgical implants and instruments" loading="lazy">
+						<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/manufacturers.webp' ); ?>" alt="Precision-machined surgical implants and instruments" loading="lazy" decoding="async">
 					</div>
 
 					<!-- Prev / Next -->
@@ -229,7 +229,7 @@ if ( $hero_headline_raw ) {
 		<div class="news-grid" data-stagger>
 
 			<a class="news-card news-card--editorial reveal" href="https://orthospinenews.com/2026/01/06/medtech-incubator-partners-with-leap-distributors-to-support-u-s-market-expansion-efforts/" target="_blank" rel="noopener" data-stagger-child>
-				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LEAP-X-MEDTECH-07.png' ); ?>');background-size:cover;background-position:center;">
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LEAP-X-MEDTECH-07.webp' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">OrthoSpineNews</span>
 				</div>
 				<div class="news-card__body">
@@ -246,7 +246,7 @@ if ( $hero_headline_raw ) {
 			</a>
 
 			<a class="news-card news-card--editorial reveal" href="https://dallasinnovates.com/dallas-leap-distributors-acquires-leap-surgical-and-dub-enterprises/" target="_blank" rel="noopener" data-stagger-child>
-				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/pexels-karolina-grabowska-7875996-1-scaled.jpg' ); ?>');background-size:cover;background-position:center;">
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/pexels-karolina-grabowska-7875996-1-scaled.webp' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">Dallas Innovates</span>
 				</div>
 				<div class="news-card__body">
@@ -263,7 +263,7 @@ if ( $hero_headline_raw ) {
 			</a>
 
 			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/product-agnostic-distribution-wins-for-surgeons-and-hospitals/" target="_blank" rel="noopener" data-stagger-child>
-				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LeapDistributors3-e1769101290191.jpeg' ); ?>');background-size:cover;background-position:center;">
+				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LeapDistributors3-e1769101290191.webp' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">Leap Insights</span>
 				</div>
 				<div class="news-card__body">

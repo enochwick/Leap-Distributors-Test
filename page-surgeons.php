@@ -73,7 +73,7 @@
 				</blockquote>
 			</div>
 			<div class="surgeon-trey__video">
-				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/rep-or-wide.png' ); ?>" alt="A Leap rep in scrubs supporting a case in the operating room" loading="lazy">
+				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/rep-or-wide.webp' ); ?>" alt="A Leap rep in scrubs supporting a case in the operating room" loading="lazy" decoding="async">
 			</div>
 		</div>
 	</div>

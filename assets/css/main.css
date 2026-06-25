@@ -2425,6 +2425,11 @@ p { line-height: 1.7; }
   font-size: clamp(2.5rem, 5vw, var(--text-6xl));
 }
 
+/* Keep on one line only where there's room; wrap naturally on mobile */
+@media (min-width: 768px) {
+  .page-hero__title--nowrap-lg { white-space: nowrap; }
+}
+
 .page-hero__lead {
   color: var(--color-text-2);
   font-size: var(--text-xl);
@@ -4018,7 +4023,7 @@ select.form-input {
   position: relative;
   z-index: 10;
   text-align: center;
-  padding-top: calc(var(--nav-height) + var(--space-20));
+  padding-top: calc(var(--nav-height) + var(--space-32));
   padding-bottom: var(--space-16);
 }
 .phg-header__inner {
