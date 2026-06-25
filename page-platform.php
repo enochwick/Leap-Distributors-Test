@@ -224,9 +224,8 @@
 	<canvas class="mesh-canvas" aria-hidden="true"></canvas>
 	<div class="container">
 		<div class="cta-banner__inner">
-			<span class="section-label section-label--white section-label--no-line reveal" style="justify-content:center;">See the platform in action</span>
 			<h2 class="reveal">See Us Stride.</h2>
-			<p class="reveal">The fastest way to understand what Leap does differently is to see the platform behind it.</p>
+			<p class="reveal cta-oneline">The fastest way to understand what Leap does differently is to see the platform behind it.</p>
 			<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg reveal">Request a walkthrough <span aria-hidden="true">→</span></a>
 		</div>
 	</div>

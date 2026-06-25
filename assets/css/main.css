@@ -4013,6 +4013,15 @@ select.form-input {
   text-wrap: pretty;
 }
 
+/* Keep this CTA line on a single row (wraps normally on small screens) */
+@media (min-width: 768px) {
+  .cta-banner__inner p.cta-oneline {
+    white-space: nowrap;
+    max-width: none;
+    text-wrap: nowrap;
+  }
+}
+
 /* Fade-in animation for header items */
 .phg-fade {
   opacity: 0;
