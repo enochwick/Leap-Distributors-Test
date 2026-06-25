@@ -6,7 +6,7 @@
 	<div class="container">
 		<div class="page-hero__inner page-hero__inner--center">
 			<span class="page-hero__eyebrow">About Leap</span>
-			<h1 class="page-hero__title">We're Leap. The New Standard.</h1>
+			<h1 class="page-hero__title" style="white-space:nowrap;">We're Leap. The New Standard.</h1>
 			<p class="page-hero__lead">Most distribution companies want to be the biggest. We want to be the best. Big tends to follow.</p>
 			<p class="page-hero__lead" style="margin-top:var(--space-5);">We've earned that confidence. We have decades of experience in the OR, in the clinic, in hospitals, and at the manufacturer. Now we're building the standard the industry's been missing.</p>
 		</div>
@@ -46,8 +46,7 @@
 	<div class="container">
 		<div class="why-leap__inner">
 			<div class="why-leap__header">
-				<span class="section-label section-label--white reveal">Why We're Here</span>
-				<h2 class="reveal">We knew what good<br>distribution should feel like.</h2>
+								<h2 class="reveal">We knew what good<br>distribution should feel like.</h2>
 			</div>
 			<p class="why-leap__lead reveal">It didn't exist, so we built it around our most important values.</p>
 
@@ -147,7 +146,7 @@
 		<blockquote class="editorial-quote reveal-scale">
 			<p>"We are builders. Our work lives where we live: in the OR, the clinic, the materials office, the back end of the business. The surgeons, the hospitals, the manufacturers, they all deserved one distribution model where everyone at the table actually wins. That's the company we set out to build."</p>
 			<footer>
-				<strong>Allen Mason</strong>
+				<strong style="color:var(--color-orange);margin-bottom:0;">Allen Mason</strong>
 				<span>Co-Founder, CEO</span>
 			</footer>
 		</blockquote>
