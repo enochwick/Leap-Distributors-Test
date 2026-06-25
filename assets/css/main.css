@@ -4004,6 +4004,13 @@ select.form-input {
   line-height: 1.65;
   max-width: 560px;
   margin-inline: auto;
+  text-wrap: pretty;
+}
+
+/* Prevent single-word orphans in the platform intro copy */
+.leap-intro__body p,
+.cta-banner p {
+  text-wrap: pretty;
 }
 
 /* Fade-in animation for header items */

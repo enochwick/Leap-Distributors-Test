@@ -7,12 +7,11 @@
 	<!-- Header text -->
 	<div class="phg-header">
 		<div class="phg-header__inner">
-			<span class="section-label section-label--blue phg-fade">Stride — The Leap Platform</span>
+			<span class="section-label section-label--blue section-label--no-line phg-fade">Stride — The Leap Platform</span>
 			<h1 class="phg-title phg-fade">The custom tech<br>that runs every case.</h1>
 			<p class="phg-lead phg-fade">Stride is Leap's own platform. Reps log every case in the OR as it happens, the paperwork generates itself, and every side of the relationship gets sharper data with every case.</p>
 			<div class="phg-fade" style="margin-top:var(--space-8);">
-				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg">Talk to our team <span aria-hidden="true">→</span></a>
-				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--ghost" style="margin-left:var(--space-3);">Request a walkthrough</a>
+				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg">Request a walkthrough <span aria-hidden="true">→</span></a>
 			</div>
 		</div>
 	</div>
@@ -38,10 +37,10 @@
 	<div class="container">
 		<div class="leap-intro reveal">
 			<div>
-				<h2 class="leap-intro__h">Built by us. Used in every case.</h2>
+				<h2 class="leap-intro__h">Built by us.<br>Used in every case.</h2>
 			</div>
 			<div class="leap-intro__body">
-				<p>Most distribution still runs on paper, email, and Excel. We chose differently. Stride is custom-built for how medical device distribution actually works. Reps use it in the OR. Our team uses it to bill faster and cleaner. The data sharpens the business with every case logged.</p>
+				<p>The tool we needed didn't exist, so we built it. Stride is custom-made for how independent distribution actually works. Reps use it in the OR. Our team bills faster and cleaner. The data sharpens with every case.</p>
 			</div>
 		</div>
 	</div>
@@ -50,10 +49,6 @@
 <!-- ── Three Capabilities ────────────────────────────────────── -->
 <section class="content-section">
 	<div class="container">
-		<div class="section-header reveal">
-			<span class="section-label section-label--blue">Three Capabilities. One Platform.</span>
-		</div>
-
 		<div class="platform-stack" id="platform-stack">
 		<!-- Capability 1 -->
 		<div class="platform-cap platform-stack__card" data-stack-index="0">
@@ -155,7 +150,7 @@
 				<h2 class="leap-intro__h">A platform reps actually want to use.</h2>
 			</div>
 			<div class="leap-intro__body">
-				<p>Live performance dashboards. Real-time commission projections. Quota visibility by the day. Stride is built for the field, not just the back office — which is one reason our reps stay and our partners join.</p>
+				<p>Live performance dashboards. Real-time commission projections. Quota visibility by the day. Stride is built for the field, not just the back office. It's one of the reasons our reps stay and our partners join.</p>
 			</div>
 		</div>
 
@@ -201,13 +196,9 @@
 <!-- ── What's Next ────────────────────────────────────────────── -->
 <section class="content-section">
 	<div class="container">
-		<div class="leap-intro reveal">
-			<div>
-				<h2 class="leap-intro__h">Stride keeps moving forward.</h2>
-			</div>
-			<div class="leap-intro__body">
-				<p>Three things shipping over the next twelve months:</p>
-			</div>
+		<div class="section-header reveal">
+			<h2>Stride keeps moving forward.</h2>
+			<p style="margin-top:var(--space-4);color:var(--color-text-3);font-weight:300;">Three things shipping over the next twelve months:</p>
 		</div>
 
 		<ol class="platform-list reveal">
@@ -233,7 +224,7 @@
 	<canvas class="mesh-canvas" aria-hidden="true"></canvas>
 	<div class="container">
 		<div class="cta-banner__inner">
-			<span class="section-label section-label--white reveal" style="justify-content:center;">See the platform in action</span>
+			<span class="section-label section-label--white section-label--no-line reveal" style="justify-content:center;">See the platform in action</span>
 			<h2 class="reveal">See Us Stride.</h2>
 			<p class="reveal">The fastest way to understand what Leap does differently is to see the platform behind it.</p>
 			<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg reveal">Request a walkthrough <span aria-hidden="true">→</span></a>
