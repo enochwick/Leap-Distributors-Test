@@ -2693,6 +2693,29 @@ select.form-input {
 
 /* ── Footer ──────────────────────────────────────────────── */
 .site-footer {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #001520 0%, #00101a 45%, #00060c 100%);
+}
+
+/* Faded mesh grid over the darker footer gradient */
+.site-footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 0%, #000 0%, transparent 75%);
+  mask-image: radial-gradient(120% 90% at 50% 0%, #000 0%, transparent 75%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.site-footer > * {
+  position: relative;
+  z-index: 1;
 }
 
 .site-footer__top {

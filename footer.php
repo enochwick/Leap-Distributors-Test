@@ -30,6 +30,7 @@
 				<div class="site-footer__col">
 					<h4 class="site-footer__heading">Company</h4>
 					<ul class="site-footer__links">
+						<li><a href="<?php echo esc_url( home_url( '/platform/' ) ); ?>">Platform</a></li>
 						<li><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>">About</a></li>
 						<li><a href="<?php echo esc_url( home_url( '/news/' ) ); ?>">News &amp; Insights</a></li>
 						<li><a href="<?php echo esc_url( home_url( '/careers/' ) ); ?>">Careers</a></li>
