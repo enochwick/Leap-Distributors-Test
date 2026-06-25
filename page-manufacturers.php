@@ -5,9 +5,9 @@
 	<canvas class="mesh-canvas" aria-hidden="true"></canvas>
 	<div class="container">
 		<div class="page-hero__inner">
-			<span class="page-hero__eyebrow">For Manufacturers</span>
+			<span class="page-hero__eyebrow page-hero__eyebrow--no-line">For Manufacturers</span>
 			<h1 class="page-hero__title">Direct coverage with national reach.</h1>
-			<p class="page-hero__lead">A distribution partner that can stand up coverage faster than you could build it yourself, with the field visibility you've been asking distributors for.</p>
+			<p class="page-hero__lead">A distribution partner that offers direct coverage, national reach, and the field visibility you've been asking distributors for.</p>
 			<div class="hero__actions" style="opacity:1;margin-top:var(--space-10);">
 				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg">Let's talk <span aria-hidden="true">→</span></a>
 			</div>
@@ -23,7 +23,7 @@
 				<h2 class="leap-intro__h">Plug into a distribution channel that already works.</h2>
 			</div>
 			<div class="leap-intro__body">
-				<p>Standing up a sales force takes years. Leap already has one. Direct rep teams in the south central US, 200+ distributor partners extending nationally, and a platform that tells you exactly how your product is moving in the OR. We don't pitch your line as one of many. We sell it like it's ours.</p>
+				<p>Standing up a sales force can take years. Leap already has one. A great one. Direct rep teams in the south central US, 200+ distributor partners extending nationally, and a platform that tells you exactly how your product is moving in the OR.</p>
 			</div>
 		</div>
 	</div>
@@ -46,11 +46,10 @@
 	</div>
 	<div class="container">
 		<div class="why-leap__inner">
-			<div class="why-leap__header">
-				<span class="section-label section-label--white reveal">Why Manufacturers Choose Leap</span>
-				<h2 class="reveal">Reach, visibility, and reps<br>who can carry your line.</h2>
+			<div class="why-leap__header" style="justify-content:center;text-align:center;">
+								<h2 class="reveal">Reach, visibility, and reps<br>who can carry your line.</h2>
 			</div>
-			<p class="why-leap__lead reveal">A distribution partner isn't a logo on a slide. It's the team you want in the room, a contracting function that doesn't drop the ball, a finance team that pays on time, and a platform that tells you the truth about how your product is moving.</p>
+			<p class="why-leap__lead reveal" style="max-width:680px;margin-inline:auto;text-align:center;">A distribution partner isn't a logo on a slide. It's the team you want in the room, a contracting function that doesn't drop the ball, a finance team that pays on time, and a platform that tells you the truth about how your product is moving.</p>
 
 			<div class="why-leap__grid" data-stagger>
 				<div class="feature-card" data-stagger-child data-glow>
@@ -61,12 +60,12 @@
 				<div class="feature-card" data-stagger-child data-glow>
 					<div class="feature-card__num">02</div>
 					<div class="feature-card__title">Field visibility, not field guesses.</div>
-					<p class="feature-card__desc">Every case our reps run is logged in Stride, our custom tech platform. That means you see exactly what's moving, where, and by whom, in real time. No more waiting on quarterly reports that arrive late and arrive thin.</p>
+					<p class="feature-card__desc">Every case our reps run is logged in Stride, our custom tech platform. That means you see exactly what's moving, where, and by whom. No more waiting on quarterly reports that arrive late and arrive thin.</p>
 				</div>
 				<div class="feature-card" data-stagger-child data-glow>
 					<div class="feature-card__num">03</div>
-					<div class="feature-card__title">Reps who can actually carry your line.</div>
-					<p class="feature-card__desc">A distributor's only as good as the reps behind it. Ours are the sharpest in the room, on the case before scrub-in, and treated like the practice partners they are. Your product gets sold by people who can carry it.</p>
+					<div class="feature-card__title">Reps who carry weight.</div>
+					<p class="feature-card__desc">A distributorship is only as good as the reps behind it. Ours are the sharpest in the room, on the case before scrub-in, and treated like the practice partners they are. When your rep has the room's trust, the product moves.</p>
 				</div>
 			</div>
 		</div>
