@@ -272,7 +272,6 @@ if ( $hero_headline_raw ) {
 						<span>January 2026</span>
 					</div>
 					<h3 class="news-card__hed">Why Product-Agnostic Distribution Wins for Surgeons and Hospitals</h3>
-					<p class="news-card__excerpt">A great distributor makes access, service, and execution work across the real-world mix of products surgeons need.</p>
 					<div class="news-card__footer">
 						<span class="news-card__source">Leap Distributors</span>
 						<span class="news-card__arrow" aria-hidden="true">→</span>
