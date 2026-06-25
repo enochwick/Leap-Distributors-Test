@@ -2842,7 +2842,7 @@ select.form-input {
 
 .site-footer__copy {
   font-size: var(--text-xs);
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.6);
   font-weight: 300;
 }
 
