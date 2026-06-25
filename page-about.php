@@ -6,9 +6,9 @@
 	<div class="container">
 		<div class="page-hero__inner">
 			<span class="page-hero__eyebrow">About Leap</span>
-			<h1 class="page-hero__title">We're Leap.</h1>
+			<h1 class="page-hero__title">We're Leap. The New Standard.</h1>
 			<p class="page-hero__lead">Most distribution companies want to be the biggest. We want to be the best. Big tends to follow.</p>
-			<p class="page-hero__lead" style="margin-top:var(--space-5);">We've earned that confidence. We have years of experience in the OR, in the clinic, in the hospital, and at the manufacturer. We built the company we wished existed.</p>
+			<p class="page-hero__lead" style="margin-top:var(--space-5);">We've earned that confidence. We have decades of experience in the OR, in the clinic, in hospitals, and at the manufacturer. Now we're building the standard the industry's been missing.</p>
 		</div>
 	</div>
 </section>
@@ -25,26 +25,6 @@
 			</div>
 		</div>
 
-		<div class="footprint-cities reveal">
-			<div class="footprint-city">
-				<span class="footprint-city__num">01</span>
-				<div>
-					<span class="footprint-city__name">Dallas</span>
-					<span class="footprint-city__label">TX · Headquarters</span>
-					<span class="footprint-city__address">3151 Halifax Street, Suite 160<br>Dallas, TX 75219</span>
-				</div>
-			</div>
-			<div class="footprint-city">
-				<span class="footprint-city__num">02</span>
-				<div>
-					<span class="footprint-city__name">Houston</span>
-					<span class="footprint-city__label">TX</span>
-				</div>
-			</div>
-			<div class="footprint-city__reach">
-				<p>Internal teams across the south central US, with 200+ distributor partners extending nationally.</p>
-			</div>
-		</div>
 	</div>
 </section>
 
@@ -69,38 +49,38 @@
 				<span class="section-label section-label--white reveal">Why We're Here</span>
 				<h2 class="reveal">We knew what good<br>distribution should feel like.</h2>
 			</div>
-			<p class="why-leap__lead reveal">It didn't exist, so we built it.</p>
+			<p class="why-leap__lead reveal">It didn't exist, so we built it around our most important values.</p>
 
 			<div class="why-leap__grid" data-stagger>
 				<div class="feature-card" data-stagger-child data-glow>
 					<div class="feature-card__num">01</div>
-					<div class="feature-card__title">Professional, Yet Personable</div>
-					<p class="feature-card__desc">We're industry experts, but we don't talk in jargon-heavy, robotic language. We keep our communication clear, informative, and engaging.</p>
+					<div class="feature-card__title">Excellence</div>
+					<p class="feature-card__desc">We set the standard and hold ourselves to it. Not perfection, just precision, consistency, and the discipline to be better than we were yesterday.</p>
 				</div>
 				<div class="feature-card" data-stagger-child data-glow>
 					<div class="feature-card__num">02</div>
-					<div class="feature-card__title">Confident, Yet Humble</div>
-					<p class="feature-card__desc">We know our strengths, and we don't overpromise. Instead, we let our service, efficiency, and reliability speak for themselves.</p>
+					<div class="feature-card__title">Trust</div>
+					<p class="feature-card__desc">We earn it every day, through honesty, transparency, and follow-through. We do the right thing even when it's inconvenient. We keep our word and own our mistakes.</p>
 				</div>
 				<div class="feature-card" data-stagger-child data-glow>
 					<div class="feature-card__num">03</div>
-					<div class="feature-card__title">Direct and No-Nonsense</div>
-					<p class="feature-card__desc">We respect our audience's time. Our communication is straightforward, honest, and to the point — whether we're talking to healthcare providers, suppliers, or partners.</p>
+					<div class="feature-card__title">Authentic</div>
+					<p class="feature-card__desc">We say what we mean and we do what we say. No posturing, no inflated promises. What you see from Leap is what you get.</p>
 				</div>
 				<div class="feature-card" data-stagger-child data-glow>
 					<div class="feature-card__num">04</div>
-					<div class="feature-card__title">Solution-Focused</div>
-					<p class="feature-card__desc">Our messaging is not just about what we do, but how we solve problems for our clients. We focus on outcomes, efficiency, and helping healthcare professionals deliver the best patient care possible.</p>
+					<div class="feature-card__title">Connection</div>
+					<p class="feature-card__desc">We bring surgeons, suppliers, and distributors together around shared success. We're stronger as one platform than any of us are alone.</p>
 				</div>
 				<div class="feature-card" data-stagger-child data-glow>
 					<div class="feature-card__num">05</div>
-					<div class="feature-card__title">Authentic Partnerships</div>
-					<p class="feature-card__desc">Every relationship we build is grounded in transparency and mutual investment. We don't just want clients — we want partners who grow alongside us.</p>
+					<div class="feature-card__title">Evolution</div>
+					<p class="feature-card__desc">We adapt, build, and move faster than the market. We don't wait to be disrupted. We build what's next, so our partners stay ahead.</p>
 				</div>
 				<div class="feature-card" data-stagger-child data-glow>
 					<div class="feature-card__num">06</div>
-					<div class="feature-card__title">Mission-Driven</div>
-					<p class="feature-card__desc">Better supply chains mean better patient outcomes. That belief drives every decision we make, from the partners we choose to the products we distribute.</p>
+					<div class="feature-card__title">Advocacy</div>
+					<p class="feature-card__desc">We fight for the people we serve. Surgeons, patients, reps, and partners. We lead deals to the finish line and stand up for what's right, even when it's hard.</p>
 				</div>
 			</div>
 		</div>
@@ -165,10 +145,10 @@
 <section class="quote-section">
 	<div class="container">
 		<blockquote class="editorial-quote reveal-scale">
-			<p>"We are builders. Our work lives where we live: in the OR, the clinic, the materials office, the back end of the business. Consistency is our standard. Mutually beneficial partnerships are our model. Both build the trust we pride ourselves on."</p>
+			<p>"We are builders. Our work lives where we live: in the OR, the clinic, the materials office, the back end of the business. The surgeons, the hospitals, the manufacturers, they all deserved one distribution model where everyone at the table actually wins. That's the company we set out to build."</p>
 			<footer>
-				<strong>Leap Distributors</strong>
-				<span>Dallas &amp; Houston, Texas</span>
+				<strong>Allen Mason</strong>
+				<span>Co-Founder, CEO</span>
 			</footer>
 		</blockquote>
 	</div>
@@ -180,9 +160,9 @@
 	<div class="hcm-copy-wrap">
 		<div class="container">
 			<div class="hcm-copy reveal">
-				<span class="section-label section-label--blue">Live coverage</span>
+				<span class="section-label section-label--blue section-label--no-line">Live coverage</span>
 				<h2 class="hcm-copy__h">Every hospital.<br>Every case. Mapped.</h2>
-				<p class="hcm-copy__body">Stride tracks every surgical case across our hospital network in real time — giving our team, our reps, and our partners full visibility into where we operate and how we perform.</p>
+				<p class="hcm-copy__body">Stride tracks every surgical case across our network in real time, giving our team, our reps, and our partners full visibility into where we operate and how we perform.</p>
 
 				<div class="hcm-stats">
 					<div class="hcm-stat">
@@ -220,7 +200,7 @@
 	<div class="container">
 		<div class="cta-banner__inner">
 			<h2 class="reveal">Let's start a<br>conversation.</h2>
-			<p class="reveal">Whatever brought you here, we'd like to know. Tell us what you're working on.</p>
+			<p class="reveal">Now you know us. Let's get to know you.</p>
 			<div class="cta-banner__actions reveal">
 				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg">Let's talk <span aria-hidden="true">→</span></a>
 				<a href="<?php echo esc_url( home_url( '/careers/' ) ); ?>" class="arrow-link arrow-link--white">Join the team <span aria-hidden="true">→</span></a>

@@ -4,7 +4,7 @@
 <section class="page-hero">
 	<canvas class="mesh-canvas" aria-hidden="true"></canvas>
 	<div class="container">
-		<div class="page-hero__inner">
+		<div class="page-hero__inner page-hero__inner--center">
 			<span class="page-hero__eyebrow page-hero__eyebrow--no-line">For Manufacturers</span>
 			<h1 class="page-hero__title">Direct coverage with national reach.</h1>
 			<p class="page-hero__lead">A distribution partner that offers direct coverage, national reach, and the field visibility you've been asking distributors for.</p>
