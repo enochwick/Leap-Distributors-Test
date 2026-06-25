@@ -17,7 +17,11 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 define( 'LEAP_KB_FILE',  get_template_directory() . '/assets/data/kb.json' );
 define( 'LEAP_KB_DIR',   get_template_directory() . '/knowledge' );
-define( 'LEAP_EMBED_MODEL', 'text-embedding-004' );
+
+/** Candidate embedding models, newest first. We use whichever the key serves. */
+function leap_embed_models() {
+	return [ 'gemini-embedding-001', 'text-embedding-004', 'embedding-001' ];
+}
 
 /** Resolve the Google AI key (wp-config constant wins, then the option). */
 function leap_ai_key() {
@@ -26,29 +30,22 @@ function leap_ai_key() {
 		: get_option( 'leap_google_ai_key', '' );
 }
 
-/**
- * Embed a single string with Gemini.
- *
- * @param string $text
- * @param string $task RETRIEVAL_DOCUMENT (indexing) or RETRIEVAL_QUERY (search).
- * @return array|WP_Error  Vector of floats.
- */
-function leap_kb_embed( $text, $task = 'RETRIEVAL_QUERY' ) {
+/** Low-level: embed with one specific model. Returns vector or WP_Error. */
+function leap_kb_embed_with( $model, $text, $task ) {
 	$key = leap_ai_key();
 	if ( ! $key ) {
 		return new WP_Error( 'no_key', 'AI not configured' );
 	}
-
 	$endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/'
-		. LEAP_EMBED_MODEL . ':embedContent?key=' . urlencode( $key );
+		. $model . ':embedContent?key=' . urlencode( $key );
 
 	$res = wp_remote_post( $endpoint, [
 		'timeout' => 30,
 		'headers' => [ 'Content-Type' => 'application/json' ],
 		'body'    => wp_json_encode( [
-			'model'     => 'models/' . LEAP_EMBED_MODEL,
-			'content'   => [ 'parts' => [ [ 'text' => $text ] ] ],
-			'taskType'  => $task,
+			'model'    => 'models/' . $model,
+			'content'  => [ 'parts' => [ [ 'text' => $text ] ] ],
+			'taskType' => $task,
 		] ),
 	] );
 
@@ -58,9 +55,43 @@ function leap_kb_embed( $text, $task = 'RETRIEVAL_QUERY' ) {
 	$body = json_decode( wp_remote_retrieve_body( $res ), true );
 	$vec  = $body['embedding']['values'] ?? null;
 	if ( ! is_array( $vec ) ) {
-		return new WP_Error( 'embed_failed', 'Embedding failed: ' . wp_remote_retrieve_body( $res ) );
+		return new WP_Error( 'embed_failed', wp_remote_retrieve_body( $res ) );
 	}
 	return $vec;
+}
+
+/**
+ * Embed a string, auto-selecting a working model.
+ * Once a model succeeds it's cached so query + index stay on the same one.
+ *
+ * @param string $text
+ * @param string $task RETRIEVAL_DOCUMENT (indexing) or RETRIEVAL_QUERY (search).
+ * @return array|WP_Error  Vector of floats.
+ */
+function leap_kb_embed( $text, $task = 'RETRIEVAL_QUERY' ) {
+	// Prefer the model that already worked (and that the index was built with).
+	$preferred = get_option( 'leap_embed_model', '' );
+	$candidates = $preferred
+		? array_merge( [ $preferred ], array_diff( leap_embed_models(), [ $preferred ] ) )
+		: leap_embed_models();
+
+	$last_error = null;
+	foreach ( $candidates as $model ) {
+		$vec = leap_kb_embed_with( $model, $text, $task );
+		if ( ! is_wp_error( $vec ) ) {
+			if ( $model !== $preferred ) {
+				update_option( 'leap_embed_model', $model );
+			}
+			return $vec;
+		}
+		$last_error = $vec;
+		// Only fall through to the next model on "not found / unsupported".
+		$msg = $vec->get_error_message();
+		if ( stripos( $msg, 'not found' ) === false && stripos( $msg, 'not supported' ) === false ) {
+			break; // a real error (bad key, quota) — stop trying
+		}
+	}
+	return new WP_Error( 'embed_failed', 'Embedding failed: ' . ( $last_error ? $last_error->get_error_message() : 'unknown' ) );
 }
 
 /** Split long text into overlapping word-bounded chunks. */
@@ -163,7 +194,7 @@ function leap_kb_build() {
 	if ( ! is_dir( $dir ) ) { wp_mkdir_p( $dir ); }
 
 	$payload = [
-		'model'   => LEAP_EMBED_MODEL,
+		'model'   => get_option( 'leap_embed_model', '' ),
 		'built'   => current_time( 'mysql' ),
 		'records' => $records,
 	];
