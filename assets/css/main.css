@@ -3806,6 +3806,9 @@ select.form-input {
 /* Stacked just above the chat toggle, bottom-right. */
 .fabs { display: block; }
 
+/* Hide the search while the chat is open; it returns when chat closes */
+body:has(#leap-chat.is-open) .fabs { display: none; }
+
 .fabs__toggle {
   position: fixed;
   bottom: calc(var(--space-6) + 54px + var(--space-3));
