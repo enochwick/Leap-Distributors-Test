@@ -208,6 +208,15 @@ function leap_ai_chat() {
 		wp_send_json_error( 'AI not configured' );
 	}
 
+	// Friendly handling for greetings / thanks so they don't hit the cold refusal.
+	$normalized = strtolower( trim( $message, " \t\n\r.!?," ) );
+	if ( preg_match( '/^(hi|hey|hello|yo|howdy|hiya|good (morning|afternoon|evening)|greetings)$/', $normalized ) ) {
+		wp_send_json_success( [ 'reply' => "Hi! I'm Leap's assistant. Ask me anything about Leap — our distribution services, the Stride platform, or how we work with surgeons, hospitals, and manufacturers." ] );
+	}
+	if ( preg_match( '/^(thanks|thank you|thx|ty|cheers|appreciate it)$/', $normalized ) ) {
+		wp_send_json_success( [ 'reply' => "You're welcome! Anything else about Leap I can help with?" ] );
+	}
+
 	// ── Retrieve grounding context from the knowledge base ──
 	$retrieval = leap_kb_search( $message, 5 );
 	$matches   = $retrieval['matches'];
