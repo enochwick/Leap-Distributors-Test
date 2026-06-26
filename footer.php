@@ -43,7 +43,7 @@
 						<p>
 							<a href="mailto:info@leapdistributors.com">info@leapdistributors.com</a>
 						</p>
-						<p style="margin-top:var(--space-2);">
+						<p style="margin:0;">
 							<a href="tel:+18887765553">+1 888-776-5553</a>
 						</p>
 						<p style="margin-top:var(--space-3);">
