@@ -34,7 +34,6 @@
 						<li><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>">About</a></li>
 						<li><a href="<?php echo esc_url( home_url( '/news/' ) ); ?>">News &amp; Insights</a></li>
 						<li><a href="<?php echo esc_url( home_url( '/careers/' ) ); ?>">Careers</a></li>
-						<li><a href="<?php echo esc_url( home_url( '/orders/' ) ); ?>">Orders</a></li>
 					</ul>
 				</div>
 
@@ -43,6 +42,9 @@
 					<address class="site-footer__contact">
 						<p>
 							<a href="mailto:info@leapdistributors.com">info@leapdistributors.com</a>
+						</p>
+						<p style="margin-top:var(--space-2);">
+							<a href="tel:+18887765553">+1 888-776-5553</a>
 						</p>
 						<p style="margin-top:var(--space-3);">
 							<span style="display:block;font-size:var(--text-xs);color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:var(--space-1);">Dallas HQ</span>
