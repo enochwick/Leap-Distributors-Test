@@ -3998,13 +3998,13 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 }
 .lc__trey:hover img { animation-play-state: paused; transform: translateY(-3px) scale(1.05); }
 .lc__trey img {
-  width: 58px;
+  width: 72px;
   height: auto;
   animation: trey-bob 3.4s ease-in-out infinite;
   transition: transform 0.2s var(--ease-out);
-  /* fade the bottom of the cutout into the background */
-  -webkit-mask-image: linear-gradient(to bottom, #000 52%, transparent 92%);
-  mask-image: linear-gradient(to bottom, #000 52%, transparent 92%);
+  /* fade only the very bottom of the cutout into the background */
+  -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
 }
 .lc__trey-bubble {
   background: #fff;
@@ -4031,7 +4031,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 }
 @media (max-width: 480px) {
   .lc__trey { bottom: var(--space-4); right: calc(var(--space-4) + var(--fab-size) + var(--space-2)); }
-  .lc__trey img { width: 46px; }
+  .lc__trey img { width: 58px; }
   .lc__trey-bubble { font-size: 11px; }
 }
 .lc__name  { font-size: var(--text-sm); font-weight: 600; color: var(--color-text); }
