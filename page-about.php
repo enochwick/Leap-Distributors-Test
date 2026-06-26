@@ -182,7 +182,7 @@
 
 				<div class="hcm-badge">
 					<span class="hcm-badge__dot"></span>
-					All data updated in real time
+					Year to date
 				</div>
 			</div>
 		</div>

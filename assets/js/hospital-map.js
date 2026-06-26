@@ -143,10 +143,13 @@
             layout: {
               'text-field':          ['match', ['get', 'name'], 'Alabama', 'AL', 'Alaska', 'AK', 'Arizona', 'AZ', 'Arkansas', 'AR', 'California', 'CA', 'Colorado', 'CO', 'Connecticut', 'CT', 'Delaware', 'DE', 'Florida', 'FL', 'Georgia', 'GA', 'Hawaii', 'HI', 'Idaho', 'ID', 'Illinois', 'IL', 'Indiana', 'IN', 'Iowa', 'IA', 'Kansas', 'KS', 'Kentucky', 'KY', 'Louisiana', 'LA', 'Maine', 'ME', 'Maryland', 'MD', 'Massachusetts', 'MA', 'Michigan', 'MI', 'Minnesota', 'MN', 'Mississippi', 'MS', 'Missouri', 'MO', 'Montana', 'MT', 'Nebraska', 'NE', 'Nevada', 'NV', 'New Hampshire', 'NH', 'New Jersey', 'NJ', 'New Mexico', 'NM', 'New York', 'NY', 'North Carolina', 'NC', 'North Dakota', 'ND', 'Ohio', 'OH', 'Oklahoma', 'OK', 'Oregon', 'OR', 'Pennsylvania', 'PA', 'Rhode Island', 'RI', 'South Carolina', 'SC', 'South Dakota', 'SD', 'Tennessee', 'TN', 'Texas', 'TX', 'Utah', 'UT', 'Vermont', 'VT', 'Virginia', 'VA', 'Washington', 'WA', 'West Virginia', 'WV', 'Wisconsin', 'WI', 'Wyoming', 'WY', 'District of Columbia', 'DC', 'Puerto Rico', 'PR', 'Guam', 'GU', 'American Samoa', 'AS', 'United States Virgin Islands', 'VI', 'Commonwealth of the Northern Mariana Islands', 'MP', ['get', 'name']],  /* abbreviated state names */
               'text-font':           ['DIN Offc Pro Medium', 'Arial Unicode MS Regular'],
-              'text-size':           ['interpolate', ['linear'], ['zoom'], 3, 9, 7, 13],
+              'text-size':           ['interpolate', ['linear'], ['zoom'], 3, 10, 7, 14],
               'text-transform':      'uppercase',
               'text-letter-spacing': 0.1,
               'text-max-width':      6,
+              /* always render the abbreviations — never dropped by collision (all devices) */
+              'text-allow-overlap':   true,
+              'text-ignore-placement': true,
             },
             paint: {
               /* same teal as the state borders */
