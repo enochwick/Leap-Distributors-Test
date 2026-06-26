@@ -195,13 +195,13 @@ if ( $hero_headline_raw ) {
 			<div class="vt-right">
 				<div class="vt-gallery" id="vt-gallery">
 					<div class="vt-slide is-active" data-vt-slide="0">
-						<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/surgeons.webp' ); ?>" alt="A surgical team at work in a modern operating room" loading="lazy" decoding="async">
+						<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/surgeons.webp' ); ?>" alt="A surgical team at work in a modern operating room" loading="eager" decoding="async">
 					</div>
 					<div class="vt-slide" data-vt-slide="1">
-						<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/hospitals.webp' ); ?>" alt="A clinician in a modern hospital corridor" loading="lazy" decoding="async">
+						<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/hospitals.webp' ); ?>" alt="A clinician in a modern hospital corridor" loading="eager" decoding="async">
 					</div>
 					<div class="vt-slide" data-vt-slide="2">
-						<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/manufacturers.webp' ); ?>" alt="Precision-machined surgical implants and instruments" loading="lazy" decoding="async">
+						<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/manufacturers.webp' ); ?>" alt="Precision-machined surgical implants and instruments" loading="eager" decoding="async">
 					</div>
 
 					<!-- Prev / Next -->
