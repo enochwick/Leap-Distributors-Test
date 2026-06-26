@@ -1406,9 +1406,6 @@ p { line-height: 1.7; }
 .vt-tabs {
   display: flex;
   flex-direction: column;
-  /* Stable height so expanding/collapsing a description never reflows
-     the page. JS refines this precisely; this is the safe baseline. */
-  min-height: 26rem;
 }
 
 .vt-tab {
@@ -1476,14 +1473,16 @@ p { line-height: 1.7; }
   transition: color 0.4s var(--ease-out);
 }
 
+/* Fixed reserved height for the open description so every tab makes the
+   column exactly the same height — no reflow of the page below. */
 .vt-tab__desc-wrap {
   overflow: hidden;
-  max-height: 0;
+  height: 0;
   opacity: 0;
-  transition: max-height 0.4s var(--ease-out), opacity 0.35s var(--ease-out);
+  transition: height 0.4s var(--ease-out), opacity 0.35s var(--ease-out);
 }
 .vt-tab.is-active .vt-tab__desc-wrap {
-  max-height: 200px;
+  height: 9.5rem;
   opacity: 1;
 }
 
@@ -1559,6 +1558,12 @@ p { line-height: 1.7; }
     order: -1;
   }
   .vt-gallery { aspect-ratio: 16/10; }
+  /* wider, full-width column → text wraps to fewer lines */
+  .vt-tab.is-active .vt-tab__desc-wrap { height: 7rem; }
+}
+@media (max-width: 480px) {
+  /* narrow phones → text wraps to more lines again */
+  .vt-tab.is-active .vt-tab__desc-wrap { height: 8.5rem; }
 }
 
 .pc-section {
