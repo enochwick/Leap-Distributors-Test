@@ -2267,6 +2267,20 @@ p { line-height: 1.7; }
   gap: var(--space-8);
 }
 
+/* On mobile, stack the action buttons and make both equal full-width */
+@media (max-width: 768px) {
+  .cta-banner__actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: var(--space-4);
+  }
+  .cta-banner__actions > .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 /* Newsletter form inside CTA banner — column layout so inputs sit above button */
 .cta-banner .newsletter-form {
   flex-direction: column;
