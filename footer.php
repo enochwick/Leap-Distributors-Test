@@ -82,9 +82,15 @@
 </div>
 
 <!-- ── AI Chat Widget ─────────────────────────────────── -->
-<div id="leap-chat" class="lc" aria-live="polite" aria-label="Leap AI Assistant">
+<div id="leap-chat" class="lc" aria-live="polite" aria-label="Chat with Trey">
 
-	<button class="lc__toggle" id="lc-toggle" aria-label="Open AI chat" aria-expanded="false">
+	<!-- Trey peeking next to the chat button -->
+	<div class="lc__trey" aria-hidden="true">
+		<span class="lc__trey-bubble">Hi, I'm Trey! 👋</span>
+		<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/trey.webp' ); ?>" alt="Trey, your Leap assistant" width="84" height="118" loading="lazy" decoding="async">
+	</div>
+
+	<button class="lc__toggle" id="lc-toggle" aria-label="Open chat with Trey" aria-expanded="false">
 		<svg class="lc__icon-chat" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
 		<svg class="lc__icon-close" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
 	</button>
@@ -92,10 +98,12 @@
 	<div class="lc__panel" id="lc-panel" aria-hidden="true">
 		<div class="lc__header">
 			<div class="lc__header-info">
-				<div class="lc__avatar" aria-hidden="true">L</div>
+				<div class="lc__avatar" aria-hidden="true">
+					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/trey.webp' ); ?>" alt="Trey">
+				</div>
 				<div>
-					<div class="lc__name">Leap AI</div>
-					<div class="lc__status"><span class="lc__status-dot"></span>Online</div>
+					<div class="lc__name">Trey</div>
+					<div class="lc__status"><span class="lc__status-dot"></span>Leap Assistant</div>
 				</div>
 			</div>
 			<button class="lc__handover-btn" id="lc-handover" type="button">Talk to a person</button>
@@ -103,7 +111,7 @@
 
 		<div class="lc__messages" id="lc-messages">
 			<div class="lc__msg lc__msg--ai">
-				<p>Hi! I'm Leap's AI assistant. Ask me anything about our distribution services, Stride platform, or how we work with surgeons, hospitals, and manufacturers.</p>
+				<p>Hi, I'm Trey, your Leap assistant. Ask me anything about our distribution services, the Stride platform, or how we work with surgeons, hospitals, and manufacturers.</p>
 			</div>
 		</div>
 

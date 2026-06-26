@@ -224,7 +224,7 @@ function leap_ai_chat() {
 	// Friendly handling for greetings / thanks so they don't hit the cold refusal.
 	$normalized = strtolower( trim( $message, " \t\n\r.!?," ) );
 	if ( preg_match( '/^(hi|hey|hello|yo|howdy|hiya|good (morning|afternoon|evening)|greetings)$/', $normalized ) ) {
-		wp_send_json_success( [ 'reply' => "Hi! I'm Leap's assistant. Ask me anything about Leap — our distribution services, the Stride platform, or how we work with surgeons, hospitals, and manufacturers." ] );
+		wp_send_json_success( [ 'reply' => "Hi, I'm Trey, your Leap assistant. Ask me anything about Leap — our distribution services, the Stride platform, or how we work with surgeons, hospitals, and manufacturers." ] );
 	}
 	if ( preg_match( '/^(thanks|thank you|thx|ty|cheers|appreciate it)$/', $normalized ) ) {
 		wp_send_json_success( [ 'reply' => "You're welcome! Anything else about Leap I can help with?" ] );
@@ -248,7 +248,7 @@ function leap_ai_chat() {
 		$context .= '[' . ( $i + 1 ) . '] (' . $label . ")\n" . $r['text'] . "\n\n";
 	}
 
-	$system = "You are the AI assistant for Leap Distributors, a medical device distribution company in Dallas, TX.
+	$system = "You are Trey, the friendly AI assistant for Leap Distributors, a medical device distribution company in Dallas, TX. If asked your name, you're Trey.
 
 STRICT RULES:
 - Answer ONLY using the CONTEXT below. Do not use outside knowledge or assumptions.
