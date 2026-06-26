@@ -29,12 +29,11 @@
     };
   }
 
-  var DEFAULT_CENTER = [-96, 37.8];
-  var DEFAULT_ZOOM   = 4;
+  /* Default framing — the south-central footprint (TX-centric). */
+  var DEFAULT_BOUNDS = [[-114, 25.5], [-91, 37.3]];
+  var FIT_OPTS       = { padding: 24 };
   /* Hard pan limit — user cannot drag beyond this box */
-  var MAX_BOUNDS     = [[-145, 17], [-50, 57]];
-  /* Softer inner box — drifting outside triggers auto-reset */
-  var RESET_BOUNDS   = new maplibregl.LngLatBounds([-130, 22], [-62, 52]);
+  var MAX_BOUNDS     = [[-130, 18], [-74, 46]];
 
   function init() {
     var el = document.getElementById('hcm-map');
@@ -44,8 +43,8 @@
       container:  'hcm-map',
       /* CartoDB dark-matter vector style — same as the mapcn component */
       style:      'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
-      center:     DEFAULT_CENTER,
-      zoom:       DEFAULT_ZOOM,
+      bounds:           DEFAULT_BOUNDS,
+      fitBoundsOptions: FIT_OPTS,
       minZoom:    3,
       maxZoom:    9,
       maxBounds:  MAX_BOUNDS,
@@ -55,17 +54,16 @@
     map.scrollZoom.disable();
 
     /* ── Auto-reset ─────────────────────────────────────────────
-       2.5 s after the user stops moving, fly back to the default
-       US view if the centre has drifted outside the US region.  */
+       After the visitor drags/zooms away, settle back to the default
+       framing. Only user-driven moves (which carry originalEvent)
+       trigger this, so our own programmatic reset doesn't loop.   */
     var resetTimer = null;
-    map.on('moveend', function () {
+    map.on('moveend', function (e) {
+      if (!e.originalEvent) return;
       clearTimeout(resetTimer);
       resetTimer = setTimeout(function () {
-        var c = map.getCenter();
-        if (!RESET_BOUNDS.contains(c) || map.getZoom() < 3.2) {
-          map.flyTo({ center: DEFAULT_CENTER, zoom: DEFAULT_ZOOM, duration: 1400, essential: true });
-        }
-      }, 2500);
+        map.fitBounds(DEFAULT_BOUNDS, { padding: 24, duration: 1300, essential: true });
+      }, 1800);
     });
 
     map.addControl(
