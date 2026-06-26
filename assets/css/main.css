@@ -3979,10 +3979,10 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 .lc__avatar img {
   width: 100%; height: 100%;
   object-fit: cover;
-  object-position: top center;
+  object-position: center 18%; /* frame Trey's face/smile */
 }
 
-/* Trey mascot peeking next to the chat button */
+/* Trey mascot peeking next to the chat button — click to open */
 .lc__trey {
   position: fixed;
   bottom: var(--space-6);
@@ -3992,14 +3992,16 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   flex-direction: column;
   align-items: center;
   gap: var(--space-2);
-  pointer-events: none;
+  cursor: pointer;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
+.lc__trey:hover img { animation-play-state: paused; transform: translateY(-3px) scale(1.05); }
 .lc__trey img {
-  width: 84px;
+  width: 58px;
   height: auto;
   filter: drop-shadow(0 8px 16px rgba(0,0,0,0.45));
   animation: trey-bob 3.4s ease-in-out infinite;
+  transition: transform 0.2s var(--ease-out);
 }
 .lc__trey-bubble {
   background: #fff;
@@ -4025,7 +4027,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 }
 @media (max-width: 480px) {
   .lc__trey { bottom: var(--space-4); right: calc(var(--space-4) + 54px + var(--space-2)); }
-  .lc__trey img { width: 64px; }
+  .lc__trey img { width: 46px; }
   .lc__trey-bubble { font-size: 11px; }
 }
 .lc__name  { font-size: var(--text-sm); font-weight: 600; color: var(--color-text); }

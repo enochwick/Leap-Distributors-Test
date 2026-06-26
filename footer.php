@@ -86,7 +86,7 @@
 
 	<!-- Trey peeking next to the chat button -->
 	<div class="lc__trey" aria-hidden="true">
-		<span class="lc__trey-bubble">Hi, I'm Trey! 👋</span>
+		<span class="lc__trey-bubble">Ask me about Leap 👋</span>
 		<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/trey.webp' ); ?>" alt="Trey, your Leap assistant" width="84" height="118" loading="lazy" decoding="async">
 	</div>
 

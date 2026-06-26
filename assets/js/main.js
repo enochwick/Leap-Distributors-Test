@@ -861,6 +861,10 @@ document.addEventListener('DOMContentLoaded', () => {
   toggle.addEventListener('click', () => isOpen ? closeChat() : openChat());
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && isOpen) closeChat(); });
 
+  // Clicking Trey (image or speech bubble) opens the chat.
+  var trey = widget.querySelector('.lc__trey');
+  if (trey) trey.addEventListener('click', () => { if (!isOpen) openChat(); });
+
   function appendMsg(role, text) {
     const div = document.createElement('div');
     div.className = 'lc__msg lc__msg--' + (role === 'user' ? 'user' : 'ai');
