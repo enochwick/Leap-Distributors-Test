@@ -4000,7 +4000,6 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 .lc__trey img {
   width: 72px;
   height: auto;
-  animation: trey-bob 3.4s ease-in-out infinite;
   transition: transform 0.2s var(--ease-out);
   /* fade only the very bottom of the cutout into the background */
   -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
