@@ -193,8 +193,10 @@
 	</div>
 
 	<!-- Live, sliding case feed (populated from the map data) -->
-	<div class="hcm-ticker" aria-hidden="true">
-		<div class="hcm-ticker__track" id="hcm-ticker"></div>
+	<div class="container">
+		<div class="hcm-ticker" aria-hidden="true">
+			<div class="hcm-ticker__track" id="hcm-ticker"></div>
+		</div>
 	</div>
 
 </section>
