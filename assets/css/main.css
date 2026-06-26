@@ -1406,6 +1406,9 @@ p { line-height: 1.7; }
 .vt-tabs {
   display: flex;
   flex-direction: column;
+  /* Stable height so expanding/collapsing a description never reflows
+     the page. JS refines this precisely; this is the safe baseline. */
+  min-height: 26rem;
 }
 
 .vt-tab {

@@ -703,7 +703,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // collapsing a description never reflows the sections below.
     function vtLockHeight() {
       if (!vtTabs) return;
-      vtTabs.style.minHeight = '';
+      vtTabs.style.minHeight = '0'; // drop the CSS floor to measure natural height
       let maxDesc = 0;
       tabs.forEach(t => {
         const d = t.querySelector('.vt-tab__desc-wrap');
