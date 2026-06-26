@@ -192,6 +192,11 @@
 		<div id="hcm-map" aria-label="Interactive hospital coverage map"></div>
 	</div>
 
+	<!-- Live, sliding case feed (populated from the map data) -->
+	<div class="hcm-ticker" aria-hidden="true">
+		<div class="hcm-ticker__track" id="hcm-ticker"></div>
+	</div>
+
 </section>
 
 <!-- ── CTA ────────────────────────────────────────────────── -->

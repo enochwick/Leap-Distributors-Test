@@ -332,11 +332,71 @@
       map.setPaintProperty('hospital-dots', 'circle-opacity', 0.88);
       map.setPaintProperty('hospital-dots', 'circle-stroke-color', 'rgba(255,255,255,0.35)');
     });
+
+    startTour(map);
   }
 
+  /* ── Auto-pulse tour: cycle the busiest cities, pulse each dot + popup.
+     Pauses while the visitor is interacting with the map.            */
+  function startTour(map) {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var top = HOSPITALS.slice().sort(function (a, b) { return b.cases - a.cases; }).slice(0, 15);
+    var tourPopup = new maplibregl.Popup({ closeButton: false, closeOnClick: false, className: 'hcm-popup', offset: 12 });
+    var i = 0, paused = false;
+
+    function resetDots() {
+      map.setPaintProperty('hospital-dots', 'circle-opacity', 0.88);
+      map.setPaintProperty('hospital-dots', 'circle-stroke-color', 'rgba(255,255,255,0.35)');
+      map.setPaintProperty('hospital-dots', 'circle-radius', ['get', 'radius']);
+    }
+
+    var mapEl = document.getElementById('hcm-map');
+    if (mapEl) {
+      // While the visitor explores, stop the tour and hand control to hover.
+      mapEl.addEventListener('mouseenter', function () { paused = true; tourPopup.remove(); resetDots(); });
+      mapEl.addEventListener('mouseleave', function () { paused = false; });
+    }
+
+    function step() {
+      if (!paused) {
+        var h = top[i % top.length];
+        tourPopup
+          .setLngLat([h.lng, h.lat])
+          .setHTML('<strong>' + h.city + ', ' + h.state + '</strong><span>' + h.cases + ' cases / yr</span>')
+          .addTo(map);
+        map.setPaintProperty('hospital-dots', 'circle-opacity', ['case', ['==', ['get', 'city'], h.city], 1, 0.7]);
+        map.setPaintProperty('hospital-dots', 'circle-stroke-color', ['case', ['==', ['get', 'city'], h.city], '#fff', 'rgba(255,255,255,0.3)']);
+        map.setPaintProperty('hospital-dots', 'circle-radius', [
+          'case', ['==', ['get', 'city'], h.city], ['+', ['get', 'radius'], 6], ['get', 'radius'],
+        ]);
+        i++;
+      }
+      setTimeout(step, 2600);
+    }
+    setTimeout(step, 1200);
+  }
+
+  /* Build the sliding case-feed ticker from the same data. */
+  function buildTicker() {
+    var el = document.getElementById('hcm-ticker');
+    if (!el) return;
+    var sorted = HOSPITALS.slice().sort(function (a, b) { return b.cases - a.cases; });
+    var html = sorted.map(function (h) {
+      return '<span class="hcm-ticker__item">' +
+        '<span class="hcm-ticker__dot" style="color:' + h.color + ';background:' + h.color + '"></span>' +
+        '<span class="hcm-ticker__city">' + h.city + ', ' + h.state + '</span>' +
+        '<span class="hcm-ticker__count">' + h.cases + ' cases</span>' +
+        '</span><span class="hcm-ticker__sep" aria-hidden="true">•</span>';
+    }).join('');
+    el.innerHTML = html + html; /* two copies → seamless -50% loop */
+  }
+
+  function boot() { buildTicker(); init(); }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', boot);
   } else {
-    init();
+    boot();
   }
 })();
