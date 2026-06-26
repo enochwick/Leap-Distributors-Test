@@ -269,7 +269,11 @@ CONTEXT:
 		'body'    => json_encode( [
 			'system_instruction' => [ 'parts' => [ [ 'text' => $system ] ] ],
 			'contents'           => $contents,
-			'generationConfig'   => [ 'maxOutputTokens' => 400, 'temperature' => 0.2 ],
+			'generationConfig'   => [
+				'maxOutputTokens' => 1024,
+				'temperature'     => 0.2,
+				'thinkingConfig'  => [ 'thinkingBudget' => 0 ], // no hidden reasoning tokens; full budget goes to the answer
+			],
 		] ),
 	] );
 
