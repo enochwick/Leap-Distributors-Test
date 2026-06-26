@@ -199,6 +199,37 @@
 		</div>
 	</div>
 
+	<!-- Case dashboard — summary + bar chart, filterable by state -->
+	<div class="container">
+		<div class="case-dash" id="case-dash">
+			<div class="case-dash__head">
+				<span class="case-dash__eyebrow">Case volume by location</span>
+				<div class="case-dash__filters" id="cd-filters"></div>
+			</div>
+
+			<div class="case-dash__stats">
+				<div class="case-dash__stat">
+					<span class="case-dash__val" id="cd-total">—</span>
+					<span class="case-dash__label">Cases</span>
+				</div>
+				<div class="case-dash__stat">
+					<span class="case-dash__val" id="cd-locations">—</span>
+					<span class="case-dash__label">Locations</span>
+				</div>
+				<div class="case-dash__stat">
+					<span class="case-dash__val" id="cd-top">—</span>
+					<span class="case-dash__label" id="cd-top-sub">Top location</span>
+				</div>
+				<div class="case-dash__stat">
+					<span class="case-dash__val" id="cd-avg">—</span>
+					<span class="case-dash__label" id="cd-avg-label">States</span>
+				</div>
+			</div>
+
+			<div class="case-dash__bars" id="cd-bars"></div>
+		</div>
+	</div>
+
 </section>
 
 <!-- ── CTA ────────────────────────────────────────────────── -->

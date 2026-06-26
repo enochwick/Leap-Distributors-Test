@@ -5182,6 +5182,131 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   .hcm-ticker__track { animation: none; }
 }
 
+/* ── Case dashboard ──────────────────────────────────────── */
+.case-dash {
+  margin-top: var(--space-10);
+}
+.case-dash__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+.case-dash__eyebrow {
+  font-family: var(--font-secondary);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(0,210,190,0.85);
+}
+.case-dash__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.case-dash__filter {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--color-text-2);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.case-dash__filter:hover { color: #fff; border-color: rgba(255,255,255,0.3); }
+.case-dash__filter.is-active {
+  background: rgba(0,210,190,0.14);
+  border-color: rgba(0,210,190,0.6);
+  color: #fff;
+}
+
+.case-dash__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+.case-dash__stat {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.case-dash__val {
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #fff;
+  line-height: 1.1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.case-dash__label {
+  font-size: var(--text-xs);
+  color: var(--color-text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.case-dash__bars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.cd-bar {
+  display: grid;
+  grid-template-columns: 110px 1fr 60px;
+  align-items: center;
+  gap: var(--space-4);
+}
+.cd-bar__label {
+  font-size: var(--text-sm);
+  color: var(--color-text-2);
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cd-bar__track {
+  height: 12px;
+  background: rgba(255,255,255,0.05);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+.cd-bar__fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: var(--radius-full);
+  transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cd-bar__val {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 768px) {
+  .case-dash__stats { grid-template-columns: repeat(2, 1fr); }
+  .cd-bar { grid-template-columns: 84px 1fr 48px; gap: var(--space-3); }
+  .cd-bar__label, .cd-bar__val { font-size: var(--text-xs); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cd-bar__fill { transition: none; }
+}
+
 /* Reset MapLibre canvas + container defaults */
 #hcm-map .maplibregl-map,
 #hcm-map .maplibregl-canvas-container { background: #0d0d0d; }

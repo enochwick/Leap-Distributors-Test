@@ -93,7 +93,10 @@ add_action( 'wp_enqueue_scripts', function() {
 		wp_enqueue_style(  'maplibre-gl',       'https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css', [], '4' );
 		wp_enqueue_script( 'maplibre-gl',       'https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.js',                   [], '4',    true );
 		wp_enqueue_script( 'topojson',          'https://unpkg.com/topojson-client@3/dist/topojson-client.min.js',       [], '3',    true );
-		wp_enqueue_script( 'leap-hospital-map', get_template_directory_uri() . '/assets/js/hospital-map.js', [ 'maplibre-gl', 'topojson' ], LEAP_VERSION, true );
+		// Shared case data (single source for the map + dashboard)
+		wp_enqueue_script( 'leap-case-data',    get_template_directory_uri() . '/assets/js/leap-case-data.js', [], LEAP_VERSION, true );
+		wp_enqueue_script( 'leap-hospital-map', get_template_directory_uri() . '/assets/js/hospital-map.js', [ 'maplibre-gl', 'topojson', 'leap-case-data' ], LEAP_VERSION, true );
+		wp_enqueue_script( 'leap-case-dashboard', get_template_directory_uri() . '/assets/js/case-dashboard.js', [ 'leap-case-data' ], LEAP_VERSION, true );
 	}
 } );
 
