@@ -2770,6 +2770,46 @@ select.form-input {
   gap: var(--space-3);
 }
 
+/* Footer search */
+.footer-search {
+  display: flex;
+  margin-top: var(--space-6);
+  max-width: 320px;
+}
+.footer-search__input {
+  flex: 1;
+  min-width: 0;
+  height: 42px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-right: none;
+  border-radius: var(--radius-full) 0 0 var(--radius-full);
+  padding: 0 var(--space-4);
+  font-size: var(--text-sm);
+  font-family: var(--font-primary);
+  color: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.footer-search__input::placeholder { color: rgba(255,255,255,0.4); }
+.footer-search__input:focus { border-color: rgba(42,125,225,0.5); }
+.footer-search__btn {
+  width: 46px;
+  height: 42px;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-left: none;
+  border-radius: 0 var(--radius-full) var(--radius-full) 0;
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s, background 0.2s;
+}
+.footer-search__btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
+
 .social-link {
   width: 36px;
   height: 36px;
@@ -3983,29 +4023,31 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   object-position: center 18%; /* frame Trey's face/smile */
 }
 
-/* Trey mascot peeking next to the chat button — click to open */
+/* Trey mascot peeking next to the chat button — click to open.
+   Image is the fixed anchor; the bubble floats above it (absolute),
+   so changing the bubble text never shifts Trey. */
 .lc__trey {
   position: fixed;
   bottom: var(--space-6);
   right: calc(var(--space-6) + var(--fab-size) + var(--space-2));
   z-index: 9000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-2);
   cursor: pointer;
+  line-height: 0;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
-.lc__trey:hover img { animation-play-state: paused; transform: translateY(-3px) scale(1.05); }
 .lc__trey img {
+  display: block;
   width: 72px;
   height: auto;
-  transition: transform 0.2s var(--ease-out);
   /* fade only the very bottom of the cutout into the background */
   -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
 }
 .lc__trey-bubble {
+  position: absolute;
+  bottom: calc(100% + var(--space-2));
+  left: 50%;
+  transform: translateX(-50%);
   background: rgba(255,255,255,0.1);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
@@ -4013,6 +4055,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   color: #fff;
   font-size: 12px;
   font-weight: 600;
+  line-height: 1.3;
   padding: 0.4rem 0.75rem;
   border-radius: 12px;
   white-space: nowrap;
