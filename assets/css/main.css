@@ -5149,7 +5149,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   gap: var(--space-8);
   white-space: nowrap;
   will-change: transform;
-  animation: hcm-ticker-scroll 150s linear infinite;
+  animation: hcm-ticker-scroll 220s linear infinite;
 }
 .hcm-ticker:hover .hcm-ticker__track { animation-play-state: paused; }
 

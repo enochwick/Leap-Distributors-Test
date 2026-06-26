@@ -262,8 +262,9 @@
               'text-max-width':      6,
             },
             paint: {
-              'text-color':      'rgba(255, 255, 255, 0.28)',
-              'text-halo-color': 'rgba(0, 0, 0, 0.5)',
+              /* same teal as the state borders */
+              'text-color':      'rgba(0, 210, 190, 0.55)',
+              'text-halo-color': 'rgba(0, 0, 0, 0.55)',
               'text-halo-width': 1,
             },
           });
@@ -294,6 +295,30 @@
         'circle-stroke-color': 'rgba(255,255,255,0.35)',
       },
     });
+
+    /* Radar-pulse halo beneath each dot */
+    map.addLayer({
+      id: 'hospital-pulse',
+      type: 'circle',
+      source: 'hospitals',
+      paint: {
+        'circle-color':   ['get', 'color'],
+        'circle-radius':  ['get', 'radius'],
+        'circle-opacity': 0,
+        'circle-blur':    0.4,
+      },
+    }, 'hospital-dots');
+
+    if (!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+      var pulseStart = null;
+      (function pulse(ts) {
+        if (pulseStart === null) { pulseStart = ts; }
+        var p = ( ( ts - pulseStart ) % 1900 ) / 1900; // 0→1 over 1.9s
+        map.setPaintProperty('hospital-pulse', 'circle-radius',  ['*', ['get', 'radius'], 1 + p * 2.2]);
+        map.setPaintProperty('hospital-pulse', 'circle-opacity', 0.5 * (1 - p));
+        requestAnimationFrame(pulse);
+      })(performance.now());
+    }
 
     /* Hover popup */
     var popup = new maplibregl.Popup({
