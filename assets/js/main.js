@@ -881,11 +881,27 @@ document.addEventListener('DOMContentLoaded', () => {
     return div;
   }
 
+  // Auto-grow the textarea with its content (capped by CSS max-height).
+  function autoGrow() {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+  }
+  input.addEventListener('input', autoGrow);
+
+  // Enter sends, Shift+Enter inserts a newline.
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      form.requestSubmit();
+    }
+  });
+
   form.addEventListener('submit', async e => {
     e.preventDefault();
     const msg = input.value.trim();
     if (!msg || isLoading) return;
     input.value = '';
+    autoGrow();
     isLoading = true;
     form.querySelector('.lc__send').disabled = true;
     appendMsg('user', msg);

@@ -1215,7 +1215,8 @@ p { line-height: 1.7; }
 .hero__scroll {
   position: absolute;
   bottom: clamp(2rem, 4vw, 3.5rem);
-  right: clamp(1.5rem, 5vw, 5rem);
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -4039,19 +4040,25 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   border-top: 1px solid rgba(255,255,255,0.07);
   display: flex;
   gap: var(--space-2);
-  align-items: center;
+  align-items: flex-end;
 }
 .lc__input {
   flex: 1;
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.1);
-  border-radius: var(--radius-full);
-  padding: 0.55rem 1rem;
+  border-radius: var(--radius-lg);
+  padding: 0.5rem 1rem;
   font-size: var(--text-sm);
+  line-height: 1.4;
   color: var(--color-text);
   font-family: var(--font-primary);
   outline: none;
   transition: border-color 0.2s;
+  /* Auto-growing textarea */
+  resize: none;
+  overflow-y: auto;
+  max-height: 120px;
+  min-height: 38px;
 }
 .lc__input::placeholder { color: var(--color-text-4); }
 .lc__input:focus { border-color: rgba(42,125,225,0.5); }
