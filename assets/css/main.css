@@ -517,8 +517,7 @@ p { line-height: 1.7; }
   left: 0;
   right: 0;
   z-index: 1000;
-  height: calc(var(--nav-height) + var(--space-4));
-  padding-top: var(--space-4); /* a line of space above the nav */
+  height: calc(var(--nav-height) + var(--space-4)); /* a little taller for breathing room */
   transition: background 0.4s var(--ease-out),
               box-shadow 0.4s var(--ease-out);
 }
