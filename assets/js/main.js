@@ -865,6 +865,19 @@ document.addEventListener('DOMContentLoaded', () => {
   var trey = widget.querySelector('.lc__trey');
   if (trey) trey.addEventListener('click', () => { if (!isOpen) openChat(); });
 
+  // Alternate Trey's speech bubble between two prompts.
+  var bubble = widget.querySelector('.lc__trey-bubble');
+  if (bubble) {
+    const bubbleMsgs = ["Hi, I'm Trey! 👋", 'Ask me about Leap 👋'];
+    let bi = 0;
+    setInterval(() => {
+      if (isOpen) return;
+      bi = (bi + 1) % bubbleMsgs.length;
+      bubble.style.opacity = '0';
+      setTimeout(() => { bubble.textContent = bubbleMsgs[bi]; bubble.style.opacity = '1'; }, 300);
+    }, 4500);
+  }
+
   function appendMsg(role, text) {
     const div = document.createElement('div');
     div.className = 'lc__msg lc__msg--' + (role === 'user' ? 'user' : 'ai');
