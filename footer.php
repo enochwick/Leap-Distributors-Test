@@ -98,6 +98,7 @@
 					<div class="lc__status"><span class="lc__status-dot"></span>Online</div>
 				</div>
 			</div>
+			<button class="lc__handover-btn" id="lc-handover" type="button">Talk to a person</button>
 		</div>
 
 		<div class="lc__messages" id="lc-messages">

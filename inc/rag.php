@@ -30,6 +30,34 @@ function leap_ai_key() {
 		: get_option( 'leap_google_ai_key', '' );
 }
 
+/**
+ * POST JSON to a Gemini endpoint with retries on transient failures
+ * (network errors, timeouts, 408/429/5xx). Returns the wp_remote response.
+ */
+function leap_ai_post( $endpoint, $payload, $timeout = 30, $tries = 3 ) {
+	$last = null;
+	for ( $i = 0; $i < $tries; $i++ ) {
+		$res = wp_remote_post( $endpoint, [
+			'timeout' => $timeout,
+			'headers' => [ 'Content-Type' => 'application/json' ],
+			'body'    => wp_json_encode( $payload ),
+		] );
+		if ( ! is_wp_error( $res ) ) {
+			$code = wp_remote_retrieve_response_code( $res );
+			if ( $code >= 200 && $code < 300 ) {
+				return $res; // success
+			}
+			// Non-transient error (bad key, model not found, bad request): don't retry.
+			if ( ! in_array( $code, [ 408, 429, 500, 502, 503, 504 ], true ) ) {
+				return $res;
+			}
+		}
+		$last = $res;
+		usleep( 350000 * ( $i + 1 ) ); // backoff: 0.35s, 0.7s
+	}
+	return $last;
+}
+
 /** Low-level: embed with one specific model. Returns vector or WP_Error. */
 function leap_kb_embed_with( $model, $text, $task ) {
 	$key = leap_ai_key();
@@ -39,14 +67,10 @@ function leap_kb_embed_with( $model, $text, $task ) {
 	$endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/'
 		. $model . ':embedContent?key=' . urlencode( $key );
 
-	$res = wp_remote_post( $endpoint, [
-		'timeout' => 30,
-		'headers' => [ 'Content-Type' => 'application/json' ],
-		'body'    => wp_json_encode( [
-			'model'    => 'models/' . $model,
-			'content'  => [ 'parts' => [ [ 'text' => $text ] ] ],
-			'taskType' => $task,
-		] ),
+	$res = leap_ai_post( $endpoint, [
+		'model'    => 'models/' . $model,
+		'content'  => [ 'parts' => [ [ 'text' => $text ] ] ],
+		'taskType' => $task,
 	] );
 
 	if ( is_wp_error( $res ) ) {
@@ -199,9 +223,39 @@ function leap_kb_build() {
 		'records' => $records,
 	];
 	file_put_contents( LEAP_KB_FILE, wp_json_encode( $payload ) );
+	update_option( 'leap_kb_hash', leap_kb_content_hash() ); // mark current content as indexed
 
 	$titles = array_unique( wp_list_pluck( $records, 'title' ) );
 	return [ 'chunks' => count( $records ), 'sources' => count( $titles ) ];
+}
+
+/** Fingerprint of all source content; changes when site copy or documents change. */
+function leap_kb_content_hash() {
+	$parts = [];
+	if ( function_exists( 'leap_get_search_index' ) ) {
+		$parts[] = wp_json_encode( leap_get_search_index() );
+	}
+	if ( is_dir( LEAP_KB_DIR ) ) {
+		foreach ( glob( LEAP_KB_DIR . '/*.{txt,md}', GLOB_BRACE ) as $f ) {
+			if ( strcasecmp( pathinfo( $f, PATHINFO_FILENAME ), 'README' ) === 0 ) { continue; }
+			$parts[] = basename( $f ) . ':' . filemtime( $f ) . ':' . filesize( $f );
+		}
+	}
+	$parts[] = get_option( 'leap_embed_model', '' );
+	return md5( implode( '|', $parts ) );
+}
+
+/**
+ * Rebuild the index only if the content changed since the last build.
+ * Runs on a schedule, so new deploys / documents get picked up automatically.
+ */
+function leap_kb_maybe_rebuild() {
+	if ( ! leap_ai_key() ) { return; }
+	$current = leap_kb_content_hash();
+	if ( file_exists( LEAP_KB_FILE ) && $current === get_option( 'leap_kb_hash', '' ) ) {
+		return; // already up to date
+	}
+	leap_kb_build(); // build() stores the new hash on success
 }
 
 /** Cosine similarity between two equal-length vectors. */

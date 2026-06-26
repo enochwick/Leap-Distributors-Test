@@ -191,6 +191,16 @@ add_action( 'admin_post_nopriv_leap_newsletter_form', 'leap_handle_newsletter_fo
 
 // ── Knowledge base / RAG ──────────────────────────────────────
 require_once get_template_directory() . '/inc/rag.php';
+require_once get_template_directory() . '/inc/chat-log.php';
+
+// Auto-reindex: rebuild the knowledge base hourly *only if content changed*,
+// so new deploys / documents get picked up without clicking "Rebuild".
+add_action( 'init', function() {
+	if ( ! wp_next_scheduled( 'leap_kb_reindex_event' ) ) {
+		wp_schedule_event( time() + 300, 'hourly', 'leap_kb_reindex_event' );
+	}
+} );
+add_action( 'leap_kb_reindex_event', 'leap_kb_maybe_rebuild' );
 
 // ── AI Chat Handler ───────────────────────────────────────────
 function leap_ai_chat() {
@@ -263,18 +273,15 @@ CONTEXT:
 
 	$endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' . urlencode( $api_key );
 
-	$response = wp_remote_post( $endpoint, [
-		'timeout' => 30,
-		'headers' => [ 'Content-Type' => 'application/json' ],
-		'body'    => json_encode( [
-			'system_instruction' => [ 'parts' => [ [ 'text' => $system ] ] ],
-			'contents'           => $contents,
-			'generationConfig'   => [
-				'maxOutputTokens' => 1024,
-				'temperature'     => 0.2,
-				'thinkingConfig'  => [ 'thinkingBudget' => 0 ], // no hidden reasoning tokens; full budget goes to the answer
-			],
-		] ),
+	// leap_ai_post() retries transient failures (timeouts / 429 / 5xx).
+	$response = leap_ai_post( $endpoint, [
+		'system_instruction' => [ 'parts' => [ [ 'text' => $system ] ] ],
+		'contents'           => $contents,
+		'generationConfig'   => [
+			'maxOutputTokens' => 1024,
+			'temperature'     => 0.2,
+			'thinkingConfig'  => [ 'thinkingBudget' => 0 ], // no hidden reasoning tokens; full budget goes to the answer
+		],
 	] );
 
 	if ( is_wp_error( $response ) ) {
@@ -288,10 +295,55 @@ CONTEXT:
 		wp_send_json_error( 'No response' );
 	}
 
+	// Log the exchange (source labels included for review).
+	$sources = [];
+	foreach ( $matches as $m ) {
+		$sources[] = $m['record']['source'] . ': ' . $m['record']['title'];
+	}
+	leap_log_chat( $message, $text, array_values( array_unique( $sources ) ) );
+
 	wp_send_json_success( [ 'reply' => $text ] );
 }
 add_action( 'wp_ajax_leap_ai_chat',        'leap_ai_chat' );
 add_action( 'wp_ajax_nopriv_leap_ai_chat', 'leap_ai_chat' );
+
+// ── Human handover ────────────────────────────────────────────
+function leap_chat_handover() {
+	check_ajax_referer( 'leap_chat_nonce', 'nonce' );
+
+	$name       = sanitize_text_field( wp_unslash( $_POST['name'] ?? '' ) );
+	$email      = sanitize_email( wp_unslash( $_POST['email'] ?? '' ) );
+	$message    = sanitize_textarea_field( wp_unslash( $_POST['message'] ?? '' ) );
+	$transcript = sanitize_textarea_field( wp_unslash( $_POST['transcript'] ?? '' ) );
+
+	if ( ! is_email( $email ) || $message === '' ) {
+		wp_send_json_error( 'Please add a valid email and a short message.' );
+	}
+
+	leap_log_handover( $name, $email, $message, $transcript );
+
+	// Notify the team by email.
+	$to      = get_option( 'leap_handover_email', '' ) ?: 'info@leapdistributors.com';
+	$subject = 'Chat handover request from ' . ( $name ?: $email );
+	$body    = "A visitor asked to speak with a person via the website chat.\n\n"
+		. "Name: {$name}\nEmail: {$email}\n\nMessage:\n{$message}\n\n"
+		. ( $transcript ? "— Conversation so far —\n{$transcript}\n" : '' );
+	wp_mail( $to, $subject, $body, [ 'Reply-To: ' . $email ] );
+
+	// Optional Slack notification.
+	$slack = get_option( 'leap_slack_webhook', '' );
+	if ( $slack ) {
+		wp_remote_post( $slack, [
+			'timeout' => 8,
+			'headers' => [ 'Content-Type' => 'application/json' ],
+			'body'    => wp_json_encode( [ 'text' => "*Chat handover* from {$name} ({$email})\n>{$message}" ] ),
+		] );
+	}
+
+	wp_send_json_success( [ 'reply' => "Thanks, {$name}! A Leap team member will reach out by email shortly." ] );
+}
+add_action( 'wp_ajax_leap_chat_handover',        'leap_chat_handover' );
+add_action( 'wp_ajax_nopriv_leap_chat_handover', 'leap_chat_handover' );
 
 // Pass chat nonce to JS
 add_action( 'wp_enqueue_scripts', function() {
@@ -315,9 +367,13 @@ add_action( 'admin_menu', function() {
 
 add_action( 'admin_init', function() {
 	register_setting( 'leap_ai_settings', 'leap_google_ai_key', [
-		'type'              => 'string',
-		'sanitize_callback' => 'sanitize_text_field',
-		'default'           => '',
+		'type' => 'string', 'sanitize_callback' => 'sanitize_text_field', 'default' => '',
+	] );
+	register_setting( 'leap_ai_settings', 'leap_handover_email', [
+		'type' => 'string', 'sanitize_callback' => 'sanitize_email', 'default' => '',
+	] );
+	register_setting( 'leap_ai_settings', 'leap_slack_webhook', [
+		'type' => 'string', 'sanitize_callback' => 'esc_url_raw', 'default' => '',
 	] );
 } );
 
@@ -366,8 +422,26 @@ function leap_ai_settings_page() {
 						<p class="description">Stored in the database. For higher security, define <code>GOOGLE_AI_KEY</code> in <code>wp-config.php</code> instead.</p>
 					</td>
 				</tr>
+				<tr>
+					<th scope="row"><label for="leap_handover_email">Handover email</label></th>
+					<td>
+						<input name="leap_handover_email" id="leap_handover_email" type="email"
+							value="<?php echo esc_attr( get_option( 'leap_handover_email', '' ) ); ?>"
+							class="regular-text" placeholder="info@leapdistributors.com">
+						<p class="description">Where "Talk to a person" requests are emailed. Defaults to info@leapdistributors.com.</p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="leap_slack_webhook">Slack webhook (optional)</label></th>
+					<td>
+						<input name="leap_slack_webhook" id="leap_slack_webhook" type="url"
+							value="<?php echo esc_attr( get_option( 'leap_slack_webhook', '' ) ); ?>"
+							class="regular-text" placeholder="https://hooks.slack.com/services/…">
+						<p class="description">If set, handover requests also post to this Slack channel.</p>
+					</td>
+				</tr>
 			</table>
-			<?php submit_button( 'Save Key' ); ?>
+			<?php submit_button( 'Save Settings' ); ?>
 		</form>
 
 		<hr>

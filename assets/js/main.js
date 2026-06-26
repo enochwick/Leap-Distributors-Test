@@ -931,6 +931,62 @@ document.addEventListener('DOMContentLoaded', () => {
     form.querySelector('.lc__send').disabled = false;
     input.focus();
   });
+
+  // ── Human handover ──────────────────────────────────────
+  const handoverBtn = document.getElementById('lc-handover');
+  if (handoverBtn) {
+    let handoverOpen = false;
+    handoverBtn.addEventListener('click', () => {
+      if (handoverOpen) return;
+      handoverOpen = true;
+
+      const wrap = document.createElement('div');
+      wrap.className = 'lc__handover';
+      wrap.innerHTML =
+        '<p class="lc__handover-title">Talk to a person</p>' +
+        '<input class="lc__handover-field" type="text" id="lc-ho-name" placeholder="Your name" autocomplete="name">' +
+        '<input class="lc__handover-field" type="email" id="lc-ho-email" placeholder="Email" autocomplete="email" required>' +
+        '<textarea class="lc__handover-field" id="lc-ho-msg" rows="2" placeholder="How can we help?" required></textarea>' +
+        '<button class="lc__handover-send" type="button" id="lc-ho-send">Send to the team</button>';
+      messages.appendChild(wrap);
+      messages.scrollTop = messages.scrollHeight;
+
+      document.getElementById('lc-ho-send').addEventListener('click', async () => {
+        const name  = document.getElementById('lc-ho-name').value.trim();
+        const email = document.getElementById('lc-ho-email').value.trim();
+        const note  = document.getElementById('lc-ho-msg').value.trim();
+        if (!email || !note) { return; }
+
+        const sendBtn = document.getElementById('lc-ho-send');
+        sendBtn.disabled = true;
+        sendBtn.textContent = 'Sending…';
+
+        const transcript = history.map(h =>
+          (h.role === 'user' ? 'Visitor: ' : 'Leap AI: ') + h.content).join('\n');
+
+        try {
+          const data = new FormData();
+          data.append('action',     'leap_chat_handover');
+          data.append('nonce',      leapChat.nonce);
+          data.append('name',       name);
+          data.append('email',      email);
+          data.append('message',    note);
+          data.append('transcript', transcript);
+          const res  = await fetch(leapChat.ajaxUrl, { method: 'POST', body: data });
+          const json = await res.json();
+          wrap.remove();
+          handoverOpen = false;
+          appendMsg('ai', (json.success && json.data.reply)
+            ? json.data.reply
+            : (json.data || 'Something went wrong — please email info@leapdistributors.com.'));
+        } catch (_) {
+          sendBtn.disabled = false;
+          sendBtn.textContent = 'Send to the team';
+          appendMsg('ai', 'Connection error — please email info@leapdistributors.com.');
+        }
+      });
+    });
+  }
 })();
 
 

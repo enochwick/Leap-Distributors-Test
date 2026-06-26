@@ -4077,6 +4077,60 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 .lc__send:hover { background: var(--color-blue-light); transform: scale(1.05); }
 .lc__send:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
+/* Human handover */
+.lc__handover-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.8);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.lc__handover-btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.4); color: #fff; }
+
+.lc__handover {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  margin-top: var(--space-2);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-lg);
+}
+.lc__handover-title { font-size: var(--text-sm); font-weight: 600; color: var(--color-text); margin: 0 0 2px; }
+.lc__handover-field {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 0.7rem;
+  font-size: var(--text-sm);
+  font-family: var(--font-primary);
+  color: var(--color-text);
+  outline: none;
+  resize: none;
+}
+.lc__handover-field::placeholder { color: var(--color-text-4); }
+.lc__handover-field:focus { border-color: rgba(42,125,225,0.5); }
+.lc__handover-send {
+  background: var(--color-blue);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 0.55rem 1rem;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.lc__handover-send:hover { background: var(--color-blue-light); }
+.lc__handover-send:disabled { opacity: 0.5; cursor: not-allowed; }
+
 @media (max-width: 480px) {
   .lc { bottom: var(--space-4); right: var(--space-4); }
   /* Full-width panel won't fit beside the button — stack it above instead */
