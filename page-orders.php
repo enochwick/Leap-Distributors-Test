@@ -37,7 +37,7 @@
 		<div class="card reveal" data-glow style="padding:var(--space-10);text-align:center;">
 			<h3 style="margin-bottom:var(--space-4);">Need Help with an Order?</h3>
 			<p style="color:var(--color-text-2);font-weight:300;margin-bottom:var(--space-8);">Our client support team is available to assist with orders, returns, billing, and product questions.</p>
-			<div style="display:flex;justify-content:center;flex-wrap:wrap;gap:var(--space-4);">
+			<div class="btn-row" style="display:flex;justify-content:center;flex-wrap:wrap;gap:var(--space-4);">
 				<a href="tel:+18887765553" class="btn btn--primary">Call +1 888-776-5553</a>
 				<a href="mailto:info@leapdistributors.com" class="btn btn--hero-ghost">Email Support</a>
 			</div>

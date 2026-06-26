@@ -2269,13 +2269,15 @@ p { line-height: 1.7; }
 
 /* On mobile, stack the action buttons and make both equal full-width */
 @media (max-width: 768px) {
-  .cta-banner__actions {
+  .cta-banner__actions,
+  .btn-row {
     flex-direction: column;
     align-items: stretch;
     width: 100%;
     gap: var(--space-4);
   }
-  .cta-banner__actions > .btn {
+  .cta-banner__actions > .btn,
+  .btn-row > .btn {
     width: 100%;
     justify-content: center;
   }
