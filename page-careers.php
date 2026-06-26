@@ -114,7 +114,7 @@
 			<p class="reveal">If you're passionate about healthcare and want your work to matter, we'd love to hear from you.</p>
 			<div class="cta-banner__actions reveal">
 				<a href="mailto:careers@leapdistributors.com" class="btn btn--primary btn--lg">Email Our Team</a>
-				<a href="<?php echo esc_url( home_url( '/about/' ) ); ?>" class="btn btn--ghost btn--lg">Learn About Leap</a>
+				<a href="<?php echo esc_url( home_url( '/about/' ) ); ?>" class="btn btn--hero-ghost">Learn About Leap</a>
 			</div>
 		</div>
 	</div>

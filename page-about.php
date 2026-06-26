@@ -242,7 +242,7 @@
 			<p class="reveal">Now you know us. Let's get to know you.</p>
 			<div class="cta-banner__actions reveal">
 				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg">Let's talk <span aria-hidden="true">→</span></a>
-				<a href="<?php echo esc_url( home_url( '/careers/' ) ); ?>" class="arrow-link arrow-link--white">Join the team <span aria-hidden="true">→</span></a>
+				<a href="<?php echo esc_url( home_url( '/careers/' ) ); ?>" class="btn btn--hero-ghost">Join the team</a>
 			</div>
 		</div>
 	</div>
