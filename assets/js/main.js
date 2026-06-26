@@ -696,7 +696,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabs   = vtSection.querySelectorAll('.vt-tab');
     const slides = vtSection.querySelectorAll('.vt-slide');
     const gallery = vtSection.querySelector('.vt-gallery');
+    const vtTabs  = vtSection.querySelector('.vt-tabs');
     const DURATION = 5000;
+
+    // Lock the tabs column to the height of its tallest state so expanding /
+    // collapsing a description never reflows the sections below.
+    function vtLockHeight() {
+      if (!vtTabs) return;
+      vtTabs.style.minHeight = '';
+      let maxDesc = 0;
+      tabs.forEach(t => {
+        const d = t.querySelector('.vt-tab__desc-wrap');
+        if (d) maxDesc = Math.max(maxDesc, d.scrollHeight);
+      });
+      const activeDesc = vtSection.querySelector('.vt-tab.is-active .vt-tab__desc-wrap');
+      const collapsed  = vtTabs.offsetHeight - (activeDesc ? activeDesc.scrollHeight : 0);
+      vtTabs.style.minHeight = Math.ceil(collapsed + maxDesc) + 'px';
+    }
+    let vtResizeTimer = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(vtResizeTimer);
+      vtResizeTimer = setTimeout(vtLockHeight, 200);
+    });
+    vtLockHeight();
+    window.addEventListener('load', vtLockHeight);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(vtLockHeight);
     let current = 0;
     let timer   = null;
     let paused  = false;
