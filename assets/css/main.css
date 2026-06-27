@@ -5307,6 +5307,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 /* ── Case dashboard ──────────────────────────────────────── */
 .case-dash {
   margin-top: var(--space-10);
+  margin-bottom: var(--section-pad-y); /* breathing room before the footer CTA */
 }
 .case-dash__head {
   display: flex;

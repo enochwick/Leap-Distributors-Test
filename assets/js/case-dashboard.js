@@ -46,8 +46,8 @@
     var total = rows.reduce(function (a, d) { return a + d.cases; }, 0);
     var top   = rows.slice().sort(function (a, b) { return b.cases - a.cases; })[0];
 
-    elTotal.textContent = fmt(total);
-    elLoc.textContent   = fmt(rows.length);
+    setNum(elTotal, total);
+    setNum(elLoc, rows.length);
     elTop.textContent   = top ? top.city : '—';
     elTopSub.textContent = top
       ? fmt(top.cases) + ' cases' + (current === 'ALL' ? ' · ' + top.state : '')
@@ -55,10 +55,10 @@
 
     if (current === 'ALL') {
       elAvgLbl.textContent = 'States';
-      elAvg.textContent    = states.length;
+      setNum(elAvg, states.length);
     } else {
       elAvgLbl.textContent = 'Avg / location';
-      elAvg.textContent    = fmt(Math.round(total / Math.max(rows.length, 1)));
+      setNum(elAvg, Math.round(total / Math.max(rows.length, 1)));
     }
 
     // Bars: by state when "All", else top 10 cities in the state.
@@ -86,5 +86,40 @@
     });
   }
 
-  render();
+  // Count a number up from 0 (respects reduced motion).
+  function setNum(el, value) {
+    if (!animateOn || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+      el.textContent = fmt(value);
+      return;
+    }
+    var dur = 1000, start = null;
+    function step(now) {
+      if (start === null) start = now;
+      var p = Math.min((now - start) / dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt(Math.round(value * eased));
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  // Hold the count-up animation until the dashboard scrolls into view.
+  var animateOn = false;
+  function reveal() {
+    if (animateOn) return;
+    animateOn = true;
+    render();
+  }
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { reveal(); io.disconnect(); }
+      });
+    }, { threshold: 0.15 });
+    io.observe(root);
+  } else {
+    animateOn = true;
+    render();
+  }
 })();
