@@ -3380,49 +3380,63 @@ select.form-input {
 }
 
 @media (max-width: 768px) {
-  /* Simplified: a clean vertical list — figure centered, info below. */
+  /* Simplified: a clean list of cards — circular headshot + info beside it. */
   .founders-mosaic {
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     flex-wrap: nowrap;
     min-height: unset;
-    gap: var(--space-8);
+    gap: var(--space-3);
     margin-top: var(--space-8);
-    padding: var(--space-8) var(--space-4);
+    padding: var(--space-4);
+    border-radius: var(--radius-xl);
   }
   .founder-tile {
     width: 100%;
-    max-width: 340px;
+    max-width: none;
     margin-left: 0 !important;
     transform: none !important;
     filter: none !important;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     cursor: default;
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background: rgba(0,16,24,0.5);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-lg);
   }
   .founder-tile img {
-    width: 170px;
-    filter: drop-shadow(0 14px 22px rgba(0,0,0,0.4));
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top center;
+    background: var(--color-surface);
+    filter: none;
   }
-  /* Show the bio inline (no hover bubble) */
+  /* Inline info (no hover bubble) */
   .founder-tile__info {
     position: static;
     transform: none;
     opacity: 1;
     pointer-events: auto;
-    width: 100%;
+    width: auto;
     max-width: none;
-    margin-top: var(--space-3);
+    margin: 0;
     padding: 0;
     background: none;
     border: none;
     box-shadow: none;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-    text-align: center;
+    text-align: left;
   }
   .founder-tile__info::after { display: none; }
+  .founder-tile__name { font-size: var(--text-base); margin-bottom: 2px; }
+  /* Bio is long for a compact card — keep the headline info clean */
+  .founder-tile__bio { display: none; }
 }
 
 /* ── Reason Grid (Distributors page) ────────────────────── */
