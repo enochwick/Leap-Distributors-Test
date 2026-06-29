@@ -622,20 +622,26 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => el.classList.add('is-visible'), 200 + i * 150);
     });
 
-    // Tilt flattens after first scroll — no y offset so image is never cropped
-    gsap.set(phgGallery, { rotateX: 32, scale: 0.92, transformOrigin: 'center center' });
+    // Scroll-driven tilt is a desktop effect only — on mobile the pinned
+    // full-height section leaves a big empty gap, so we skip it and let the
+    // laptop render inline (see the matching mobile CSS).
+    if (window.matchMedia('(min-width: 769px)').matches &&
+        !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // Tilt flattens after first scroll — no y offset so image is never cropped
+      gsap.set(phgGallery, { rotateX: 32, scale: 0.92, transformOrigin: 'center center' });
 
-    gsap.to(phgGallery, {
-      rotateX: 0,
-      scale: 1,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.phg-section',
-        start: 'top top',
-        end: 'top+=15% top',
-        scrub: 0.4,
-      },
-    });
+      gsap.to(phgGallery, {
+        rotateX: 0,
+        scale: 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.phg-section',
+          start: 'top top',
+          end: 'top+=15% top',
+          scrub: 0.4,
+        },
+      });
+    }
   }
 
   // ── Platform capabilities — sticky stacking cards ─────────
