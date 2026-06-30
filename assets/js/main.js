@@ -822,7 +822,7 @@ document.addEventListener('DOMContentLoaded', () => {
       blurInBio(data[active].bio);
     }
     function stop()  { if (timer) { clearInterval(timer); timer = null; } }
-    function start() { stop(); if (mq.matches) timer = setInterval(function () { active = (active + 1) % n; render(); }, 5000); }
+    function start() { stop(); if (mq.matches) timer = setInterval(function () { active = (active + 1) % n; render(); }, 10000); }
     function go(d)   { active = (active + d + n) % n; render(); start(); }
 
     fcov.querySelector('[data-dir="prev"]').addEventListener('click', function () { go(-1); });
