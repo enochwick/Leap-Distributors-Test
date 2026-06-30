@@ -3481,7 +3481,7 @@ select.form-input {
   width: 60%;
   height: 100%;
   transform: translateX(-50%);
-  transition: transform 0.7s cubic-bezier(0.4, 2, 0.3, 1), opacity 0.5s ease;
+  transition: transform 0.7s cubic-bezier(0.4, 2, 0.3, 1), opacity 0.5s ease, filter 0.5s ease;
   border-radius: var(--radius-2xl);
   overflow: hidden;
   background: linear-gradient(to bottom, var(--color-surface) 0%, var(--color-teal-dark) 100%);
@@ -3494,6 +3494,9 @@ select.form-input {
   object-fit: contain;
   object-position: bottom center;
   display: block;
+  /* Faded edges — figure blends softly into the card background */
+  -webkit-mask-image: radial-gradient(125% 115% at 50% 42%, #000 62%, transparent 100%);
+  mask-image: radial-gradient(125% 115% at 50% 42%, #000 62%, transparent 100%);
 }
 .fcov__content {
   text-align: center;
@@ -3518,15 +3521,10 @@ select.form-input {
 }
 .fcov__bio {
   font-size: var(--text-sm);
-  color: rgba(255,255,255,0.75);
+  color: rgba(255,255,255,0.78);
   line-height: 1.6;
   font-weight: 300;
   margin: 0;
-  /* keep heights consistent across partners */
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 .fcov__nav {
   display: flex;

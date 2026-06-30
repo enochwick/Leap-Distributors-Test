@@ -742,6 +742,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     var cardEls = Array.prototype.slice.call(fcov.querySelectorAll('.fcov__card'));
     var stage   = fcov.querySelector('.fcov__stage');
+    var content = fcov.querySelector('.fcov__content');
     var nameEl  = fcov.querySelector('.fcov__name');
     var roleEl  = fcov.querySelector('.fcov__role');
     var bioEl   = fcov.querySelector('.fcov__bio');
@@ -760,17 +761,35 @@ document.addEventListener('DOMContentLoaded', () => {
         if (i === active) {
           card.style.transform = 'translateX(-50%) scale(1) rotateY(0deg)';
           card.style.zIndex = 3; card.style.opacity = 1; card.style.pointerEvents = 'auto';
+          card.style.filter = 'none';
         } else if (isLeft) {
           card.style.transform = 'translateX(calc(-50% - ' + gap + 'px)) translateY(-' + stick + 'px) scale(0.84) rotateY(15deg)';
           card.style.zIndex = 2; card.style.opacity = 1; card.style.pointerEvents = 'auto';
+          card.style.filter = 'blur(4px) brightness(0.6)';
         } else if (isRight) {
           card.style.transform = 'translateX(calc(-50% + ' + gap + 'px)) translateY(-' + stick + 'px) scale(0.84) rotateY(-15deg)';
           card.style.zIndex = 2; card.style.opacity = 1; card.style.pointerEvents = 'auto';
+          card.style.filter = 'blur(4px) brightness(0.6)';
         } else {
           card.style.transform = 'translateX(-50%) scale(0.78)';
           card.style.zIndex = 1; card.style.opacity = 0; card.style.pointerEvents = 'none';
+          card.style.filter = 'blur(6px)';
         }
       });
+    }
+
+    // Reserve the height of the longest bio so the full text shows and
+    // autoplay never shifts the page.
+    function lockContentHeight() {
+      content.style.minHeight = '0';
+      var max = 0;
+      data.forEach(function (d) {
+        roleEl.textContent = d.role;
+        nameEl.textContent = d.name;
+        bioEl.textContent  = d.bio;
+        max = Math.max(max, content.offsetHeight);
+      });
+      content.style.minHeight = Math.ceil(max) + 'px';
     }
 
     function blurInBio(text) {
@@ -816,12 +835,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function sync() {
-      if (mq.matches) { mosaic.classList.add('has-coverflow'); render(); start(); }
+      if (mq.matches) { mosaic.classList.add('has-coverflow'); lockContentHeight(); render(); start(); }
       else { stop(); mosaic.classList.remove('has-coverflow'); }
     }
     sync();
     if (mq.addEventListener) mq.addEventListener('change', sync); else mq.addListener(sync);
-    window.addEventListener('resize', function () { if (mq.matches) layout(); });
+    window.addEventListener('resize', function () { if (mq.matches) { lockContentHeight(); layout(); render(); } });
   })();
 
   // ── Trey laptop: scroll-driven tilt (slanted → flat), like the platform page ──
