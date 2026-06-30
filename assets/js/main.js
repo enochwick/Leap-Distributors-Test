@@ -696,6 +696,55 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // ── Founders carousel (mobile only) ───────────────────────
+  (function () {
+    var mosaic = document.getElementById('founders');
+    if (!mosaic) return;
+    var tiles = Array.prototype.slice.call(mosaic.querySelectorAll('.founder-tile'));
+    var nav   = mosaic.querySelector('.founders-nav');
+    if (tiles.length < 2 || !nav) return;
+
+    var prevBtn = nav.querySelector('[data-dir="prev"]');
+    var nextBtn = nav.querySelector('[data-dir="next"]');
+    var mq = window.matchMedia('(max-width: 768px)');
+    var i = 0, timer = null;
+
+    function show(n) {
+      i = (n % tiles.length + tiles.length) % tiles.length;
+      tiles.forEach(function (t, idx) { t.classList.toggle('is-current', idx === i); });
+    }
+    function stop()  { if (timer) { clearInterval(timer); timer = null; } }
+    function start() { stop(); if (mq.matches) timer = setInterval(function () { show(i + 1); }, 5000); }
+    function go(d)   { show(i + d); start(); }
+
+    // Lock the carousel to the tallest partner so autoplay never shifts the page.
+    function lockHeight() {
+      mosaic.style.minHeight = '';
+      var max = 0;
+      tiles.forEach(function (t) { t.style.display = 'flex'; max = Math.max(max, t.offsetHeight); });
+      tiles.forEach(function (t) { t.style.display = ''; });
+      mosaic.style.minHeight = Math.ceil(max + nav.offsetHeight + 48) + 'px';
+    }
+
+    prevBtn.addEventListener('click', function () { go(-1); });
+    nextBtn.addEventListener('click', function () { go(1); });
+
+    function sync() {
+      if (mq.matches) {
+        show(0);
+        lockHeight();
+        start();
+      } else {
+        stop();
+        mosaic.style.minHeight = '';
+        tiles.forEach(function (t) { t.classList.remove('is-current'); t.style.display = ''; });
+      }
+    }
+    sync();
+    if (mq.addEventListener) mq.addEventListener('change', sync); else mq.addListener(sync);
+    window.addEventListener('resize', function () { if (mq.matches) lockHeight(); });
+  })();
+
   // ── Vertical Tabs (Built For) ─────────────────────────────
   const vtSection = document.querySelector('.vt-section');
   if (vtSection) {

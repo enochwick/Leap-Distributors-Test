@@ -98,7 +98,7 @@
 			</div>
 		</div>
 
-		<div class="founders-mosaic reveal">
+		<div class="founders-mosaic reveal" id="founders">
 
 			<div class="founder-tile">
 				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/founders/founder-allen.webp' ); ?>" alt="Allen Mason" loading="lazy" decoding="async">
@@ -135,6 +135,11 @@
 					<p class="founder-tile__bio">Jonathan is a career field operator who has carried trays, stood in ORs, and built surgeon relationships firsthand. He's known for developing authentic partnerships with physicians and identifying market opportunities for innovative products. He co-founded Leap with Allen to build something better for surgeons and reps alike.</p>
 				</div>
 			</div>
+
+				<div class="founders-nav" aria-hidden="true">
+					<button class="founders-nav__btn" type="button" data-dir="prev" aria-label="Previous partner"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg></button>
+					<button class="founders-nav__btn" type="button" data-dir="next" aria-label="Next partner"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button>
+				</div>
 
 		</div>
 	</div>
