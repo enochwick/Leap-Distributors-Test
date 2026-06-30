@@ -3379,38 +3379,59 @@ select.form-input {
   margin: 0;
 }
 
-/* Carousel arrows — only visible when JS enables carousel mode */
+/* Carousel arrows — mobile only */
 .founders-nav { display: none; }
 
 @media (max-width: 768px) {
-  /* Base mobile = a clean stacked list (fail-safe: always visible even
-     if JS doesn't run). JS upgrades this to a carousel via .is-carousel. */
+  /* Pure-CSS swipe carousel — one partner per view, swipe to move.
+     No JS needed to render, so it can't break. */
   .founders-mosaic {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
     flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: var(--space-4);
     min-height: 0;
-    gap: var(--space-10);
     margin-top: var(--space-8);
-    padding: var(--space-8) var(--space-4) var(--space-10);
-    position: relative;
+    padding: var(--space-6) var(--space-4);
+    scroll-padding: var(--space-4);
+  }
+  .founders-mosaic::-webkit-scrollbar { display: none; }
+
+  /* Neutralize the desktop group-photo overrides (they have higher specificity) */
+  .founder-tile,
+  .founder-tile:nth-child(1),
+  .founder-tile:nth-child(2),
+  .founder-tile:nth-child(3),
+  .founder-tile:nth-child(4) {
+    width: auto;
+    z-index: auto;
+    transform: none !important;
+    margin-left: 0 !important;
   }
   .founder-tile {
-    display: flex;
-    width: 100%;
-    max-width: 360px;
-    margin-left: 0 !important;
-    transform: none !important;
+    flex: 0 0 86%;
+    scroll-snap-align: center;
     filter: none !important;
     cursor: default;
+    display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    background: rgba(0,16,24,0.5);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6) var(--space-4) var(--space-7);
   }
   .founder-tile img {
-    width: 180px;
-    filter: drop-shadow(0 16px 26px rgba(0,0,0,0.45));
+    width: 150px;
+    height: auto;
+    filter: drop-shadow(0 14px 22px rgba(0,0,0,0.4));
   }
   .founder-tile__info {
     position: static;
@@ -3419,7 +3440,7 @@ select.form-input {
     pointer-events: auto;
     width: 100%;
     max-width: none;
-    margin-top: var(--space-4);
+    margin-top: var(--space-3);
     padding: 0;
     background: none;
     border: none;
@@ -3429,54 +3450,6 @@ select.form-input {
     text-align: center;
   }
   .founder-tile__info::after { display: none; }
-
-  /* ── Carousel mode (JS) — one partner at a time + arrows ── */
-  .founders-mosaic.is-carousel {
-    justify-content: center;
-    gap: 0;
-  }
-  .founders-mosaic.is-carousel .founder-tile { display: none; }
-  .founders-mosaic.is-carousel .founder-tile.is-current { display: flex; }
-  .founders-mosaic.is-carousel .founder-tile.is-current img {
-    animation: founders-pop 0.6s cubic-bezier(0.4, 2, 0.3, 1) both;
-  }
-  .founders-mosaic.is-carousel .founder-tile.is-current .founder-tile__info {
-    animation: founders-in 0.5s ease both;
-  }
-  .founders-mosaic.is-carousel .founders-nav {
-    display: flex;
-    gap: var(--space-4);
-    margin-top: var(--space-6);
-    justify-content: center;
-  }
-  .founders-nav__btn {
-    width: 2.7rem;
-    height: 2.7rem;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--color-teal-dark);
-    color: #f1f1f7;
-    border: 1px solid rgba(255,255,255,0.12);
-    cursor: pointer;
-    transition: background 0.25s, transform 0.15s;
-  }
-  .founders-nav__btn:hover,
-  .founders-nav__btn:active { background: var(--color-blue); transform: scale(1.06); }
-}
-
-@keyframes founders-in {
-  from { opacity: 0; filter: blur(8px); transform: translateY(12px); }
-  to   { opacity: 1; filter: blur(0);  transform: translateY(0); }
-}
-@keyframes founders-pop {
-  from { opacity: 0; transform: scale(0.92); }
-  to   { opacity: 1; transform: scale(1); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .founders-mosaic.is-carousel .founder-tile.is-current img,
-  .founders-mosaic.is-carousel .founder-tile.is-current .founder-tile__info { animation: none; }
 }
 
 /* ── Reason Grid (Distributors page) ────────────────────── */
