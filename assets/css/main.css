@@ -3379,25 +3379,25 @@ select.form-input {
   margin: 0;
 }
 
-/* Carousel arrows — mobile only */
+/* Carousel arrows — only visible when JS enables carousel mode */
 .founders-nav { display: none; }
 
 @media (max-width: 768px) {
-  /* One-at-a-time carousel: centered partner + name/role/bio + arrows. */
+  /* Base mobile = a clean stacked list (fail-safe: always visible even
+     if JS doesn't run). JS upgrades this to a carousel via .is-carousel. */
   .founders-mosaic {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     flex-wrap: nowrap;
-    gap: 0;
-    min-height: 30rem; /* JS locks this to the tallest partner */
+    min-height: 0;
+    gap: var(--space-10);
     margin-top: var(--space-8);
     padding: var(--space-8) var(--space-4) var(--space-10);
     position: relative;
   }
   .founder-tile {
-    display: none;
+    display: flex;
     width: 100%;
     max-width: 360px;
     margin-left: 0 !important;
@@ -3408,13 +3408,10 @@ select.form-input {
     align-items: center;
     text-align: center;
   }
-  .founder-tile.is-current { display: flex; }
   .founder-tile img {
     width: 180px;
     filter: drop-shadow(0 16px 26px rgba(0,0,0,0.45));
-    animation: founders-pop 0.6s cubic-bezier(0.4, 2, 0.3, 1) both;
   }
-  /* Inline info with a blur-in like the reference */
   .founder-tile__info {
     position: static;
     transform: none;
@@ -3430,11 +3427,23 @@ select.form-input {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
     text-align: center;
-    animation: founders-in 0.5s ease both;
   }
   .founder-tile__info::after { display: none; }
 
-  .founders-nav {
+  /* ── Carousel mode (JS) — one partner at a time + arrows ── */
+  .founders-mosaic.is-carousel {
+    justify-content: center;
+    gap: 0;
+  }
+  .founders-mosaic.is-carousel .founder-tile { display: none; }
+  .founders-mosaic.is-carousel .founder-tile.is-current { display: flex; }
+  .founders-mosaic.is-carousel .founder-tile.is-current img {
+    animation: founders-pop 0.6s cubic-bezier(0.4, 2, 0.3, 1) both;
+  }
+  .founders-mosaic.is-carousel .founder-tile.is-current .founder-tile__info {
+    animation: founders-in 0.5s ease both;
+  }
+  .founders-mosaic.is-carousel .founders-nav {
     display: flex;
     gap: var(--space-4);
     margin-top: var(--space-6);
@@ -3466,8 +3475,8 @@ select.form-input {
   to   { opacity: 1; transform: scale(1); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .founder-tile img,
-  .founder-tile__info { animation: none; }
+  .founders-mosaic.is-carousel .founder-tile.is-current img,
+  .founders-mosaic.is-carousel .founder-tile.is-current .founder-tile__info { animation: none; }
 }
 
 /* ── Reason Grid (Distributors page) ────────────────────── */

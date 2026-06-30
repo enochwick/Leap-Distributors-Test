@@ -718,11 +718,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function go(d)   { show(i + d); start(); }
 
     // Lock the carousel to the tallest partner so autoplay never shifts the page.
+    // Measured with all tiles shown (carousel mode off briefly), then restored.
     function lockHeight() {
       mosaic.style.minHeight = '';
+      mosaic.classList.remove('is-carousel');
       var max = 0;
-      tiles.forEach(function (t) { t.style.display = 'flex'; max = Math.max(max, t.offsetHeight); });
-      tiles.forEach(function (t) { t.style.display = ''; });
+      tiles.forEach(function (t) { max = Math.max(max, t.offsetHeight); });
+      mosaic.classList.add('is-carousel');
       mosaic.style.minHeight = Math.ceil(max + nav.offsetHeight + 48) + 'px';
     }
 
@@ -732,12 +734,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function sync() {
       if (mq.matches) {
         show(0);
+        mosaic.classList.add('is-carousel');
         lockHeight();
         start();
       } else {
         stop();
+        mosaic.classList.remove('is-carousel');
         mosaic.style.minHeight = '';
-        tiles.forEach(function (t) { t.classList.remove('is-current'); t.style.display = ''; });
+        tiles.forEach(function (t) { t.classList.remove('is-current'); });
       }
     }
     sync();
