@@ -714,6 +714,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   })();
 
+  // ── Trey laptop: scroll-driven tilt (slanted → flat), like the platform page ──
+  (function () {
+    var laptop = document.getElementById('trey-laptop');
+    if (!laptop || typeof gsap === 'undefined') return;
+    if (!window.matchMedia('(min-width: 769px)').matches ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    gsap.set(laptop, { rotateX: 28, scale: 0.94, transformOrigin: 'center center' });
+    gsap.to(laptop, {
+      rotateX: 0,
+      scale: 1,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.surgeon-trey',
+        start: 'top 85%',
+        end: 'top 45%',
+        scrub: 0.4,
+      },
+    });
+  })();
+
   // ── Trey video: muted autoplay when scrolled into view ────
   (function () {
     var vid = document.getElementById('trey-video');

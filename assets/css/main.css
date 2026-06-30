@@ -4972,11 +4972,23 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   display: block;
 }
 
-/* Solo video in a laptop mockup — centered like the platform page */
+/* Solo video in a laptop mockup — centered + scroll-tilt like the platform page */
 .surgeon-trey--solo {
   grid-template-columns: 1fr;
   max-width: 920px;
   margin-inline: auto;
+  perspective: 1200px;
+}
+.surgeon-trey--solo .laptop-mockup {
+  transform-style: preserve-3d;
+  transform-origin: center center;
+  will-change: transform;
+  /* Starting slant — GSAP straightens this as it scrolls in (matches phg) */
+  transform: rotateX(28deg) scale(0.94);
+}
+@media (max-width: 768px), (prefers-reduced-motion: reduce) {
+  .surgeon-trey--solo { perspective: none; }
+  .surgeon-trey--solo .laptop-mockup { transform: none; }
 }
 .surgeon-trey__player {
   width: 100%;

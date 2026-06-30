@@ -65,7 +65,7 @@
 <section class="content-section">
 	<div class="container">
 		<div class="surgeon-trey surgeon-trey--solo reveal">
-			<div class="laptop-mockup">
+			<div class="laptop-mockup" id="trey-laptop">
 				<div class="laptop-mockup__screen">
 					<span class="laptop-mockup__camera" aria-hidden="true"></span>
 					<video class="surgeon-trey__player" id="trey-video" muted loop playsinline controls preload="metadata"
