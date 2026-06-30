@@ -61,19 +61,15 @@
 	</div>
 </section>
 
-<!-- ── Meet Trey ──────────────────────────────────────────── -->
+<!-- ── Trey video ─────────────────────────────────────────── -->
 <section class="content-section">
 	<div class="container">
-		<div class="surgeon-trey reveal">
-			<div class="surgeon-trey__intro">
-				<h2 class="leap-intro__h">Meet Trey</h2>
-				<blockquote class="surgeon-trey__quote">
-					<p>"The OR is the easy part. What earns the trust is everything around it."</p>
-					<cite>Trey, Leap rep</cite>
-				</blockquote>
-			</div>
+		<div class="surgeon-trey surgeon-trey--solo reveal">
 			<div class="surgeon-trey__video">
-				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/rep-or-wide.webp' ); ?>" alt="A Leap rep in scrubs supporting a case in the operating room" loading="lazy" decoding="async">
+				<video class="surgeon-trey__player" controls playsinline preload="metadata"
+					poster="<?php echo esc_url( get_template_directory_uri() . '/assets/videos/trey-owning-the-case-poster.webp' ); ?>">
+					<source src="<?php echo esc_url( get_template_directory_uri() . '/assets/videos/trey-owning-the-case.mp4' ); ?>" type="video/mp4">
+				</video>
 			</div>
 		</div>
 	</div>
