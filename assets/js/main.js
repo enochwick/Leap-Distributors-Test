@@ -696,22 +696,132 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ── Founders carousel: optional arrow buttons scroll the CSS swipe track ──
+  // ── Founders coverflow (mobile) — circular-testimonials style ──
+  // Built on top of the CSS swipe carousel: if this JS fails, the swipe
+  // version still shows, so the section can never go blank.
   (function () {
     var mosaic = document.getElementById('founders');
     if (!mosaic) return;
-    var nav = mosaic.querySelector('.founders-nav');
-    if (!nav) return;
-    var firstTile = mosaic.querySelector('.founder-tile');
-    function scrollByCard(dir) {
-      var step = firstTile ? firstTile.offsetWidth + 16 : mosaic.clientWidth;
-      mosaic.scrollBy({ left: dir * step, behavior: 'smooth' });
+    var srcTiles = Array.prototype.slice.call(mosaic.querySelectorAll('.founder-tile'));
+    if (srcTiles.length < 2) return;
+
+    var data = srcTiles.map(function (t) {
+      var img = t.querySelector('img');
+      var get = function (sel) { var el = t.querySelector(sel); return el ? el.textContent : ''; };
+      return {
+        src:  img ? img.getAttribute('src') : '',
+        alt:  img ? (img.getAttribute('alt') || '') : '',
+        role: get('.founder-tile__role'),
+        name: get('.founder-tile__name'),
+        bio:  get('.founder-tile__bio'),
+      };
+    });
+
+    var ARROW_L = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
+    var ARROW_R = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
+
+    var esc = function (s) { return String(s).replace(/"/g, '&quot;'); };
+    var fcov = document.createElement('div');
+    fcov.className = 'fcov';
+    fcov.innerHTML =
+      '<div class="fcov__stage">' +
+        data.map(function (d, i) {
+          return '<div class="fcov__card" data-i="' + i + '"><img src="' + esc(d.src) + '" alt="' + esc(d.alt) + '" loading="lazy" decoding="async"></div>';
+        }).join('') +
+      '</div>' +
+      '<div class="fcov__content">' +
+        '<span class="fcov__role"></span>' +
+        '<h3 class="fcov__name"></h3>' +
+        '<p class="fcov__bio"></p>' +
+      '</div>' +
+      '<div class="fcov__nav">' +
+        '<button class="fcov__btn" type="button" data-dir="prev" aria-label="Previous partner">' + ARROW_L + '</button>' +
+        '<button class="fcov__btn" type="button" data-dir="next" aria-label="Next partner">' + ARROW_R + '</button>' +
+      '</div>';
+    mosaic.appendChild(fcov);
+
+    var cardEls = Array.prototype.slice.call(fcov.querySelectorAll('.fcov__card'));
+    var stage   = fcov.querySelector('.fcov__stage');
+    var nameEl  = fcov.querySelector('.fcov__name');
+    var roleEl  = fcov.querySelector('.fcov__role');
+    var bioEl   = fcov.querySelector('.fcov__bio');
+    var n = data.length;
+    var active = 0, timer = null;
+    var mq = window.matchMedia('(max-width: 768px)');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function layout() {
+      var w = stage.offsetWidth || 320;
+      var gap = Math.max(46, w * 0.2);
+      var stick = gap * 0.45;
+      cardEls.forEach(function (card, i) {
+        var isLeft  = (active - 1 + n) % n === i;
+        var isRight = (active + 1) % n === i;
+        if (i === active) {
+          card.style.transform = 'translateX(-50%) scale(1) rotateY(0deg)';
+          card.style.zIndex = 3; card.style.opacity = 1; card.style.pointerEvents = 'auto';
+        } else if (isLeft) {
+          card.style.transform = 'translateX(calc(-50% - ' + gap + 'px)) translateY(-' + stick + 'px) scale(0.84) rotateY(15deg)';
+          card.style.zIndex = 2; card.style.opacity = 1; card.style.pointerEvents = 'auto';
+        } else if (isRight) {
+          card.style.transform = 'translateX(calc(-50% + ' + gap + 'px)) translateY(-' + stick + 'px) scale(0.84) rotateY(-15deg)';
+          card.style.zIndex = 2; card.style.opacity = 1; card.style.pointerEvents = 'auto';
+        } else {
+          card.style.transform = 'translateX(-50%) scale(0.78)';
+          card.style.zIndex = 1; card.style.opacity = 0; card.style.pointerEvents = 'none';
+        }
+      });
     }
-    nav.querySelectorAll('[data-dir]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        scrollByCard(btn.getAttribute('data-dir') === 'next' ? 1 : -1);
+
+    function blurInBio(text) {
+      bioEl.innerHTML = '';
+      var words = text.split(' ');
+      words.forEach(function (word, i) {
+        var span = document.createElement('span');
+        span.textContent = word + ' ';
+        span.style.display = 'inline-block';
+        if (reduce) { bioEl.appendChild(span); return; }
+        span.style.filter = 'blur(10px)';
+        span.style.opacity = '0';
+        span.style.transform = 'translateY(5px)';
+        span.style.transition = 'filter .22s ease, opacity .22s ease, transform .22s ease';
+        span.style.transitionDelay = (0.02 * i) + 's';
+        bioEl.appendChild(span);
+      });
+      if (reduce) return;
+      requestAnimationFrame(function () { requestAnimationFrame(function () {
+        bioEl.querySelectorAll('span').forEach(function (s) {
+          s.style.filter = 'blur(0)'; s.style.opacity = '1'; s.style.transform = 'none';
+        });
+      }); });
+    }
+
+    function render() {
+      layout();
+      nameEl.textContent = data[active].name;
+      roleEl.textContent = data[active].role;
+      blurInBio(data[active].bio);
+    }
+    function stop()  { if (timer) { clearInterval(timer); timer = null; } }
+    function start() { stop(); if (mq.matches) timer = setInterval(function () { active = (active + 1) % n; render(); }, 5000); }
+    function go(d)   { active = (active + d + n) % n; render(); start(); }
+
+    fcov.querySelector('[data-dir="prev"]').addEventListener('click', function () { go(-1); });
+    fcov.querySelector('[data-dir="next"]').addEventListener('click', function () { go(1); });
+    cardEls.forEach(function (card) {
+      card.addEventListener('click', function () {
+        var i = +card.getAttribute('data-i');
+        if (i !== active) { active = i; render(); start(); }
       });
     });
+
+    function sync() {
+      if (mq.matches) { mosaic.classList.add('has-coverflow'); render(); start(); }
+      else { stop(); mosaic.classList.remove('has-coverflow'); }
+    }
+    sync();
+    if (mq.addEventListener) mq.addEventListener('change', sync); else mq.addListener(sync);
+    window.addEventListener('resize', function () { if (mq.matches) layout(); });
   })();
 
   // ── Trey laptop: scroll-driven tilt (slanted → flat), like the platform page ──
