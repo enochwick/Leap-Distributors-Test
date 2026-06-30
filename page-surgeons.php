@@ -65,11 +65,15 @@
 <section class="content-section">
 	<div class="container">
 		<div class="surgeon-trey surgeon-trey--solo reveal">
-			<div class="surgeon-trey__video">
-				<video class="surgeon-trey__player" controls playsinline preload="metadata"
-					poster="<?php echo esc_url( get_template_directory_uri() . '/assets/videos/trey-owning-the-case-poster.webp' ); ?>">
-					<source src="<?php echo esc_url( get_template_directory_uri() . '/assets/videos/trey-owning-the-case.mp4' ); ?>" type="video/mp4">
-				</video>
+			<div class="laptop-mockup">
+				<div class="laptop-mockup__screen">
+					<span class="laptop-mockup__camera" aria-hidden="true"></span>
+					<video class="surgeon-trey__player" id="trey-video" muted loop playsinline controls preload="metadata"
+						poster="<?php echo esc_url( get_template_directory_uri() . '/assets/videos/trey-owning-the-case-poster.webp' ); ?>">
+						<source src="<?php echo esc_url( get_template_directory_uri() . '/assets/videos/trey-owning-the-case.mp4' ); ?>" type="video/mp4">
+					</video>
+				</div>
+				<div class="laptop-mockup__base"></div>
 			</div>
 		</div>
 	</div>

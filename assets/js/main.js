@@ -714,6 +714,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   })();
 
+  // ── Trey video: muted autoplay when scrolled into view ────
+  (function () {
+    var vid = document.getElementById('trey-video');
+    if (!vid || !('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          var p = vid.play();
+          if (p && p.catch) p.catch(function () {});
+        } else {
+          vid.pause();
+        }
+      });
+    }, { threshold: 0.4 });
+    io.observe(vid);
+  })();
+
   // ── Vertical Tabs (Built For) ─────────────────────────────
   const vtSection = document.querySelector('.vt-section');
   if (vtSection) {
