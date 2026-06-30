@@ -180,8 +180,8 @@
 					</div>
 					<div class="hcm-stat__divider"></div>
 					<div class="hcm-stat">
-						<span class="hcm-stat__val" data-count="15" data-suffix="+">15+</span>
-						<span class="hcm-stat__label">States</span>
+						<span class="hcm-stat__val" data-count="750" data-suffix="+">750+</span>
+						<span class="hcm-stat__label">Surgeons</span>
 					</div>
 				</div>
 
