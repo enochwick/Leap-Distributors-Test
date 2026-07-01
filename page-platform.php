@@ -142,28 +142,28 @@
 	</div>
 </section>
 
-<!-- ── Product screens — sliding device mockups ───────────────── -->
+<!-- ── Product screens — zoom parallax (tablet centered) ──────── -->
 <?php
+// Index 0 is the center hero image (the tablet). Order matches the zoom scales.
 $leap_mocks = array(
-	array( 'tablet',  'mock-tablet-hands.webp',  'Stride on tablet' ),
-	array( 'desktop', 'mock-desktop-cases.webp', 'Stride case grid' ),
-	array( 'phone',   'mock-phone-login.webp',   'Stride mobile login' ),
-	array( 'tablet',  'mock-tablet-hand.webp',   'Stride on tablet' ),
-	array( 'desktop', 'mock-desktop-dash1.webp', 'Stride analytics dashboard' ),
-	array( 'phone',   'mock-phone-tilt.webp',    'Stride on mobile' ),
-	array( 'desktop', 'mock-desktop-dash2.webp', 'Stride performance dashboard' ),
-	array( 'tablet',  'mock-tablet.webp',        'Stride case list on tablet' ),
+	array( 'mock-tablet-hands.webp',  'Stride on tablet' ),          // center hero
+	array( 'mock-desktop-cases.webp', 'Stride case grid' ),
+	array( 'mock-phone-login.webp',   'Stride mobile login' ),
+	array( 'mock-desktop-dash1.webp', 'Stride analytics dashboard' ),
+	array( 'mock-phone-tilt.webp',    'Stride on mobile' ),
+	array( 'mock-desktop-dash2.webp', 'Stride performance dashboard' ),
+	array( 'mock-tablet.webp',        'Stride case list on tablet' ),
 );
 ?>
-<section class="content-section screens-section reveal">
-	<div class="screens-scroll">
-		<div class="screens-track" id="screens-track">
-			<?php foreach ( $leap_mocks as $m ) : ?>
-				<div class="screen-mock screen-mock--<?php echo esc_attr( $m[0] ); ?>">
-					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/platform screenshots/' . $m[1] ); ?>" alt="<?php echo esc_attr( $m[2] ); ?>" loading="lazy" decoding="async">
+<section class="zoom-parallax" id="zoom-parallax">
+	<div class="zoom-parallax__sticky">
+		<?php foreach ( $leap_mocks as $m ) : ?>
+			<div class="zp-item">
+				<div class="zp-frame">
+					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/platform screenshots/' . $m[0] ); ?>" alt="<?php echo esc_attr( $m[1] ); ?>" loading="lazy" decoding="async">
 				</div>
-			<?php endforeach; ?>
-		</div>
+			</div>
+		<?php endforeach; ?>
 	</div>
 </section>
 

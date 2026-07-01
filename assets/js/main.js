@@ -843,29 +843,27 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', function () { if (mq.matches) { lockContentHeight(); layout(); render(); } });
   })();
 
-  // ── Platform screens: slide the mockup row left as you scroll ──
+  // ── Platform screens: zoom parallax — images scale up as you scroll ──
   (function () {
-    var track = document.getElementById('screens-track');
-    if (!track || typeof gsap === 'undefined') return;
-    var section = track.closest('.screens-section');
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      // Let people scroll the row manually instead of scroll-driven motion.
-      track.parentElement.style.overflowX = 'auto';
-      return;
-    }
-    var distance = function () {
-      return Math.max(0, track.scrollWidth - window.innerWidth + 40);
-    };
-    gsap.to(track, {
-      x: function () { return -distance(); },
-      ease: 'none',
+    var section = document.getElementById('zoom-parallax');
+    if (!section || typeof gsap === 'undefined') return;
+    var items = section.querySelectorAll('.zp-item');
+    if (!items.length) return;
+    // Center hero (tablet) first, then the framer-motion reference scales.
+    var scales = [4, 5, 6, 5, 6, 8, 9];
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
-        start: 'top bottom',
-        end: 'bottom top',
+        start: 'top top',
+        end: 'bottom bottom',
         scrub: 0.5,
         invalidateOnRefresh: true,
       },
+    });
+    items.forEach(function (item, i) {
+      tl.fromTo(item, { scale: 1 }, { scale: scales[i % scales.length], ease: 'none' }, 0);
     });
   })();
 

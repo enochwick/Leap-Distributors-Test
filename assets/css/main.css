@@ -4638,34 +4638,42 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   .laptop-mockup__base { height: 12px; }
 }
 
-/* ── Product screens — sliding device mockups ───────────────── */
-.screens-section { overflow: hidden; }
-.screens-scroll { overflow: hidden; }
-.screens-track {
+/* ── Product screens — zoom parallax (tablet centered) ──────── */
+.zoom-parallax { position: relative; height: 300vh; }
+.zoom-parallax__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+.zp-item {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
-  gap: clamp(var(--space-4), 3vw, var(--space-10));
-  width: max-content;
-  padding: var(--space-8) var(--space-10);
+  justify-content: center;
   will-change: transform;
 }
-.screen-mock { flex: 0 0 auto; }
-.screen-mock img {
+.zp-frame {
+  position: relative;
+  height: 25vh;
+  width: 25vw;
+}
+.zp-frame img {
   display: block;
-  width: auto;
-  height: clamp(190px, 24vw, 320px);
-  filter: drop-shadow(0 24px 44px rgba(0,0,0,0.5));
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.45));
 }
-/* Tablets read bigger than the rest */
-.screen-mock--tablet img { height: clamp(240px, 32vw, 420px); }
-.screen-mock--desktop img { height: clamp(200px, 26vw, 340px); }
-.screen-mock--phone img { height: clamp(210px, 28vw, 360px); }
-
-@media (max-width: 768px) {
-  .screens-track { padding: var(--space-6) var(--space-5); }
-  .screen-mock img { height: clamp(160px, 40vw, 240px); }
-  .screen-mock--tablet img { height: clamp(200px, 52vw, 300px); }
-}
+/* Per-image placement (matches the zoom-parallax reference geometry).
+   Item 1 (nth-child(1)) is the centered hero tablet. */
+.zp-item:nth-child(2) .zp-frame { top: -30vh; left: 5vw;      height: 30vh; width: 35vw; }
+.zp-item:nth-child(3) .zp-frame { top: -10vh; left: -25vw;    height: 45vh; width: 20vw; }
+.zp-item:nth-child(4) .zp-frame { left: 27.5vw;               height: 25vh; width: 25vw; }
+.zp-item:nth-child(5) .zp-frame { top: 27.5vh; left: 5vw;     height: 25vh; width: 20vw; }
+.zp-item:nth-child(6) .zp-frame { top: 27.5vh; left: -22.5vw; height: 25vh; width: 30vw; }
+.zp-item:nth-child(7) .zp-frame { top: 22.5vh; left: 25vw;    height: 15vh; width: 15vw; }
 
 @media (max-width: 768px) {
   /* No scroll-pin on mobile — laptop sits inline, no huge empty gap below it */
