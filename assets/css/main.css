@@ -4639,15 +4639,26 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 }
 
 
-/* ── "Built to move" visual — screenshot with faded bottom ────── */
-.platform-cap__visual--shot { background: transparent; box-shadow: none; }
+/* ── "Built to move" visual — zoomed screenshot with faded bottom ─ */
+.platform-cap__visual--shot {
+  background: transparent;
+  box-shadow: none;
+  overflow: hidden;
+  border-radius: var(--radius-lg, 14px);
+  aspect-ratio: 16 / 11;
+  /* Fade the bottom of the block smoothly */
+  -webkit-mask-image: linear-gradient(to bottom, #000 66%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 66%, transparent 100%);
+}
 .platform-cap__visual--shot img {
   display: block;
   width: 100%;
-  height: auto;
-  border-radius: var(--radius-lg, 14px);
-  -webkit-mask-image: linear-gradient(to bottom, #000 68%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 68%, transparent 100%);
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  /* Zoom in while staying inside the 01 block */
+  transform: scale(1.35);
+  transform-origin: center top;
 }
 
 
