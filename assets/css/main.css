@@ -4666,6 +4666,44 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   object-position: top center;
 }
 
+/* ── Tablet mockup (block 02) — same footprint as the other blocks ─ */
+.platform-cap__visual--device {
+  background: transparent;
+  box-shadow: none;
+}
+.tablet-mockup {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  background: #0b0f16;
+  border-radius: 26px;
+  padding: 16px;
+  box-shadow:
+    0 0 0 2px #1c2330,
+    0 24px 60px rgba(0,0,0,0.5),
+    inset 0 0 0 5px #05070b;
+}
+.tablet-mockup__cam {
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #2a3444;
+  z-index: 2;
+}
+.tablet-mockup__screen {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 12px;
+  display: block;
+  background: #05070b;
+}
+
 @media (max-width: 768px) {
   /* No scroll-pin on mobile — laptop sits inline, no huge empty gap below it */
   .phg-scroll { height: auto; }
