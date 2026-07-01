@@ -843,6 +843,29 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', function () { if (mq.matches) { lockContentHeight(); layout(); render(); } });
   })();
 
+  // ── Platform phone: starts tilted, eases upright as you scroll down ──
+  (function () {
+    var phone = document.getElementById('platform-phone');
+    if (!phone || typeof gsap === 'undefined') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      gsap.set(phone, { rotate: 0 });
+      return;
+    }
+    gsap.set(phone, { rotate: -7, scale: 0.92, y: 40, transformOrigin: 'center center' });
+    gsap.to(phone, {
+      rotate: 0,
+      scale: 1,
+      y: 0,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: phone.closest('.platform-repdash'),
+        start: 'top 88%',
+        end: 'top 42%',
+        scrub: 0.4,
+      },
+    });
+  })();
+
   // ── Trey laptop: scroll-driven tilt (slanted → flat), like the platform page ──
   (function () {
     var laptop = document.getElementById('trey-laptop');

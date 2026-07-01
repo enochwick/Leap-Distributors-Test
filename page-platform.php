@@ -104,40 +104,8 @@
 			</div>
 		</div>
 
-		<div class="platform-repdash reveal">
-			<div class="ui-frame">
-				<div class="ui-frame__bar">
-					<span class="ui-frame__dot"></span><span class="ui-frame__dot"></span><span class="ui-frame__dot"></span>
-					<span class="ui-frame__title">Stride · Rep Dashboard</span>
-				</div>
-				<div class="ui-frame__body">
-					<div class="stride-rep">
-						<div class="stride-rep__tiles">
-							<div class="stride-rep__tile">
-								<div class="stride-rep__label">Commission MTD</div>
-								<div class="stride-rep__val">$48,210</div>
-								<div class="stride-rep__delta">+$6,420 vs. last month</div>
-							</div>
-							<div class="stride-rep__tile">
-								<div class="stride-rep__label">Cases this week</div>
-								<div class="stride-rep__val">18</div>
-								<div class="stride-rep__delta">+4 vs. avg</div>
-							</div>
-						</div>
-						<div class="stride-rep__quota">
-							<div class="stride-rep__quota-head">
-								<span>Quarterly quota</span>
-								<span class="stride-rep__quota-pct">72%</span>
-							</div>
-							<div class="stride-rep__bar"><span class="stride-rep__bar-fill" style="width:72%"></span></div>
-							<div class="stride-rep__legend">
-								<span>$180k of $250k</span>
-								<span>21 days left</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+		<div class="platform-repdash platform-repdash--phone reveal">
+			<img class="platform-phone" id="platform-phone" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/platform screenshots/Unknown78.png' ); ?>" alt="Stride login screen on a phone" loading="lazy" decoding="async">
 		</div>
 	</div>
 </section>

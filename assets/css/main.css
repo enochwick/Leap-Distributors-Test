@@ -5003,6 +5003,19 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   max-width: 640px;
   margin: var(--space-12) auto 0;
 }
+.platform-repdash--phone {
+  max-width: 780px;
+  perspective: 1200px;
+}
+.platform-phone {
+  display: block;
+  width: 100%;
+  height: auto;
+  will-change: transform;
+  filter: drop-shadow(0 30px 60px rgba(0,0,0,0.4));
+  /* Slight resting tilt; the scroll animation eases it upright */
+  transform: rotate(-7deg);
+}
 .stride-rep__tiles {
   display: grid;
   grid-template-columns: 1fr 1fr;
