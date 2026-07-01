@@ -843,44 +843,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', function () { if (mq.matches) { lockContentHeight(); layout(); render(); } });
   })();
 
-  // ── Mockup gallery: click to enlarge in a lightbox ──
-  (function () {
-    var box = document.getElementById('mock-lightbox');
-    if (!box) return;
-    var img = document.getElementById('mock-lightbox-img');
-    var closeBtn = document.getElementById('mock-lightbox-close');
-    var items = document.querySelectorAll('.mock-gallery__item');
-
-    function open(src, alt) {
-      img.src = src;
-      img.alt = alt || '';
-      box.classList.add('is-open');
-      box.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-    }
-    function close() {
-      box.classList.remove('is-open');
-      box.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-      img.src = '';
-    }
-
-    items.forEach(function (item) {
-      item.addEventListener('click', function () {
-        var full = item.getAttribute('data-full');
-        var alt = item.querySelector('img') ? item.querySelector('img').alt : '';
-        if (full) open(full, alt);
-      });
-    });
-    closeBtn.addEventListener('click', close);
-    box.addEventListener('click', function (e) {
-      if (e.target === box) close();
-    });
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && box.classList.contains('is-open')) close();
-    });
-  })();
-
   // ── Trey laptop: scroll-driven tilt (slanted → flat), like the platform page ──
   (function () {
     var laptop = document.getElementById('trey-laptop');

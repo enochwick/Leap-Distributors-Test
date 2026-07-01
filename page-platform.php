@@ -57,40 +57,12 @@
 				<h3 class="platform-cap__h">Built to move.</h3>
 				<p>Reps log products in the OR as they're used. Pricing pulls from the appropriate contract. Scrub sheets generate themselves and route by manufacturer. Restock requests fire automatically. The case closes cleaner than it started.</p>
 			</div>
-			<div class="platform-cap__visual">
-				<div class="ui-frame">
-					<div class="ui-frame__bar">
-						<span class="ui-frame__dot"></span><span class="ui-frame__dot"></span><span class="ui-frame__dot"></span>
-						<span class="ui-frame__title">Stride · Case Log</span>
-					</div>
-					<div class="ui-frame__body">
-						<div class="stride-case">
-							<div class="stride-case__head">
-								<span class="stride-case__title">ACL Reconstruction</span>
-								<span class="stride-case__live">Live</span>
-							</div>
-							<dl class="stride-case__meta">
-								<div><dt>Room</dt><dd>OR 3</dd></div>
-								<div><dt>Started</dt><dd>09:14</dd></div>
-								<div><dt>Rep</dt><dd>K.L.</dd></div>
-							</dl>
-							<div class="stride-case__rows">
-								<div class="stride-row stride-row--done"><span class="stride-row__check">✓</span><span class="stride-row__name">Anchor, 5.5mm bio</span><span class="stride-row__mfr">Mfr C</span><span class="stride-row__time">09:31</span></div>
-								<div class="stride-row stride-row--done"><span class="stride-row__check">✓</span><span class="stride-row__name">Interference screw 9×25</span><span class="stride-row__mfr">Mfr C</span><span class="stride-row__time">09:48</span></div>
-								<div class="stride-row stride-row--done"><span class="stride-row__check">✓</span><span class="stride-row__name">Suture pack, ortho</span><span class="stride-row__mfr">Mfr D</span><span class="stride-row__time">10:02</span></div>
-								<div class="stride-row"><span class="stride-row__check stride-row__check--pending"></span><span class="stride-row__name">Drain, closed</span><span class="stride-row__mfr">Mfr D</span><span class="stride-row__time">—</span></div>
-							</div>
-							<div class="stride-case__footer">
-								<span class="stride-case__status">Auto-routed to Mfr C, D</span>
-								<span class="stride-case__count">3 / 4 logged</span>
-							</div>
-						</div>
-					</div>
+			<div class="platform-cap__visual platform-cap__visual--shot">
+					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/platform screenshots/Unknon-7.png' ); ?>" alt="Stride case log dashboard" loading="lazy" decoding="async">
 				</div>
 			</div>
-		</div>
 
-		<!-- Capability 2 -->
+			<!-- Capability 2 -->
 		<div class="platform-cap platform-cap--reverse platform-stack__card" data-stack-index="1">
 			<div class="platform-cap__copy">
 				<span class="platform-cap__num">02</span>
@@ -139,37 +111,6 @@
 			</div>
 		</div>
 		</div><!-- /.platform-stack -->
-	</div>
-</section>
-
-<!-- ── Product screens — mockup gallery ───────────────────────── -->
-<?php
-$leap_mocks = array(
-	array( 'mock-tablet-hands.webp',  'Case management on tablet', 'col-1' ),
-	array( 'mock-desktop-cases.webp', 'Live case grid',            'col-2' ),
-	array( 'mock-phone-login.webp',   'Secure mobile access',      'col-1' ),
-	array( 'mock-desktop-dash1.webp', 'Performance analytics',     'col-1' ),
-	array( 'mock-tablet.webp',        'Case list, anywhere',       'col-2' ),
-	array( 'mock-desktop-dash2.webp', 'Commission projections',    'col-1' ),
-	array( 'mock-phone-tilt.webp',    'Stride on the go',          'col-1' ),
-	array( 'mock-tablet-hand.webp',   'Built for the field',       'col-1' ),
-);
-?>
-<section class="content-section mock-gallery reveal">
-	<div class="container">
-		<div class="mock-gallery__grid">
-			<?php foreach ( $leap_mocks as $m ) : ?>
-				<button type="button" class="mock-gallery__item mock-gallery__item--<?php echo esc_attr( $m[2] ); ?>"
-					data-full="<?php echo esc_url( get_template_directory_uri() . '/assets/images/platform screenshots/' . $m[0] ); ?>">
-					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/platform screenshots/' . $m[0] ); ?>" alt="<?php echo esc_attr( $m[1] ); ?>" loading="lazy" decoding="async">
-					<span class="mock-gallery__overlay"><span class="mock-gallery__title"><?php echo esc_html( $m[1] ); ?></span></span>
-				</button>
-			<?php endforeach; ?>
-		</div>
-	</div>
-	<div class="mock-lightbox" id="mock-lightbox" aria-hidden="true">
-		<button type="button" class="mock-lightbox__close" id="mock-lightbox-close" aria-label="Close">&times;</button>
-		<img class="mock-lightbox__img" id="mock-lightbox-img" src="" alt="">
 	</div>
 </section>
 
