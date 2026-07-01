@@ -142,6 +142,26 @@
 	</div>
 </section>
 
+<!-- ── Device mockups (tablet + phone) ────────────────────────── -->
+<section class="content-section">
+	<div class="container">
+		<div class="device-showcase reveal">
+			<span class="device-showcase__glow" aria-hidden="true"></span>
+			<div class="tablet-mockup">
+				<div class="tablet-mockup__screen">
+					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/platform screenshots/stride-tablet.webp' ); ?>" alt="Stride on tablet — case list" loading="lazy" decoding="async">
+				</div>
+			</div>
+			<div class="phone-mockup">
+				<div class="phone-mockup__screen">
+					<span class="phone-mockup__notch" aria-hidden="true"></span>
+					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/platform screenshots/stride-phone.webp' ); ?>" alt="Stride on mobile" loading="lazy" decoding="async">
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
 <!-- ── Rep Dashboard ──────────────────────────────────────────── -->
 <section class="content-section">
 	<div class="container">
