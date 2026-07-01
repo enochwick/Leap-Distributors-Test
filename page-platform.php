@@ -69,7 +69,7 @@
 				<h3 class="platform-cap__h">Patients before products.</h3>
 				<p>The platform doesn't replace the rep. It frees them to do the real work — knowing the procedure, the surgeon, and the patient on the table. Stride handles the paperwork so our reps don't have to look down. They stay in the case, advocating for surgeon choice and the right call for the patient.</p>
 			</div>
-			<div class="platform-cap__visual platform-cap__visual--shot">
+			<div class="platform-cap__visual platform-cap__visual--shot platform-cap__visual--top">
 					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/platform screenshots/stride-phone.webp' ); ?>" alt="Stride running on a phone" loading="lazy" decoding="async">
 				</div>
 		</div>

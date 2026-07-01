@@ -4660,6 +4660,11 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   transform: scale(1.35);
   transform-origin: center top;
 }
+/* Block 02: keep the top half of the screenshot intact — full width, no zoom */
+.platform-cap__visual--top img {
+  transform: none;
+  object-position: top center;
+}
 
 @media (max-width: 768px) {
   /* No scroll-pin on mobile — laptop sits inline, no huge empty gap below it */
