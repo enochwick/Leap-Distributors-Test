@@ -4638,42 +4638,26 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   .laptop-mockup__base { height: 12px; }
 }
 
-/* ── Product screens — zoom parallax (tablet centered) ──────── */
-.zoom-parallax { position: relative; height: 300vh; }
-.zoom-parallax__sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
+/* ── Product screen — full-width tablet mockup, bottom fades out ─ */
+.tablet-hero {
+  width: 100%;
+  padding: 0;
+  margin: 0;
   overflow: hidden;
 }
-.zp-item {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  will-change: transform;
-}
-.zp-frame {
-  position: relative;
-  height: 25vh;
-  width: 25vw;
-}
-.zp-frame img {
+.tablet-hero__img {
   display: block;
-  height: 100%;
   width: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.45));
+  height: auto;
+  transform: scale(1.15);
+  transform-origin: top center;
+  /* Smooth fade of the bottom edge into the page background */
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
 }
-/* Per-image placement (matches the zoom-parallax reference geometry).
-   Item 1 (nth-child(1)) is the centered hero tablet. */
-.zp-item:nth-child(2) .zp-frame { top: -30vh; left: 5vw;      height: 30vh; width: 35vw; }
-.zp-item:nth-child(3) .zp-frame { top: -10vh; left: -25vw;    height: 45vh; width: 20vw; }
-.zp-item:nth-child(4) .zp-frame { left: 27.5vw;               height: 25vh; width: 25vw; }
-.zp-item:nth-child(5) .zp-frame { top: 27.5vh; left: 5vw;     height: 25vh; width: 20vw; }
-.zp-item:nth-child(6) .zp-frame { top: 27.5vh; left: -22.5vw; height: 25vh; width: 30vw; }
-.zp-item:nth-child(7) .zp-frame { top: 22.5vh; left: 25vw;    height: 15vh; width: 15vw; }
+@media (max-width: 768px) {
+  .tablet-hero__img { transform: scale(1.25); }
+}
 
 @media (max-width: 768px) {
   /* No scroll-pin on mobile — laptop sits inline, no huge empty gap below it */

@@ -142,29 +142,11 @@
 	</div>
 </section>
 
-<!-- ── Product screens — zoom parallax (tablet centered) ──────── -->
-<?php
-// Index 0 is the center hero image (the tablet). Order matches the zoom scales.
-$leap_mocks = array(
-	array( 'mock-tablet-hands.webp',  'Stride on tablet' ),          // center hero
-	array( 'mock-desktop-cases.webp', 'Stride case grid' ),
-	array( 'mock-phone-login.webp',   'Stride mobile login' ),
-	array( 'mock-desktop-dash1.webp', 'Stride analytics dashboard' ),
-	array( 'mock-phone-tilt.webp',    'Stride on mobile' ),
-	array( 'mock-desktop-dash2.webp', 'Stride performance dashboard' ),
-	array( 'mock-tablet.webp',        'Stride case list on tablet' ),
-);
-?>
-<section class="zoom-parallax" id="zoom-parallax">
-	<div class="zoom-parallax__sticky">
-		<?php foreach ( $leap_mocks as $m ) : ?>
-			<div class="zp-item">
-				<div class="zp-frame">
-					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/platform screenshots/' . $m[0] ); ?>" alt="<?php echo esc_attr( $m[1] ); ?>" loading="lazy" decoding="async">
-				</div>
-			</div>
-		<?php endforeach; ?>
-	</div>
+<!-- ── Product screen — full-width tablet mockup ──────────────── -->
+<section class="tablet-hero reveal">
+	<img class="tablet-hero__img"
+		src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/platform screenshots/mock-tablet-hands.webp' ); ?>"
+		alt="Stride on tablet" loading="lazy" decoding="async">
 </section>
 
 <!-- ── Rep Dashboard ──────────────────────────────────────────── -->

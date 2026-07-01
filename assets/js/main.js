@@ -843,30 +843,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', function () { if (mq.matches) { lockContentHeight(); layout(); render(); } });
   })();
 
-  // ── Platform screens: zoom parallax — images scale up as you scroll ──
-  (function () {
-    var section = document.getElementById('zoom-parallax');
-    if (!section || typeof gsap === 'undefined') return;
-    var items = section.querySelectorAll('.zp-item');
-    if (!items.length) return;
-    // Center hero (tablet) first, then the framer-motion reference scales.
-    var scales = [4, 5, 6, 5, 6, 8, 9];
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    var tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: 0.5,
-        invalidateOnRefresh: true,
-      },
-    });
-    items.forEach(function (item, i) {
-      tl.fromTo(item, { scale: 1 }, { scale: scales[i % scales.length], ease: 'none' }, 0);
-    });
-  })();
-
   // ── Trey laptop: scroll-driven tilt (slanted → flat), like the platform page ──
   (function () {
     var laptop = document.getElementById('trey-laptop');
