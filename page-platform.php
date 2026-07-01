@@ -142,22 +142,27 @@
 	</div>
 </section>
 
-<!-- ── Device mockups (tablet + phone) ────────────────────────── -->
-<section class="content-section">
-	<div class="container">
-		<div class="device-showcase reveal">
-			<span class="device-showcase__glow" aria-hidden="true"></span>
-			<div class="tablet-mockup">
-				<div class="tablet-mockup__screen">
-					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/platform screenshots/stride-tablet.webp' ); ?>" alt="Stride on tablet — case list" loading="lazy" decoding="async">
+<!-- ── Product screens — sliding device mockups ───────────────── -->
+<?php
+$leap_mocks = array(
+	array( 'tablet',  'mock-tablet-hands.webp',  'Stride on tablet' ),
+	array( 'desktop', 'mock-desktop-cases.webp', 'Stride case grid' ),
+	array( 'phone',   'mock-phone-login.webp',   'Stride mobile login' ),
+	array( 'tablet',  'mock-tablet-hand.webp',   'Stride on tablet' ),
+	array( 'desktop', 'mock-desktop-dash1.webp', 'Stride analytics dashboard' ),
+	array( 'phone',   'mock-phone-tilt.webp',    'Stride on mobile' ),
+	array( 'desktop', 'mock-desktop-dash2.webp', 'Stride performance dashboard' ),
+	array( 'tablet',  'mock-tablet.webp',        'Stride case list on tablet' ),
+);
+?>
+<section class="content-section screens-section reveal">
+	<div class="screens-scroll">
+		<div class="screens-track" id="screens-track">
+			<?php foreach ( $leap_mocks as $m ) : ?>
+				<div class="screen-mock screen-mock--<?php echo esc_attr( $m[0] ); ?>">
+					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/platform screenshots/' . $m[1] ); ?>" alt="<?php echo esc_attr( $m[2] ); ?>" loading="lazy" decoding="async">
 				</div>
-			</div>
-			<div class="phone-mockup">
-				<div class="phone-mockup__screen">
-					<span class="phone-mockup__notch" aria-hidden="true"></span>
-					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/platform screenshots/stride-phone.webp' ); ?>" alt="Stride on mobile" loading="lazy" decoding="async">
-				</div>
-			</div>
+			<?php endforeach; ?>
 		</div>
 	</div>
 </section>

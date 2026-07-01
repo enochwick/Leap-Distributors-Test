@@ -4638,82 +4638,33 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   .laptop-mockup__base { height: 12px; }
 }
 
-/* ── Device showcase: tablet + phone mockups ────────────────── */
-.device-showcase {
-  position: relative;
+/* ── Product screens — sliding device mockups ───────────────── */
+.screens-section { overflow: hidden; }
+.screens-scroll { overflow: hidden; }
+.screens-track {
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  margin-top: var(--space-8);
-  padding: var(--space-6) 0;
+  align-items: center;
+  gap: clamp(var(--space-4), 3vw, var(--space-10));
+  width: max-content;
+  padding: var(--space-8) var(--space-10);
+  will-change: transform;
 }
-.device-showcase__glow {
-  position: absolute;
-  top: 42%;
-  left: 50%;
-  width: 62%;
-  height: 62%;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(ellipse at center, rgba(0,210,180,0.3) 0%, rgba(0,180,160,0.12) 45%, transparent 72%);
-  filter: blur(60px);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
+.screen-mock { flex: 0 0 auto; }
+.screen-mock img {
+  display: block;
+  width: auto;
+  height: clamp(190px, 24vw, 320px);
+  filter: drop-shadow(0 24px 44px rgba(0,0,0,0.5));
 }
-.tablet-mockup,
-.phone-mockup { position: relative; z-index: 1; }
+/* Tablets read bigger than the rest */
+.screen-mock--tablet img { height: clamp(240px, 32vw, 420px); }
+.screen-mock--desktop img { height: clamp(200px, 26vw, 340px); }
+.screen-mock--phone img { height: clamp(210px, 28vw, 360px); }
 
-.tablet-mockup {
-  width: clamp(190px, 26vw, 300px); /* zoomed out */
-  background: #0b0f12;
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 24px;
-  padding: 11px;
-  box-shadow: none; /* fades into the section instead */
-  /* Fade the bottom of the tablet into the background */
-  -webkit-mask-image: linear-gradient(to bottom, #000 66%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 66%, transparent 100%);
-}
-.tablet-mockup__screen {
-  border-radius: 13px;
-  overflow: hidden;
-  background: #000;
-}
-.tablet-mockup__screen img { width: 100%; height: auto; display: block; }
-
-.phone-mockup {
-  width: clamp(120px, 17vw, 185px);
-  margin-left: var(--space-5); /* sits to the right of the tablet */
-  margin-bottom: var(--space-6);
-  background: #0b0f12;
-  border: 1px solid rgba(255,255,255,0.14);
-  border-radius: 30px;
-  padding: 7px;
-  box-shadow: 0 22px 48px rgba(0,0,0,0.6);
-  z-index: 2;
-}
-.phone-mockup__screen {
-  position: relative;
-  border-radius: 24px;
-  overflow: hidden;
-  background: #000;
-}
-.phone-mockup__screen img { width: 100%; height: auto; display: block; }
-.phone-mockup__notch {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40%;
-  height: 15px;
-  background: #0b0f12;
-  border-radius: 0 0 10px 10px;
-  z-index: 3;
-}
-
-@media (max-width: 600px) {
-  .tablet-mockup { width: clamp(170px, 48vw, 260px); }
-  .phone-mockup  { width: clamp(96px, 27vw, 140px); margin-left: var(--space-3); margin-bottom: var(--space-4); }
+@media (max-width: 768px) {
+  .screens-track { padding: var(--space-6) var(--space-5); }
+  .screen-mock img { height: clamp(160px, 40vw, 240px); }
+  .screen-mock--tablet img { height: clamp(200px, 52vw, 300px); }
 }
 
 @media (max-width: 768px) {

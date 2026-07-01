@@ -843,6 +843,32 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', function () { if (mq.matches) { lockContentHeight(); layout(); render(); } });
   })();
 
+  // ── Platform screens: slide the mockup row left as you scroll ──
+  (function () {
+    var track = document.getElementById('screens-track');
+    if (!track || typeof gsap === 'undefined') return;
+    var section = track.closest('.screens-section');
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // Let people scroll the row manually instead of scroll-driven motion.
+      track.parentElement.style.overflowX = 'auto';
+      return;
+    }
+    var distance = function () {
+      return Math.max(0, track.scrollWidth - window.innerWidth + 40);
+    };
+    gsap.to(track, {
+      x: function () { return -distance(); },
+      ease: 'none',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 0.5,
+        invalidateOnRefresh: true,
+      },
+    });
+  })();
+
   // ── Trey laptop: scroll-driven tilt (slanted → flat), like the platform page ──
   (function () {
     var laptop = document.getElementById('trey-laptop');
