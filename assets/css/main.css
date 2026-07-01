@@ -4638,26 +4638,6 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   .laptop-mockup__base { height: 12px; }
 }
 
-/* ── Product screen — full-width tablet mockup, bottom fades out ─ */
-.tablet-hero {
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
-}
-.tablet-hero__img {
-  display: block;
-  width: 100%;
-  height: auto;
-  transform: scale(1.15);
-  transform-origin: top center;
-  /* Smooth fade of the bottom edge into the page background */
-  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
-}
-@media (max-width: 768px) {
-  .tablet-hero__img { transform: scale(1.25); }
-}
 
 @media (max-width: 768px) {
   /* No scroll-pin on mobile — laptop sits inline, no huge empty gap below it */

@@ -142,13 +142,6 @@
 	</div>
 </section>
 
-<!-- ── Product screen — full-width tablet mockup ──────────────── -->
-<section class="tablet-hero reveal">
-	<img class="tablet-hero__img"
-		src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/platform screenshots/mock-tablet-hands.webp' ); ?>"
-		alt="Stride on tablet" loading="lazy" decoding="async">
-</section>
-
 <!-- ── Rep Dashboard ──────────────────────────────────────────── -->
 <section class="content-section">
 	<div class="container">
