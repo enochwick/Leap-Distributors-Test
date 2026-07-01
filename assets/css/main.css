@@ -4639,6 +4639,96 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 }
 
 
+/* ── Product screens — mockup gallery (cover grid + lightbox) ──── */
+.mock-gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+.mock-gallery__item {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-lg, 14px);
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  background: #0e1524;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.28);
+}
+.mock-gallery__item--col-2 { grid-column: span 2; aspect-ratio: 8 / 3; }
+.mock-gallery__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.mock-gallery__item:hover img,
+.mock-gallery__item:focus-visible img { transform: scale(1.05); }
+.mock-gallery__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-4);
+  background: linear-gradient(to top, rgba(0,0,0,0.72), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.mock-gallery__item:hover .mock-gallery__overlay,
+.mock-gallery__item:focus-visible .mock-gallery__overlay { opacity: 1; }
+.mock-gallery__title {
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 600;
+  transform: translateY(12px);
+  transition: transform 0.3s ease;
+}
+.mock-gallery__item:hover .mock-gallery__title,
+.mock-gallery__item:focus-visible .mock-gallery__title { transform: translateY(0); }
+
+/* Lightbox */
+.mock-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.85);
+  padding: var(--space-6);
+}
+.mock-lightbox.is-open { display: flex; }
+.mock-lightbox__img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: var(--radius-lg, 14px);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+}
+.mock-lightbox__close {
+  position: absolute;
+  top: var(--space-5);
+  right: var(--space-6);
+  background: none;
+  border: 0;
+  color: #fff;
+  font-size: 2.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+@media (max-width: 900px) {
+  .mock-gallery__grid { grid-template-columns: repeat(2, 1fr); }
+  .mock-gallery__item--col-2 { grid-column: span 2; aspect-ratio: 16 / 7; }
+}
+@media (max-width: 560px) {
+  .mock-gallery__grid { grid-template-columns: 1fr; }
+  .mock-gallery__item,
+  .mock-gallery__item--col-2 { grid-column: auto; aspect-ratio: 4 / 3; }
+}
+
+
 @media (max-width: 768px) {
   /* No scroll-pin on mobile — laptop sits inline, no huge empty gap below it */
   .phg-scroll { height: auto; }

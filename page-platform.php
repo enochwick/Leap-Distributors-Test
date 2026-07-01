@@ -142,6 +142,37 @@
 	</div>
 </section>
 
+<!-- ── Product screens — mockup gallery ───────────────────────── -->
+<?php
+$leap_mocks = array(
+	array( 'mock-tablet-hands.webp',  'Case management on tablet', 'col-1' ),
+	array( 'mock-desktop-cases.webp', 'Live case grid',            'col-2' ),
+	array( 'mock-phone-login.webp',   'Secure mobile access',      'col-1' ),
+	array( 'mock-desktop-dash1.webp', 'Performance analytics',     'col-1' ),
+	array( 'mock-tablet.webp',        'Case list, anywhere',       'col-2' ),
+	array( 'mock-desktop-dash2.webp', 'Commission projections',    'col-1' ),
+	array( 'mock-phone-tilt.webp',    'Stride on the go',          'col-1' ),
+	array( 'mock-tablet-hand.webp',   'Built for the field',       'col-1' ),
+);
+?>
+<section class="content-section mock-gallery reveal">
+	<div class="container">
+		<div class="mock-gallery__grid">
+			<?php foreach ( $leap_mocks as $m ) : ?>
+				<button type="button" class="mock-gallery__item mock-gallery__item--<?php echo esc_attr( $m[2] ); ?>"
+					data-full="<?php echo esc_url( get_template_directory_uri() . '/assets/images/platform screenshots/' . $m[0] ); ?>">
+					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/platform screenshots/' . $m[0] ); ?>" alt="<?php echo esc_attr( $m[1] ); ?>" loading="lazy" decoding="async">
+					<span class="mock-gallery__overlay"><span class="mock-gallery__title"><?php echo esc_html( $m[1] ); ?></span></span>
+				</button>
+			<?php endforeach; ?>
+		</div>
+	</div>
+	<div class="mock-lightbox" id="mock-lightbox" aria-hidden="true">
+		<button type="button" class="mock-lightbox__close" id="mock-lightbox-close" aria-label="Close">&times;</button>
+		<img class="mock-lightbox__img" id="mock-lightbox-img" src="" alt="">
+	</div>
+</section>
+
 <!-- ── Rep Dashboard ──────────────────────────────────────────── -->
 <section class="content-section">
 	<div class="container">
