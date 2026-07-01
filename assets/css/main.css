@@ -4682,9 +4682,9 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
     inset 0 0 0 6px #05070b;
   transform: scale(1.12);
   transform-origin: top center;
-  /* Fade out the bottom half of the phone into the page */
-  -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent 92%);
-  mask-image: linear-gradient(to bottom, #000 45%, transparent 92%);
+  /* Fade starts halfway down and dissolves to the bottom */
+  -webkit-mask-image: linear-gradient(to bottom, #000 50%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 50%, transparent 100%);
 }
 .phone-mockup__notch {
   position: absolute;
