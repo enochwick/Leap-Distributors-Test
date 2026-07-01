@@ -84,32 +84,10 @@
 				<h3 class="platform-cap__h">Engineered for intelligence.</h3>
 				<p>Every case generates data, and we put it to work. Today, that means real-time visibility into product trends, case volume, surgeon trends, and rep performance, powering our work and informing our partners. Productized partner dashboards and AI-assisted billing checks are in active development.</p>
 			</div>
-			<div class="platform-cap__visual">
-				<div class="ui-frame">
-					<div class="ui-frame__bar">
-						<span class="ui-frame__dot"></span><span class="ui-frame__dot"></span><span class="ui-frame__dot"></span>
-						<span class="ui-frame__title">Stride · Insights</span>
-					</div>
-					<div class="ui-frame__body">
-						<div class="stride-bi">
-							<div class="stride-bi__card"><div class="stride-bi__label">Case Volume</div><div class="stride-bi__val">1,284</div><div class="stride-bi__delta stride-bi__delta--up">+12.4% MoM</div></div>
-							<div class="stride-bi__card"><div class="stride-bi__label">Active Surgeons</div><div class="stride-bi__val">312</div><div class="stride-bi__delta stride-bi__delta--up">+8</div></div>
-							<div class="stride-bi__card"><div class="stride-bi__label">Avg Bill Time</div><div class="stride-bi__val">2.4d</div><div class="stride-bi__delta stride-bi__delta--up">↓18%</div></div>
-							<div class="stride-bi__card"><div class="stride-bi__label">Top Line</div><div class="stride-bi__val" style="font-size:var(--text-base)">Spine · Posterior</div><div class="stride-bi__delta stride-bi__delta--up">+22%</div></div>
-							<div class="stride-bi__card stride-bi__card--full">
-								<div class="stride-bi__label">Case Volume · 12 weeks</div>
-								<div class="stride-bi__bars">
-									<span style="height:45%"></span><span style="height:52%"></span><span style="height:48%"></span>
-									<span style="height:61%"></span><span style="height:55%"></span><span style="height:70%"></span>
-									<span style="height:65%"></span><span style="height:78%"></span><span style="height:72%"></span>
-									<span style="height:83%"></span><span style="height:88%"></span><span style="height:95%"></span>
-								</div>
-							</div>
-						</div>
-					</div>
+			<div class="platform-cap__visual platform-cap__visual--shot">
+				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/platform screenshots/Unknown-5.png' ); ?>" alt="Stride insights dashboard" loading="lazy" decoding="async">
 				</div>
 			</div>
-		</div>
 		</div><!-- /.platform-stack -->
 	</div>
 </section>
