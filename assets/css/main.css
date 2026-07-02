@@ -1500,6 +1500,9 @@ p { line-height: 1.7; }
   margin: var(--space-3) 0 0;
 }
 
+/* Per-tab image — desktop uses the shared gallery, so hide these there */
+.vt-tab__media { display: none; }
+
 /* Gallery */
 .vt-right {
   align-self: center;
@@ -1559,17 +1562,39 @@ p { line-height: 1.7; }
   .vt-grid {
     grid-template-columns: 1fr;
   }
-  .vt-right {
-    position: static;
-    order: -1;
+  /* Stacked layout: title on top, then each subtitle with its image below.
+     Drop the shared carousel and show every tab fully expanded. */
+  .vt-right { display: none; }
+
+  .vt-tab {
+    cursor: default;
+    padding-left: 0;
+    color: var(--color-text);
   }
-  .vt-gallery { aspect-ratio: 16/10; }
-  /* wider, full-width column → text wraps to fewer lines */
-  .vt-tab.is-active .vt-tab__desc-wrap { height: 7rem; }
-}
-@media (max-width: 480px) {
-  /* narrow phones → text wraps to more lines again */
-  .vt-tab.is-active .vt-tab__desc-wrap { height: 8.5rem; }
+  .vt-tab__track { display: none; }
+
+  /* Every description open (no active-only collapse) */
+  .vt-tab__desc-wrap,
+  .vt-tab.is-active .vt-tab__desc-wrap {
+    height: auto;
+    opacity: 1;
+    overflow: visible;
+  }
+
+  /* Image below each tab's "Learn more" */
+  .vt-tab__media {
+    display: block;
+    margin-top: var(--space-5);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+  }
+  .vt-tab__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
 }
 
 .pc-section {

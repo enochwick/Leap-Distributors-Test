@@ -161,6 +161,7 @@ if ( $hero_headline_raw ) {
 								<p class="vt-tab__desc">Reps who know your preferences, your procedures, and your room before they walk in. Broader product access without losing the people you trust.</p>
 								<a href="<?php echo esc_url( home_url( '/surgeons/' ) ); ?>" class="arrow-link" style="margin-top:var(--space-4);display:inline-flex;">Learn more <span aria-hidden="true">→</span></a>
 							</div>
+							<div class="vt-tab__media"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/surgeons.webp' ); ?>" alt="A surgical team at work in a modern operating room" loading="lazy" decoding="async"></div>
 						</div>
 					</button>
 
@@ -173,6 +174,7 @@ if ( $hero_headline_raw ) {
 								<p class="vt-tab__desc">Stop chasing fifteen reps across fifteen manufacturers. One team, every product line, with live case data and billing speed your supply chain needs.</p>
 								<a href="<?php echo esc_url( home_url( '/partnerships/hospitals/' ) ); ?>" class="arrow-link" style="margin-top:var(--space-4);display:inline-flex;">Learn more <span aria-hidden="true">→</span></a>
 							</div>
+							<div class="vt-tab__media"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/hospitals.webp' ); ?>" alt="A clinician in a modern hospital corridor" loading="lazy" decoding="async"></div>
 						</div>
 					</button>
 
@@ -185,6 +187,7 @@ if ( $hero_headline_raw ) {
 								<p class="vt-tab__desc">Direct rep coverage in our south central hub, a national distributor partner reach, and field data that tells you exactly how your product is moving.</p>
 								<a href="<?php echo esc_url( home_url( '/partnerships/manufacturers/' ) ); ?>" class="arrow-link" style="margin-top:var(--space-4);display:inline-flex;">Learn more <span aria-hidden="true">→</span></a>
 							</div>
+							<div class="vt-tab__media"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/manufacturers.webp' ); ?>" alt="Precision-machined surgical implants and instruments" loading="lazy" decoding="async"></div>
 						</div>
 					</button>
 
