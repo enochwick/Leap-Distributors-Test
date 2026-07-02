@@ -4242,6 +4242,22 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   justify-content: space-between;
 }
 .lc__header-info { display: flex; align-items: center; gap: var(--space-3); }
+.lc__header-actions { display: flex; align-items: center; gap: var(--space-2); }
+/* In-panel close button — only needed on mobile where the FAB is hidden */
+.lc__close {
+  display: none;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-full);
+  background: rgba(255,255,255,0.08);
+  border: none;
+  color: var(--color-text);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.lc__close:hover { background: rgba(255,255,255,0.16); }
 .lc__avatar {
   width: 34px; height: 34px;
   border-radius: var(--radius-full);
@@ -4299,6 +4315,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 .lc.is-open .lc__trey {
   opacity: 0;
   transform: translateY(10px) scale(0.92);
+  pointer-events: none;
 }
 @keyframes trey-bob {
   0%, 100% { transform: translateY(0); }
@@ -4480,12 +4497,23 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 
 @media (max-width: 480px) {
   .lc { bottom: var(--space-4); right: var(--space-4); }
-  /* Full-width panel won't fit beside the button — stack it above instead */
+
+  /* Hide the round chat button — Trey (and his bubble) is the only trigger */
+  .lc__toggle { display: none; }
+  /* Give people a way to close the panel now that the FAB is gone */
+  .lc__close { display: flex; }
+
+  /* Panel anchored bottom, full width, sized to the visible viewport so the
+     keyboard never crops it. JS refines the bottom offset when the keyboard opens. */
   .lc__panel {
     width: calc(100vw - 2rem);
     right: var(--space-4);
-    bottom: calc(var(--space-4) + var(--fab-size) + var(--space-3));
+    left: var(--space-4);
+    bottom: var(--space-4);
+    max-height: min(72vh, 72dvh);
   }
+  /* 16px prevents iOS from zooming the page in when the field is focused */
+  .lc__input { font-size: 16px; }
 }
 
 /* ── Platform Page ───────────────────────────────────────── */

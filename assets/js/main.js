@@ -1058,21 +1058,51 @@ document.addEventListener('DOMContentLoaded', () => {
   let isOpen = false, isLoading = false;
   const history = [];
 
+  const isMobile = () => window.matchMedia('(max-width: 480px)').matches;
+
+  // Keep the panel sitting just above the on-screen keyboard so nothing
+  // gets cropped (uses the VisualViewport API where available).
+  function fitPanelToViewport() {
+    if (!isMobile() || !window.visualViewport) return;
+    const vv = window.visualViewport;
+    const keyboard = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+    panel.style.bottom = (keyboard + 16) + 'px';
+    panel.style.maxHeight = (vv.height - 32) + 'px';
+  }
+  function resetPanelStyles() {
+    panel.style.bottom = '';
+    panel.style.maxHeight = '';
+  }
+
   function openChat()  {
     isOpen = true;
     widget.classList.add('is-open');
     toggle.setAttribute('aria-expanded', 'true');
     panel.setAttribute('aria-hidden', 'false');
-    input.focus();
+    // Focus synchronously (inside the click gesture) so iOS opens the keyboard.
+    input.focus({ preventScroll: true });
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', fitPanelToViewport);
+      window.visualViewport.addEventListener('scroll', fitPanelToViewport);
+    }
+    fitPanelToViewport();
   }
   function closeChat() {
     isOpen = false;
     widget.classList.remove('is-open');
     toggle.setAttribute('aria-expanded', 'false');
     panel.setAttribute('aria-hidden', 'true');
+    if (input) input.blur();
+    if (window.visualViewport) {
+      window.visualViewport.removeEventListener('resize', fitPanelToViewport);
+      window.visualViewport.removeEventListener('scroll', fitPanelToViewport);
+    }
+    resetPanelStyles();
   }
 
   toggle.addEventListener('click', () => isOpen ? closeChat() : openChat());
+  const closeBtn = document.getElementById('lc-close');
+  if (closeBtn) closeBtn.addEventListener('click', closeChat);
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && isOpen) closeChat(); });
 
   // Clicking Trey (image or speech bubble) opens the chat.
