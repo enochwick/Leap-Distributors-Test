@@ -1258,6 +1258,9 @@ a.btn.cta-talk:is(:hover, :focus-visible) {
   50%       { opacity: 0.7; transform: scaleY(1.15); }
 }
 
+/* In-hero static stats — mobile only (desktop uses the .stats-strip proof bar) */
+.hero__stats { display: none; }
+
 /* ── Partnership Tiles (ICAM style) ──────────────────────── */
 .partnerships-section {
   padding-top: var(--section-pad-y);
@@ -3818,23 +3821,41 @@ select.form-input {
   /* Hide the scroll cue + line on mobile */
   .hero__scroll { display: none; }
 
-  /* Three stats on one line, raised up to where the scroll cue was */
-  .stats-strip {
-    position: relative;
-    z-index: 5;
-    margin-top: -20vh;
-    border-top: none;
-    background: transparent;
-  }
-  .stats-strip__inner {
-    flex-wrap: nowrap;
-    gap: var(--space-4);
-  }
-  .stats-strip__val { font-size: 1.5rem; }
-  .stats-strip__label { font-size: 9px; letter-spacing: 0.02em; }
+  /* Numbers live inside the pinned hero on mobile (see .hero__stats),
+     so the standalone proof bar is hidden here to avoid duplicates. */
+  .stats-strip { display: none; }
 
-  .stats-strip__divider {
-    display: none;
+  /* Static stats row, pinned at the bottom of the hero */
+  .hero__stats {
+    display: flex;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: clamp(1.75rem, 7vw, 3.5rem);
+    justify-content: center;
+    gap: clamp(var(--space-4), 6vw, var(--space-8));
+    padding-inline: var(--container-pad);
+    z-index: 3;
+  }
+  .hero__stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    text-align: center;
+  }
+  .hero__stat-val {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-orange-light);
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .hero__stat-label {
+    font-size: 9px;
+    color: var(--color-text-3);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
   }
 
   .editorial-quote p {

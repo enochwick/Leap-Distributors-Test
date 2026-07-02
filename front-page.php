@@ -61,6 +61,13 @@ if ( $hero_headline_raw ) {
 		<span>Scroll</span>
 		<div class="hero__scroll-line"></div>
 	</div>
+
+	<!-- Static stats (mobile only) — pinned inside the hero -->
+	<div class="hero__stats">
+		<div class="hero__stat"><span class="hero__stat-val">10,000+</span><span class="hero__stat-label">Surgeries Annually</span></div>
+		<div class="hero__stat"><span class="hero__stat-val">750+</span><span class="hero__stat-label">Surgeons</span></div>
+		<div class="hero__stat"><span class="hero__stat-val">350+</span><span class="hero__stat-label">Facilities, GPOs &amp; IDNs</span></div>
+	</div>
 </section>
 </div>
 
