@@ -9,7 +9,7 @@
 			<h1 class="page-hero__title">The products you trust. The partner you deserve.</h1>
 			<p class="page-hero__lead">Full choice, real support, no trade-off. We learn your practice, your preferences, and your standards. The OR is just where it starts.</p>
 			<div class="hero__actions" style="opacity:1;margin-top:var(--space-10);">
-				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg">Let's talk <span aria-hidden="true">→</span></a>
+				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg cta-talk">Let's talk <span aria-hidden="true">→</span></a>
 			</div>
 		</div>
 	</div>
@@ -143,7 +143,7 @@
 			<h2 class="reveal">Let's start a<br>conversation.</h2>
 			<p class="reveal">Tell us what you're working on. We'll find a time to talk.</p>
 			<div class="cta-banner__actions reveal">
-				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg">Let's talk <span aria-hidden="true">→</span></a>
+				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg cta-talk">Let's talk <span aria-hidden="true">→</span></a>
 			</div>
 		</div>
 	</div>

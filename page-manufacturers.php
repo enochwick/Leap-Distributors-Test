@@ -9,7 +9,7 @@
 			<h1 class="page-hero__title">Direct coverage with national reach.</h1>
 			<p class="page-hero__lead">A distribution partner that offers direct coverage, national reach, and the field visibility you've been asking distributors for.</p>
 			<div class="hero__actions" style="opacity:1;margin-top:var(--space-10);">
-				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg">Let's talk <span aria-hidden="true">→</span></a>
+				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg cta-talk">Let's talk <span aria-hidden="true">→</span></a>
 			</div>
 		</div>
 	</div>
@@ -101,7 +101,7 @@
 			<h2 class="reveal">Let's start a<br>conversation.</h2>
 			<p class="reveal">Tell us about your product and where you want it. We'll find a time to talk.</p>
 			<div class="cta-banner__actions reveal">
-				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg">Let's talk <span aria-hidden="true">→</span></a>
+				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg cta-talk">Let's talk <span aria-hidden="true">→</span></a>
 			</div>
 		</div>
 	</div>

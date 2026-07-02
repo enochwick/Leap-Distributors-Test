@@ -450,6 +450,18 @@ p { line-height: 1.7; }
   box-shadow: 0 8px 28px rgba(42,125,225,0.4);
 }
 
+/* "Let's talk" CTA → brand orange on hover, everywhere it appears */
+a.btn.cta-talk:is(:hover, :focus-visible) {
+  --shiny-bg: var(--color-orange);
+  box-shadow: 0 8px 28px rgba(230,83,0,0.4);
+}
+.site-header__cta.cta-talk:hover,
+.site-header.is-scrolled:not(.nav-is-open) .site-header__cta.cta-talk:hover,
+.nav-overlay__cta.cta-talk:hover,
+.arrow-link.cta-talk:hover {
+  color: var(--color-orange-light);
+}
+
 .btn--teal {
   --shiny-bg:        var(--color-teal);
   --shiny-highlight: rgba(255,255,255,0.55);
@@ -3768,17 +3780,24 @@ select.form-input {
 
 @media (max-width: 768px) {
   .hero__headline {
-    font-size: clamp(2.6rem, 11vw, 4rem);
+    font-size: clamp(2.3rem, 9.8vw, 4rem);
   }
+  /* Keep "in Medical Device" on a single line */
+  .hero__nowrap { white-space: nowrap; }
 
+  /* Buttons: side by side, compact — not full width */
   .hero__actions {
-    flex-direction: column;
-    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: auto;
+    gap: var(--space-3);
   }
-
   .hero__actions .btn--hero-primary,
   .hero__actions .btn--hero-ghost {
-    width: 100%;
+    width: auto;
+    height: 44px;
+    padding: 0 var(--space-5);
+    font-size: var(--text-sm);
     justify-content: center;
   }
 
@@ -3796,9 +3815,13 @@ select.form-input {
     align-items: flex-start;
   }
 
+  /* Three stats on one line */
   .stats-strip__inner {
-    gap: var(--space-6);
+    flex-wrap: nowrap;
+    gap: var(--space-4);
   }
+  .stats-strip__val { font-size: 1.5rem; }
+  .stats-strip__label { font-size: 9px; letter-spacing: 0.02em; }
 
   .stats-strip__divider {
     display: none;

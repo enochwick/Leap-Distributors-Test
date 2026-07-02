@@ -24,7 +24,7 @@ if ( $hero_headline_raw ) {
 		}
 	}
 } else {
-	$headline_html = 'The New Standard<br>in Medical Device<br><em>Distribution.</em>';
+	$headline_html = 'The New Standard<br><span class="hero__nowrap">in Medical Device</span><br><em>Distribution.</em>';
 }
 ?>
 

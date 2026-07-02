@@ -59,7 +59,7 @@
 							Dallas, TX 75219
 						</p>
 					</address>
-					<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="arrow-link arrow-link--white" style="margin-top:var(--space-6);display:inline-flex;">Let's talk <span aria-hidden="true">→</span></a>
+					<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="arrow-link arrow-link--white cta-talk" style="margin-top:var(--space-6);display:inline-flex;">Let's talk <span aria-hidden="true">→</span></a>
 				</div>
 
 			</div>

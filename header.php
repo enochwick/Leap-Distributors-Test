@@ -27,7 +27,7 @@
 		</nav>
 		<div class="nav-overlay__footer">
 			<div class="nav-overlay__contact">
-				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="nav-overlay__cta">Let's Talk →</a>
+				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="nav-overlay__cta cta-talk">Let's Talk →</a>
 			</div>
 			<div class="nav-overlay__meta">
 				<a href="tel:+18887765553">+1 888-776-5553</a>
@@ -78,7 +78,7 @@
 				</button>
 			</div>
 
-			<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="site-header__cta">Let's Talk <span aria-hidden="true">→</span></a>
+			<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="site-header__cta cta-talk">Let's Talk <span aria-hidden="true">→</span></a>
 			<button class="hamburger" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-overlay">
 				<span class="hamburger__line hamburger__line--top"></span>
 				<span class="hamburger__line hamburger__line--bottom"></span>

@@ -9,7 +9,7 @@
 			<h1 class="page-hero__title">You know what good distribution looks like.<br>So do we.</h1>
 			<p class="page-hero__lead">Leap is built for reps who want better infrastructure, real back-office support, and a brand that puts more weight behind them. If that's the kind of move you're considering, let's talk.</p>
 			<div class="hero__actions" style="opacity:1;margin-top:var(--space-10);justify-content:center;">
-				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg">Let's talk <span aria-hidden="true">→</span></a>
+				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg cta-talk">Let's talk <span aria-hidden="true">→</span></a>
 			</div>
 		</div>
 	</div>
@@ -110,7 +110,7 @@
 			<h2 class="reveal">Let's see if<br>there's a fit.</h2>
 			<p class="reveal">No pitch deck, no recruiting flow. Just a conversation about your book, your goals, and whether Leap is the right next move.</p>
 			<div class="cta-banner__actions reveal">
-				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg">Let's talk <span aria-hidden="true">→</span></a>
+				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg cta-talk">Let's talk <span aria-hidden="true">→</span></a>
 			</div>
 		</div>
 	</div>
