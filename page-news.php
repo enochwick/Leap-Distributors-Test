@@ -302,7 +302,7 @@
 		<div class="cta-banner__inner">
 			<h2 class="reveal">Let's start a<br>conversation.</h2>
 			<div class="cta-banner__actions reveal">
-				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg cta-talk">Let's talk <span aria-hidden="true">→</span></a>
+				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg">Let's talk <span aria-hidden="true">→</span></a>
 			</div>
 		</div>
 	</div>

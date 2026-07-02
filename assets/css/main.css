@@ -450,11 +450,7 @@ p { line-height: 1.7; }
   box-shadow: 0 8px 28px rgba(42,125,225,0.4);
 }
 
-/* "Let's talk" CTA → brand orange on hover, everywhere it appears */
-a.btn.cta-talk:is(:hover, :focus-visible) {
-  --shiny-bg: var(--color-orange);
-  box-shadow: 0 8px 28px rgba(230,83,0,0.4);
-}
+/* "Let's talk" CTA → brand orange on hover (header + footer only) */
 .site-header__cta.cta-talk:hover,
 .site-header.is-scrolled:not(.nav-is-open) .site-header__cta.cta-talk:hover,
 .nav-overlay__cta.cta-talk:hover,

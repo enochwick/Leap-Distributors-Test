@@ -216,7 +216,7 @@ $img_base = get_template_directory_uri() . '/assets/images/blog';
 			<h2 class="reveal">Let's start a<br>conversation.</h2>
 			<p class="reveal">Whatever brought you here, we'd like to know. Tell us what you're working on.</p>
 			<div class="cta-banner__actions reveal">
-				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg cta-talk">Let's talk <span aria-hidden="true">→</span></a>
+				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg">Let's talk <span aria-hidden="true">→</span></a>
 				<a href="<?php echo esc_url( home_url( '/distributors/' ) ); ?>" class="btn btn--hero-ghost">Learn about Leap</a>
 			</div>
 		</div>
