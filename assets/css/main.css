@@ -2772,6 +2772,10 @@ select.form-input {
   margin-bottom: var(--space-6);
   max-width: 260px;
 }
+/* Desktop: keep the tagline to four lines */
+@media (min-width: 769px) {
+  .site-footer__tagline { max-width: 330px; }
+}
 
 .site-footer__social {
   display: flex;
