@@ -1562,26 +1562,26 @@ p { line-height: 1.7; }
   .vt-grid {
     grid-template-columns: 1fr;
   }
-  /* Stacked layout: title on top, then each subtitle with its image below.
-     Drop the shared carousel but keep the auto-advancing highlight/progress. */
+  /* Stacked layout: title on top, then each subtitle. Drop the shared carousel.
+     Only the auto-slide's active block reveals its description + image. */
   .vt-right { display: none; }
 
-  /* Every description open (no active-only collapse) */
-  .vt-tab__desc-wrap,
+  /* Collapsed by default; the active tab expands to its natural height */
+  .vt-tab__desc-wrap { height: 0; opacity: 0; overflow: hidden; }
   .vt-tab.is-active .vt-tab__desc-wrap {
     height: auto;
     opacity: 1;
-    overflow: visible;
   }
 
-  /* Image below each tab's "Learn more" */
+  /* Image only shows on the active block, below its "Learn more" */
   .vt-tab__media {
-    display: block;
+    display: none;
     margin-top: var(--space-5);
     border-radius: var(--radius-xl);
     overflow: hidden;
     aspect-ratio: 16 / 10;
   }
+  .vt-tab.is-active .vt-tab__media { display: block; }
   .vt-tab__media img {
     width: 100%;
     height: 100%;
