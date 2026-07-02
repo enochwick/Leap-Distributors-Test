@@ -238,7 +238,7 @@ if ( $hero_headline_raw ) {
 		</div>
 		<div class="news-grid" data-stagger>
 
-			<a class="news-card news-card--editorial reveal" href="https://orthospinenews.com/2026/01/06/medtech-incubator-partners-with-leap-distributors-to-support-u-s-market-expansion-efforts/" target="_blank" rel="noopener" data-stagger-child>
+			<a class="news-card news-card--editorial" href="https://orthospinenews.com/2026/01/06/medtech-incubator-partners-with-leap-distributors-to-support-u-s-market-expansion-efforts/" target="_blank" rel="noopener" data-stagger-child>
 				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LEAP-X-MEDTECH-07.webp' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">OrthoSpineNews</span>
 				</div>
@@ -255,7 +255,7 @@ if ( $hero_headline_raw ) {
 				</div>
 			</a>
 
-			<a class="news-card news-card--editorial reveal" href="https://dallasinnovates.com/dallas-leap-distributors-acquires-leap-surgical-and-dub-enterprises/" target="_blank" rel="noopener" data-stagger-child>
+			<a class="news-card news-card--editorial" href="https://dallasinnovates.com/dallas-leap-distributors-acquires-leap-surgical-and-dub-enterprises/" target="_blank" rel="noopener" data-stagger-child>
 				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/pexels-karolina-grabowska-7875996-1-scaled.webp' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">Dallas Innovates</span>
 				</div>
@@ -272,7 +272,7 @@ if ( $hero_headline_raw ) {
 				</div>
 			</a>
 
-			<a class="news-card news-card--editorial reveal" href="https://leapdistributors.com/product-agnostic-distribution-wins-for-surgeons-and-hospitals/" target="_blank" rel="noopener" data-stagger-child>
+			<a class="news-card news-card--editorial" href="https://leapdistributors.com/product-agnostic-distribution-wins-for-surgeons-and-hospitals/" target="_blank" rel="noopener" data-stagger-child>
 				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LeapDistributors3-e1769101290191.webp' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">Leap Insights</span>
 				</div>
