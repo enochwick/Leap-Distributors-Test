@@ -4185,6 +4185,8 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 /* ── AI Chat Widget ──────────────────────────────────────── */
 /* Toggle always pinned bottom-right, panel floats above it */
 .lc__toggle {
+  /* Circle chat button removed — Trey is the only trigger now */
+  display: none;
   position: fixed;
   bottom: var(--space-6);
   right: var(--space-6);
@@ -4195,7 +4197,6 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   background: var(--color-blue);
   border: none;
   cursor: pointer;
-  display: flex;
   align-items: center;
   justify-content: center;
   color: var(--color-white);
@@ -4210,7 +4211,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 .lc__panel {
   position: fixed;
   bottom: var(--space-6);
-  right: calc(var(--space-6) + var(--fab-size) + var(--space-3));
+  right: var(--space-6);
   z-index: 9000;
   width: 340px;
   max-height: 500px;
@@ -4243,9 +4244,9 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 }
 .lc__header-info { display: flex; align-items: center; gap: var(--space-3); }
 .lc__header-actions { display: flex; align-items: center; gap: var(--space-2); }
-/* In-panel close button — only needed on mobile where the FAB is hidden */
+/* In-panel close button — the FAB is hidden everywhere now */
 .lc__close {
-  display: none;
+  display: flex;
   width: 30px;
   height: 30px;
   border-radius: var(--radius-full);
@@ -4278,7 +4279,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 .lc__trey {
   position: fixed;
   bottom: var(--space-6);
-  right: calc(var(--space-6) + var(--fab-size) + var(--space-2));
+  right: var(--space-6);
   z-index: 9000;
   cursor: pointer;
   line-height: 0;
@@ -4295,8 +4296,8 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 .lc__trey-bubble {
   position: absolute;
   bottom: calc(100% + var(--space-2));
-  left: 50%;
-  transform: translateX(-50%);
+  right: 0;
+  transform: none;
   background: rgba(255,255,255,0.1);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
@@ -4325,7 +4326,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   .lc__trey img { animation: none; }
 }
 @media (max-width: 480px) {
-  .lc__trey { bottom: var(--space-4); right: calc(var(--space-4) + var(--fab-size) + var(--space-2)); }
+  .lc__trey { bottom: var(--space-4); right: var(--space-4); }
   .lc__trey img { width: 58px; }
   .lc__trey-bubble { font-size: 11px; }
 }
@@ -4497,11 +4498,6 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 
 @media (max-width: 480px) {
   .lc { bottom: var(--space-4); right: var(--space-4); }
-
-  /* Hide the round chat button — Trey (and his bubble) is the only trigger */
-  .lc__toggle { display: none; }
-  /* Give people a way to close the panel now that the FAB is gone */
-  .lc__close { display: flex; }
 
   /* Panel anchored bottom, full width, sized to the visible viewport so the
      keyboard never crops it. JS refines the bottom offset when the keyboard opens. */
