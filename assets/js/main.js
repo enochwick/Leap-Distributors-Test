@@ -843,27 +843,30 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', function () { if (mq.matches) { lockContentHeight(); layout(); render(); } });
   })();
 
-  // ── Platform phone: starts tilted, eases upright as you scroll down ──
+  // ── Platform phone: revolves in 3D as you scroll, like turning a real phone ──
   (function () {
     var phone = document.getElementById('platform-phone');
     if (!phone || typeof gsap === 'undefined') return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      gsap.set(phone, { rotate: 0 });
+      gsap.set(phone, { rotateY: 0, rotate: 0 });
       return;
     }
-    gsap.set(phone, { rotate: -7, scale: 0.92, y: 40, transformOrigin: 'center center' });
-    gsap.to(phone, {
-      rotate: 0,
-      scale: 1,
-      y: 0,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: phone.closest('.platform-repdash'),
-        start: 'top 88%',
-        end: 'top 42%',
-        scrub: 0.4,
-      },
-    });
+    gsap.set(phone, { transformOrigin: 'center center', transformPerspective: 1000 });
+    // Spin from turned-one-way to turned-the-other as the section scrolls through.
+    gsap.fromTo(phone,
+      { rotateY: 55, rotate: -4 },
+      {
+        rotateY: -55,
+        rotate: 4,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: phone.closest('.platform-repdash'),
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 0.6,
+        },
+      }
+    );
   })();
 
   // ── Trey laptop: scroll-driven tilt (slanted → flat), like the platform page ──

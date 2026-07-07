@@ -5115,8 +5115,9 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   height: auto;
   will-change: transform;
   filter: drop-shadow(0 30px 60px rgba(0,0,0,0.4));
-  /* Slight resting tilt; the scroll animation eases it upright */
-  transform: rotate(-7deg);
+  /* Resting state matches the scroll spin's start so there's no flat flash */
+  transform: perspective(1000px) rotateY(55deg) rotate(-4deg);
+  backface-visibility: hidden;
 }
 .stride-rep__tiles {
   display: grid;
