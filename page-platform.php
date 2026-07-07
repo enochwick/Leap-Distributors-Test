@@ -93,8 +93,9 @@
 </section>
 
 <!-- ── Rep Dashboard ──────────────────────────────────────────── -->
-<section class="content-section">
-	<div class="container">
+<section class="content-section repdash-section">
+	<div class="container repdash-wrap">
+		<img class="repdash-bg" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/platform screenshots/Unknown78.png' ); ?>" alt="" aria-hidden="true" loading="lazy" decoding="async">
 		<div class="leap-intro reveal">
 			<div>
 				<h2 class="leap-intro__h">A platform reps actually want to use.</h2>
@@ -102,10 +103,6 @@
 			<div class="leap-intro__body">
 				<p>Live performance dashboards. Real-time commission projections. Quota visibility by the day. Stride is built for the field, not just the back office. It's one of the reasons our reps stay and our partners join.</p>
 			</div>
-		</div>
-
-		<div class="platform-repdash platform-repdash--phone reveal">
-			<img class="platform-phone" id="platform-phone" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/platform screenshots/Unknown78.png' ); ?>" alt="Stride login screen on a phone" loading="lazy" decoding="async">
 		</div>
 	</div>
 </section>

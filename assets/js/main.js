@@ -843,51 +843,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', function () { if (mq.matches) { lockContentHeight(); layout(); render(); } });
   })();
 
-  // ── Platform phone: grab and spin it in 3D, like a real phone in your hand ──
-  (function () {
-    var phone = document.getElementById('platform-phone');
-    if (!phone) return;
-
-    var rotY = -18, rotX = 6;          // resting angle
-    var dragging = false, lastX = 0, lastY = 0;
-
-    function apply() {
-      phone.style.transform =
-        'perspective(1000px) rotateY(' + rotY + 'deg) rotateX(' + rotX + 'deg)';
-    }
-    apply();
-
-    phone.style.cursor = 'grab';
-    phone.style.touchAction = 'pan-y';  // let the page still scroll vertically
-
-    phone.addEventListener('pointerdown', function (e) {
-      dragging = true;
-      lastX = e.clientX;
-      lastY = e.clientY;
-      phone.style.cursor = 'grabbing';
-      phone.setPointerCapture(e.pointerId);
-    });
-    phone.addEventListener('pointermove', function (e) {
-      if (!dragging) return;
-      rotY += (e.clientX - lastX) * 0.6;
-      rotX -= (e.clientY - lastY) * 0.35;
-      rotX = Math.max(-35, Math.min(35, rotX));  // keep the tilt sane
-      lastX = e.clientX;
-      lastY = e.clientY;
-      apply();
-    });
-    function endDrag(e) {
-      if (!dragging) return;
-      dragging = false;
-      phone.style.cursor = 'grab';
-      if (phone.hasPointerCapture && phone.hasPointerCapture(e.pointerId)) {
-        phone.releasePointerCapture(e.pointerId);
-      }
-    }
-    phone.addEventListener('pointerup', endDrag);
-    phone.addEventListener('pointercancel', endDrag);
-  })();
-
   // ── Trey laptop: scroll-driven tilt (slanted → flat), like the platform page ──
   (function () {
     var laptop = document.getElementById('trey-laptop');
