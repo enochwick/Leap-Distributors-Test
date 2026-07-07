@@ -111,7 +111,7 @@
 <!-- ── What's Next ────────────────────────────────────────────── -->
 <section class="content-section">
 	<div class="container">
-		<div class="section-header reveal">
+		<div class="section-header section-header--center reveal">
 			<h2>Stride keeps moving forward.</h2>
 			<p style="margin-top:var(--space-4);color:var(--color-text-2);font-weight:300;">Three things shipping over the next twelve months:</p>
 		</div>
