@@ -5107,6 +5107,9 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 }
 
 /* Rep dashboard — faded phone mockup sitting behind the copy */
+.repdash-section {
+  padding-block: clamp(var(--space-20), 12vw, var(--space-32));
+}
 .repdash-wrap { position: relative; }
 .repdash-wrap .leap-intro { position: relative; z-index: 1; }
 .repdash-bg {
@@ -5114,15 +5117,15 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: min(760px, 92%);
+  width: min(1100px, 116%);
   height: auto;
   z-index: 0;
-  opacity: 0.14;
+  opacity: 0.32;
   pointer-events: none;
   user-select: none;
   /* soften the edges so it reads as a backdrop, not a hard image */
-  -webkit-mask-image: radial-gradient(ellipse at center, #000 45%, transparent 78%);
-  mask-image: radial-gradient(ellipse at center, #000 45%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 55%, transparent 85%);
+  mask-image: radial-gradient(ellipse at center, #000 55%, transparent 85%);
 }
 .stride-rep__tiles {
   display: grid;
