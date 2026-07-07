@@ -5115,9 +5115,11 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   height: auto;
   will-change: transform;
   filter: drop-shadow(0 30px 60px rgba(0,0,0,0.4));
-  /* Resting state matches the scroll spin's start so there's no flat flash */
-  transform: perspective(1000px) rotateY(55deg) rotate(-4deg);
+  /* Resting angle — drag it to spin (see JS). */
+  transform: perspective(1000px) rotateY(-18deg) rotateX(6deg);
   backface-visibility: hidden;
+  touch-action: pan-y;
+  cursor: grab;
 }
 .stride-rep__tiles {
   display: grid;
