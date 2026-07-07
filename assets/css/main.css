@@ -5108,7 +5108,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 
 /* Rep dashboard — faded phone mockup sitting behind the copy */
 .repdash-section {
-  padding-block: clamp(var(--space-20), 12vw, var(--space-32));
+  padding-block: clamp(6rem, 16vw, 12rem);
 }
 .repdash-wrap { position: relative; }
 .repdash-wrap .leap-intro { position: relative; z-index: 1; }
