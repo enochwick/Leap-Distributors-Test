@@ -551,12 +551,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (heroVideoCanvas && typeof leapData !== 'undefined') {
     const ctx         = heroVideoCanvas.getContext('2d');
     const totalFrames = 139;
-    // Frame the scroll-driven cover settles on (0-based). Frame 1 (index 0) is
-    // the opening "instrument handoff" composition — the cover holds here
-    // instead of scrubbing through to the weaker end frame. Raise this to let
-    // the video play further (and bump the .hero-scroll-container height to
-    // match, so there's scroll room for the extra frames).
-    const endFrame    = 0;
+    // Frame the scroll-driven cover settles on (0-based). Lower this to make the
+    // cover finish on an earlier frame (and shorten .hero-scroll-container to
+    // match, so there's no dead scroll on a frozen frame).
+    const endFrame    = totalFrames - 1;
     const frames      = new Array(totalFrames);
     let   loadedCount = 0;
     let   currentFrame = 0;
