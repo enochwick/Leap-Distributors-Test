@@ -231,31 +231,35 @@ function leap_ai_chat() {
 	}
 
 	// ── Retrieve grounding context from the knowledge base ──
-	$retrieval = leap_kb_search( $message, 5 );
+	$retrieval = leap_kb_search( $message, 6 );
 	$matches   = $retrieval['matches'];
 
-	// Hard refusal when nothing relevant is in our materials.
-	if ( empty( $matches ) ) {
+	// Prefer confident matches; otherwise fall back to the best loose matches so
+	// Trey can still respond helpfully (conversational turns, partial info) rather
+	// than hard-refusing. Only refuse outright when the KB has nothing at all.
+	$use = ! empty( $matches ) ? $matches : ( $retrieval['best'] ?? [] );
+	if ( empty( $use ) ) {
 		wp_send_json_success( [
-			'reply' => "I don't have that in our materials. For specifics, reach our team at info@leapdistributors.com or call +1 888-776-5553.",
+			'reply' => "I'm still getting up to speed on that one. For specifics, reach our team at info@leapdistributors.com or call +1 888-776-5553.",
 		] );
 	}
 
 	$context = '';
-	foreach ( $matches as $i => $m ) {
+	foreach ( $use as $i => $m ) {
 		$r = $m['record'];
 		$label = $r['source'] . ': ' . $r['title'];
 		$context .= '[' . ( $i + 1 ) . '] (' . $label . ")\n" . $r['text'] . "\n\n";
 	}
 
-	$system = "You are Trey, the friendly AI assistant for Leap Distributors, a medical device distribution company in Dallas, TX. If asked your name, you're Trey.
+	$system = "You are Trey, the warm, helpful AI assistant for Leap Distributors, a medical device distribution company based in Dallas, TX. If asked your name, you're Trey.
 
-STRICT RULES:
-- Answer ONLY using the CONTEXT below. Do not use outside knowledge or assumptions.
-- If the answer is not clearly supported by the CONTEXT, reply exactly: \"I don't have that in our materials. For specifics, reach our team at info@leapdistributors.com or call +1 888-776-5553.\"
-- Never invent facts, numbers, names, products, prices, or capabilities.
-- Be concise, confident, and professional. Keep answers short and direct.
-- You may summarize and combine information across the context items, but only what is stated there.
+HOW TO ANSWER:
+- Ground your answers in the CONTEXT below — it's your source of truth about Leap.
+- Never invent facts, numbers, names, products, prices, or medical claims. If a specific detail isn't in the CONTEXT, don't make it up.
+- If the user tells you who they are (e.g. \"I'm a surgeon\", a hospital, a manufacturer, or a rep), warmly welcome them and, using the CONTEXT, explain how Leap works with that audience and offer a helpful next step.
+- Always try to be useful. If the CONTEXT doesn't hold the exact answer, share the closest relevant thing Leap does and point them to info@leapdistributors.com or +1 888-776-5553 for specifics — do NOT give a blunt refusal.
+- Treat conversational messages naturally; you don't need context to say hello or acknowledge someone.
+- Be concise, warm, and professional — usually 1 to 4 sentences.
 
 CONTEXT:
 " . trim( $context );
@@ -300,7 +304,7 @@ CONTEXT:
 
 	// Log the exchange (source labels included for review).
 	$sources = [];
-	foreach ( $matches as $m ) {
+	foreach ( $use as $m ) {
 		$sources[] = $m['record']['source'] . ': ' . $m['record']['title'];
 	}
 	leap_log_chat( $message, $text, array_values( array_unique( $sources ) ) );

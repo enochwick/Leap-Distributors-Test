@@ -275,17 +275,17 @@ function leap_kb_cosine( $a, $b ) {
  * Retrieve the top matching passages for a query.
  * @return array{matches:array,top_score:float}
  */
-function leap_kb_search( $query, $k = 5, $min_score = 0.55 ) {
+function leap_kb_search( $query, $k = 5, $min_score = 0.42 ) {
 	if ( ! file_exists( LEAP_KB_FILE ) ) {
-		return [ 'matches' => [], 'top_score' => 0.0 ];
+		return [ 'matches' => [], 'best' => [], 'top_score' => 0.0 ];
 	}
 	$kb = json_decode( file_get_contents( LEAP_KB_FILE ), true );
 	$records = $kb['records'] ?? [];
-	if ( ! $records ) { return [ 'matches' => [], 'top_score' => 0.0 ]; }
+	if ( ! $records ) { return [ 'matches' => [], 'best' => [], 'top_score' => 0.0 ]; }
 
 	$qvec = leap_kb_embed( $query, 'RETRIEVAL_QUERY' );
 	if ( is_wp_error( $qvec ) ) {
-		return [ 'matches' => [], 'top_score' => 0.0 ];
+		return [ 'matches' => [], 'best' => [], 'top_score' => 0.0 ];
 	}
 
 	$scored = [];
@@ -296,11 +296,13 @@ function leap_kb_search( $query, $k = 5, $min_score = 0.55 ) {
 	usort( $scored, fn( $a, $b ) => $b['score'] <=> $a['score'] );
 
 	$top = $scored[0]['score'] ?? 0.0;
-	$matches = [];
-	foreach ( array_slice( $scored, 0, $k ) as $s ) {
-		if ( $s['score'] >= $min_score ) {
-			$matches[] = $s;
-		}
-	}
-	return [ 'matches' => $matches, 'top_score' => $top ];
+
+	// Top-k regardless of score — used as loose grounding so Trey can still be
+	// helpful (and stay grounded) instead of hard-refusing.
+	$best = array_slice( $scored, 0, $k );
+
+	// Confident matches that clear the threshold.
+	$matches = array_values( array_filter( $best, fn( $s ) => $s['score'] >= $min_score ) );
+
+	return [ 'matches' => $matches, 'best' => $best, 'top_score' => $top ];
 }
