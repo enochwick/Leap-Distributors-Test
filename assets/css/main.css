@@ -5204,7 +5204,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 .mtl__rail,
 .mtl__rail-fill {
   position: absolute;
-  left: 28px;
+  left: 19px;                  /* centre of the 40px marker */
   top: 8px;
   width: 2px;
   border-radius: 2px;
@@ -5220,6 +5220,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 .mtl__item {
   position: relative;
   display: flex;
+  align-items: center;          /* icon sits at the vertical centre of the card */
   gap: var(--space-5);
   margin-bottom: var(--space-8);
   /* Hidden until the staggered reveal runs (JS); fallback below shows them */
@@ -5229,29 +5230,21 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 .mtl__item:last-child { margin-bottom: 0; }
 .no-js .mtl__item { opacity: 1; transform: none; }
 
-/* Marker rides the rail; opaque bg masks the line behind it */
+/* Just the icon — no ring. The page-coloured backing masks the rail behind it. */
 .mtl__marker {
   position: relative;
   z-index: 2;
   flex-shrink: 0;
-  width: 58px;
-  height: 58px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: #001520;
   display: grid;
   place-items: center;
   color: var(--color-text-3);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
 }
-.mtl__item--current .mtl__marker {
-  color: var(--color-blue-light);
-  border-color: rgba(42,125,225,0.45);
-}
-.mtl__item--upcoming .mtl__marker {
-  color: var(--color-orange-light);
-  border-color: rgba(230,83,0,0.4);
-}
+.mtl__item--current .mtl__marker { color: var(--color-blue-light); }
+.mtl__item--upcoming .mtl__marker { color: var(--color-orange-light); }
 
 /* Card — uses the site's spotlight-glow edge (see [data-glow]) + a subtle lift */
 .mtl__card {
@@ -5335,9 +5328,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 }
 
 @media (max-width: 640px) {
-  .mtl__rail, .mtl__rail-fill { left: 22px; }
   .mtl__item { gap: var(--space-4); }
-  .mtl__marker { width: 46px; height: 46px; }
   .mtl__card-top { flex-direction: column; }
 }
 

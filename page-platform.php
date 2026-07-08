@@ -129,7 +129,6 @@
 					<div class="mtl__card-top">
 						<div class="mtl__head">
 							<h3 class="mtl__title">Partner dashboards</h3>
-							<div class="mtl__meta"><span>Partners</span><span class="mtl__sep" aria-hidden="true"></span><span>In development</span></div>
 						</div>
 						<span class="mtl__badge mtl__badge--current">In progress</span>
 					</div>
@@ -146,7 +145,6 @@
 					<div class="mtl__card-top">
 						<div class="mtl__head">
 							<h3 class="mtl__title">AI cross-checks</h3>
-							<div class="mtl__meta"><span>Automation</span><span class="mtl__sep" aria-hidden="true"></span><span>In development</span></div>
 						</div>
 						<span class="mtl__badge mtl__badge--current">In progress</span>
 					</div>
@@ -163,7 +161,6 @@
 					<div class="mtl__card-top">
 						<div class="mtl__head">
 							<h3 class="mtl__title">Distributor access</h3>
-							<div class="mtl__meta"><span>Network</span><span class="mtl__sep" aria-hidden="true"></span><span>In development</span></div>
 						</div>
 						<span class="mtl__badge mtl__badge--current">In progress</span>
 					</div>
