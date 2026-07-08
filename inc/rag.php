@@ -93,6 +93,13 @@ function leap_kb_embed_with( $model, $text, $task ) {
  * @return array|WP_Error  Vector of floats.
  */
 function leap_kb_embed( $text, $task = 'RETRIEVAL_QUERY' ) {
+	// Cache query embeddings so repeat/again questions skip the API round-trip.
+	$cache_key = ( $task === 'RETRIEVAL_QUERY' ) ? 'leap_qvec_' . md5( $text ) : '';
+	if ( $cache_key ) {
+		$cached = get_transient( $cache_key );
+		if ( is_array( $cached ) && $cached ) { return $cached; }
+	}
+
 	// Prefer the model that already worked (and that the index was built with).
 	$preferred = get_option( 'leap_embed_model', '' );
 	$candidates = $preferred
@@ -106,6 +113,7 @@ function leap_kb_embed( $text, $task = 'RETRIEVAL_QUERY' ) {
 			if ( $model !== $preferred ) {
 				update_option( 'leap_embed_model', $model );
 			}
+			if ( $cache_key ) { set_transient( $cache_key, $vec, DAY_IN_SECONDS ); }
 			return $vec;
 		}
 		$last_error = $vec;
@@ -144,26 +152,111 @@ function leap_kb_chunk( $text, $max_chars = 1100, $overlap = 200 ) {
 }
 
 /**
+ * Fetch the real, readable copy of a page (the content inside <main>), with
+ * header/footer/nav/scripts stripped. Returns '' on any failure so callers can
+ * fall back to the curated keywords — indexing must never hard-fail on a fetch.
+ */
+function leap_kb_fetch_page_text( $url ) {
+	if ( ! $url ) { return ''; }
+	$res = wp_remote_get( $url, [
+		'timeout'     => 20,
+		'redirection' => 3,
+		'sslverify'   => false, // self-request; avoids loopback cert quirks
+		'headers'     => [ 'User-Agent' => 'LeapKB/1.0 (+knowledge-base indexer)' ],
+	] );
+	if ( is_wp_error( $res ) || (int) wp_remote_retrieve_response_code( $res ) !== 200 ) {
+		return '';
+	}
+	$html = wp_remote_retrieve_body( $res );
+	if ( ! $html || ! class_exists( 'DOMDocument' ) ) {
+		return trim( preg_replace( '/\s+/', ' ', wp_strip_all_tags( (string) $html ) ) );
+	}
+
+	$dom = new DOMDocument();
+	libxml_use_internal_errors( true );
+	$dom->loadHTML( '<?xml encoding="utf-8" ?>' . $html );
+	libxml_clear_errors();
+
+	// Content lives in <main id="main-content">; everything else is chrome.
+	$main = $dom->getElementById( 'main-content' );
+	if ( ! $main ) {
+		$main = $dom->getElementsByTagName( 'main' )->item( 0 );
+	}
+	$root = $main ?: $dom->getElementsByTagName( 'body' )->item( 0 );
+	if ( ! $root ) { return ''; }
+
+	// Drop decorative / non-text nodes inside the content.
+	foreach ( [ 'script', 'style', 'noscript', 'svg', 'canvas' ] as $tag ) {
+		$nodes = $root->getElementsByTagName( $tag );
+		for ( $i = $nodes->length - 1; $i >= 0; $i-- ) {
+			$n = $nodes->item( $i );
+			if ( $n && $n->parentNode ) { $n->parentNode->removeChild( $n ); }
+		}
+	}
+
+	return trim( preg_replace( '/\s+/', ' ', (string) $root->textContent ) );
+}
+
+/** Break a query into meaningful lowercase terms (drops stopwords/short words). */
+function leap_kb_terms( $q ) {
+	$q = strtolower( preg_replace( '/[^a-z0-9\s]/i', ' ', (string) $q ) );
+	$stop = array_flip( [ 'the','a','an','is','are','was','who','what','how','do','does','of','to','for','and','or','me','my','i','im','you','your','our','we','can','with','on','in','at','it','that','this','about','tell' ] );
+	$terms = [];
+	foreach ( preg_split( '/\s+/', trim( $q ) ) as $w ) {
+		if ( strlen( $w ) >= 3 && ! isset( $stop[ $w ] ) ) { $terms[] = $w; }
+	}
+	return array_values( array_unique( $terms ) );
+}
+
+/** Fraction of query terms that appear in a passage (title weighted in). */
+function leap_kb_keyword_score( $terms, $text, $title ) {
+	if ( ! $terms ) { return 0.0; }
+	$hay  = strtolower( $title . ' ' . $text );
+	$hits = 0;
+	foreach ( $terms as $t ) {
+		if ( strpos( $hay, $t ) !== false ) { $hits++; }
+	}
+	return $hits / count( $terms );
+}
+
+/**
  * Gather raw passages (pre-embedding) from all sources.
  * @return array<int,array{source:string,title:string,url:string,text:string}>
  */
 function leap_kb_sources() {
 	$passages = [];
 
-	// 1. Website — the curated search index.
+	// 1. Website — the real page copy, with the curated keywords kept as a
+	//    compact "key facts" passage so exact terms stay reliably retrievable.
 	if ( function_exists( 'leap_get_search_index' ) ) {
 		foreach ( leap_get_search_index() as $entry ) {
-			$text = trim(
-				( $entry['title'] ?? '' ) . ". \n"
-				. ( $entry['description'] ?? '' ) . " \n"
-				. ( $entry['keywords'] ?? '' )
-			);
-			foreach ( leap_kb_chunk( $text ) as $chunk ) {
+			$title = $entry['title'] ?? 'Page';
+			$url   = $entry['url'] ?? '';
+
+			// Actual rendered content (falls back to the description on fetch failure).
+			$body = leap_kb_fetch_page_text( $url );
+			if ( $body === '' ) {
+				$body = trim( (string) ( $entry['description'] ?? '' ) );
+			}
+			if ( $body !== '' ) {
+				foreach ( leap_kb_chunk( $title . ". \n" . $body ) as $chunk ) {
+					$passages[] = [
+						'source' => 'Website',
+						'title'  => $title,
+						'url'    => $url,
+						'text'   => $chunk,
+					];
+				}
+			}
+
+			// Compact key-facts passage (names, phone, address, product terms).
+			$kw = trim( (string) ( $entry['description'] ?? '' ) . ' ' . (string) ( $entry['keywords'] ?? '' ) );
+			if ( $kw !== '' ) {
 				$passages[] = [
 					'source' => 'Website',
-					'title'  => $entry['title'] ?? 'Page',
-					'url'    => $entry['url'] ?? '',
-					'text'   => $chunk,
+					'title'  => $title . ' — key facts',
+					'url'    => $url,
+					'text'   => $title . '. ' . $kw,
 				];
 			}
 		}
@@ -198,6 +291,8 @@ function leap_kb_build() {
 	if ( ! leap_ai_key() ) {
 		return new WP_Error( 'no_key', 'Add your Google AI key first.' );
 	}
+	// Indexing fetches pages and embeds every passage — give it room to finish.
+	if ( function_exists( 'set_time_limit' ) ) { @set_time_limit( 300 ); }
 	$passages = leap_kb_sources();
 	if ( ! $passages ) {
 		return new WP_Error( 'empty', 'No content found to index.' );
@@ -226,7 +321,9 @@ function leap_kb_build() {
 	update_option( 'leap_kb_hash', leap_kb_content_hash() ); // mark current content as indexed
 
 	$titles = array_unique( wp_list_pluck( $records, 'title' ) );
-	return [ 'chunks' => count( $records ), 'sources' => count( $titles ) ];
+	$stats  = [ 'chunks' => count( $records ), 'sources' => count( $titles ), 'built' => current_time( 'mysql' ) ];
+	update_option( 'leap_kb_stats', $stats );
+	return $stats;
 }
 
 /** Fingerprint of all source content; changes when site copy or documents change. */
@@ -240,6 +337,11 @@ function leap_kb_content_hash() {
 			if ( strcasecmp( pathinfo( $f, PATHINFO_FILENAME ), 'README' ) === 0 ) { continue; }
 			$parts[] = basename( $f ) . ':' . filemtime( $f ) . ':' . filesize( $f );
 		}
+	}
+	// Page copy lives in the templates, so a deploy that changes them should
+	// trigger a rebuild. Their mtimes make the hash reflect that.
+	foreach ( glob( get_template_directory() . '/{page-*.php,front-page.php,header.php,footer.php}', GLOB_BRACE ) as $f ) {
+		$parts[] = basename( $f ) . ':' . filemtime( $f );
 	}
 	$parts[] = get_option( 'leap_embed_model', '' );
 	return md5( implode( '|', $parts ) );
@@ -288,21 +390,33 @@ function leap_kb_search( $query, $k = 5, $min_score = 0.42 ) {
 		return [ 'matches' => [], 'best' => [], 'top_score' => 0.0 ];
 	}
 
+	// Hybrid scoring: semantic (cosine) blended with a keyword overlap boost so
+	// exact terms — names, phone, address, product names — always surface.
+	$terms = leap_kb_terms( $query );
 	$scored = [];
 	foreach ( $records as $r ) {
 		if ( empty( $r['vector'] ) ) { continue; }
-		$scored[] = [ 'score' => leap_kb_cosine( $qvec, $r['vector'] ), 'record' => $r ];
+		$cos = leap_kb_cosine( $qvec, $r['vector'] );
+		$kw  = leap_kb_keyword_score( $terms, $r['text'], $r['title'] );
+		$scored[] = [
+			'score'  => $cos + 0.15 * $kw, // ranking score (keyword nudges ties)
+			'cosine' => $cos,
+			'kw'     => $kw,
+			'record' => $r,
+		];
 	}
 	usort( $scored, fn( $a, $b ) => $b['score'] <=> $a['score'] );
 
-	$top = $scored[0]['score'] ?? 0.0;
+	$top = $scored[0]['cosine'] ?? 0.0;
 
-	// Top-k regardless of score — used as loose grounding so Trey can still be
-	// helpful (and stay grounded) instead of hard-refusing.
+	// Top-k regardless of score — loose grounding so Trey can still be helpful
+	// (and stay grounded) instead of hard-refusing.
 	$best = array_slice( $scored, 0, $k );
 
-	// Confident matches that clear the threshold.
-	$matches = array_values( array_filter( $best, fn( $s ) => $s['score'] >= $min_score ) );
+	// Confident matches: clear the semantic threshold OR have a strong keyword hit.
+	$matches = array_values( array_filter( $best, function ( $s ) use ( $min_score ) {
+		return $s['cosine'] >= $min_score || $s['kw'] >= 0.6;
+	} ) );
 
 	return [ 'matches' => $matches, 'best' => $best, 'top_score' => $top ];
 }

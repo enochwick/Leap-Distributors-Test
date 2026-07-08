@@ -205,6 +205,21 @@ add_action( 'init', function() {
 } );
 add_action( 'leap_kb_reindex_event', 'leap_kb_maybe_rebuild' );
 
+// Rebuild soon after content changes (page/post edits, PDF/doc uploads) so the
+// chat's knowledge stays current without waiting for the hourly check.
+function leap_kb_schedule_force_reindex() {
+	if ( ! wp_next_scheduled( 'leap_kb_force_reindex_event' ) ) {
+		wp_schedule_single_event( time() + 60, 'leap_kb_force_reindex_event' );
+	}
+}
+add_action( 'leap_kb_force_reindex_event', 'leap_kb_build' );
+add_action( 'save_post', function( $post_id, $post = null ) {
+	if ( wp_is_post_revision( $post_id ) || wp_is_post_autosave( $post_id ) ) { return; }
+	if ( $post && $post->post_status !== 'publish' ) { return; }
+	leap_kb_schedule_force_reindex();
+}, 10, 2 );
+add_action( 'add_attachment', 'leap_kb_schedule_force_reindex' );
+
 // ── AI Chat Handler ───────────────────────────────────────────
 function leap_ai_chat() {
 	check_ajax_referer( 'leap_chat_nonce', 'nonce' );
@@ -228,6 +243,17 @@ function leap_ai_chat() {
 	}
 	if ( preg_match( '/^(thanks|thank you|thx|ty|cheers|appreciate it)$/', $normalized ) ) {
 		wp_send_json_success( [ 'reply' => "You're welcome! Anything else about Leap I can help with?" ] );
+	}
+
+	// First-turn answers are cached briefly so repeat FAQs are instant and don't
+	// re-hit the API. Skip the cache once there's conversation history (follow-ups).
+	$cache_answer = empty( $history );
+	$ans_key      = 'leap_ans_' . md5( $normalized );
+	if ( $cache_answer ) {
+		$cached = get_transient( $ans_key );
+		if ( is_string( $cached ) && $cached !== '' ) {
+			wp_send_json_success( [ 'reply' => $cached ] );
+		}
 	}
 
 	// ── Retrieve grounding context from the knowledge base ──
@@ -278,28 +304,26 @@ CONTEXT:
 	}
 	$contents[] = [ 'role' => 'user', 'parts' => [ [ 'text' => $message ] ] ];
 
-	$endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' . urlencode( $api_key );
-
-	// leap_ai_post() retries transient failures (timeouts / 429 / 5xx).
-	$response = leap_ai_post( $endpoint, [
-		'system_instruction' => [ 'parts' => [ [ 'text' => $system ] ] ],
-		'contents'           => $contents,
-		'generationConfig'   => [
-			'maxOutputTokens' => 1024,
-			'temperature'     => 0.2,
-			'thinkingConfig'  => [ 'thinkingBudget' => 0 ], // no hidden reasoning tokens; full budget goes to the answer
-		],
-	] );
-
-	if ( is_wp_error( $response ) ) {
-		wp_send_json_error( 'Request failed' );
+	// Try the primary model, then a lighter fallback, so a single-model blip
+	// (rate limit / outage) doesn't take the chat down.
+	$text = '';
+	foreach ( [ 'gemini-2.5-flash', 'gemini-2.5-flash-lite' ] as $model ) {
+		$result = leap_ai_generate( $system, $contents, $model );
+		if ( ! is_wp_error( $result ) && $result !== '' ) {
+			$text = $result;
+			break;
+		}
 	}
 
-	$body = json_decode( wp_remote_retrieve_body( $response ), true );
-	$text = $body['candidates'][0]['content']['parts'][0]['text'] ?? '';
+	// Never surface a hard error to a visitor — degrade gracefully.
+	if ( $text === '' ) {
+		wp_send_json_success( [
+			'reply' => "I'm having a brief hiccup on my end. Please try again in a moment — or reach our team at info@leapdistributors.com or +1 888-776-5553.",
+		] );
+	}
 
-	if ( empty( $text ) ) {
-		wp_send_json_error( 'No response' );
+	if ( $cache_answer ) {
+		set_transient( $ans_key, $text, 6 * HOUR_IN_SECONDS );
 	}
 
 	// Log the exchange (source labels included for review).
@@ -310,6 +334,34 @@ CONTEXT:
 	leap_log_chat( $message, $text, array_values( array_unique( $sources ) ) );
 
 	wp_send_json_success( [ 'reply' => $text ] );
+}
+
+/**
+ * Call Gemini generateContent with a specific model.
+ * @return string|WP_Error  The reply text, or an error to try the next model.
+ */
+function leap_ai_generate( $system, $contents, $model ) {
+	$key = leap_ai_key();
+	if ( ! $key ) { return new WP_Error( 'no_key', 'AI not configured' ); }
+
+	$endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/'
+		. $model . ':generateContent?key=' . urlencode( $key );
+
+	// leap_ai_post() already retries transient failures (timeouts / 429 / 5xx).
+	$response = leap_ai_post( $endpoint, [
+		'system_instruction' => [ 'parts' => [ [ 'text' => $system ] ] ],
+		'contents'           => $contents,
+		'generationConfig'   => [
+			'maxOutputTokens' => 1024,
+			'temperature'     => 0.2,
+			'thinkingConfig'  => [ 'thinkingBudget' => 0 ],
+		],
+	], 20 );
+
+	if ( is_wp_error( $response ) ) { return $response; }
+	$body = json_decode( wp_remote_retrieve_body( $response ), true );
+	$text = $body['candidates'][0]['content']['parts'][0]['text'] ?? '';
+	return $text !== '' ? $text : new WP_Error( 'empty', 'No response' );
 }
 add_action( 'wp_ajax_leap_ai_chat',        'leap_ai_chat' );
 add_action( 'wp_ajax_nopriv_leap_ai_chat', 'leap_ai_chat' );
@@ -456,11 +508,23 @@ function leap_ai_settings_page() {
 		<p>The chat answers <strong>only</strong> from your website content and the documents in
 			<code>wp-content/themes/<?php echo esc_html( get_template() ); ?>/knowledge/</code>
 			(drop <code>.txt</code> or <code>.md</code> files there). Rebuild after changing site copy or documents.</p>
+		<?php
+		$kb_stats     = get_option( 'leap_kb_stats', [] );
+		$kb_stale     = $kb_exists && function_exists( 'leap_kb_content_hash' )
+			&& leap_kb_content_hash() !== get_option( 'leap_kb_hash', '' );
+		?>
 		<p>
 			<?php if ( $kb_exists ) : ?>
-				Status: <strong style="color:#1a7f37;">Built</strong> <?php echo $kb_built ? '· last built ' . esc_html( $kb_built ) : ''; ?>.
+				Status: <strong style="color:#1a7f37;">Built</strong>
+				<?php if ( ! empty( $kb_stats['chunks'] ) ) : ?>
+					· <?php echo (int) $kb_stats['chunks']; ?> passages from <?php echo (int) $kb_stats['sources']; ?> sources
+				<?php endif; ?>
+				<?php echo $kb_built ? '· last indexed ' . esc_html( $kb_built ) : ''; ?>.
+				<?php if ( $kb_stale ) : ?>
+					<br><span style="color:#b26a00;">Site content has changed since the last index — it will refresh automatically within the hour, or click Rebuild now.</span>
+				<?php endif; ?>
 			<?php else : ?>
-				Status: <strong style="color:#b32d2e;">Not built yet</strong> — the chat will refuse all questions until you build it.
+				Status: <strong style="color:#b32d2e;">Not built yet</strong> — build it so the chat has knowledge to answer from.
 			<?php endif; ?>
 		</p>
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
