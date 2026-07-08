@@ -52,8 +52,17 @@
 			<h2 class="reveal">Current Opportunities</h2>
 		</div>
 
+		<?php if ( isset( $_GET['application'] ) && $_GET['application'] === 'success' ) : ?>
+			<div class="form-feedback form-feedback--success reveal" style="max-width:820px;margin:0 auto var(--space-8);">
+				<strong>Application received.</strong> Thanks — our team will review it and be in touch.
+			</div>
+		<?php elseif ( isset( $_GET['application'] ) && $_GET['application'] === 'error' ) : ?>
+			<div class="form-feedback form-feedback--error reveal" style="max-width:820px;margin:0 auto var(--space-8);">
+				Something went wrong. Please try again or email your resume to <a href="mailto:careers@leapdistributors.com">careers@leapdistributors.com</a>.
+			</div>
+		<?php endif; ?>
+
 		<div style="max-width:820px;margin-inline:auto;">
-			<?php $apply_link = 'mailto:careers@leapdistributors.com?subject=Application:%20Surgical%20Consultant'; ?>
 			<article class="job-card card reveal" data-glow>
 				<div class="job-card__head">
 					<div>
@@ -64,10 +73,17 @@
 						<h4 style="margin-bottom:var(--space-1);">Surgical Consultant</h4>
 						<p style="font-size:var(--text-sm);color:var(--color-text-3);">Dallas–Fort Worth Metroplex · Field-based</p>
 					</div>
-					<a href="<?php echo esc_url( $apply_link ); ?>" class="btn btn--outline" style="flex-shrink:0;">Apply</a>
+					<button type="button" class="btn btn--outline" style="flex-shrink:0;" data-open-apply>Apply</button>
 				</div>
 
-				<div class="job-detail">
+				<details class="job-toggle">
+					<summary class="job-toggle__summary">
+						<span class="job-toggle__label job-toggle__label--more">View more</span>
+						<span class="job-toggle__label job-toggle__label--less">View less</span>
+						<svg class="job-toggle__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+					</summary>
+
+					<div class="job-detail">
 					<p>Bring your talents to an industry leader in medical technology and healthcare solutions. You can be proud to sell medical technologies in an ever changing, fast paced environment that restores quality of life for patients. Our expansive portfolio delivers measurable clinical and economic value — and opens doors. You will be empowered to shape your own career. We support your growth with the training, mentorship, and guidance you need to own your future success.</p>
 
 					<h5>Who We Are</h5>
@@ -135,8 +151,9 @@
 						<li>Opportunity for advancement</li>
 					</ul>
 
-					<a href="<?php echo esc_url( $apply_link ); ?>" class="btn btn--primary" style="margin-top:var(--space-4);">Apply for this role</a>
-				</div>
+						<button type="button" class="btn btn--primary" style="margin-top:var(--space-4);" data-open-apply>Apply for this role</button>
+					</div>
+				</details>
 			</article>
 		</div>
 
@@ -171,5 +188,57 @@
 		</div>
 	</div>
 </section>
+
+<!-- ── Apply Modal ────────────────────────────────────────── -->
+<div class="apply-modal" id="apply-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Apply for Surgical Consultant">
+	<div class="apply-modal__dialog" role="document">
+		<button type="button" class="apply-modal__close" data-close-apply aria-label="Close">&times;</button>
+
+		<span class="section-label section-label--blue">Apply</span>
+		<h3 class="apply-modal__title">Surgical Consultant</h3>
+		<p class="apply-modal__sub">Dallas–Fort Worth Metroplex · Full-Time</p>
+
+		<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" enctype="multipart/form-data" class="apply-modal__form">
+			<input type="hidden" name="action" value="leap_application_form">
+			<input type="hidden" name="position" value="Surgical Consultant">
+			<?php wp_nonce_field( 'leap_application_form', 'leap_application_nonce' ); ?>
+
+			<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+				<div class="form-group">
+					<label class="form-label" for="app-first">First Name</label>
+					<input class="form-input" type="text" id="app-first" name="first_name" placeholder="John" required>
+				</div>
+				<div class="form-group">
+					<label class="form-label" for="app-last">Last Name</label>
+					<input class="form-input" type="text" id="app-last" name="last_name" placeholder="Smith" required>
+				</div>
+			</div>
+			<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+				<div class="form-group">
+					<label class="form-label" for="app-email">Email Address</label>
+					<input class="form-input" type="email" id="app-email" name="email" placeholder="john@email.com" required>
+				</div>
+				<div class="form-group">
+					<label class="form-label" for="app-phone">Phone</label>
+					<input class="form-input" type="tel" id="app-phone" name="phone" placeholder="(555) 555-5555">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="form-label" for="app-linkedin">LinkedIn or Portfolio <span style="color:var(--color-text-3);font-weight:400;">(optional)</span></label>
+				<input class="form-input" type="url" id="app-linkedin" name="linkedin" placeholder="https://linkedin.com/in/…">
+			</div>
+			<div class="form-group">
+				<label class="form-label" for="app-resume">Resume <span style="color:var(--color-text-3);font-weight:400;">(PDF, DOC, or DOCX)</span></label>
+				<input class="form-input form-input--file" type="file" id="app-resume" name="resume" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+			</div>
+			<div class="form-group">
+				<label class="form-label" for="app-message">Why Leap? <span style="color:var(--color-text-3);font-weight:400;">(optional)</span></label>
+				<textarea class="form-input" id="app-message" name="message" placeholder="Tell us a bit about yourself and why you're a fit…"></textarea>
+			</div>
+			<button type="submit" class="btn btn--primary btn--lg" style="width:100%;justify-content:center;">Submit Application <span aria-hidden="true">→</span></button>
+			<p class="apply-modal__note">Prefer email? Send your resume to <a href="mailto:careers@leapdistributors.com">careers@leapdistributors.com</a>.</p>
+		</form>
+	</div>
+</div>
 
 <?php get_footer(); ?>
