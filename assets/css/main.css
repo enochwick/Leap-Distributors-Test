@@ -6606,3 +6606,50 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
     transform: scale(1.35);
   }
 }
+
+/* ── Job posting (careers) ──────────────────────────────── */
+.job-card {
+  display: block;
+  text-align: left;
+}
+.job-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+}
+.job-detail {
+  margin-top: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+.job-detail h5 {
+  margin: var(--space-8) 0 var(--space-3);
+  color: #eceff1;
+}
+.job-detail h5:first-child { margin-top: 0; }
+.job-detail p {
+  color: var(--color-text-2);
+  font-weight: 300;
+  line-height: 1.7;
+  margin-bottom: var(--space-4);
+}
+.job-detail__label {
+  color: #eceff1;
+  font-weight: 500;
+  margin-bottom: var(--space-2);
+}
+.job-detail ul {
+  margin: 0 0 var(--space-5);
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.job-detail li {
+  color: var(--color-text-2);
+  font-weight: 300;
+  line-height: 1.6;
+}
+.job-detail li::marker { color: var(--color-orange); }

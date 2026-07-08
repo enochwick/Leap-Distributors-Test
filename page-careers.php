@@ -52,40 +52,92 @@
 			<h2 class="reveal">Current Opportunities</h2>
 		</div>
 
-		<div style="max-width:800px;margin-inline:auto;">
-			<div class="card reveal" data-glow style="margin-bottom:var(--space-4);display:flex;align-items:center;justify-content:space-between;gap:var(--space-6);">
-				<div>
-					<div style="display:flex;gap:var(--space-2);margin-bottom:var(--space-2);">
-						<span class="pill">Sales</span>
-						<span class="pill pill--teal">Full-Time</span>
+		<div style="max-width:820px;margin-inline:auto;">
+			<?php $apply_link = 'mailto:careers@leapdistributors.com?subject=Application:%20Surgical%20Consultant'; ?>
+			<article class="job-card card reveal" data-glow>
+				<div class="job-card__head">
+					<div>
+						<div style="display:flex;gap:var(--space-2);margin-bottom:var(--space-2);">
+							<span class="pill">Clinical Field Sales</span>
+							<span class="pill pill--teal">Full-Time</span>
+						</div>
+						<h4 style="margin-bottom:var(--space-1);">Surgical Consultant</h4>
+						<p style="font-size:var(--text-sm);color:var(--color-text-3);">Dallas–Fort Worth Metroplex · Field-based</p>
 					</div>
-					<h4 style="margin-bottom:var(--space-1);">Medical Device Sales Representative</h4>
-					<p style="font-size:var(--text-sm);color:var(--color-text-3);">Dallas, TX · Remote options available</p>
+					<a href="<?php echo esc_url( $apply_link ); ?>" class="btn btn--outline" style="flex-shrink:0;">Apply</a>
 				</div>
-				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--outline" style="flex-shrink:0;">Apply</a>
-			</div>
-			<div class="card reveal" data-glow style="margin-bottom:var(--space-4);display:flex;align-items:center;justify-content:space-between;gap:var(--space-6);">
-				<div>
-					<div style="display:flex;gap:var(--space-2);margin-bottom:var(--space-2);">
-						<span class="pill">Operations</span>
-						<span class="pill pill--teal">Full-Time</span>
-					</div>
-					<h4 style="margin-bottom:var(--space-1);">Supply Chain Coordinator</h4>
-					<p style="font-size:var(--text-sm);color:var(--color-text-3);">Dallas, TX</p>
+
+				<div class="job-detail">
+					<p>Bring your talents to an industry leader in medical technology and healthcare solutions. You can be proud to sell medical technologies in an ever changing, fast paced environment that restores quality of life for patients. Our expansive portfolio delivers measurable clinical and economic value — and opens doors. You will be empowered to shape your own career. We support your growth with the training, mentorship, and guidance you need to own your future success.</p>
+
+					<h5>Who We Are</h5>
+					<p>Leap Distributors is a leading supplier of innovative products and services to the medical community, helping our clients stay up to date on the latest procedural solutions. We act as a one-stop-shop — with the right tools, right patients, latest tech, and less hassle. More than just hardware and biologics, we keep surgeons at the top of their game with new innovative ways to approach surgery and the growth of their practice.</p>
+
+					<h5>Who You Are</h5>
+					<p>You embody the entrepreneurial spirit, thrive in a high-energy environment, and consider yourself a problem-solver. You don't mind working independently and taking ownership of your responsibilities. Networking comes naturally to you, and you have the innate ability to recognize opportunities as they come your way. Learning is important to you, and you are interested in new innovative products and how they can positively impact the surgical environment. You are organized, precise, and rarely drop the ball when it comes to juggling multiple tasks.</p>
+
+					<h5>What You'll Do</h5>
+					<p>At Leap Distributors, the Surgical Consultant supports the Spine, Orthopedics and Biologics business in the areas of surgical coverage, follow-up support, troubleshooting, and customer service. This person will be engaged in basic market development activities depending upon the needs of the assigned territory and district. This is a field-based role. Responsibilities may include the following:</p>
+					<ul>
+						<li>Advance the Company's sales of surgical products by providing clinical and logistical expertise in hospitals and operating rooms — such as independent coverage of surgical cases, management of billing/purchase orders, logistics, and asset management.</li>
+						<li>Represent and cover surgical cases professionally, efficiently, and effectively.</li>
+						<li>Articulate and train on the appropriate use of surgical instruments and implants to surgeons, nurses, and sales representatives.</li>
+						<li>Process instrument sets and paperwork efficiently and promptly.</li>
+						<li>Maintain education on appropriate implant offerings, instrumentations, surgical techniques, and procedures.</li>
+						<li>Resolve customer complaints and advise leadership promptly of any situation outside scope of authority.</li>
+						<li>Recommend the addition of new product, modification, or deletion of current product to accounts.</li>
+						<li>Prospect, identify and convert prospective accounts. Develop account-specific sales plans and strategies to grow and convert business.</li>
+						<li>Increase product sales for assigned territory or accounts. Utilize product knowledge to provide solutions which drive sales and ensure proper utilization of product offerings.</li>
+						<li>Build relationships and identify buyer points within the account. Build customer relationships with key surgeon and hospital personnel.</li>
+						<li>Independently provide appropriate case coverage and manage surgery schedule via appropriate surgeon contact. Order, transport and prepare surgical trays as needed.</li>
+						<li>Educate potential end users and customers through workshops, in-services and labs.</li>
+						<li>Maintain all equipment in proper condition and utilize them when necessary to support sales efforts.</li>
+						<li>Identify and handle any competitive threats as necessary.</li>
+						<li>Strategically encourage sales via a product mix that promotes selling objectives.</li>
+						<li>Share key customer, procedural and marketplace insights with other sales, clinical, marketing, and strategic account teams to improve on solutions, service levels and support sales growth.</li>
+					</ul>
+
+					<h5>Qualifications</h5>
+					<p>We seek out and hire a diverse workforce at every level: we need fresh ideas and inclusive insights to continue to be an innovative industry leader. That's why we make it a point to seek out, attract and develop employees who are patient-centric, passionate, and who represent the same wide variety of life experiences as our patients.</p>
+					<p class="job-detail__label">Education &amp; Experience</p>
+					<ul>
+						<li>Bachelor's degree, or</li>
+						<li>Associate degree or Medical Certification (CST, PT, etc.), or</li>
+						<li>Minimum of 3 years of professional and/or related experience</li>
+						<li>Clinical/Medical experience</li>
+					</ul>
+					<p class="job-detail__label">Other</p>
+					<ul>
+						<li>The ability to work in an operating room environment.</li>
+						<li>A valid driver's license issued in the United States.</li>
+						<li>The ability to travel, which may include weekend and/or overnight travel.</li>
+						<li>Residence in or ability to relocate to the posted territory.</li>
+						<li>Strong interpersonal communication, influencing, critical thinking and problem-solving skills required.</li>
+						<li>Experienced in data analysis and excellent problem-solving skills.</li>
+						<li>Results orientation / prioritization.</li>
+						<li>Ability to work independently and autonomously.</li>
+						<li>Partnership and collaboration — ability to work in a complex reporting structure.</li>
+						<li>High level of accuracy and attention to detail.</li>
+						<li>Demonstrated ability to understand, interpret, communicate, and work in complex environments.</li>
+						<li>Functional knowledge of human anatomy and physiology, basic knowledge of surgery.</li>
+						<li>Strong technical product knowledge of surgical instruments, procedures, protocols, and solutions preferred.</li>
+						<li>Work weekends, evenings, and holidays as required on an emergency basis.</li>
+						<li>Must be able to lift and carry multiple surgical trays (minimum 24 lbs).</li>
+					</ul>
+
+					<h5>What We Offer</h5>
+					<p>Leap Distributors is an equal opportunity employer, and all qualified applicants will receive consideration for employment without regard to race, color, religion, sex, sexual orientation, gender identity, genetic information, national origin, protected veteran status, disability status, or any other characteristic protected by law. We will ensure that individuals with disabilities are provided reasonable accommodation to participate in the job application or interview process, to perform essential job functions, and to receive other benefits and privileges of employment. Please contact us to request accommodation.</p>
+					<p>Leap Surgical, LLC offers the following benefits:</p>
+					<ul>
+						<li>Full medical, dental and vision benefits</li>
+						<li>Competitive pay</li>
+						<li>Flexible schedule</li>
+						<li>Opportunity for advancement</li>
+					</ul>
+
+					<a href="<?php echo esc_url( $apply_link ); ?>" class="btn btn--primary" style="margin-top:var(--space-4);">Apply for this role</a>
 				</div>
-				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--outline" style="flex-shrink:0;">Apply</a>
-			</div>
-			<div class="card reveal" data-glow style="margin-bottom:var(--space-4);display:flex;align-items:center;justify-content:space-between;gap:var(--space-6);">
-				<div>
-					<div style="display:flex;gap:var(--space-2);margin-bottom:var(--space-2);">
-						<span class="pill">Partnerships</span>
-						<span class="pill pill--teal">Full-Time</span>
-					</div>
-					<h4 style="margin-bottom:var(--space-1);">Business Development Manager</h4>
-					<p style="font-size:var(--text-sm);color:var(--color-text-3);">Remote · National Territory</p>
-				</div>
-				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--outline" style="flex-shrink:0;">Apply</a>
-			</div>
+			</article>
 		</div>
 
 		<div class="text-center reveal" style="margin-top:var(--space-10);">
