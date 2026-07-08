@@ -116,20 +116,39 @@
 			<p style="margin-top:var(--space-4);color:var(--color-text-2);font-weight:300;">Three things shipping over the next twelve months:</p>
 		</div>
 
-		<ol class="platform-list reveal">
-			<li class="platform-list__item">
-				<span class="platform-list__num">01</span>
-				<span class="platform-list__text">Partner-facing dashboards for hospitals and manufacturers.</span>
-			</li>
-			<li class="platform-list__item">
-				<span class="platform-list__num">02</span>
-				<span class="platform-list__text">AI-assisted cross-checks for scrub sheets and billing.</span>
-			</li>
-			<li class="platform-list__item">
-				<span class="platform-list__num">03</span>
-				<span class="platform-list__text">Full Stride access for our distributor partner network.</span>
-			</li>
-		</ol>
+		<div class="timeline" id="roadmap-timeline">
+			<div class="timeline__line"><span class="timeline__progress" id="roadmap-progress"></span></div>
+
+			<div class="timeline__row">
+				<div class="timeline__head">
+					<span class="timeline__dot" aria-hidden="true"></span>
+					<span class="timeline__title">01</span>
+				</div>
+				<div class="timeline__content">
+					<p>Partner-facing dashboards for hospitals and manufacturers.</p>
+				</div>
+			</div>
+
+			<div class="timeline__row">
+				<div class="timeline__head">
+					<span class="timeline__dot" aria-hidden="true"></span>
+					<span class="timeline__title">02</span>
+				</div>
+				<div class="timeline__content">
+					<p>AI-assisted cross-checks for scrub sheets and billing.</p>
+				</div>
+			</div>
+
+			<div class="timeline__row">
+				<div class="timeline__head">
+					<span class="timeline__dot" aria-hidden="true"></span>
+					<span class="timeline__title">03</span>
+				</div>
+				<div class="timeline__content">
+					<p>Full Stride access for our distributor partner network.</p>
+				</div>
+			</div>
+		</div>
 	</div>
 </section>
 

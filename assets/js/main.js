@@ -843,6 +843,30 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', function () { if (mq.matches) { lockContentHeight(); layout(); render(); } });
   })();
 
+  // ── Roadmap timeline: fill the gradient rail as you scroll through it ──
+  (function () {
+    var tl = document.getElementById('roadmap-timeline');
+    var prog = document.getElementById('roadmap-progress');
+    if (!tl || !prog || typeof gsap === 'undefined') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      prog.style.height = '100%';
+      return;
+    }
+    gsap.fromTo(prog,
+      { height: '0%' },
+      {
+        height: '100%',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: tl,
+          start: 'top 25%',
+          end: 'bottom 65%',
+          scrub: 0.4,
+        },
+      }
+    );
+  })();
+
   // ── Trey laptop: scroll-driven tilt (slanted → flat), like the platform page ──
   (function () {
     var laptop = document.getElementById('trey-laptop');
