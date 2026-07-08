@@ -5618,6 +5618,15 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   color: var(--color-text-2);
   line-height: 1.7;
   max-width: 46ch;
+  margin: 0 auto var(--space-4);
+  font-weight: 300;
+}
+
+.hcm-copy__note {
+  font-size: var(--text-sm);
+  color: var(--color-text-3);
+  line-height: 1.6;
+  max-width: 46ch;
   margin: 0 auto var(--space-8);
   font-weight: 300;
 }

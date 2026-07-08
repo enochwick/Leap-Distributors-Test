@@ -100,7 +100,7 @@
 		<div class="cta-banner__inner">
 			<span class="section-label section-label--white section-label--no-line reveal" style="justify-content:center;">See what the right partner can do.</span>
 				<h2 class="reveal">Let's start a<br>conversation.</h2>
-			<p class="reveal">Tell us what your team is dealing with. We'll find a time to talk.</p>
+			<p class="reveal">Tell us what your team is working on. We'll find a time to talk.</p>
 			<div class="cta-banner__actions reveal">
 				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg">Let's talk <span aria-hidden="true">→</span></a>
 			</div>

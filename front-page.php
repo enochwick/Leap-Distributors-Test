@@ -49,11 +49,6 @@ if ( $hero_headline_raw ) {
 				<a href="<?php echo esc_url( $hero_cta2_url ); ?>" class="btn btn--hero-ghost"><?php echo esc_html( $hero_cta2_text ); ?></a>
 				<?php endif; ?>
 			</div>
-			<?php if ( $hero_tagline ) : ?>
-			<p class="hero__tagline">
-				<?php echo esc_html( $hero_tagline ); ?>
-			</p>
-			<?php endif; ?>
 		</div>
 	</div>
 
@@ -96,10 +91,10 @@ if ( $hero_headline_raw ) {
 	<div class="container">
 		<div class="leap-intro reveal">
 			<div>
-				<h2 class="leap-intro__h">We earn the room one case at a time.<br>Every case after, we earn it again.</h2>
+				<h2 class="leap-intro__h">We earn the room one case at a time.</h2>
 			</div>
 			<div class="leap-intro__body">
-				<p>Surgeons choose Leap for the freedom to choose, from one patient-first partner. Hospitals stay because we operate as a single team across every product line we offer. Everything runs in Stride, our custom platform that logs every case as it happens. The paperwork generates itself. The billing moves faster. The data sharpens with every case.</p>
+				<p>Surgeons choose Leap for a single patient-first partner built around their practice. Hospitals stay because we operate as a single team across every product line we offer. Everything runs in Stride, our custom platform that logs every case as it happens. The paperwork generates itself. The billing moves faster. The data sharpens with every case.</p>
 				<a href="<?php echo esc_url( home_url( '/platform/' ) ); ?>" class="arrow-link" style="margin-top: var(--space-6); display:inline-flex;">Explore the platform <span aria-hidden="true">→</span></a>
 			</div>
 		</div>
@@ -110,7 +105,7 @@ if ( $hero_headline_raw ) {
 <section class="capabilities-section">
 	<div class="container">
 		<div class="section-header reveal">
-			<h2>Three Capabilities. One Platform.</h2>
+			<h2>Three Capabilities.<br>One Platform.</h2>
 		</div>
 
 		<div class="capability-grid">

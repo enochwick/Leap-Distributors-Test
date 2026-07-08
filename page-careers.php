@@ -99,7 +99,7 @@
 <section class="feature-band reveal">
 	<div class="container">
 		<figure class="feature-band__media">
-			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/careers-band.webp' ); ?>" alt="The Leap operations team at work in a modern medical-device distribution center" loading="lazy" decoding="async">
+			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/LeapGroup.png' ); ?>" alt="The Leap Distributors sales team together at a company event" loading="lazy" decoding="async">
 			<figcaption class="feature-band__caption">Every role here ends at the patient bedside. That's the work.</figcaption>
 		</figure>
 	</div>

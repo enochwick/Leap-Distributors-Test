@@ -63,7 +63,7 @@
 				</div>
 				<div class="feature-card" data-stagger-child data-glow>
 					<div class="feature-card__num">03</div>
-					<div class="feature-card__title">Authentic</div>
+					<div class="feature-card__title">Authenticity</div>
 					<p class="feature-card__desc">We say what we mean and we do what we say. No posturing, no inflated promises. What you see from Leap is what you get.</p>
 				</div>
 				<div class="feature-card" data-stagger-child data-glow>
@@ -164,9 +164,10 @@
 	<div class="hcm-copy-wrap">
 		<div class="container">
 			<div class="hcm-copy reveal">
-				<span class="section-label section-label--blue section-label--no-line">Live coverage</span>
+				<span class="section-label section-label--blue section-label--no-line">Stride&rsquo;s Live Coverage</span>
 				<h2 class="hcm-copy__h">Every hospital.<br>Every case. Mapped.</h2>
-				<p class="hcm-copy__body">Stride tracks every surgical case across our network in real time, giving our team, our reps, and our partners full visibility into where we operate and how we perform.</p>
+				<p class="hcm-copy__body">Every case logged into Stride is tracked in real time, giving our team, our reps, and our partners full visibility into where we operate and how we perform.</p>
+				<p class="hcm-copy__note">The graphic below represents only cases logged directly into our platform at time of completion.</p>
 
 				<div class="hcm-stats">
 					<div class="hcm-stat">
