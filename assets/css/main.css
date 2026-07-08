@@ -5617,7 +5617,10 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   font-size: var(--text-base);
   color: var(--color-text-2);
   line-height: 1.7;
-  max-width: 46ch;
+  /* Wide enough for the sentence to settle into two balanced lines on
+     desktop; still wraps naturally on narrower screens. */
+  max-width: 82ch;
+  text-wrap: balance;
   margin: 0 auto var(--space-4);
   font-weight: 300;
 }
@@ -5629,6 +5632,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   max-width: 46ch;
   margin: 0 auto var(--space-8);
   font-weight: 300;
+  font-style: italic;
 }
 
 /* ── Stats ── */
