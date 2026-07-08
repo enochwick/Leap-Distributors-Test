@@ -843,28 +843,42 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', function () { if (mq.matches) { lockContentHeight(); layout(); render(); } });
   })();
 
-  // ── Roadmap timeline: fill the gradient rail as you scroll through it ──
+  // ── Roadmap timeline: fill the rail on scroll + grow each progress bar ──
   (function () {
     var tl = document.getElementById('roadmap-timeline');
-    var prog = document.getElementById('roadmap-progress');
-    if (!tl || !prog || typeof gsap === 'undefined') return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      prog.style.height = '100%';
+    if (!tl) return;
+    var rail = document.getElementById('roadmap-progress');
+    var bars = tl.querySelectorAll('.mtl__bar-fill');
+
+    // No GSAP / reduced motion → just show final state.
+    if (typeof gsap === 'undefined' ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      if (rail) rail.style.transform = 'scaleY(1)';
+      bars.forEach(function (b) { b.style.width = (b.dataset.progress || 25) + '%'; });
       return;
     }
-    gsap.fromTo(prog,
-      { height: '0%' },
-      {
-        height: '100%',
-        ease: 'none',
-        scrollTrigger: {
-          trigger: tl,
-          start: 'top 25%',
-          end: 'bottom 65%',
-          scrub: 0.4,
-        },
-      }
-    );
+
+    if (rail) {
+      gsap.fromTo(rail,
+        { scaleY: 0 },
+        {
+          scaleY: 1,
+          ease: 'none',
+          scrollTrigger: { trigger: tl, start: 'top 25%', end: 'bottom 70%', scrub: 0.4 },
+        }
+      );
+    }
+    bars.forEach(function (b) {
+      gsap.fromTo(b,
+        { width: '0%' },
+        {
+          width: (b.dataset.progress || 25) + '%',
+          duration: 1,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: b, start: 'top 92%' },
+        }
+      );
+    });
   })();
 
   // ── Trey laptop: scroll-driven tilt (slanted → flat), like the platform page ──

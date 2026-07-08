@@ -109,43 +109,65 @@
 
 
 <!-- ── What's Next ────────────────────────────────────────────── -->
-<section class="content-section">
+<section class="content-section roadmap-section">
 	<div class="container">
 		<div class="section-header section-header--center reveal">
 			<h2>Stride keeps moving forward.</h2>
 			<p style="margin-top:var(--space-4);color:var(--color-text-2);font-weight:300;">Three things shipping over the next twelve months:</p>
 		</div>
 
-		<div class="timeline" id="roadmap-timeline">
-			<div class="timeline__line"><span class="timeline__progress" id="roadmap-progress"></span></div>
+		<div class="mtl" id="roadmap-timeline">
+			<span class="mtl__rail" aria-hidden="true"></span>
+			<span class="mtl__rail-fill" id="roadmap-progress" aria-hidden="true"></span>
 
-			<div class="timeline__row">
-				<div class="timeline__head">
-					<span class="timeline__dot" aria-hidden="true"></span>
-					<span class="timeline__title">01</span>
+			<div class="mtl__item mtl__item--current reveal">
+				<div class="mtl__marker" aria-hidden="true">
+					<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
 				</div>
-				<div class="timeline__content">
-					<p>Partner-facing dashboards for hospitals and manufacturers.</p>
+				<div class="mtl__card">
+					<div class="mtl__card-top">
+						<div class="mtl__head">
+							<h3 class="mtl__title">Partner dashboards</h3>
+							<div class="mtl__meta"><span>Partners</span><span class="mtl__sep" aria-hidden="true"></span><span>In development</span></div>
+						</div>
+						<span class="mtl__badge mtl__badge--current">In progress</span>
+					</div>
+					<p class="mtl__desc">Partner-facing dashboards for hospitals and manufacturers.</p>
+					<div class="mtl__bar" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"><span class="mtl__bar-fill" data-progress="65"></span></div>
 				</div>
 			</div>
 
-			<div class="timeline__row">
-				<div class="timeline__head">
-					<span class="timeline__dot" aria-hidden="true"></span>
-					<span class="timeline__title">02</span>
+			<div class="mtl__item mtl__item--current reveal">
+				<div class="mtl__marker" aria-hidden="true">
+					<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
 				</div>
-				<div class="timeline__content">
-					<p>AI-assisted cross-checks for scrub sheets and billing.</p>
+				<div class="mtl__card">
+					<div class="mtl__card-top">
+						<div class="mtl__head">
+							<h3 class="mtl__title">AI cross-checks</h3>
+							<div class="mtl__meta"><span>Automation</span><span class="mtl__sep" aria-hidden="true"></span><span>In development</span></div>
+						</div>
+						<span class="mtl__badge mtl__badge--current">In progress</span>
+					</div>
+					<p class="mtl__desc">AI-assisted cross-checks for scrub sheets and billing.</p>
+					<div class="mtl__bar" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"><span class="mtl__bar-fill" data-progress="65"></span></div>
 				</div>
 			</div>
 
-			<div class="timeline__row">
-				<div class="timeline__head">
-					<span class="timeline__dot" aria-hidden="true"></span>
-					<span class="timeline__title">03</span>
+			<div class="mtl__item mtl__item--upcoming reveal">
+				<div class="mtl__marker" aria-hidden="true">
+					<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
 				</div>
-				<div class="timeline__content">
-					<p>Full Stride access for our distributor partner network.</p>
+				<div class="mtl__card">
+					<div class="mtl__card-top">
+						<div class="mtl__head">
+							<h3 class="mtl__title">Distributor access</h3>
+							<div class="mtl__meta"><span>Network</span><span class="mtl__sep" aria-hidden="true"></span><span>Planned</span></div>
+						</div>
+						<span class="mtl__badge mtl__badge--upcoming">Upcoming</span>
+					</div>
+					<p class="mtl__desc">Full Stride access for our distributor partner network.</p>
+					<div class="mtl__bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><span class="mtl__bar-fill" data-progress="25"></span></div>
 				</div>
 			</div>
 		</div>
