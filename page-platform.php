@@ -51,7 +51,8 @@
 	<div class="container">
 		<div class="platform-stack" id="platform-stack">
 		<!-- Capability 1 -->
-		<div class="platform-cap platform-stack__card" data-stack-index="0">
+		<div class="platform-cap platform-stack__card" data-stack-index="0" data-glow>
+			<div data-glow-inner></div>
 			<div class="platform-cap__copy">
 				<span class="platform-cap__num">01</span>
 				<h3 class="platform-cap__h">Built to move.</h3>
@@ -63,7 +64,8 @@
 			</div>
 
 			<!-- Capability 2 -->
-		<div class="platform-cap platform-cap--reverse platform-stack__card" data-stack-index="1">
+		<div class="platform-cap platform-cap--reverse platform-stack__card" data-stack-index="1" data-glow>
+			<div data-glow-inner></div>
 			<div class="platform-cap__copy">
 				<span class="platform-cap__num">02</span>
 				<h3 class="platform-cap__h">Patients before products.</h3>
@@ -78,7 +80,8 @@
 		</div>
 
 		<!-- Capability 3 -->
-		<div class="platform-cap platform-stack__card" data-stack-index="2">
+		<div class="platform-cap platform-stack__card" data-stack-index="2" data-glow>
+			<div data-glow-inner></div>
 			<div class="platform-cap__copy">
 				<span class="platform-cap__num">03</span>
 				<h3 class="platform-cap__h">Engineered for intelligence.</h3>

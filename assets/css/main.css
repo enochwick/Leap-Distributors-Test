@@ -5050,6 +5050,17 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   pointer-events: none;
   transition: opacity 0.1s linear;
 }
+/* Spotlight glow edge on hover — keeps the card's own surface/border,
+   adds the site's cursor-tracked glowing edge (see [data-glow]) */
+.platform-stack__card[data-glow] {
+  --base:                210;
+  --spread:              100;
+  --bg-spot-opacity:     0;
+  --border-spot-opacity: 0.9;
+  --border-light-opacity:0.12;
+  --border:              1.5;
+  --size:                340;
+}
 
 /* Stride BI dashboard */
 .stride-bi {
