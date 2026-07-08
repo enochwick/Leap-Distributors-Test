@@ -5221,8 +5221,12 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   display: flex;
   gap: var(--space-5);
   margin-bottom: var(--space-8);
+  /* Hidden until the staggered reveal runs (JS); fallback below shows them */
+  opacity: 0;
+  transform: translateY(28px);
 }
 .mtl__item:last-child { margin-bottom: 0; }
+.no-js .mtl__item { opacity: 1; transform: none; }
 
 /* Marker rides the rail; opaque bg masks the line behind it */
 .mtl__marker {
@@ -5318,22 +5322,8 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   color: var(--color-text-2);
   line-height: 1.6;
   font-weight: 300;
-  margin-bottom: var(--space-4);
+  margin-bottom: 0;
 }
-.mtl__bar {
-  height: 5px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 999px;
-  overflow: hidden;
-}
-.mtl__bar-fill {
-  display: block;
-  height: 100%;
-  width: 0;
-  border-radius: 999px;
-}
-.mtl__item--current .mtl__bar-fill { background: var(--color-blue); }
-.mtl__item--upcoming .mtl__bar-fill { background: var(--color-orange); }
 
 @media (max-width: 640px) {
   .mtl__rail, .mtl__rail-fill { left: 22px; }

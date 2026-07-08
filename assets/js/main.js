@@ -843,21 +843,32 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', function () { if (mq.matches) { lockContentHeight(); layout(); render(); } });
   })();
 
-  // ── Roadmap timeline: fill the rail on scroll + grow each progress bar ──
+  // ── Roadmap timeline: reveal cards one-by-one, fill the rail on scroll ──
   (function () {
     var tl = document.getElementById('roadmap-timeline');
     if (!tl) return;
     var rail = document.getElementById('roadmap-progress');
-    var bars = tl.querySelectorAll('.mtl__bar-fill');
+    var items = tl.querySelectorAll('.mtl__item');
 
-    // No GSAP / reduced motion → just show final state.
+    // No GSAP / reduced motion → just show everything.
     if (typeof gsap === 'undefined' ||
         window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      items.forEach(function (it) { it.style.opacity = 1; it.style.transform = 'none'; });
       if (rail) rail.style.transform = 'scaleY(1)';
-      bars.forEach(function (b) { b.style.width = (b.dataset.progress || 25) + '%'; });
       return;
     }
 
+    // Cards fade/slide in incrementally when the timeline enters view.
+    gsap.to(items, {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      stagger: 0.22,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: tl, start: 'top 80%', once: true },
+    });
+
+    // Rail fills as you scroll through the section.
     if (rail) {
       gsap.fromTo(rail,
         { scaleY: 0 },
@@ -868,17 +879,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       );
     }
-    bars.forEach(function (b) {
-      gsap.fromTo(b,
-        { width: '0%' },
-        {
-          width: (b.dataset.progress || 25) + '%',
-          duration: 1,
-          ease: 'power2.out',
-          scrollTrigger: { trigger: b, start: 'top 92%' },
-        }
-      );
-    });
   })();
 
   // ── Trey laptop: scroll-driven tilt (slanted → flat), like the platform page ──
