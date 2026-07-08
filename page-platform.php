@@ -124,7 +124,8 @@
 				<div class="mtl__marker" aria-hidden="true">
 					<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
 				</div>
-				<div class="mtl__card">
+				<div class="mtl__card" data-glow>
+					<div data-glow-inner></div>
 					<div class="mtl__card-top">
 						<div class="mtl__head">
 							<h3 class="mtl__title">Partner dashboards</h3>
@@ -140,7 +141,8 @@
 				<div class="mtl__marker" aria-hidden="true">
 					<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
 				</div>
-				<div class="mtl__card">
+				<div class="mtl__card" data-glow>
+					<div data-glow-inner></div>
 					<div class="mtl__card-top">
 						<div class="mtl__head">
 							<h3 class="mtl__title">AI cross-checks</h3>
@@ -156,7 +158,8 @@
 				<div class="mtl__marker" aria-hidden="true">
 					<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
 				</div>
-				<div class="mtl__card">
+				<div class="mtl__card" data-glow>
+					<div data-glow-inner></div>
 					<div class="mtl__card-top">
 						<div class="mtl__head">
 							<h3 class="mtl__title">Distributor access</h3>

@@ -5253,22 +5253,30 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   border-color: rgba(230,83,0,0.4);
 }
 
-/* Card — matches the site's standard .card surface + hover */
+/* Card — uses the site's spotlight-glow edge (see [data-glow]) + a subtle lift */
 .mtl__card {
   flex: 1;
   min-width: 0;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   padding: var(--space-5) var(--space-6);
   transition: box-shadow 0.3s var(--ease-out),
-              transform 0.3s var(--ease-out),
-              border-color 0.3s var(--ease-out);
+              transform 0.3s var(--ease-out);
 }
 .mtl__card:hover {
   box-shadow: var(--shadow-lg);
   transform: translateY(-3px);
-  border-color: rgba(42,125,225,0.2);
+}
+/* Glow edge colour tokens — matches the other cards across the site */
+.mtl__card[data-glow] {
+  --base:                210;
+  --spread:              100;
+  --backdrop:            rgba(2, 40, 58, 0.6);
+  --backup-border:       rgba(255,255,255,0.07);
+  --bg-spot-opacity:     0.07;
+  --border-spot-opacity: 0.9;
+  --border-light-opacity:0.12;
+  --border:              1.5;
+  --size:                260;
 }
 .mtl__card-top {
   display: flex;
