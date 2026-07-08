@@ -1021,13 +1021,10 @@ p { line-height: 1.7; }
 /* ── Hero ────────────────────────────────────────────────── */
 .hero-scroll-container {
   position: relative;
-  /* Shorter scroll distance = the cover animation plays faster and you
-     reach the next section sooner (was 400vh). */
-  height: 200vh;
-}
-@media (max-width: 768px) {
-  /* Even quicker on mobile */
-  .hero-scroll-container { height: 150vh; }
+  /* The cover holds on frame 1 (see endFrame in main.js), so there's no
+     scrub travel to make room for — one viewport, then the next section.
+     Bump this back up if endFrame is raised to let the video play further. */
+  height: 100svh;
 }
 
 .hero {
