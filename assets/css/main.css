@@ -5199,7 +5199,8 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   max-width: 780px;
   margin: var(--space-12) auto 0;
 }
-/* Vertical rail + its scroll-driven fill */
+/* Vertical rail + its scroll-driven fill.
+   JS sets top/height so the line spans first icon → last icon only. */
 .mtl__rail,
 .mtl__rail-fill {
   position: absolute;
@@ -5252,22 +5253,22 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   border-color: rgba(230,83,0,0.4);
 }
 
-/* Card */
+/* Card — matches the site's standard .card surface + hover */
 .mtl__card {
   flex: 1;
   min-width: 0;
-  background: rgba(255,255,255,0.035);
+  background: rgba(255,255,255,0.04);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   padding: var(--space-5) var(--space-6);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  transition: transform 0.25s var(--ease-out), border-color 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
+  transition: box-shadow 0.3s var(--ease-out),
+              transform 0.3s var(--ease-out),
+              border-color 0.3s var(--ease-out);
 }
 .mtl__card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(42,125,225,0.35);
-  box-shadow: 0 14px 34px rgba(0,0,0,0.32);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+  border-color: rgba(42,125,225,0.2);
 }
 .mtl__card-top {
   display: flex;

@@ -847,8 +847,31 @@ document.addEventListener('DOMContentLoaded', () => {
   (function () {
     var tl = document.getElementById('roadmap-timeline');
     if (!tl) return;
+    var railBase = tl.querySelector('.mtl__rail');
     var rail = document.getElementById('roadmap-progress');
     var items = tl.querySelectorAll('.mtl__item');
+    if (!items.length) return;
+
+    // Size the rail so it runs from the first icon's center to the last
+    // icon's center — it never extends below the third marker.
+    // offsetTop is used (not getBoundingClientRect) so the cards' reveal
+    // transform doesn't throw off the measurement.
+    function markerCenter(item) {
+      var m = item.querySelector('.mtl__marker');
+      return item.offsetTop + m.offsetTop + m.offsetHeight / 2;
+    }
+    function sizeRail() {
+      var top = markerCenter(items[0]);
+      var height = markerCenter(items[items.length - 1]) - top;
+      [railBase, rail].forEach(function (el) {
+        if (!el) return;
+        el.style.top = top + 'px';
+        el.style.bottom = 'auto';
+        el.style.height = height + 'px';
+      });
+    }
+    sizeRail();
+    window.addEventListener('resize', sizeRail, { passive: true });
 
     // No GSAP / reduced motion → just show everything.
     if (typeof gsap === 'undefined' ||
@@ -868,14 +891,21 @@ document.addEventListener('DOMContentLoaded', () => {
       scrollTrigger: { trigger: tl, start: 'top 80%', once: true },
     });
 
-    // Rail fills as you scroll through the section.
+    // Rail fills slowly across the whole section as you scroll.
     if (rail) {
       gsap.fromTo(rail,
         { scaleY: 0 },
         {
           scaleY: 1,
           ease: 'none',
-          scrollTrigger: { trigger: tl, start: 'top 25%', end: 'bottom 70%', scrub: 0.4 },
+          scrollTrigger: {
+            trigger: tl,
+            start: 'top 70%',
+            end: 'bottom 25%',
+            scrub: 1.4,
+            invalidateOnRefresh: true,
+            onRefresh: sizeRail,
+          },
         }
       );
     }
