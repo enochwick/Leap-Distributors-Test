@@ -267,7 +267,7 @@ if ( $hero_headline_raw ) {
 				</div>
 			</a>
 
-			<a class="news-card news-card--editorial" href="https://leapdistributors.com/product-agnostic-distribution-wins-for-surgeons-and-hospitals/" target="_blank" rel="noopener" data-stagger-child>
+			<a class="news-card news-card--editorial" href="<?php echo esc_url( home_url( '/product-agnostic-distribution-wins-for-surgeons-and-hospitals/' ) ); ?>" data-stagger-child>
 				<div class="news-card__visual" style="background-image:url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/blog-news/LeapDistributors3-e1769101290191.webp' ); ?>');background-size:cover;background-position:center;">
 					<span class="news-card__pubmark">Leap Insights</span>
 				</div>
