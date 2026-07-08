@@ -5204,7 +5204,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 .mtl__rail,
 .mtl__rail-fill {
   position: absolute;
-  left: 19px;                  /* centre of the 40px marker */
+  left: 28px;                  /* centre of the 58px marker */
   top: 8px;
   width: 2px;
   border-radius: 2px;
@@ -5230,21 +5230,29 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 .mtl__item:last-child { margin-bottom: 0; }
 .no-js .mtl__item { opacity: 1; transform: none; }
 
-/* Just the icon — no ring. The page-coloured backing masks the rail behind it. */
+/* Icon in a ring; opaque bg masks the rail behind it */
 .mtl__marker {
   position: relative;
   z-index: 2;
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
+  width: 58px;
+  height: 58px;
   border-radius: 50%;
-  background: #001520;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   display: grid;
   place-items: center;
   color: var(--color-text-3);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
 }
-.mtl__item--current .mtl__marker { color: var(--color-blue-light); }
-.mtl__item--upcoming .mtl__marker { color: var(--color-orange-light); }
+.mtl__item--current .mtl__marker {
+  color: var(--color-blue-light);
+  border-color: rgba(42,125,225,0.45);
+}
+.mtl__item--upcoming .mtl__marker {
+  color: var(--color-orange-light);
+  border-color: rgba(230,83,0,0.4);
+}
 
 /* Card — uses the site's spotlight-glow edge (see [data-glow]) + a subtle lift */
 .mtl__card {
