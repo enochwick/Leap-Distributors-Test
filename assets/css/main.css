@@ -5175,6 +5175,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   .repdash-section {
     overflow: hidden;
     min-height: 135vw;
+    margin-top: clamp(5rem, 18vw, 10rem);
   }
   .repdash-bg {
     width: 220%;
