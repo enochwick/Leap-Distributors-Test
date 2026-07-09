@@ -2727,8 +2727,8 @@ select.form-input {
 }
 
 .pill--teal {
-  background: rgba(0,56,77,0.08);
-  color: var(--color-teal);
+  background: rgba(0,183,200,0.12);
+  color: #00B7C8;
 }
 
 /* ── GSAP Reveal ─────────────────────────────────────────── */
