@@ -5157,7 +5157,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: min(1100px, 116%);
+  width: min(1500px, 150%);
   height: auto;
   z-index: 0;
   opacity: 0.32;
@@ -6573,7 +6573,8 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   .news-list,
   .capability-grid,
   .why-leap__grid,
-  .reason-grid {
+  .reason-grid,
+  .platform-stack {
     display: flex;
     position: relative;
     flex-wrap: nowrap;
@@ -6595,18 +6596,27 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   .news-list::-webkit-scrollbar,
   .capability-grid::-webkit-scrollbar,
   .why-leap__grid::-webkit-scrollbar,
-  .reason-grid::-webkit-scrollbar { display: none; }
+  .reason-grid::-webkit-scrollbar,
+  .platform-stack::-webkit-scrollbar { display: none; }
 
   /* Each card takes ~85% so the next one peeks in */
   .news-grid > *,
   .news-list > *,
   .capability-grid > *,
   .why-leap__grid > *,
-  .reason-grid > * {
+  .reason-grid > *,
+  .platform-stack > * {
     flex: 0 0 85%;
     min-width: 85%;
     max-width: 85%;
     scroll-snap-align: start;
+  }
+
+  /* Platform capability cards read as discrete carousel tiles */
+  .platform-stack { margin-top: var(--space-8); }
+  .platform-stack__card {
+    margin-bottom: 0;
+    height: auto;
   }
 
   /* Cards that were divider-separated in the stacked layout now

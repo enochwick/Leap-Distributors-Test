@@ -1453,6 +1453,7 @@ document.addEventListener('DOMContentLoaded', () => {
     '.capability-grid',
     '.why-leap__grid',
     '.reason-grid',
+    '.platform-stack',
   ];
 
   function initCarousel(track) {
