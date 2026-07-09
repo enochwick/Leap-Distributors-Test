@@ -181,7 +181,7 @@
 			<h2 class="reveal">Let's Build Something Together</h2>
 			<p class="reveal">If you're passionate about healthcare and want your work to matter, we'd love to hear from you.</p>
 			<div class="cta-banner__actions reveal">
-				<a href="mailto:careers@leapdistributors.com" class="btn btn--primary btn--lg">Email Our Team</a>
+				<button type="button" class="btn btn--primary btn--lg" data-open-apply data-position="General Application" data-title="Email Our Team" data-subtitle="Tell us a bit about yourself and we'll be in touch.">Email Our Team</button>
 				<a href="<?php echo esc_url( home_url( '/about/' ) ); ?>" class="btn btn--hero-ghost">Learn About Leap</a>
 			</div>
 		</div>

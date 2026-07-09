@@ -2253,14 +2253,14 @@ p { line-height: 1.7; }
 
 .editorial-quote footer strong {
   display: block;
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   font-weight: 600;
   color: var(--color-text);
   margin-bottom: 2px;
 }
 
 .editorial-quote footer span {
-  font-size: var(--text-xs);
+  font-size: var(--text-sm);
   color: var(--color-text-3);
 }
 
@@ -2467,6 +2467,7 @@ p { line-height: 1.7; }
   display: inline-flex;
   align-items: center;
   gap: 0;
+  font-family: var(--font-secondary);
   font-size: var(--text-xs);
   font-weight: 500;
   letter-spacing: 0.12em;
@@ -6986,5 +6987,37 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 }
 @media (max-width: 640px) {
   .post-hero-media { aspect-ratio: 16 / 10; }
+}
+
+/* News: trim the wide gap above "Press." (all breakpoints) */
+.news-press { padding-top: var(--space-12); }
+
+/* ════════════════════════════════════════════════════════════
+   Mobile normalizations (kept at the end so they win on source
+   order for equal-specificity rules).
+   ════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* Consistent gap above the first content section after any page hero
+     — trims the wide space above headings like "Send a Message",
+     "Two hubs. One mission.", "Press.", etc. site-wide on mobile. */
+  .page-hero + .content-section { padding-top: var(--space-8); }
+  .about-footprint,
+  .news-press { padding-top: var(--space-8); }
+
+  /* One consistent body-paragraph size across every page */
+  .page-hero__lead,
+  .why-leap__lead,
+  .leap-intro__body p,
+  .feature-card__desc,
+  .founder-tile__bio,
+  .reason-card p,
+  .capability-card p,
+  .content-section p,
+  .entry-content p,
+  section p:not([class]) {
+    font-size: var(--text-lg);
+    line-height: 1.65;
+  }
 }
 

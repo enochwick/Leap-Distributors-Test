@@ -47,9 +47,9 @@
 	<div class="container">
 		<div class="why-leap__inner">
 			<div class="why-leap__header" style="justify-content:center;text-align:center;">
-								<h2 class="reveal">Reach, visibility, and reps<br>who can carry your line.</h2>
+								<h2 class="reveal">Reach, visibility, and<br>Reps who can<br>carry your line.</h2>
 			</div>
-			<p class="why-leap__lead reveal" style="max-width:680px;margin-inline:auto;text-align:center;">A distribution partner isn't a logo on a slide. It's the team you want in the room, a contracting function that doesn't drop the ball, a finance team that pays on time, and a platform that tells you the truth about how your product is moving.</p>
+			<p class="why-leap__lead reveal" style="max-width:680px;text-align:left;">A distribution partner isn't a logo on a slide. It's the team you want in the room, a contracting function that doesn't drop the ball, a finance team that pays on time, and a platform that tells you the truth about how your product is moving.</p>
 
 			<div class="why-leap__grid" data-stagger>
 				<div class="feature-card" data-stagger-child data-glow>

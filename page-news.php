@@ -13,7 +13,7 @@
 </section>
 
 <!-- ── Press ──────────────────────────────────────────────── -->
-<section class="content-section">
+<section class="content-section news-press">
 	<div class="container">
 
 		<div class="leap-intro reveal">

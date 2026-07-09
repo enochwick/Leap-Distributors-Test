@@ -14,7 +14,7 @@
 </section>
 
 <!-- ── Footprint ──────────────────────────────────────────── -->
-<section class="content-section">
+<section class="content-section about-footprint">
 	<div class="container">
 		<div class="leap-intro reveal">
 			<div>
