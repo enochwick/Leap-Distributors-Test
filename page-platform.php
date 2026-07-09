@@ -11,8 +11,17 @@
 			<h1 class="phg-title phg-fade">The custom tech<br>that runs every case.</h1>
 			<p class="phg-lead phg-fade">Stride is Leap's own platform. Reps log every case in the OR as it happens, the paperwork generates itself, and every side of the relationship gets sharper data with every case.</p>
 			<div class="phg-fade" style="margin-top:var(--space-8);">
-				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg">Request a walkthrough <span aria-hidden="true">→</span></a>
+				<button type="button" class="btn btn--primary btn--lg" data-open-walkthrough>Request a walkthrough <span aria-hidden="true">→</span></button>
 			</div>
+			<?php if ( isset( $_GET['walkthrough'] ) && $_GET['walkthrough'] === 'success' ) : ?>
+				<div class="form-feedback form-feedback--success phg-fade" style="margin-top:var(--space-6);max-width:520px;">
+					<strong>Request received.</strong> Our team will reach out to schedule your walkthrough.
+				</div>
+			<?php elseif ( isset( $_GET['walkthrough'] ) && $_GET['walkthrough'] === 'error' ) : ?>
+				<div class="form-feedback form-feedback--error phg-fade" style="margin-top:var(--space-6);max-width:520px;">
+					Something went wrong. Please try again or email <a href="mailto:info@leapdistributors.com">info@leapdistributors.com</a>.
+				</div>
+			<?php endif; ?>
 		</div>
 	</div>
 
@@ -182,9 +191,66 @@
 		<div class="cta-banner__inner">
 			<h2 class="reveal">See Us Stride.</h2>
 			<p class="reveal cta-oneline">The fastest way to understand what Leap does differently is to see the platform behind it.</p>
-			<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="btn btn--primary btn--lg reveal">Request a walkthrough <span aria-hidden="true">→</span></a>
+			<button type="button" class="btn btn--primary btn--lg reveal" data-open-walkthrough>Request a walkthrough <span aria-hidden="true">→</span></button>
 		</div>
 	</div>
 </section>
+
+<!-- ── Walkthrough Request Modal ──────────────────────────── -->
+<div class="apply-modal" id="walkthrough-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Request a walkthrough">
+	<div class="apply-modal__dialog" role="document">
+		<button type="button" class="apply-modal__close" data-close-walkthrough aria-label="Close">&times;</button>
+
+		<span class="section-label section-label--blue">Request a walkthrough</span>
+		<h3 class="apply-modal__title">See Stride in action</h3>
+		<p class="apply-modal__sub">Tell us a bit about you and we’ll set up a live walkthrough of the platform.</p>
+
+		<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" class="apply-modal__form">
+			<input type="hidden" name="action" value="leap_walkthrough_form">
+			<?php wp_nonce_field( 'leap_walkthrough_form', 'leap_walkthrough_nonce' ); ?>
+
+			<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+				<div class="form-group">
+					<label class="form-label" for="wt-first">First Name</label>
+					<input class="form-input" type="text" id="wt-first" name="first_name" placeholder="John" required>
+				</div>
+				<div class="form-group">
+					<label class="form-label" for="wt-last">Last Name</label>
+					<input class="form-input" type="text" id="wt-last" name="last_name" placeholder="Smith" required>
+				</div>
+			</div>
+			<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+				<div class="form-group">
+					<label class="form-label" for="wt-email">Work Email</label>
+					<input class="form-input" type="email" id="wt-email" name="email" placeholder="john@company.com" required>
+				</div>
+				<div class="form-group">
+					<label class="form-label" for="wt-phone">Phone <span style="color:var(--color-text-3);font-weight:400;">(optional)</span></label>
+					<input class="form-input" type="tel" id="wt-phone" name="phone" placeholder="(555) 555-5555">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="form-label" for="wt-company">Company / Organization</label>
+				<input class="form-input" type="text" id="wt-company" name="company" placeholder="Your hospital, practice, or company">
+			</div>
+			<div class="form-group">
+				<label class="form-label" for="wt-role">I am a…</label>
+				<select class="form-input" id="wt-role" name="role">
+					<option value="">Select your role</option>
+					<option>Surgeon</option>
+					<option>Hospital / Healthcare Facility</option>
+					<option>Distributor / Independent Rep</option>
+					<option>Manufacturer</option>
+					<option>Other</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label class="form-label" for="wt-message">What would you like to see? <span style="color:var(--color-text-3);font-weight:400;">(optional)</span></label>
+				<textarea class="form-input" id="wt-message" name="message" placeholder="Tell us what matters most to your team…"></textarea>
+			</div>
+			<button type="submit" class="btn btn--primary btn--lg" style="width:100%;justify-content:center;">Request walkthrough <span aria-hidden="true">→</span></button>
+		</form>
+	</div>
+</div>
 
 <?php get_footer(); ?>

@@ -659,6 +659,37 @@ document.addEventListener('DOMContentLoaded', () => {
     if (/[?&]application=error/.test(window.location.search)) openModal();
   }
 
+  // ── Walkthrough request modal (platform) ──────────────────
+  var wtModal = document.getElementById('walkthrough-modal');
+  if (wtModal) {
+    var wtLast = null;
+    var wtOpen = function (trigger) {
+      wtLast = trigger || document.activeElement;
+      wtModal.classList.add('is-open');
+      wtModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      var first = wtModal.querySelector('input, textarea, select, button');
+      if (first) first.focus();
+    };
+    var wtClose = function () {
+      wtModal.classList.remove('is-open');
+      wtModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (wtLast && typeof wtLast.focus === 'function') wtLast.focus();
+    };
+    document.querySelectorAll('[data-open-walkthrough]').forEach(function (b) {
+      b.addEventListener('click', function () { wtOpen(b); });
+    });
+    wtModal.querySelectorAll('[data-close-walkthrough]').forEach(function (b) {
+      b.addEventListener('click', wtClose);
+    });
+    wtModal.addEventListener('click', function (e) { if (e.target === wtModal) wtClose(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && wtModal.classList.contains('is-open')) wtClose();
+    });
+    if (/[?&]walkthrough=error/.test(window.location.search)) wtOpen();
+  }
+
   // ── Platform Dashboard Hero ───────────────────────────────
   const phgScroll  = document.getElementById('phg-scroll');
   const phgGallery = document.getElementById('phg-gallery');

@@ -277,6 +277,49 @@ function leap_handle_application_form() {
 add_action( 'admin_post_leap_application_form',        'leap_handle_application_form' );
 add_action( 'admin_post_nopriv_leap_application_form', 'leap_handle_application_form' );
 
+// ── Walkthrough Request Form Handler ──────────────────────────
+function leap_handle_walkthrough_form() {
+	$back = wp_get_referer() ?: home_url( '/platform/' );
+
+	if ( ! isset( $_POST['leap_walkthrough_nonce'] ) || ! wp_verify_nonce( $_POST['leap_walkthrough_nonce'], 'leap_walkthrough_form' ) ) {
+		wp_redirect( add_query_arg( 'walkthrough', 'error', $back ) );
+		exit;
+	}
+
+	$first   = sanitize_text_field( $_POST['first_name'] ?? '' );
+	$last    = sanitize_text_field( $_POST['last_name'] ?? '' );
+	$email   = sanitize_email( $_POST['email'] ?? '' );
+	$company = sanitize_text_field( $_POST['company'] ?? '' );
+	$role    = sanitize_text_field( $_POST['role'] ?? '' );
+	$phone   = sanitize_text_field( $_POST['phone'] ?? '' );
+	$message = sanitize_textarea_field( $_POST['message'] ?? '' );
+
+	if ( empty( $first ) || empty( $email ) || ! is_email( $email ) ) {
+		wp_redirect( add_query_arg( 'walkthrough', 'error', $back ) );
+		exit;
+	}
+
+	$to      = 'info@leapdistributors.com';
+	$subject = "Walkthrough Request — {$first} {$last}" . ( $company ? " ({$company})" : '' );
+	$body    = "Name: {$first} {$last}\n";
+	$body   .= "Email: {$email}\n";
+	$body   .= "Company: {$company}\n";
+	$body   .= "Role: {$role}\n";
+	$body   .= "Phone: {$phone}\n\n";
+	$body   .= "What they'd like to see:\n" . ( $message ?: '(none provided)' );
+	$headers = [
+		'Content-Type: text/plain; charset=UTF-8',
+		"Reply-To: {$first} {$last} <{$email}>",
+	];
+
+	$sent   = wp_mail( $to, $subject, $body, $headers );
+	$status = $sent ? 'success' : 'error';
+	wp_redirect( add_query_arg( 'walkthrough', $status, $back ) );
+	exit;
+}
+add_action( 'admin_post_leap_walkthrough_form',        'leap_handle_walkthrough_form' );
+add_action( 'admin_post_nopriv_leap_walkthrough_form', 'leap_handle_walkthrough_form' );
+
 // ── Knowledge base / RAG ──────────────────────────────────────
 require_once get_template_directory() . '/inc/rag.php';
 require_once get_template_directory() . '/inc/chat-log.php';
