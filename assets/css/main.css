@@ -5167,16 +5167,21 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   -webkit-mask-image: radial-gradient(ellipse at center, #000 55%, transparent 85%);
   mask-image: radial-gradient(ellipse at center, #000 55%, transparent 85%);
 }
-/* On mobile enlarge the backdrop but keep it inside its own section */
+/* On mobile enlarge the backdrop but keep the whole phone inside its section.
+   Image is 16:9, so at 220% width it's ~124vw tall — the min-height gives the
+   section room to show it in full without clipping the phone or bleeding out. */
 @media (max-width: 900px) {
-  .repdash-section { overflow: hidden; }
+  .repdash-section {
+    overflow: hidden;
+    min-height: 135vw;
+  }
   .repdash-bg {
-    width: 260%;
+    width: 220%;
     max-width: none;
     opacity: 0.4;
-    /* keep the enlarged phone visible — fade only the far edges */
-    -webkit-mask-image: radial-gradient(ellipse at center, #000 75%, transparent 100%);
-    mask-image: radial-gradient(ellipse at center, #000 75%, transparent 100%);
+    /* fade only the far corners, well clear of the phone */
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 80%, transparent 100%);
+    mask-image: radial-gradient(ellipse at center, #000 80%, transparent 100%);
   }
 }
 .stride-rep__tiles {
