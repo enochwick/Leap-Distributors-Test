@@ -617,8 +617,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const applyModal = document.getElementById('apply-modal');
   if (applyModal) {
     let lastFocus = null;
+    const titleEl = document.getElementById('apply-modal-title');
+    const subEl   = document.getElementById('apply-modal-sub');
+    const posEl   = document.getElementById('app-position');
     const openModal = (trigger) => {
       lastFocus = trigger || document.activeElement;
+      // Retarget the form to whichever role opened it (Surgical Consultant,
+      // general application, etc.).
+      if (trigger && trigger.dataset) {
+        if (trigger.dataset.title && titleEl)     titleEl.textContent = trigger.dataset.title;
+        if (trigger.dataset.subtitle && subEl)    subEl.textContent   = trigger.dataset.subtitle;
+        if (trigger.dataset.position && posEl)    posEl.value         = trigger.dataset.position;
+      }
       applyModal.classList.add('is-open');
       applyModal.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';

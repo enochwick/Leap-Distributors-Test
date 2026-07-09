@@ -6486,6 +6486,19 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   object-fit: cover;
   display: block;
 }
+/* Brand tint so the photo reads as part of the dark navy theme */
+.feature-band__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0,21,32,0.32) 0%, rgba(0,21,32,0.10) 45%, rgba(0,21,32,0.72) 100%),
+    linear-gradient(215deg, rgba(42,125,225,0.22) 0%, transparent 55%);
+  mix-blend-mode: multiply;
+}
+.feature-band__caption { z-index: 2; }
 .feature-band__caption {
   position: absolute;
   left: 0;
@@ -6751,9 +6764,9 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 }
 .form-input--file::file-selector-button {
   margin-right: var(--space-3);
-  padding: 0.4rem 0.9rem;
+  padding: 0.4rem 1rem;
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-full);
   background: rgba(255, 255, 255, 0.04);
   color: var(--color-text);
   font: inherit;

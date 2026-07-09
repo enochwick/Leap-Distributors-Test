@@ -73,7 +73,7 @@
 						<h4 style="margin-bottom:var(--space-1);">Surgical Consultant</h4>
 						<p style="font-size:var(--text-sm);color:var(--color-text-3);">Dallas–Fort Worth Metroplex · Field-based</p>
 					</div>
-					<button type="button" class="btn btn--outline" style="flex-shrink:0;" data-open-apply>Apply</button>
+					<button type="button" class="btn btn--outline" style="flex-shrink:0;" data-open-apply data-position="Surgical Consultant" data-title="Surgical Consultant" data-subtitle="Dallas–Fort Worth Metroplex · Full-Time">Apply</button>
 				</div>
 
 				<details class="job-toggle">
@@ -151,7 +151,7 @@
 						<li>Opportunity for advancement</li>
 					</ul>
 
-						<button type="button" class="btn btn--primary" style="margin-top:var(--space-4);" data-open-apply>Apply for this role</button>
+						<button type="button" class="btn btn--primary" style="margin-top:var(--space-4);" data-open-apply data-position="Surgical Consultant" data-title="Surgical Consultant" data-subtitle="Dallas–Fort Worth Metroplex · Full-Time">Apply for this role</button>
 					</div>
 				</details>
 			</article>
@@ -159,7 +159,7 @@
 
 		<div class="text-center reveal" style="margin-top:var(--space-10);">
 			<p style="color:var(--color-text-2);margin-bottom:var(--space-4);">Don't see the perfect fit? Reach out anyway! We're always open to talking to exceptional people.</p>
-			<a href="mailto:careers@leapdistributors.com" class="btn btn--primary">Send Us Your Resume</a>
+			<button type="button" class="btn btn--primary" data-open-apply data-position="General Application" data-title="Send Us Your Resume" data-subtitle="Don't see the perfect fit? Introduce yourself and we'll keep you in mind.">Send Us Your Resume</button>
 		</div>
 	</div>
 </section>
@@ -195,12 +195,12 @@
 		<button type="button" class="apply-modal__close" data-close-apply aria-label="Close">&times;</button>
 
 		<span class="section-label section-label--blue">Apply</span>
-		<h3 class="apply-modal__title">Surgical Consultant</h3>
-		<p class="apply-modal__sub">Dallas–Fort Worth Metroplex · Full-Time</p>
+		<h3 class="apply-modal__title" id="apply-modal-title">Surgical Consultant</h3>
+		<p class="apply-modal__sub" id="apply-modal-sub">Dallas–Fort Worth Metroplex · Full-Time</p>
 
 		<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" enctype="multipart/form-data" class="apply-modal__form">
 			<input type="hidden" name="action" value="leap_application_form">
-			<input type="hidden" name="position" value="Surgical Consultant">
+			<input type="hidden" name="position" id="app-position" value="Surgical Consultant">
 			<?php wp_nonce_field( 'leap_application_form', 'leap_application_nonce' ); ?>
 
 			<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
