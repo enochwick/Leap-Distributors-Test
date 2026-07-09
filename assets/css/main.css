@@ -588,6 +588,11 @@ p { line-height: 1.7; }
   transition: color 0.2s;
 }
 
+/* Hide the header "Let's Talk" CTA on mobile (still in the nav overlay) */
+@media (max-width: 768px) {
+  .site-header__cta { display: none; }
+}
+
 .site-header__cta:hover {
   color: var(--color-white);
 }
