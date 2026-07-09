@@ -229,7 +229,7 @@
 			</div>
 			<div class="form-group">
 				<label class="form-label" for="app-resume">Resume <span style="color:var(--color-text-3);font-weight:400;">(PDF, DOC, or DOCX)</span></label>
-				<input class="form-input form-input--file" type="file" id="app-resume" name="resume" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+				<input class="form-input--file" type="file" id="app-resume" name="resume" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
 			</div>
 			<div class="form-group">
 				<label class="form-label" for="app-message">Why Leap? <span style="color:var(--color-text-3);font-weight:400;">(optional)</span></label>
