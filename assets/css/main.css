@@ -6835,10 +6835,16 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 
 /* ── Newsletter page-flip viewer ────────────────────────── */
 .pdf-flip-wrap { margin-top: var(--space-10); }
-.pdf-flip {
+.pdf-flip-viewport {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+.pdf-flip {
+  width: 100%;
+  transform-origin: center center;
 }
 .pdf-flip__loading {
   text-align: center;
@@ -6877,13 +6883,12 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   font-size: var(--text-sm);
   color: var(--color-text-3);
 }
-.pdf-flip__download {
-  margin-left: var(--space-2);
-  font-size: var(--text-sm);
-  color: var(--color-blue);
-  text-decoration: none;
+.pdf-flip__divider {
+  width: 1px;
+  height: 24px;
+  background: var(--color-border);
+  margin: 0 var(--space-1);
 }
-.pdf-flip__download:hover { color: #fff; }
 
 /* ── Blog post top image ────────────────────────────────── */
 .post-hero-media {
