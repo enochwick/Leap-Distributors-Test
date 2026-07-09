@@ -192,6 +192,79 @@ function leap_handle_newsletter_form() {
 add_action( 'admin_post_leap_newsletter_form',        'leap_handle_newsletter_form' );
 add_action( 'admin_post_nopriv_leap_newsletter_form', 'leap_handle_newsletter_form' );
 
+// ── Job Application Form Handler ──────────────────────────────
+function leap_handle_application_form() {
+	$back = wp_get_referer() ?: home_url( '/careers/' );
+
+	if ( ! isset( $_POST['leap_application_nonce'] ) || ! wp_verify_nonce( $_POST['leap_application_nonce'], 'leap_application_form' ) ) {
+		wp_redirect( add_query_arg( 'application', 'error', $back ) );
+		exit;
+	}
+
+	$first    = sanitize_text_field( $_POST['first_name'] ?? '' );
+	$last     = sanitize_text_field( $_POST['last_name'] ?? '' );
+	$email    = sanitize_email( $_POST['email'] ?? '' );
+	$phone    = sanitize_text_field( $_POST['phone'] ?? '' );
+	$linkedin = esc_url_raw( $_POST['linkedin'] ?? '' );
+	$position = sanitize_text_field( $_POST['position'] ?? 'General Application' );
+	$message  = sanitize_textarea_field( $_POST['message'] ?? '' );
+
+	if ( empty( $first ) || empty( $email ) || ! is_email( $email ) ) {
+		wp_redirect( add_query_arg( 'application', 'error', $back ) );
+		exit;
+	}
+
+	// Handle the resume upload (optional). Accept pdf/doc/docx up to 8 MB,
+	// stash it in a temp folder to attach, then delete after sending.
+	$attachments = [];
+	$cleanup     = '';
+	$resume_note = 'No resume attached.';
+	if ( ! empty( $_FILES['resume']['name'] ) && isset( $_FILES['resume']['error'] ) && UPLOAD_ERR_OK === $_FILES['resume']['error'] ) {
+		$check   = wp_check_filetype( $_FILES['resume']['name'] );
+		$allowed = [ 'pdf', 'doc', 'docx' ];
+		if ( in_array( strtolower( (string) $check['ext'] ), $allowed, true ) && $_FILES['resume']['size'] <= 8 * 1024 * 1024 ) {
+			$upload = wp_upload_dir();
+			$dir    = trailingslashit( $upload['basedir'] ) . 'applications';
+			wp_mkdir_p( $dir );
+			$safe   = sanitize_file_name( $first . '-' . $last . '-resume-' . time() . '.' . $check['ext'] );
+			$target = trailingslashit( $dir ) . $safe;
+			if ( move_uploaded_file( $_FILES['resume']['tmp_name'], $target ) ) {
+				$attachments[] = $target;
+				$cleanup       = $target;
+				$resume_note   = 'Resume attached: ' . sanitize_file_name( $_FILES['resume']['name'] );
+			}
+		} else {
+			$resume_note = 'A resume was submitted but rejected (only PDF/DOC/DOCX up to 8 MB are accepted).';
+		}
+	}
+
+	$to      = 'careers@leapdistributors.com';
+	$subject = "New Job Application — {$position} — {$first} {$last}";
+	$body    = "Position: {$position}\n";
+	$body   .= "Name: {$first} {$last}\n";
+	$body   .= "Email: {$email}\n";
+	$body   .= "Phone: {$phone}\n";
+	$body   .= "LinkedIn / Portfolio: {$linkedin}\n";
+	$body   .= "{$resume_note}\n\n";
+	$body   .= "Why Leap:\n" . ( $message ?: '(none provided)' );
+	$headers = [
+		'Content-Type: text/plain; charset=UTF-8',
+		"Reply-To: {$first} {$last} <{$email}>",
+	];
+
+	$sent = wp_mail( $to, $subject, $body, $headers, $attachments );
+
+	if ( $cleanup ) {
+		@unlink( $cleanup );
+	}
+
+	$status = $sent ? 'success' : 'error';
+	wp_redirect( add_query_arg( 'application', $status, $back ) );
+	exit;
+}
+add_action( 'admin_post_leap_application_form',        'leap_handle_application_form' );
+add_action( 'admin_post_nopriv_leap_application_form', 'leap_handle_application_form' );
+
 // ── Knowledge base / RAG ──────────────────────────────────────
 require_once get_template_directory() . '/inc/rag.php';
 require_once get_template_directory() . '/inc/chat-log.php';

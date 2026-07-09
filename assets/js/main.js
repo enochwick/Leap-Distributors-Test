@@ -613,6 +613,42 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ── Apply modal (careers) ─────────────────────────────────
+  const applyModal = document.getElementById('apply-modal');
+  if (applyModal) {
+    let lastFocus = null;
+    const openModal = (trigger) => {
+      lastFocus = trigger || document.activeElement;
+      applyModal.classList.add('is-open');
+      applyModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      const firstField = applyModal.querySelector('input, textarea, select, button');
+      if (firstField) firstField.focus();
+    };
+    const closeModal = () => {
+      applyModal.classList.remove('is-open');
+      applyModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
+    };
+
+    document.querySelectorAll('[data-open-apply]').forEach(btn =>
+      btn.addEventListener('click', () => openModal(btn))
+    );
+    applyModal.querySelectorAll('[data-close-apply]').forEach(btn =>
+      btn.addEventListener('click', closeModal)
+    );
+    // Click on the backdrop (outside the dialog) closes
+    applyModal.addEventListener('click', e => { if (e.target === applyModal) closeModal(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && applyModal.classList.contains('is-open')) closeModal();
+    });
+
+    // Re-open automatically if the server bounced back an error, so the user
+    // doesn't lose context.
+    if (/[?&]application=error/.test(window.location.search)) openModal();
+  }
+
   // ── Platform Dashboard Hero ───────────────────────────────
   const phgScroll  = document.getElementById('phg-scroll');
   const phgGallery = document.getElementById('phg-gallery');
