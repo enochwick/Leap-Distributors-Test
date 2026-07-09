@@ -35,9 +35,9 @@ if ( $is_newsletter ) {
 <section class="content-section">
 	<div class="container">
 		<?php if ( has_post_thumbnail() && ! ( $is_newsletter && $pdf_url ) ) : ?>
-			<div style="border-radius:var(--radius-2xl);overflow:hidden;margin-bottom:var(--space-12);">
-				<?php the_post_thumbnail( 'large', [ 'style' => 'width:100%;height:auto;' ] ); ?>
-			</div>
+			<figure class="post-hero-media">
+				<?php the_post_thumbnail( 'large' ); ?>
+			</figure>
 		<?php endif; ?>
 
 		<div class="entry-content">

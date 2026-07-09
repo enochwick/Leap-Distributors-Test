@@ -6813,12 +6813,12 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 .entry-content ul,
 .entry-content ol {
   margin: 0;
-  padding-left: 1.4rem;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
+  padding-left: 1.5rem;
 }
-.entry-content li { line-height: 1.6; }
+.entry-content ul { list-style: disc; }
+.entry-content ol { list-style: decimal; }
+.entry-content li { line-height: 1.6; padding-left: 0.25rem; }
+.entry-content li + li { margin-top: var(--space-2); }
 .entry-content li::marker { color: var(--color-orange); }
 .entry-content a {
   color: var(--color-blue);
@@ -6884,3 +6884,58 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   text-decoration: none;
 }
 .pdf-flip__download:hover { color: #fff; }
+
+/* ── Blog post top image ────────────────────────────────── */
+.post-hero-media {
+  position: relative;
+  width: 100%;
+  /* Pulled up toward the title, full width, shorter cinematic height */
+  margin: calc(var(--section-pad-y) * -0.5) 0 var(--space-10);
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  aspect-ratio: 21 / 9;
+  background: var(--color-surface);
+}
+.post-hero-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* Tint the image into the site's dark navy theme */
+.post-hero-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0,21,32,0.30) 0%, rgba(0,21,32,0.08) 45%, rgba(0,21,32,0.70) 100%),
+    linear-gradient(215deg, rgba(42,125,225,0.20) 0%, transparent 55%);
+  mix-blend-mode: multiply;
+}
+@media (max-width: 640px) {
+  .post-hero-media { aspect-ratio: 16 / 10; }
+}
+
+/* ── Blog post pagination (prev / next) ─────────────────── */
+.post-navigation .nav-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+}
+.post-navigation .nav-previous,
+.post-navigation .nav-next { max-width: 48%; }
+.post-navigation .nav-next {
+  margin-left: auto;
+  text-align: right;
+}
+.post-navigation a {
+  color: var(--color-text-2);
+  text-decoration: none;
+  font-weight: 500;
+  line-height: 1.4;
+  transition: color .2s ease;
+}
+.post-navigation a:hover { color: #fff; }
