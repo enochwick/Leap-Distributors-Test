@@ -5167,10 +5167,11 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   -webkit-mask-image: radial-gradient(ellipse at center, #000 55%, transparent 85%);
   mask-image: radial-gradient(ellipse at center, #000 55%, transparent 85%);
 }
-/* On mobile blow the backdrop up so it fills behind the copy */
+/* On mobile enlarge the backdrop but keep it inside its own section */
 @media (max-width: 900px) {
+  .repdash-section { overflow: hidden; }
   .repdash-bg {
-    width: 400%;
+    width: 260%;
     max-width: none;
     opacity: 0.4;
     /* keep the enlarged phone visible — fade only the far edges */
