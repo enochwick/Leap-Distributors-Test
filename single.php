@@ -15,14 +15,14 @@ if ( $is_newsletter ) {
 }
 ?>
 
-<section class="page-hero">
+<section class="page-hero page-hero--post">
 	<canvas class="mesh-canvas" aria-hidden="true"></canvas>
 	<div class="hero__gradient"></div>
 	<div class="container">
 		<div class="page-hero__inner">
-			<?php the_category( ' · ' ); ?>
-			<h1 class="page-hero__title" style="font-size:clamp(2rem,4vw,3.5rem);"><?php the_title(); ?></h1>
-			<p class="page-hero__lead" style="font-size:var(--text-base);">
+			<p class="page-hero__eyebrow page-hero__eyebrow--post"><?php the_category( ' · ' ); ?></p>
+			<h1 class="page-hero__title page-hero__title--post" style="font-size:clamp(2rem,4vw,3.5rem);"><?php the_title(); ?></h1>
+			<p class="page-hero__lead page-hero__lead--post" style="font-size:var(--text-base);">
 				<?php echo get_the_date(); ?>
 				<?php if ( get_the_author() ) : ?>
 					&nbsp;·&nbsp; <?php the_author(); ?>
