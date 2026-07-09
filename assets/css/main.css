@@ -7003,7 +7003,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
      "Two hubs. One mission.", "Press.", etc. site-wide on mobile. */
   .page-hero + .content-section { padding-top: var(--space-8); }
   .about-footprint,
-  .news-press { padding-top: var(--space-8); }
+  .news-press { padding-top: var(--space-5); }
 
   /* One consistent body-paragraph size across every page */
   .page-hero__lead,
