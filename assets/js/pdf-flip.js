@@ -34,28 +34,33 @@
       '<a href="' + url + '" target="_blank" rel="noopener">Open the PDF</a> instead.</div>';
   }
 
-  // Render every page to a JPEG data URL (sequentially, to keep memory sane).
-  // We render at the size the page is actually shown at — StPageFlip stretches
-  // each leaf up to 1200px CSS px, and on retina screens that's 2× more device
-  // pixels — so rendering below that makes the text look blurry when upscaled.
+  // Render every page to a lossless PNG data URL (sequentially, to keep memory
+  // sane). A leaf is shown up to 1200 CSS px, doubled on retina, and can be
+  // zoomed up to 2.5×, so we render with that much headroom — anything less
+  // gets upscaled by the browser and the text goes soft. PNG (not JPEG) keeps
+  // text edges crisp with no compression fringing.
+  var MAX_ZOOM = 2.5;
   function renderPages(pdf) {
     var pages = [];
     var chain = Promise.resolve();
     var dpr     = Math.min(window.devicePixelRatio || 1, 2);
-    var targetW = 1200 * dpr; // one leaf at max display width, at device resolution
+    var targetW = 1200 * dpr * MAX_ZOOM; // one leaf, retina, fully zoomed in
     for (var i = 1; i <= pdf.numPages; i++) {
       (function (num) {
         chain = chain.then(function () {
           return pdf.getPage(num).then(function (page) {
             var natural = page.getViewport({ scale: 1 });
-            var scale   = Math.min(4, Math.max(2, targetW / natural.width));
+            var scale   = Math.min(6, Math.max(3, targetW / natural.width));
             var vp      = page.getViewport({ scale: scale });
             var canvas  = document.createElement('canvas');
             canvas.width  = vp.width;
             canvas.height = vp.height;
-            return page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise
+            var ctx = canvas.getContext('2d');
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+            return page.render({ canvasContext: ctx, viewport: vp }).promise
               .then(function () {
-                pages.push({ src: canvas.toDataURL('image/jpeg', 0.92), ratio: vp.height / vp.width });
+                pages.push({ src: canvas.toDataURL('image/png'), ratio: vp.height / vp.width });
               });
           });
         });
@@ -124,7 +129,7 @@
 
       // ── Zoom + pan ──────────────────────────────────────
       var scale = 1, tx = 0, ty = 0;
-      var MIN = 1, MAX = 2.5, STEP = 0.5;
+      var MIN = 1, MAX = MAX_ZOOM, STEP = 0.5;
       var dragging = false, startX = 0, startY = 0;
 
       function apply() {
