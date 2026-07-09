@@ -5152,6 +5152,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 }
 .repdash-wrap { position: relative; }
 .repdash-wrap .leap-intro { position: relative; z-index: 1; }
+.repdash-wrap .leap-intro__body p { color: var(--color-white); }
 .repdash-bg {
   position: absolute;
   top: 50%;
