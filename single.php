@@ -60,12 +60,11 @@ if ( $is_newsletter ) {
 					</div>
 				</div>
 				<div class="pdf-flip__controls" hidden>
-					<button type="button" class="pdf-flip__btn" data-flip-prev aria-label="Previous page">&larr;</button>
-					<span class="pdf-flip__page" data-flip-page>1</span>
-					<button type="button" class="pdf-flip__btn" data-flip-next aria-label="Next page">&rarr;</button>
-					<span class="pdf-flip__divider" aria-hidden="true"></span>
-					<button type="button" class="pdf-flip__btn" data-flip-zoom-out aria-label="Zoom out">&minus;</button>
-					<button type="button" class="pdf-flip__btn" data-flip-zoom-in aria-label="Zoom in">+</button>
+					<div class="pdf-flip__pager"></div>
+					<div class="pdf-flip__zoom">
+						<button type="button" class="news-pagination__arrow" data-flip-zoom-out aria-label="Zoom out">&minus;</button>
+						<button type="button" class="news-pagination__arrow" data-flip-zoom-in aria-label="Zoom in">+</button>
+					</div>
 				</div>
 			</div>
 		<?php endif; ?>

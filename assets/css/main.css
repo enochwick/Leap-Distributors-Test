@@ -6837,7 +6837,6 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 .pdf-flip-wrap { margin-top: var(--space-10); }
 .pdf-flip-viewport {
   width: 100%;
-  max-width: 900px;
   margin: 0 auto;
   overflow: hidden;
   border-radius: var(--radius-lg);
@@ -6855,39 +6854,23 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 .pdf-flip .stf__item img { width: 100%; height: 100%; display: block; }
 .pdf-flip__controls {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: var(--space-4);
   margin-top: var(--space-6);
+}
+/* Reuse the News page pagination styling; just let the numbers wrap. */
+.pdf-flip__pager .news-pagination {
+  margin-top: 0;
   flex-wrap: wrap;
 }
-.pdf-flip__btn {
-  width: 44px;
-  height: 44px;
+.pdf-flip__zoom {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--color-border);
-  background: transparent;
-  color: var(--color-text);
+  gap: var(--space-2);
+}
+.pdf-flip__zoom .news-pagination__arrow {
   font-size: 1.1rem;
-  cursor: pointer;
-  transition: background .2s ease, border-color .2s ease;
-}
-.pdf-flip__btn:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.18); }
-.pdf-flip__btn:disabled { opacity: 0.35; cursor: default; }
-.pdf-flip__page {
-  min-width: 64px;
-  text-align: center;
-  font-size: var(--text-sm);
-  color: var(--color-text-3);
-}
-.pdf-flip__divider {
-  width: 1px;
-  height: 24px;
-  background: var(--color-border);
-  margin: 0 var(--space-1);
+  line-height: 1;
 }
 
 /* ── Blog post top image ────────────────────────────────── */
