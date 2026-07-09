@@ -76,11 +76,15 @@
 
       var ratio = pages[0].ratio || 1.294;
 
-      // showCover already floats the FRONT cover alone on the right (empty left
-      // leaf). For the BACK cover to sit alone on the left (empty right leaf) the
-      // total page count must be even — if it's odd, slip a blank leaf in just
-      // before the back cover so it lands on a fresh spread.
-      if (pages.length > 2 && pages.length % 2 === 1) {
+      // On mobile we show one full page at a time (portrait); on larger screens
+      // it's a two-page magazine spread.
+      var isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+      // showCover floats the FRONT cover alone on the right (empty left leaf).
+      // For the BACK cover to sit alone on the left the total page count must be
+      // even — if it's odd, slip a blank leaf in before the back cover. This is
+      // only meaningful for the two-page spread, so skip it in single-page mode.
+      if (!isMobile && pages.length > 2 && pages.length % 2 === 1) {
         var bw = 1000, bh = Math.round(bw * ratio);
         var bc = document.createElement('canvas');
         bc.width = bw; bc.height = bh;
@@ -97,8 +101,6 @@
         width: baseW,
         height: baseH,
         size: 'stretch',
-        // Two-page spread stretches to the full container on desktop; below
-        // ~2×minWidth (i.e. phones) StPageFlip auto-collapses to one full page.
         minWidth: 350,
         maxWidth: 1200,
         minHeight: Math.round(350 * ratio),
@@ -106,7 +108,8 @@
         maxShadowOpacity: 0.5,
         showCover: true,
         mobileScrollSupport: false,
-        usePortrait: false
+        // Force one full page per view on phones; two-page spread on desktop.
+        usePortrait: isMobile
       });
 
       flip.loadFromImages(pages.map(function (p) { return p.src; }));
@@ -131,6 +134,13 @@
       var scale = 1, tx = 0, ty = 0;
       var MIN = 1, MAX = MAX_ZOOM, STEP = 0.5;
       var dragging = false, startX = 0, startY = 0;
+      var pinching = false, pinchStartDist = 0, pinchStartScale = 1;
+
+      function touchDist(e) {
+        var a = e.touches[0], b = e.touches[1];
+        var dx = a.clientX - b.clientX, dy = a.clientY - b.clientY;
+        return Math.sqrt(dx * dx + dy * dy);
+      }
 
       function apply() {
         el.style.transformOrigin = 'center center';
@@ -159,9 +169,20 @@
       function point(e) {
         return e.touches && e.touches[0] ? e.touches[0] : e;
       }
-      // Capture phase so we intercept the drag BEFORE StPageFlip when zoomed.
+      // Capture phase so we intercept the gesture BEFORE StPageFlip.
       function onDown(e) {
-        if (scale <= 1) return;          // let StPageFlip handle page turns
+        // Two fingers → pinch-zoom (works at any zoom level).
+        if (e.touches && e.touches.length === 2) {
+          e.stopPropagation();
+          e.preventDefault();
+          pinching = true;
+          dragging = false;
+          pinchStartDist = touchDist(e);
+          pinchStartScale = scale;
+          el.style.touchAction = 'none';
+          return;
+        }
+        if (scale <= 1) return;          // single finger at 1× → let StPageFlip turn pages
         e.stopPropagation();
         e.preventDefault();
         dragging = true;
@@ -171,6 +192,16 @@
         apply();
       }
       function onMove(e) {
+        if (pinching && e.touches && e.touches.length === 2) {
+          e.stopPropagation();
+          e.preventDefault();
+          var ratio = touchDist(e) / (pinchStartDist || 1);
+          scale = Math.max(MIN, Math.min(MAX, pinchStartScale * ratio));
+          if (scale <= 1) { scale = 1; tx = 0; ty = 0; }
+          clamp();
+          apply();
+          return;
+        }
         if (!dragging) return;
         e.preventDefault();
         var p = point(e);
@@ -179,7 +210,15 @@
         clamp();
         apply();
       }
-      function onUp() {
+      function onUp(e) {
+        if (pinching) {
+          if (!e || !e.touches || e.touches.length < 2) {
+            pinching = false;
+            if (scale <= 1) { scale = 1; tx = 0; ty = 0; }
+            apply();          // restores touch-action based on final scale
+          }
+          return;
+        }
         if (!dragging) return;
         dragging = false;
         apply();
