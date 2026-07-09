@@ -5169,7 +5169,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 }
 /* On mobile blow the backdrop up so it fills behind the copy */
 @media (max-width: 768px) {
-  .repdash-bg { width: 230%; }
+  .repdash-bg { width: 320%; }
 }
 .stride-rep__tiles {
   display: grid;
@@ -6623,13 +6623,9 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
     height: auto;
   }
 
-  /* Darker pill behind the dots under "Built by us." */
-  .platform-stack + .carousel-dots {
-    width: max-content;
-    margin-inline: auto;
-    padding: var(--space-2) var(--space-4);
+  /* Dark band behind the whole carousel, running down past the dots */
+  .platform-caps {
     background: rgba(0, 0, 0, 0.4);
-    border-radius: var(--radius-full);
   }
 
   /* Cards that were divider-separated in the stacked layout now

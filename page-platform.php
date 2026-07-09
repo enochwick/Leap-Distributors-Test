@@ -56,7 +56,7 @@
 </section>
 
 <!-- ── Three Capabilities ────────────────────────────────────── -->
-<section class="content-section">
+<section class="content-section platform-caps">
 	<div class="container">
 		<div class="platform-stack" id="platform-stack">
 		<!-- Capability 1 -->
