@@ -7002,8 +7002,12 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
      — trims the wide space above headings like "Send a Message",
      "Two hubs. One mission.", "Press.", etc. site-wide on mobile. */
   .page-hero + .content-section { padding-top: var(--space-8); }
-  .about-footprint,
-  .news-press { padding-top: var(--space-5); }
+  .about-footprint { padding-top: var(--space-5); }
+  /* News: pull "Press." up into the hero's tall bottom padding */
+  .news-press {
+    padding-top: 0;
+    margin-top: calc(var(--space-16) * -1);
+  }
 
   /* One consistent body-paragraph size across every page */
   .page-hero__lead,
