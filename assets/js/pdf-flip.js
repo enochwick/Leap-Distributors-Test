@@ -35,20 +35,27 @@
   }
 
   // Render every page to a JPEG data URL (sequentially, to keep memory sane).
+  // We render at the size the page is actually shown at — StPageFlip stretches
+  // each leaf up to 1200px CSS px, and on retina screens that's 2× more device
+  // pixels — so rendering below that makes the text look blurry when upscaled.
   function renderPages(pdf) {
     var pages = [];
     var chain = Promise.resolve();
+    var dpr     = Math.min(window.devicePixelRatio || 1, 2);
+    var targetW = 1200 * dpr; // one leaf at max display width, at device resolution
     for (var i = 1; i <= pdf.numPages; i++) {
       (function (num) {
         chain = chain.then(function () {
           return pdf.getPage(num).then(function (page) {
-            var vp     = page.getViewport({ scale: 1.6 });
-            var canvas = document.createElement('canvas');
+            var natural = page.getViewport({ scale: 1 });
+            var scale   = Math.min(4, Math.max(2, targetW / natural.width));
+            var vp      = page.getViewport({ scale: scale });
+            var canvas  = document.createElement('canvas');
             canvas.width  = vp.width;
             canvas.height = vp.height;
             return page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise
               .then(function () {
-                pages.push({ src: canvas.toDataURL('image/jpeg', 0.82), ratio: vp.height / vp.width });
+                pages.push({ src: canvas.toDataURL('image/jpeg', 0.92), ratio: vp.height / vp.width });
               });
           });
         });
