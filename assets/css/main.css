@@ -5169,7 +5169,14 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 }
 /* On mobile blow the backdrop up so it fills behind the copy */
 @media (max-width: 900px) {
-  .repdash-bg { width: 320%; }
+  .repdash-bg {
+    width: 400%;
+    max-width: none;
+    opacity: 0.4;
+    /* keep the enlarged phone visible — fade only the far edges */
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 75%, transparent 100%);
+    mask-image: radial-gradient(ellipse at center, #000 75%, transparent 100%);
+  }
 }
 .stride-rep__tiles {
   display: grid;
