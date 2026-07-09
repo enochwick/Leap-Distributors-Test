@@ -6921,25 +6921,3 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   .post-hero-media { aspect-ratio: 16 / 10; }
 }
 
-/* ── Blog post pagination (prev / next) ─────────────────── */
-.post-navigation .nav-links {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: var(--space-6);
-  flex-wrap: wrap;
-}
-.post-navigation .nav-previous,
-.post-navigation .nav-next { max-width: 48%; }
-.post-navigation .nav-next {
-  margin-left: auto;
-  text-align: right;
-}
-.post-navigation a {
-  color: var(--color-text-2);
-  text-decoration: none;
-  font-weight: 500;
-  line-height: 1.4;
-  transition: color .2s ease;
-}
-.post-navigation a:hover { color: #fff; }
