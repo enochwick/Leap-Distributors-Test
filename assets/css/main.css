@@ -2513,6 +2513,7 @@ p { line-height: 1.7; }
 
 /* Tighten the gap between the date/author line and the content below */
 .page-hero__lead--post { margin-bottom: var(--space-2); }
+.page-hero--post + .content-section { padding-top: var(--space-8); }
 
 /* ── Content Section (Light) ─────────────────────────────── */
 .content-section {

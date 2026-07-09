@@ -63,6 +63,20 @@
       if (!pages.length) { fallback(); return; }
 
       var ratio = pages[0].ratio || 1.294;
+
+      // showCover already floats the FRONT cover alone on the right (empty left
+      // leaf). For the BACK cover to sit alone on the left (empty right leaf) the
+      // total page count must be even — if it's odd, slip a blank leaf in just
+      // before the back cover so it lands on a fresh spread.
+      if (pages.length > 2 && pages.length % 2 === 1) {
+        var bw = 1000, bh = Math.round(bw * ratio);
+        var bc = document.createElement('canvas');
+        bc.width = bw; bc.height = bh;
+        var bctx = bc.getContext('2d');
+        bctx.fillStyle = '#ffffff';
+        bctx.fillRect(0, 0, bw, bh);
+        pages.splice(pages.length - 1, 0, { src: bc.toDataURL('image/jpeg', 0.82), ratio: ratio });
+      }
       var baseW = 600;
       var baseH = Math.round(baseW * ratio);
 
