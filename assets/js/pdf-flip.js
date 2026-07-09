@@ -16,7 +16,9 @@
   var viewport  = el.closest('.pdf-flip-viewport');
   var wrap      = el.closest('.pdf-flip-wrap');
   var controls  = wrap ? wrap.querySelector('.pdf-flip__controls') : null;
-  var pager     = controls ? controls.querySelector('.pdf-flip__pager') : null;
+  var pageLabel = controls ? controls.querySelector('[data-flip-page]') : null;
+  var prevBtn   = controls ? controls.querySelector('[data-flip-prev]') : null;
+  var nextBtn   = controls ? controls.querySelector('[data-flip-next]') : null;
   var zoomInBtn = controls ? controls.querySelector('[data-flip-zoom-in]') : null;
   var zoomOutBtn= controls ? controls.querySelector('[data-flip-zoom-out]') : null;
 
@@ -83,56 +85,21 @@
 
       flip.loadFromImages(pages.map(function (p) { return p.src; }));
 
-      // ── Pagination (same style as the News page: numbers + arrows) ──
-      var total    = flip.getPageCount();
-      var pageBtns = [];
-      var navPrev, navNext;
-      if (pager) {
-        var nav = document.createElement('nav');
-        nav.className = 'news-pagination';
-        nav.setAttribute('aria-label', 'Newsletter pages');
-
-        navPrev = document.createElement('button');
-        navPrev.type = 'button';
-        navPrev.className = 'news-pagination__arrow';
-        navPrev.innerHTML = '<span aria-hidden="true">←</span>';
-        navPrev.setAttribute('aria-label', 'Previous page');
-        navPrev.addEventListener('click', function () { flip.flipPrev(); });
-
-        var pagesDiv = document.createElement('div');
-        pagesDiv.className = 'news-pagination__pages';
-        for (var i = 0; i < total; i++) {
-          (function (idx) {
-            var b = document.createElement('button');
-            b.type = 'button';
-            b.className = 'news-pagination__page';
-            b.textContent = String(idx + 1);
-            b.setAttribute('aria-label', 'Page ' + (idx + 1));
-            b.addEventListener('click', function () { flip.turnToPage(idx); });
-            pagesDiv.appendChild(b);
-            pageBtns.push(b);
-          })(i);
-        }
-
-        navNext = document.createElement('button');
-        navNext.type = 'button';
-        navNext.className = 'news-pagination__arrow';
-        navNext.innerHTML = '<span aria-hidden="true">→</span>';
-        navNext.setAttribute('aria-label', 'Next page');
-        navNext.addEventListener('click', function () { flip.flipNext(); });
-
-        nav.append(navPrev, pagesDiv, navNext);
-        pager.appendChild(nav);
+      // ── Page controls ───────────────────────────────────
+      if (controls) {
+        controls.hidden = false;
+        var total = flip.getPageCount();
+        var update = function () {
+          var cur = flip.getCurrentPageIndex() + 1;
+          if (pageLabel) pageLabel.textContent = cur + ' / ' + total;
+          if (prevBtn) prevBtn.disabled = cur <= 1;
+          if (nextBtn) nextBtn.disabled = cur >= total;
+        };
+        flip.on('flip', update);
+        if (prevBtn) prevBtn.addEventListener('click', function () { flip.flipPrev(); });
+        if (nextBtn) nextBtn.addEventListener('click', function () { flip.flipNext(); });
+        update();
       }
-      var updatePager = function () {
-        var cur = flip.getCurrentPageIndex();
-        pageBtns.forEach(function (b, i) { b.classList.toggle('is-active', i === cur); });
-        if (navPrev) navPrev.disabled = cur <= 0;
-        if (navNext) navNext.disabled = cur >= total - 1;
-      };
-      flip.on('flip', updatePager);
-      if (controls) controls.hidden = false;
-      updatePager();
 
       // ── Zoom + pan ──────────────────────────────────────
       var scale = 1, tx = 0, ty = 0;
