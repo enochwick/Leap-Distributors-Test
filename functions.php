@@ -10,6 +10,50 @@ if ( ! function_exists( 'the_field' ) ) {
 	function the_field( $key, $post_id = false ) { return ''; }
 }
 
+// ── TEMPORARY MAIL DEBUG LOGGER (remove after diagnosing) ─────
+// Writes to wp-content/uploads/leap-mail-debug.log
+function leap_mail_debug_log( $line ) {
+	$up  = wp_upload_dir();
+	$f   = trailingslashit( $up['basedir'] ) . 'leap-mail-debug.log';
+	$msg = '[' . gmdate( 'Y-m-d H:i:s' ) . ' UTC] ' . $line . "\n";
+	@file_put_contents( $f, $msg, FILE_APPEND | LOCK_EX );
+}
+// Log every wp_mail attempt (recipient + subject).
+add_filter( 'wp_mail', function ( $args ) {
+	$to = is_array( $args['to'] ?? '' ) ? implode( ',', $args['to'] ) : ( $args['to'] ?? '' );
+	leap_mail_debug_log( 'wp_mail() called → to=' . $to . ' | subject=' . ( $args['subject'] ?? '' ) );
+	return $args;
+}, 1 );
+// Log the ACTUAL transport PHPMailer is about to use (mail vs smtp).
+add_action( 'phpmailer_init', function ( $phpmailer ) {
+	leap_mail_debug_log( 'phpmailer_init → Mailer=' . $phpmailer->Mailer . ' | Host=' . $phpmailer->Host . ' | From=' . $phpmailer->From );
+}, 9999 );
+// Log any failure with the full error.
+add_action( 'wp_mail_failed', function ( $error ) {
+	leap_mail_debug_log( 'wp_mail_failed → ' . $error->get_error_message() );
+} );
+// Detect whether WP Mail SMTP is even active and which mailer it thinks is set.
+add_action( 'init', function () {
+	if ( isset( $_GET['leap_mail_probe'] ) ) {
+		$active  = function_exists( 'wp_mail_smtp' ) ? 'WP Mail SMTP ACTIVE' : 'WP Mail SMTP NOT found';
+		$mailer  = '';
+		if ( function_exists( 'wp_mail_smtp' ) ) {
+			$opts   = get_option( 'wp_mail_smtp', [] );
+			$mailer = $opts['mail']['mailer'] ?? '(unknown)';
+		}
+		if ( ! function_exists( 'get_plugins' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+		$others = [];
+		foreach ( (array) get_option( 'active_plugins', [] ) as $p ) {
+			if ( preg_match( '/smtp|mailer|sendinblue|brevo|postman|fluent-smtp/i', $p ) ) { $others[] = $p; }
+		}
+		leap_mail_debug_log( 'PROBE → ' . $active . ' | mailer=' . $mailer . ' | other_smtp_plugins=' . ( $others ? implode( ',', $others ) : 'none' ) );
+		wp_die( 'Mail probe logged. Active: ' . esc_html( $active ) . ' | Mailer: ' . esc_html( $mailer ) . ' | Other SMTP plugins: ' . esc_html( $others ? implode( ', ', $others ) : 'none' ) );
+	}
+} );
+// ── END TEMPORARY MAIL DEBUG LOGGER ──────────────────────────
+
 function leap_setup() {
 	add_theme_support( 'title-tag' );
 	add_theme_support( 'post-thumbnails' );
