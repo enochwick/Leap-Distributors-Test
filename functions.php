@@ -51,6 +51,48 @@ add_action( 'init', function () {
 		leap_mail_debug_log( 'PROBE → ' . $active . ' | mailer=' . $mailer . ' | other_smtp_plugins=' . ( $others ? implode( ',', $others ) : 'none' ) );
 		wp_die( 'Mail probe logged. Active: ' . esc_html( $active ) . ' | Mailer: ' . esc_html( $mailer ) . ' | Other SMTP plugins: ' . esc_html( $others ? implode( ', ', $others ) : 'none' ) );
 	}
+
+	// WHOAMI: ask Brevo which account the stored API key belongs to.
+	if ( isset( $_GET['leap_brevo_whoami'] ) && current_user_can( 'manage_options' ) ) {
+		$opts   = get_option( 'wp_mail_smtp', [] );
+		$key    = $opts['sendinblue']['api_key'] ?? '';
+		if ( ! $key ) {
+			wp_die( 'No Brevo API key found in WP Mail SMTP settings.' );
+		}
+		$tail = substr( $key, -6 );
+
+		// GET /v3/account → identifies the account/company.
+		$acct = wp_remote_get( 'https://api.brevo.com/v3/account', [
+			'headers' => [ 'api-key' => $key, 'accept' => 'application/json' ],
+			'timeout' => 15,
+		] );
+		// GET /v3/senders → confirms noreply@ is a valid sender in THIS account.
+		$snd = wp_remote_get( 'https://api.brevo.com/v3/senders', [
+			'headers' => [ 'api-key' => $key, 'accept' => 'application/json' ],
+			'timeout' => 15,
+		] );
+
+		$acct_body = is_wp_error( $acct ) ? $acct->get_error_message() : wp_remote_retrieve_body( $acct );
+		$acct_code = is_wp_error( $acct ) ? 'ERR' : wp_remote_retrieve_response_code( $acct );
+		$snd_body  = is_wp_error( $snd ) ? $snd->get_error_message() : wp_remote_retrieve_body( $snd );
+
+		$acct_data = json_decode( $acct_body, true );
+		$company   = $acct_data['companyName'] ?? '(n/a)';
+		$email     = $acct_data['email'] ?? '(n/a)';
+
+		leap_mail_debug_log( 'WHOAMI → key_ends=' . $tail . ' | http=' . $acct_code . ' | company=' . $company . ' | email=' . $email );
+
+		wp_die(
+			'<pre style="font:14px monospace;white-space:pre-wrap">' .
+			'API key ends in: ' . esc_html( $tail ) . "\n" .
+			'HTTP status: ' . esc_html( $acct_code ) . "\n" .
+			'Account company: ' . esc_html( $company ) . "\n" .
+			'Account email: ' . esc_html( $email ) . "\n\n" .
+			'--- /v3/account raw ---' . "\n" . esc_html( $acct_body ) . "\n\n" .
+			'--- /v3/senders raw ---' . "\n" . esc_html( $snd_body ) .
+			'</pre>'
+		);
+	}
 } );
 // ── END TEMPORARY MAIL DEBUG LOGGER ──────────────────────────
 
