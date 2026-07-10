@@ -93,6 +93,36 @@ add_action( 'init', function () {
 			'</pre>'
 		);
 	}
+
+	// SENDTEST: fire a real transactional send and print Brevo's raw response.
+	if ( isset( $_GET['leap_brevo_sendtest'] ) && current_user_can( 'manage_options' ) ) {
+		$opts = get_option( 'wp_mail_smtp', [] );
+		$key  = $opts['sendinblue']['api_key'] ?? '';
+		if ( ! $key ) {
+			wp_die( 'No Brevo API key found.' );
+		}
+		$to = sanitize_email( $_GET['to'] ?? 'htadesse@totalancillary.com' );
+		$resp = wp_remote_post( 'https://api.brevo.com/v3/smtp/email', [
+			'headers' => [ 'api-key' => $key, 'content-type' => 'application/json', 'accept' => 'application/json' ],
+			'timeout' => 20,
+			'body'    => wp_json_encode( [
+				'sender'      => [ 'name' => 'Leap Distributors', 'email' => 'noreply@leapdistributors.com' ],
+				'to'          => [ [ 'email' => $to ] ],
+				'subject'     => 'Leap Brevo direct send test',
+				'textContent' => 'Direct API send test from the diagnostic probe.',
+			] ),
+		] );
+		$code = is_wp_error( $resp ) ? 'ERR' : wp_remote_retrieve_response_code( $resp );
+		$body = is_wp_error( $resp ) ? $resp->get_error_message() : wp_remote_retrieve_body( $resp );
+		leap_mail_debug_log( 'SENDTEST → to=' . $to . ' | http=' . $code . ' | resp=' . $body );
+		wp_die(
+			'<pre style="font:14px monospace;white-space:pre-wrap">' .
+			'Sent to: ' . esc_html( $to ) . "\n" .
+			'HTTP status: ' . esc_html( $code ) . "\n" .
+			'Brevo response: ' . esc_html( $body ) .
+			'</pre>'
+		);
+	}
 } );
 // ── END TEMPORARY MAIL DEBUG LOGGER ──────────────────────────
 
