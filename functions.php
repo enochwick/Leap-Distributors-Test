@@ -333,6 +333,10 @@ add_action( 'init', function() {
 } );
 add_action( 'leap_kb_reindex_event', 'leap_kb_maybe_rebuild' );
 
+// Self-heal: if the index file goes missing (e.g. wiped by a deploy), rebuild it
+// automatically instead of the chat sitting on "Not built yet" until someone clicks.
+add_action( 'init', 'leap_kb_self_heal' );
+
 // Rebuild soon after content changes (page/post edits, PDF/doc uploads) so the
 // chat's knowledge stays current without waiting for the hourly check.
 function leap_kb_schedule_force_reindex() {
@@ -348,6 +352,18 @@ add_action( 'save_post', function( $post_id, $post = null ) {
 }, 10, 2 );
 add_action( 'add_attachment', 'leap_kb_schedule_force_reindex' );
 
+// Best-effort client IP for rate limiting. Behind a proxy/CDN, REMOTE_ADDR is
+// the proxy, so prefer the forwarded client IP when present.
+function leap_client_ip() {
+	foreach ( [ 'HTTP_CF_CONNECTING_IP', 'HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR' ] as $h ) {
+		if ( ! empty( $_SERVER[ $h ] ) ) {
+			$ip = trim( explode( ',', $_SERVER[ $h ] )[0] ); // first hop = original client
+			if ( filter_var( $ip, FILTER_VALIDATE_IP ) ) { return $ip; }
+		}
+	}
+	return '0.0.0.0';
+}
+
 // ── AI Chat Handler ───────────────────────────────────────────
 function leap_ai_chat() {
 	check_ajax_referer( 'leap_chat_nonce', 'nonce' );
@@ -358,6 +374,18 @@ function leap_ai_chat() {
 	if ( empty( $message ) ) {
 		wp_send_json_error( 'Empty message' );
 	}
+
+	// Per-IP rate limit — protects the Gemini quota/billing from a scripted flood
+	// of the public endpoint. Fixed 1-minute window, keyed by minute bucket so the
+	// count resets cleanly. Returns a friendly message (as a normal reply) so the
+	// widget shows it instead of a generic error.
+	$rl_max    = 20;
+	$rl_bucket = 'leap_rl_' . md5( leap_client_ip() ) . '_' . floor( time() / MINUTE_IN_SECONDS );
+	$rl_count  = (int) get_transient( $rl_bucket );
+	if ( $rl_count >= $rl_max ) {
+		wp_send_json_success( [ 'reply' => "You're sending messages a bit quickly — give me a moment and try again shortly." ] );
+	}
+	set_transient( $rl_bucket, $rl_count + 1, 2 * MINUTE_IN_SECONDS );
 
 	$api_key = defined( 'GOOGLE_AI_KEY' ) ? GOOGLE_AI_KEY : get_option( 'leap_google_ai_key', '' );
 	if ( empty( $api_key ) ) {
@@ -580,8 +608,10 @@ add_action( 'admin_post_leap_kb_rebuild', function() {
 } );
 
 function leap_ai_settings_page() {
+	if ( function_exists( 'leap_kb_migrate_location' ) ) { leap_kb_migrate_location(); }
 	$key_constant = defined( 'GOOGLE_AI_KEY' ) && GOOGLE_AI_KEY;
 	$kb_exists    = file_exists( LEAP_KB_FILE );
+	$kb_building  = (bool) get_transient( 'leap_kb_building' );
 	$kb_built     = $kb_exists ? ( json_decode( file_get_contents( LEAP_KB_FILE ), true )['built'] ?? '' ) : '';
 	?>
 	<div class="wrap">
@@ -651,8 +681,10 @@ function leap_ai_settings_page() {
 				<?php if ( $kb_stale ) : ?>
 					<br><span style="color:#b26a00;">Site content has changed since the last index — it will refresh automatically within the hour, or click Rebuild now.</span>
 				<?php endif; ?>
+			<?php elseif ( $kb_building ) : ?>
+				Status: <strong style="color:#b26a00;">Building now…</strong> — this refreshes automatically; reload this page in a few seconds.
 			<?php else : ?>
-				Status: <strong style="color:#b32d2e;">Not built yet</strong> — build it so the chat has knowledge to answer from.
+				Status: <strong style="color:#b32d2e;">Not built yet</strong> — it rebuilds itself automatically within a minute, or click Rebuild now to do it immediately.
 			<?php endif; ?>
 		</p>
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">

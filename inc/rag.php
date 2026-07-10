@@ -6,7 +6,7 @@
  *   1. Sources  : the curated site search index + any text files in /knowledge/.
  *   2. Chunk    : split into small passages with metadata (source, title).
  *   3. Embed    : Gemini text-embedding-004 vector per chunk (build step).
- *   4. Store    : assets/data/kb.json  (chunks + vectors).
+ *   4. Store    : wp-content/uploads/leap-kb/kb.json  (chunks + vectors).
  *   5. Retrieve : embed the question, cosine-similarity, return top matches.
  *
  * Rebuild from Settings → Leap AI → "Rebuild Knowledge Base" whenever the
@@ -15,8 +15,27 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'LEAP_KB_FILE',  get_template_directory() . '/assets/data/kb.json' );
+// The built index lives in uploads — NOT the theme — so theme redeploys
+// (git pull / reset / re-upload) can never wipe it. The old location is kept
+// only so a one-time migration can move any existing file over (see below).
+$leap_kb_upload = wp_upload_dir();
+define( 'LEAP_KB_FILE', trailingslashit( $leap_kb_upload['basedir'] ) . 'leap-kb/kb.json' );
+define( 'LEAP_KB_OLD_FILE', get_template_directory() . '/assets/data/kb.json' );
 define( 'LEAP_KB_DIR',   get_template_directory() . '/knowledge' );
+
+/**
+ * One-time move of a previously-built index from the theme to uploads.
+ * Safe to call repeatedly — it does nothing once the new file exists.
+ */
+function leap_kb_migrate_location() {
+	if ( file_exists( LEAP_KB_FILE ) ) { return; }
+	if ( ! file_exists( LEAP_KB_OLD_FILE ) ) { return; }
+	$dir = dirname( LEAP_KB_FILE );
+	if ( ! is_dir( $dir ) ) { wp_mkdir_p( $dir ); }
+	if ( is_dir( $dir ) && is_writable( $dir ) ) {
+		@rename( LEAP_KB_OLD_FILE, LEAP_KB_FILE );
+	}
+}
 
 /** Candidate embedding models, newest first. We use whichever the key serves. */
 function leap_embed_models() {
@@ -291,39 +310,57 @@ function leap_kb_build() {
 	if ( ! leap_ai_key() ) {
 		return new WP_Error( 'no_key', 'Add your Google AI key first.' );
 	}
-	// Indexing fetches pages and embeds every passage — give it room to finish.
-	if ( function_exists( 'set_time_limit' ) ) { @set_time_limit( 300 ); }
-	$passages = leap_kb_sources();
-	if ( ! $passages ) {
-		return new WP_Error( 'empty', 'No content found to index.' );
+	// A single build lock stops concurrent rebuilds (cron + a click + self-heal)
+	// from racing and writing a half-finished index. It auto-expires as a safety
+	// net in case a build dies mid-way.
+	if ( get_transient( 'leap_kb_building' ) ) {
+		return new WP_Error( 'busy', 'A knowledge base build is already running — give it a few seconds.' );
 	}
+	set_transient( 'leap_kb_building', 1, 5 * MINUTE_IN_SECONDS );
 
-	$records = [];
-	foreach ( $passages as $p ) {
-		$vec = leap_kb_embed( $p['text'], 'RETRIEVAL_DOCUMENT' );
-		if ( is_wp_error( $vec ) ) {
-			return $vec; // surface the error rather than build a partial index
+	try {
+		// Indexing fetches pages and embeds every passage — give it room to finish.
+		if ( function_exists( 'set_time_limit' ) ) { @set_time_limit( 300 ); }
+		$passages = leap_kb_sources();
+		if ( ! $passages ) {
+			return new WP_Error( 'empty', 'No content found to index.' );
 		}
-		$p['vector'] = $vec;
-		$records[]   = $p;
-		usleep( 60000 ); // be gentle on the rate limit
+
+		$records = [];
+		foreach ( $passages as $p ) {
+			$vec = leap_kb_embed( $p['text'], 'RETRIEVAL_DOCUMENT' );
+			if ( is_wp_error( $vec ) ) {
+				return $vec; // surface the error rather than build a partial index
+			}
+			$p['vector'] = $vec;
+			$records[]   = $p;
+			usleep( 60000 ); // be gentle on the rate limit
+		}
+
+		$dir = dirname( LEAP_KB_FILE );
+		if ( ! is_dir( $dir ) ) { wp_mkdir_p( $dir ); }
+
+		$payload = [
+			'model'   => get_option( 'leap_embed_model', '' ),
+			'built'   => current_time( 'mysql' ),
+			'records' => $records,
+		];
+		// Write to a temp file then rename so the live index is never seen
+		// half-written by a concurrent read (rename is atomic on the same volume).
+		$tmp = $dir . '/kb.json.' . uniqid( '', true ) . '.tmp';
+		if ( file_put_contents( $tmp, wp_json_encode( $payload ) ) === false || ! @rename( $tmp, LEAP_KB_FILE ) ) {
+			@unlink( $tmp );
+			return new WP_Error( 'write_failed', 'Could not write the knowledge base file. Check that ' . esc_html( $dir ) . ' is writable.' );
+		}
+		update_option( 'leap_kb_hash', leap_kb_content_hash() ); // mark current content as indexed
+
+		$titles = array_unique( wp_list_pluck( $records, 'title' ) );
+		$stats  = [ 'chunks' => count( $records ), 'sources' => count( $titles ), 'built' => current_time( 'mysql' ) ];
+		update_option( 'leap_kb_stats', $stats );
+		return $stats;
+	} finally {
+		delete_transient( 'leap_kb_building' );
 	}
-
-	$dir = dirname( LEAP_KB_FILE );
-	if ( ! is_dir( $dir ) ) { wp_mkdir_p( $dir ); }
-
-	$payload = [
-		'model'   => get_option( 'leap_embed_model', '' ),
-		'built'   => current_time( 'mysql' ),
-		'records' => $records,
-	];
-	file_put_contents( LEAP_KB_FILE, wp_json_encode( $payload ) );
-	update_option( 'leap_kb_hash', leap_kb_content_hash() ); // mark current content as indexed
-
-	$titles = array_unique( wp_list_pluck( $records, 'title' ) );
-	$stats  = [ 'chunks' => count( $records ), 'sources' => count( $titles ), 'built' => current_time( 'mysql' ) ];
-	update_option( 'leap_kb_stats', $stats );
-	return $stats;
 }
 
 /** Fingerprint of all source content; changes when site copy or documents change. */
@@ -353,11 +390,32 @@ function leap_kb_content_hash() {
  */
 function leap_kb_maybe_rebuild() {
 	if ( ! leap_ai_key() ) { return; }
+	leap_kb_migrate_location(); // reuse an existing index before rebuilding from scratch
 	$current = leap_kb_content_hash();
 	if ( file_exists( LEAP_KB_FILE ) && $current === get_option( 'leap_kb_hash', '' ) ) {
 		return; // already up to date
 	}
 	leap_kb_build(); // build() stores the new hash on success
+}
+
+/**
+ * Self-heal: if a key is configured but the index file is missing, get it
+ * rebuilding on its own — no "click Rebuild" required. WP-Cron only fires on
+ * traffic, so we schedule an immediate build and nudge cron to run it now.
+ * Throttled so a missing file can't trigger a loopback on every request.
+ */
+function leap_kb_self_heal() {
+	if ( ! leap_ai_key() ) { return; }
+	leap_kb_migrate_location();
+	if ( file_exists( LEAP_KB_FILE ) ) { return; }
+	if ( get_transient( 'leap_kb_building' ) ) { return; } // a build is already running
+	if ( get_transient( 'leap_kb_heal_tick' ) ) { return; } // don't nudge more than once/2min
+	set_transient( 'leap_kb_heal_tick', 1, 2 * MINUTE_IN_SECONDS );
+
+	if ( ! wp_next_scheduled( 'leap_kb_force_reindex_event' ) ) {
+		wp_schedule_single_event( time(), 'leap_kb_force_reindex_event' );
+	}
+	if ( function_exists( 'spawn_cron' ) ) { spawn_cron(); } // fire it promptly, don't wait for traffic
 }
 
 /** Cosine similarity between two equal-length vectors. */
