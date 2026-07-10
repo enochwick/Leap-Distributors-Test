@@ -747,10 +747,13 @@ document.addEventListener('DOMContentLoaded', () => {
           ease: 'none',
           scrollTrigger: {
             trigger: card,
-            start: 'top 140px',          // when the card reaches its pinned spot
+            // Pin points match the CSS `top: calc(50vh - (264 - i*24)px)` above,
+            // so the scale/dim runs from this card centering to the next.
+            start: () => 'top ' + Math.round(window.innerHeight * 0.5 - (264 - i * 24)),
             endTrigger: cards[i + 1],
-            end: 'top 140px',            // finishes once the next card pins over it
+            end: () => 'top ' + Math.round(window.innerHeight * 0.5 - (264 - (i + 1) * 24)),
             scrub: 0.4,
+            invalidateOnRefresh: true,
           },
         }
       );

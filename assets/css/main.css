@@ -5069,10 +5069,11 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   box-shadow: 0 24px 64px rgba(0,0,0,0.45), 0 0 0 1px rgba(42,125,225,0.06);
 }
 .platform-stack__card:last-child { margin-bottom: 0; }
-/* staggered pin offsets so stacked cards peek above one another */
-.platform-stack__card:nth-child(1) { top: 96px;  z-index: 1; }
-.platform-stack__card:nth-child(2) { top: 116px; z-index: 2; }
-.platform-stack__card:nth-child(3) { top: 136px; z-index: 3; }
+/* Pin the stack around the middle of the viewport, with an even 24px stagger
+   so each card peeks above the one it covers. */
+.platform-stack__card:nth-child(1) { top: calc(50vh - 264px); z-index: 1; }
+.platform-stack__card:nth-child(2) { top: calc(50vh - 240px); z-index: 2; }
+.platform-stack__card:nth-child(3) { top: calc(50vh - 216px); z-index: 3; }
 /* dimming veil that fades in as a card gets covered (driven by --stack-dim) */
 .platform-stack__card::after {
   content: "";
