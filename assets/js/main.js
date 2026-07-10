@@ -730,6 +730,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (platformStack && window.matchMedia('(min-width: 901px)').matches && !prefersReducedMotion) {
     const cards = gsap.utils.toArray('.platform-stack__card', platformStack);
+    const STACK_GAP = 24; // equal peek between stacked cards
+
+    // Apply the peek offset through GSAP so the scale tween below keeps it
+    // (GSAP owns the transform once it animates scale). Every card shares the
+    // same sticky `top`, so this translateY is what staggers them — and because
+    // it doesn't change the release point, all three exit together.
+    cards.forEach((card, i) => gsap.set(card, { y: i * STACK_GAP }));
 
     cards.forEach((card, i) => {
       // The last card sits on top and never scales/dims.

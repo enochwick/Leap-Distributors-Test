@@ -5053,6 +5053,15 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   position: relative;
   margin-top: var(--space-12);
 }
+/* Extra in-flow scroll runway so the third card fully seats into the stack
+   (equal 24px gaps) and all three hold for a beat before releasing together.
+   A sticky card is confined to its parent's CONTENT box, so this must be real
+   content height — padding wouldn't extend the pin window. */
+.platform-stack::after {
+  content: "";
+  display: block;
+  height: 32vh;
+}
 .platform-stack__card {
   position: sticky;
   transform-origin: top center;
@@ -5068,12 +5077,16 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
     var(--color-surface);
   box-shadow: 0 24px 64px rgba(0,0,0,0.45), 0 0 0 1px rgba(42,125,225,0.06);
 }
-.platform-stack__card:last-child { margin-bottom: 0; }
-/* Pin the stack around the middle of the viewport, with an even 24px stagger
-   so each card peeks above the one it covers. */
-.platform-stack__card:nth-child(1) { top: calc(50vh - 264px); z-index: 1; }
-.platform-stack__card:nth-child(2) { top: calc(50vh - 240px); z-index: 2; }
-.platform-stack__card:nth-child(3) { top: calc(50vh - 216px); z-index: 3; }
+/* All cards keep an equal bottom margin so they release at the same scroll
+   point and exit locked together — the ::after below absorbs the extra runway. */
+/* Every card pins at the SAME line so they release together at the end and
+   scroll away as one group — no card left stranded on screen. The even 24px
+   peek (and the equal spacing once stacked) comes from translateY, which shifts
+   the card visually without moving its sticky release point. */
+.platform-stack__card { top: calc(50vh - 264px); }
+.platform-stack__card:nth-child(1) { z-index: 1; transform: translateY(0); }
+.platform-stack__card:nth-child(2) { z-index: 2; transform: translateY(24px); }
+.platform-stack__card:nth-child(3) { z-index: 3; transform: translateY(48px); }
 /* dimming veil that fades in as a card gets covered (driven by --stack-dim) */
 .platform-stack__card::after {
   content: "";
@@ -5416,6 +5429,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 
   /* stacking effect is desktop-only — fall back to a clean vertical list */
   .platform-stack { margin-top: var(--space-8); }
+  .platform-stack::after { display: none; } /* no sticky runway needed here */
   .platform-stack__card {
     position: static;
     transform: none !important;
@@ -5426,6 +5440,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .platform-stack::after { display: none; }
   .platform-stack__card { position: static; transform: none !important; }
   .platform-stack__card::after { display: none; }
 }
@@ -6640,6 +6655,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 
   /* Platform capability cards read as discrete carousel tiles */
   .platform-stack { margin-top: var(--space-8); }
+  .platform-stack::after { display: none; } /* keep the runway spacer out of the carousel */
   .platform-stack__card {
     margin-bottom: 0;
     height: auto;
