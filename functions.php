@@ -156,7 +156,7 @@ function leap_handle_contact_form() {
 		exit;
 	}
 
-	$to      = 'info@leapdistributors.com';
+	$to      = 'enochwick@gmail.com';
 	$subject = "New Contact Form Submission — {$first_name} {$last_name}";
 	$body    = "Name: {$first_name} {$last_name}\n";
 	$body   .= "Email: {$email}\n";
@@ -191,7 +191,7 @@ function leap_handle_newsletter_form() {
 		exit;
 	}
 
-	$to      = 'info@leapdistributors.com';
+	$to      = 'enochwick@gmail.com';
 	$subject = 'New Newsletter Signup — Leap Distributors';
 	$body    = "Email: {$email}\nAudience: {$audience}";
 	$headers = [ 'Content-Type: text/plain; charset=UTF-8' ];
@@ -250,7 +250,7 @@ function leap_handle_application_form() {
 		}
 	}
 
-	$to      = 'careers@leapdistributors.com';
+	$to      = 'htadesse@totalancillary.com';
 	$subject = "New Job Application — {$position} — {$first} {$last}";
 	$body    = "Position: {$position}\n";
 	$body   .= "Name: {$first} {$last}\n";
@@ -299,7 +299,7 @@ function leap_handle_walkthrough_form() {
 		exit;
 	}
 
-	$to      = 'info@leapdistributors.com';
+	$to      = 'enochwick@gmail.com';
 	$subject = "Walkthrough Request — {$first} {$last}" . ( $company ? " ({$company})" : '' );
 	$body    = "Name: {$first} {$last}\n";
 	$body   .= "Email: {$email}\n";
@@ -538,7 +538,7 @@ function leap_chat_handover() {
 	leap_log_handover( $name, $email, $message, $transcript );
 
 	// Notify the team by email.
-	$to      = get_option( 'leap_handover_email', '' ) ?: 'info@leapdistributors.com';
+	$to      = 'htadesse@totalancillary.com';
 	$subject = 'Chat handover request from ' . ( $name ?: $email );
 	$body    = "A visitor asked to speak with a person via the website chat.\n\n"
 		. "Name: {$name}\nEmail: {$email}\n\nMessage:\n{$message}\n\n"
