@@ -63,6 +63,7 @@
 						<label class="form-label" for="message">Message</label>
 						<textarea class="form-input" id="message" name="message" placeholder="Tell us how we can help…" required></textarea>
 					</div>
+					<?php leap_recaptcha_notice(); ?>
 					<button type="submit" class="btn btn--primary btn--lg" style="width:100%;justify-content:center;">Send Message <span aria-hidden="true">→</span></button>
 				</form>
 			</div>

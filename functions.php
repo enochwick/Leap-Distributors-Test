@@ -274,6 +274,15 @@ function leap_form_security_fields( $action ) {
 	echo '<input type="hidden" name="leap_recaptcha_token" value="">';
 }
 
+// Required disclosure shown near the submit button when the floating badge is hidden.
+// (Google allows hiding the badge only if this notice is displayed.)
+function leap_recaptcha_notice() {
+	if ( ! leap_recaptcha_site_key() ) { return; }
+	echo '<p class="recaptcha-notice">This site is protected by reCAPTCHA and the Google '
+		. '<a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a> and '
+		. '<a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a> apply.</p>';
+}
+
 // Returns true if the submission looks like a bot. Fails closed on bad reCAPTCHA,
 // but open on transient network errors so a Google outage never blocks real leads.
 function leap_submission_is_bot( $action ) {
@@ -313,6 +322,13 @@ add_action( 'wp_enqueue_scripts', function () {
 	$site = leap_recaptcha_site_key();
 	if ( ! $site ) { return; }
 	wp_enqueue_script( 'google-recaptcha', 'https://www.google.com/recaptcha/api.js?render=' . rawurlencode( $site ), [], null, true );
+	// Hide the floating badge (allowed when the disclosure notice is shown on the form)
+	// and style that notice.
+	wp_add_inline_style( 'leap-main',
+		'.grecaptcha-badge{visibility:hidden!important;}'
+		. '.recaptcha-notice{font-size:12px;line-height:1.5;opacity:.6;margin:0 0 var(--space-3,12px);}'
+		. '.recaptcha-notice a{color:inherit;text-decoration:underline;}'
+	);
 	$inline = "(function(){var k=" . wp_json_encode( $site ) . ";document.addEventListener('submit',function(e){var f=e.target;if(!f.hasAttribute||!f.hasAttribute('data-leap-recaptcha'))return;if(f.dataset.recaptchaDone==='1')return;e.preventDefault();var a=f.getAttribute('data-leap-recaptcha')||'submit';if(!window.grecaptcha){f.dataset.recaptchaDone='1';f.submit();return;}grecaptcha.ready(function(){grecaptcha.execute(k,{action:a}).then(function(t){var i=f.querySelector('input[name=\"leap_recaptcha_token\"]');if(i)i.value=t;f.dataset.recaptchaDone='1';if(typeof f.requestSubmit==='function')f.requestSubmit();else f.submit();}).catch(function(){f.dataset.recaptchaDone='1';f.submit();});});},true);})();";
 	wp_add_inline_script( 'google-recaptcha', $inline );
 } );

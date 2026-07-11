@@ -321,6 +321,7 @@ if ( $hero_headline_raw ) {
 						<option value="other">Other</option>
 					</select>
 				</div>
+				<?php leap_recaptcha_notice(); ?>
 				<button type="submit" class="btn btn--primary btn--lg">Subscribe <span aria-hidden="true">→</span></button>
 			</form>
 		</div>

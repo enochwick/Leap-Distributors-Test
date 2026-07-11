@@ -249,6 +249,7 @@
 				<label class="form-label" for="wt-message">What would you like to see? <span style="color:var(--color-text-3);font-weight:400;">(optional)</span></label>
 				<textarea class="form-input" id="wt-message" name="message" placeholder="Tell us what matters most to your team…"></textarea>
 			</div>
+			<?php leap_recaptcha_notice(); ?>
 			<button type="submit" class="btn btn--primary btn--lg" style="width:100%;justify-content:center;">Request walkthrough <span aria-hidden="true">→</span></button>
 		</form>
 	</div>

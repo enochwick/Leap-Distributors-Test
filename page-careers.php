@@ -235,6 +235,7 @@
 				<label class="form-label" for="app-message">Why Leap? <span style="color:var(--color-text-3);font-weight:400;">(optional)</span></label>
 				<textarea class="form-input" id="app-message" name="message" placeholder="Tell us a bit about yourself and why you're a fit…"></textarea>
 			</div>
+			<?php leap_recaptcha_notice(); ?>
 			<button type="submit" class="btn btn--primary btn--lg" style="width:100%;justify-content:center;">Submit Application <span aria-hidden="true">→</span></button>
 			<p class="apply-modal__note">Prefer email? Send your resume to <a href="mailto:careers@leapdistributors.com">careers@leapdistributors.com</a>.</p>
 		</form>
