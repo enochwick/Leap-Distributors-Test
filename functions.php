@@ -52,6 +52,20 @@ add_action( 'init', function () {
 		wp_die( 'Mail probe logged. Active: ' . esc_html( $active ) . ' | Mailer: ' . esc_html( $mailer ) . ' | Other SMTP plugins: ' . esc_html( $others ? implode( ', ', $others ) : 'none' ) );
 	}
 
+	// reCAPTCHA status probe — confirms keys are configured (secret never shown).
+	if ( isset( $_GET['leap_recaptcha_probe'] ) ) {
+		$site   = leap_recaptcha_site_key();
+		$secret = leap_recaptcha_secret_key();
+		$lines  = [
+			'Site key configured: '   . ( $site ? 'YES (ends …' . substr( $site, -6 ) . ', len ' . strlen( $site ) . ')' : 'NO' ),
+			'Secret key configured: ' . ( $secret ? 'YES (len ' . strlen( $secret ) . ')' : 'NO' ),
+			'Site-key source: '       . ( defined( 'LEAP_RECAPTCHA_SITE_KEY' ) && LEAP_RECAPTCHA_SITE_KEY ? 'wp-config constant' : ( get_option( 'leap_recaptcha_site_key', '' ) ? 'settings page' : '(none)' ) ),
+			'Enforcement: '           . ( $secret ? 'reCAPTCHA ACTIVE (server-side verification runs)' : 'honeypot + timing only (add secret key to enable reCAPTCHA)' ),
+			'v3 key format looks right: ' . ( $site && strpos( $site, '6L' ) === 0 ? 'yes (starts 6L)' : 'CHECK — v3 keys usually start with 6L' ),
+		];
+		wp_die( '<pre style="font:14px monospace;white-space:pre-wrap">reCAPTCHA STATUS' . "\n\n" . esc_html( implode( "\n", $lines ) ) . '</pre>' );
+	}
+
 	// WHOAMI: ask Brevo which account the stored API key belongs to.
 	if ( isset( $_GET['leap_brevo_whoami'] ) && current_user_can( 'manage_options' ) ) {
 		$opts   = get_option( 'wp_mail_smtp', [] );
