@@ -251,11 +251,83 @@ remove_action( 'wp_head', 'rsd_link' );
 add_filter( 'excerpt_length', fn() => 20 );
 add_filter( 'excerpt_more', fn() => '...' );
 
+// ── Form bot protection (reCAPTCHA v3 + honeypot + timing) ────
+// Keys: wp-config constants take priority, then the Leap AI settings page.
+function leap_recaptcha_site_key() {
+	if ( defined( 'LEAP_RECAPTCHA_SITE_KEY' ) && LEAP_RECAPTCHA_SITE_KEY ) { return LEAP_RECAPTCHA_SITE_KEY; }
+	return get_option( 'leap_recaptcha_site_key', '' );
+}
+function leap_recaptcha_secret_key() {
+	if ( defined( 'LEAP_RECAPTCHA_SECRET_KEY' ) && LEAP_RECAPTCHA_SECRET_KEY ) { return LEAP_RECAPTCHA_SECRET_KEY; }
+	return get_option( 'leap_recaptcha_secret_key', '' );
+}
+
+// Output the hidden security fields inside a form. $action names the reCAPTCHA action.
+function leap_form_security_fields( $action ) {
+	// Honeypot: a real user never fills this; it's visually hidden and off the tab order.
+	echo '<div aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px;height:0;width:0;overflow:hidden;">'
+		. '<label>Leave this field empty<input type="text" name="leap_hp" tabindex="-1" autocomplete="off" value=""></label>'
+		. '</div>';
+	// Timestamp: submissions faster than a couple seconds are almost certainly bots.
+	echo '<input type="hidden" name="leap_ts" value="' . esc_attr( time() ) . '">';
+	// reCAPTCHA v3 token (filled by JS just before submit).
+	echo '<input type="hidden" name="leap_recaptcha_token" value="">';
+}
+
+// Returns true if the submission looks like a bot. Fails closed on bad reCAPTCHA,
+// but open on transient network errors so a Google outage never blocks real leads.
+function leap_submission_is_bot( $action ) {
+	// 1. Honeypot filled → bot.
+	if ( ! empty( $_POST['leap_hp'] ) ) { return true; }
+
+	// 2. Submitted implausibly fast (< 3s from page render) → bot.
+	$ts = isset( $_POST['leap_ts'] ) ? absint( $_POST['leap_ts'] ) : 0;
+	if ( $ts && ( time() - $ts ) < 3 ) { return true; }
+
+	// 3. reCAPTCHA v3 — only enforced when a secret key is configured.
+	$secret = leap_recaptcha_secret_key();
+	if ( ! $secret ) { return false; }
+
+	$token = sanitize_text_field( $_POST['leap_recaptcha_token'] ?? '' );
+	if ( ! $token ) { return true; } // keys are set but no token came through → bot / JS-off scraper
+
+	$resp = wp_remote_post( 'https://www.google.com/recaptcha/api/siteverify', [
+		'timeout' => 10,
+		'body'    => [
+			'secret'   => $secret,
+			'response' => $token,
+			'remoteip' => $_SERVER['REMOTE_ADDR'] ?? '',
+		],
+	] );
+	if ( is_wp_error( $resp ) ) { return false; } // can't reach Google → don't block real users
+
+	$data = json_decode( wp_remote_retrieve_body( $resp ), true );
+	if ( empty( $data['success'] ) ) { return true; }
+	// v3 returns a 0..1 score; 0.5 is Google's suggested threshold.
+	if ( isset( $data['score'] ) && (float) $data['score'] < 0.5 ) { return true; }
+	return false;
+}
+
+// Load the reCAPTCHA v3 API and bind it to every form marked data-leap-recaptcha.
+add_action( 'wp_enqueue_scripts', function () {
+	$site = leap_recaptcha_site_key();
+	if ( ! $site ) { return; }
+	wp_enqueue_script( 'google-recaptcha', 'https://www.google.com/recaptcha/api.js?render=' . rawurlencode( $site ), [], null, true );
+	$inline = "(function(){var k=" . wp_json_encode( $site ) . ";document.addEventListener('submit',function(e){var f=e.target;if(!f.hasAttribute||!f.hasAttribute('data-leap-recaptcha'))return;if(f.dataset.recaptchaDone==='1')return;e.preventDefault();var a=f.getAttribute('data-leap-recaptcha')||'submit';if(!window.grecaptcha){f.dataset.recaptchaDone='1';f.submit();return;}grecaptcha.ready(function(){grecaptcha.execute(k,{action:a}).then(function(t){var i=f.querySelector('input[name=\"leap_recaptcha_token\"]');if(i)i.value=t;f.dataset.recaptchaDone='1';if(typeof f.requestSubmit==='function')f.requestSubmit();else f.submit();}).catch(function(){f.dataset.recaptchaDone='1';f.submit();});});},true);})();";
+	wp_add_inline_script( 'google-recaptcha', $inline );
+} );
+
 // ── Contact Form Handler ──────────────────────────────────────
 function leap_handle_contact_form() {
 	// Verify nonce
 	if ( ! isset( $_POST['leap_contact_nonce'] ) || ! wp_verify_nonce( $_POST['leap_contact_nonce'], 'leap_contact_form' ) ) {
 		wp_redirect( add_query_arg( 'contact', 'error', wp_get_referer() ) );
+		exit;
+	}
+
+	// Bot check — silently accept (no email) so bots get no signal.
+	if ( leap_submission_is_bot( 'contact' ) ) {
+		wp_redirect( add_query_arg( 'contact', 'success', wp_get_referer() ) );
 		exit;
 	}
 
@@ -299,6 +371,12 @@ function leap_handle_newsletter_form() {
 		exit;
 	}
 
+	// Bot check — silently accept (no email) so bots get no signal.
+	if ( leap_submission_is_bot( 'newsletter' ) ) {
+		wp_redirect( add_query_arg( 'newsletter', 'success', wp_get_referer() ) );
+		exit;
+	}
+
 	$email    = sanitize_email( $_POST['email'] ?? '' );
 	$audience = sanitize_text_field( $_POST['audience'] ?? '' );
 
@@ -326,6 +404,12 @@ function leap_handle_application_form() {
 
 	if ( ! isset( $_POST['leap_application_nonce'] ) || ! wp_verify_nonce( $_POST['leap_application_nonce'], 'leap_application_form' ) ) {
 		wp_redirect( add_query_arg( 'application', 'error', $back ) );
+		exit;
+	}
+
+	// Bot check — silently accept (no email) so bots get no signal.
+	if ( leap_submission_is_bot( 'application' ) ) {
+		wp_redirect( add_query_arg( 'application', 'success', $back ) );
 		exit;
 	}
 
@@ -399,6 +483,12 @@ function leap_handle_walkthrough_form() {
 
 	if ( ! isset( $_POST['leap_walkthrough_nonce'] ) || ! wp_verify_nonce( $_POST['leap_walkthrough_nonce'], 'leap_walkthrough_form' ) ) {
 		wp_redirect( add_query_arg( 'walkthrough', 'error', $back ) );
+		exit;
+	}
+
+	// Bot check — silently accept (no email) so bots get no signal.
+	if ( leap_submission_is_bot( 'walkthrough' ) ) {
+		wp_redirect( add_query_arg( 'walkthrough', 'success', $back ) );
 		exit;
 	}
 
@@ -706,6 +796,12 @@ add_action( 'admin_init', function() {
 	register_setting( 'leap_ai_settings', 'leap_slack_webhook', [
 		'type' => 'string', 'sanitize_callback' => 'esc_url_raw', 'default' => '',
 	] );
+	register_setting( 'leap_ai_settings', 'leap_recaptcha_site_key', [
+		'type' => 'string', 'sanitize_callback' => 'sanitize_text_field', 'default' => '',
+	] );
+	register_setting( 'leap_ai_settings', 'leap_recaptcha_secret_key', [
+		'type' => 'string', 'sanitize_callback' => 'sanitize_text_field', 'default' => '',
+	] );
 } );
 
 // Handle the "Rebuild Knowledge Base" action.
@@ -771,6 +867,24 @@ function leap_ai_settings_page() {
 							value="<?php echo esc_attr( get_option( 'leap_slack_webhook', '' ) ); ?>"
 							class="regular-text" placeholder="https://hooks.slack.com/services/…">
 						<p class="description">If set, handover requests also post to this Slack channel.</p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="leap_recaptcha_site_key">reCAPTCHA v3 Site Key</label></th>
+					<td>
+						<input name="leap_recaptcha_site_key" id="leap_recaptcha_site_key" type="text" autocomplete="off"
+							value="<?php echo esc_attr( get_option( 'leap_recaptcha_site_key', '' ) ); ?>"
+							class="regular-text" placeholder="6Lc…">
+						<p class="description">Bot protection for all public forms (contact, newsletter, application, walkthrough). Create keys at <a href="https://www.google.com/recaptcha/admin/create" target="_blank" rel="noopener">google.com/recaptcha</a> — choose <strong>reCAPTCHA v3</strong> and add your domain.</p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="leap_recaptcha_secret_key">reCAPTCHA v3 Secret Key</label></th>
+					<td>
+						<input name="leap_recaptcha_secret_key" id="leap_recaptcha_secret_key" type="password" autocomplete="off"
+							value="<?php echo esc_attr( get_option( 'leap_recaptcha_secret_key', '' ) ); ?>"
+							class="regular-text" placeholder="6Lc…">
+						<p class="description">Both keys are required for verification to run. Honeypot + timing protection stays active even without keys.</p>
 					</td>
 				</tr>
 			</table>

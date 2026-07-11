@@ -205,9 +205,10 @@
 		<h3 class="apply-modal__title">See Stride in action</h3>
 		<p class="apply-modal__sub">Tell us a bit about you and we’ll set up a live walkthrough of the platform.</p>
 
-		<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" class="apply-modal__form">
+		<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" data-leap-recaptcha="walkthrough" class="apply-modal__form">
 			<input type="hidden" name="action" value="leap_walkthrough_form">
 			<?php wp_nonce_field( 'leap_walkthrough_form', 'leap_walkthrough_nonce' ); ?>
+			<?php leap_form_security_fields( 'walkthrough' ); ?>
 
 			<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
 				<div class="form-group">

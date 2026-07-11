@@ -197,10 +197,11 @@
 		<h3 class="apply-modal__title" id="apply-modal-title">Surgical Consultant</h3>
 		<p class="apply-modal__sub" id="apply-modal-sub">Dallas–Fort Worth Metroplex · Full-Time</p>
 
-		<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" enctype="multipart/form-data" class="apply-modal__form">
+		<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" enctype="multipart/form-data" data-leap-recaptcha="application" class="apply-modal__form">
 			<input type="hidden" name="action" value="leap_application_form">
 			<input type="hidden" name="position" id="app-position" value="Surgical Consultant">
 			<?php wp_nonce_field( 'leap_application_form', 'leap_application_nonce' ); ?>
+			<?php leap_form_security_fields( 'application' ); ?>
 
 			<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
 				<div class="form-group">

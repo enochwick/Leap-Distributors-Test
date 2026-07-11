@@ -29,9 +29,10 @@
 					</div>
 				<?php endif; ?>
 
-				<form class="reveal" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" style="margin-top:var(--space-6);">
+				<form class="reveal" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" data-leap-recaptcha="contact" style="margin-top:var(--space-6);">
 					<input type="hidden" name="action" value="leap_contact_form">
 					<?php wp_nonce_field( 'leap_contact_form', 'leap_contact_nonce' ); ?>
+					<?php leap_form_security_fields( 'contact' ); ?>
 
 					<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);margin-bottom:var(--space-4);">
 						<div class="form-group" style="margin-bottom:0;">

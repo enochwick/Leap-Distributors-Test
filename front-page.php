@@ -306,9 +306,10 @@ if ( $hero_headline_raw ) {
 				</div>
 			<?php endif; ?>
 
-			<form class="newsletter-form reveal" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+			<form class="newsletter-form reveal" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" data-leap-recaptcha="newsletter">
 				<input type="hidden" name="action" value="leap_newsletter_form">
 				<?php wp_nonce_field( 'leap_newsletter_form', 'leap_newsletter_nonce' ); ?>
+				<?php leap_form_security_fields( 'newsletter' ); ?>
 				<div class="newsletter-form__row">
 					<input type="email" name="email" placeholder="Email address" required aria-label="Email address">
 					<select name="audience" aria-label="I'm a">
