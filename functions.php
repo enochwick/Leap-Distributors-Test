@@ -678,6 +678,7 @@ HOW TO ANSWER:
 - Always try to be useful. If the CONTEXT doesn't hold the exact answer, share the closest relevant thing Leap does and point them to info@leapdistributors.com or +1 888-776-5553 for specifics — do NOT give a blunt refusal.
 - Treat conversational messages naturally; you don't need context to say hello or acknowledge someone.
 - Be concise, warm, and professional — usually 1 to 4 sentences.
+- If the visitor wants a person to follow up, or asks to be contacted, collect their details with this exact question: \"Could you please share your name and the best way to reach you (email or phone number)?\" Once they give an email or phone number, warmly confirm that a Leap team member will reach out — their details are forwarded to the team automatically, so never promise a follow-up before they've shared contact info.
 
 CONTEXT:
 " . trim( $context );
@@ -724,6 +725,10 @@ CONTEXT:
 		$sources[] = $m['record']['source'] . ': ' . $m['record']['title'];
 	}
 	leap_log_chat( $message, $text, array_values( array_unique( $sources ) ) );
+
+	// If Trey asked for contact details earlier and this message has an email or
+	// phone, forward the lead to the team automatically.
+	leap_maybe_forward_chat_lead( $message, $history );
 
 	wp_send_json_success( [ 'reply' => $text ] );
 }
@@ -773,13 +778,37 @@ function leap_chat_handover() {
 
 	leap_log_handover( $name, $email, $message, $transcript );
 
-	// Notify the team by email.
-	$to      = 'htadesse@totalancillary.com';
-	$subject = 'Chat handover request from ' . ( $name ?: $email );
+	// Notify the team (email + optional Slack).
+	leap_notify_team_handover( $name, $email, $message, $transcript );
+
+	wp_send_json_success( [ 'reply' => "Thanks, {$name}! A Leap team member will reach out by email shortly." ] );
+}
+
+/**
+ * Notify the team of a handover / captured lead.
+ * Used by both the "Talk to a person" button and the auto lead-capture in chat.
+ * Recipient respects the admin "Handover email" setting, falling back to the
+ * team address.
+ *
+ * @param string $name       Visitor name (may be blank).
+ * @param string $contact    Email and/or phone the visitor gave.
+ * @param string $message    Short summary / the visitor's request.
+ * @param string $transcript Conversation so far (optional).
+ */
+function leap_notify_team_handover( $name, $contact, $message, $transcript = '' ) {
+	$to = get_option( 'leap_handover_email', '' );
+	if ( ! is_email( $to ) ) {
+		$to = 'htadesse@totalancillary.com';
+	}
+
+	$subject = 'Chat handover request from ' . ( $name ?: $contact ?: 'a website visitor' );
 	$body    = "A visitor asked to speak with a person via the website chat.\n\n"
-		. "Name: {$name}\nEmail: {$email}\n\nMessage:\n{$message}\n\n"
+		. 'Name: ' . ( $name ?: '(not given)' ) . "\n"
+		. 'Contact: ' . ( $contact ?: '(not given)' ) . "\n\n"
+		. "Message:\n{$message}\n\n"
 		. ( $transcript ? "— Conversation so far —\n{$transcript}\n" : '' );
-	wp_mail( $to, $subject, $body, [ 'Reply-To: ' . $email ] );
+	$headers = is_email( $contact ) ? [ 'Reply-To: ' . $contact ] : [];
+	wp_mail( $to, $subject, $body, $headers );
 
 	// Optional Slack notification.
 	$slack = get_option( 'leap_slack_webhook', '' );
@@ -787,11 +816,116 @@ function leap_chat_handover() {
 		wp_remote_post( $slack, [
 			'timeout' => 8,
 			'headers' => [ 'Content-Type' => 'application/json' ],
-			'body'    => wp_json_encode( [ 'text' => "*Chat handover* from {$name} ({$email})\n>{$message}" ] ),
+			'body'    => wp_json_encode( [ 'text' => "*Chat handover* from {$name} ({$contact})\n>{$message}" ] ),
 		] );
 	}
+}
 
-	wp_send_json_success( [ 'reply' => "Thanks, {$name}! A Leap team member will reach out by email shortly." ] );
+/**
+ * True if a Trey message is asking the visitor for their contact details.
+ * Kept loose because the reply text is model-generated and varies slightly.
+ */
+function leap_is_contact_prompt( $text ) {
+	$text = strtolower( (string) $text );
+	foreach ( [
+		'best way to reach you',
+		'share your name',
+		'name and the best way',
+		'email or phone',
+		'how can we reach you',
+		'best way to contact you',
+	] as $needle ) {
+		if ( strpos( $text, $needle ) !== false ) {
+			return true;
+		}
+	}
+	return false;
+}
+
+/**
+ * Pull a name, email, and/or phone number out of a free-text chat message.
+ * Returns [ 'name' => '', 'email' => '', 'phone' => '' ] (any may be blank).
+ */
+function leap_extract_contact( $text ) {
+	$text  = (string) $text;
+	$email = '';
+	$phone = '';
+
+	if ( preg_match( '/[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}/i', $text, $m ) ) {
+		$email = sanitize_email( $m[0] );
+	}
+
+	// Phone: a run of digits (7–15) allowing spaces, dashes, dots, parens, leading +.
+	if ( preg_match( '/\+?\d[\d\s().\-]{5,}\d/', $text, $m ) ) {
+		$digits = preg_replace( '/\D+/', '', $m[0] );
+		if ( strlen( $digits ) >= 7 && strlen( $digits ) <= 15 ) {
+			$phone = trim( $m[0] );
+		}
+	}
+
+	// Name = the leftover text once contact info and common filler are removed.
+	$name = $text;
+	if ( $email ) { $name = str_ireplace( $email, ' ', $name ); }
+	if ( $phone ) { $name = str_replace( $phone, ' ', $name ); }
+	$name = preg_replace( '/\b(my name is|i am|i\'m|im|name|is|phone|email|e-mail|call me|reach me at|number|its|it\'s)\b/i', ' ', $name );
+	$name = preg_replace( '/[0-9@._%+\-()]+/', ' ', $name );
+	$name = trim( preg_replace( '/\s+/', ' ', $name ) );
+	if ( str_word_count( $name ) > 5 ) { $name = ''; } // looks like a sentence, not a name
+	$name = sanitize_text_field( $name );
+
+	return [ 'name' => $name, 'email' => $email, 'phone' => $phone ];
+}
+
+/**
+ * Auto-capture a lead from the AI chat: if Trey asked for contact details
+ * earlier in the conversation and this message contains an email or phone,
+ * forward it to the team (the button isn't the only way people share info).
+ */
+function leap_maybe_forward_chat_lead( $message, $history ) {
+	$asked = false;
+	if ( is_array( $history ) ) {
+		foreach ( $history as $h ) {
+			if ( ( $h['role'] ?? '' ) === 'assistant' && leap_is_contact_prompt( $h['content'] ?? '' ) ) {
+				$asked = true;
+				break;
+			}
+		}
+	}
+	if ( ! $asked ) {
+		return;
+	}
+
+	$contact = leap_extract_contact( $message );
+	if ( $contact['email'] === '' && $contact['phone'] === '' ) {
+		return; // no usable contact info in this turn
+	}
+
+	// De-dupe: don't re-send for the same visitor + details within 24h.
+	$dedupe_key = 'leap_lead_' . md5( leap_chat_ip() . '|' . $contact['email'] . '|' . $contact['phone'] );
+	if ( get_transient( $dedupe_key ) ) {
+		return;
+	}
+	set_transient( $dedupe_key, 1, DAY_IN_SECONDS );
+
+	// Readable transcript from history + this message.
+	$lines = [];
+	if ( is_array( $history ) ) {
+		foreach ( $history as $h ) {
+			$who     = ( $h['role'] ?? '' ) === 'assistant' ? 'Trey' : 'Visitor';
+			$lines[] = $who . ': ' . trim( (string) ( $h['content'] ?? '' ) );
+		}
+	}
+	$lines[]    = 'Visitor: ' . $message;
+	$transcript = implode( "\n", $lines );
+
+	$reach   = trim( $contact['email'] . ( $contact['phone'] ? ( $contact['email'] ? ' / ' : '' ) . $contact['phone'] : '' ) );
+	$summary = "The visitor shared their contact details in chat and expects a follow-up.\n"
+		. 'Name: ' . ( $contact['name'] ?: '(not given)' ) . "\n"
+		. 'Reach them at: ' . $reach;
+
+	// Store the phone in the message body since the log's contact field is email-only.
+	leap_log_handover( $contact['name'], $contact['email'], $summary, $transcript );
+	leap_notify_team_handover( $contact['name'], $reach, $summary, $transcript );
 }
 add_action( 'wp_ajax_leap_chat_handover',        'leap_chat_handover' );
 add_action( 'wp_ajax_nopriv_leap_chat_handover', 'leap_chat_handover' );
