@@ -81,11 +81,13 @@
     var pages   = currentPages();
     var cssW    = leafWidth();
     var dpr     = Math.min(window.devicePixelRatio || 1, 2);
-    var row     = document.createElement('div');
+    // First view? Paint into place immediately so pages appear as they finish,
+    // instead of waiting for the whole spread. Page turns keep the swap-then-
+    // fade so the old spread stays until the new one is ready.
+    var firstPaint = el.querySelector('.pdf-flip__loading') !== null;
+
+    var row = document.createElement('div');
     row.className = 'pdf-spread';
-    row.style.opacity = '0';
-    // Simple page-turn: new spread slides in from the direction of travel.
-    if (dir) row.style.transform = 'translateX(' + (dir * 26) + 'px)';
 
     // Pre-create canvases in reading order so pages never render out of order.
     var canvases = pages.map(function () {
@@ -93,6 +95,15 @@
       row.appendChild(c);
       return c;
     });
+
+    if (firstPaint) {
+      el.innerHTML = '';
+      el.appendChild(row);
+      row.style.opacity = '1';
+    } else {
+      row.style.opacity = '0';
+      if (dir) row.style.transform = 'translateX(' + (dir * 26) + 'px)';
+    }
 
     var jobs = pages.map(function (num, i) {
       return pdfDoc.getPage(num).then(function (page) {
@@ -112,13 +123,15 @@
 
     Promise.all(jobs).then(function () {
       if (token !== renderToken) return;
-      el.innerHTML = '';
-      el.appendChild(row);
-      // Settle in (next frame so the transition takes effect).
-      requestAnimationFrame(function () {
-        row.style.opacity = '1';
-        row.style.transform = 'translateX(0)';
-      });
+      if (!firstPaint) {
+        el.innerHTML = '';
+        el.appendChild(row);
+        // Settle in (next frame so the transition takes effect).
+        requestAnimationFrame(function () {
+          row.style.opacity = '1';
+          row.style.transform = 'translateX(0)';
+        });
+      }
       if (resetScroll && viewport) { viewport.scrollTop = 0; viewport.scrollLeft = 0; }
       updateUI();
     }).catch(function (err) {
@@ -188,7 +201,15 @@
     }, 260);
   }
 
-  pdfjsLib.getDocument(url).promise.then(function (pdf) {
+  var loadingTask = pdfjsLib.getDocument(url);
+  loadingTask.onProgress = function (p) {
+    var ld = el.querySelector('.pdf-flip__loading');
+    if (!ld || !p) return;
+    if (p.total) {
+      ld.textContent = 'Loading newsletter… ' + Math.min(100, Math.round((p.loaded / p.total) * 100)) + '%';
+    }
+  };
+  loadingTask.promise.then(function (pdf) {
     pdfDoc  = pdf;
     total   = pdf.numPages;
     perView = computePerView();
