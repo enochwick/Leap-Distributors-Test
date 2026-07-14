@@ -390,12 +390,14 @@ function leap_build_email( $heading, $intro = '', array $fields = [], $msg_label
 		$value = trim( (string) $value );
 		if ( $value === '' ) { $value = '—'; }
 		$rows .= '<tr>'
-			. '<td style="padding:7px 16px 7px 0;font:600 13px/1.4 Arial,Helvetica,sans-serif;color:#6b7c82;width:140px;vertical-align:top;white-space:nowrap;">' . esc_html( $label ) . '</td>'
-			. '<td style="padding:7px 0;font:400 15px/1.5 Arial,Helvetica,sans-serif;color:#12242b;vertical-align:top;">' . esc_html( $value ) . '</td>'
+			. '<td width="130" style="padding:7px 16px 7px 0;font:600 13px/1.4 Arial,Helvetica,sans-serif;color:#6b7c82;width:130px;vertical-align:top;white-space:nowrap;">' . esc_html( $label ) . '</td>'
+			. '<td style="padding:7px 0;font:400 15px/1.5 Arial,Helvetica,sans-serif;color:#12242b;vertical-align:top;word-break:break-word;">' . esc_html( $value ) . '</td>'
 			. '</tr>';
 	}
 	$rows_html = $rows
-		? '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #e2e8ea;margin-top:4px;">' . $rows . '</table>'
+		? '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #e2e8ea;margin-top:4px;table-layout:fixed;">'
+			. '<tr><td width="130" style="width:130px;padding:0;font-size:0;line-height:0;">&nbsp;</td><td style="padding:0;font-size:0;line-height:0;">&nbsp;</td></tr>'
+			. $rows . '</table>'
 		: '';
 
 	// Optional free-text block (message), shown in a soft card with an accent bar.
