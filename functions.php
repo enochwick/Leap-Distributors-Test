@@ -347,6 +347,77 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_add_inline_script( 'google-recaptcha', $inline );
 } );
 
+// ── Branded HTML email template ───────────────────────────────
+/**
+ * Wrap notification content in a branded Leap HTML email (logo + brand colors).
+ * Used by every form + chat handover so all notifications look consistent.
+ *
+ * @param string $heading   Bold heading at the top of the body.
+ * @param string $intro     Short sentence under the heading (optional).
+ * @param array  $fields     Label => value pairs, rendered as a clean list.
+ * @param string $msg_label Heading for a longer free-text block (optional).
+ * @param string $msg        The free-text block, e.g. the visitor's message.
+ * @return string Full HTML email document.
+ */
+function leap_build_email( $heading, $intro = '', array $fields = [], $msg_label = '', $msg = '' ) {
+	$logo   = get_template_directory_uri() . '/assets/images/leap-logo-email.png';
+	$teal   = '#00384D'; // --color-teal
+	$orange = '#E65300'; // --color-orange
+
+	// Label / value rows.
+	$rows = '';
+	foreach ( $fields as $label => $value ) {
+		$value = trim( (string) $value );
+		if ( $value === '' ) { $value = '—'; }
+		$rows .= '<tr>'
+			. '<td style="padding:7px 16px 7px 0;font:600 13px/1.4 Arial,Helvetica,sans-serif;color:#6b7c82;width:140px;vertical-align:top;white-space:nowrap;">' . esc_html( $label ) . '</td>'
+			. '<td style="padding:7px 0;font:400 15px/1.5 Arial,Helvetica,sans-serif;color:#12242b;vertical-align:top;">' . esc_html( $value ) . '</td>'
+			. '</tr>';
+	}
+	$rows_html = $rows
+		? '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #e2e8ea;margin-top:4px;">' . $rows . '</table>'
+		: '';
+
+	// Optional free-text block (message), shown in a soft card with an accent bar.
+	$message_html = '';
+	if ( trim( (string) $msg ) !== '' ) {
+		$message_html = '<p style="margin:24px 0 8px;font:600 13px/1.4 Arial,Helvetica,sans-serif;color:#6b7c82;">' . esc_html( $msg_label ?: 'Message' ) . '</p>'
+			. '<div style="padding:14px 16px;background:#f4f6f7;border-left:3px solid ' . $orange . ';border-radius:6px;font:400 15px/1.6 Arial,Helvetica,sans-serif;color:#12242b;">' . nl2br( esc_html( $msg ) ) . '</div>';
+	}
+
+	$intro_html = $intro
+		? '<p style="margin:0 0 20px;font:400 15px/1.6 Arial,Helvetica,sans-serif;color:#54646a;">' . esc_html( $intro ) . '</p>'
+		: '';
+
+	$year = gmdate( 'Y' );
+
+	return '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">'
+		. '<meta name="viewport" content="width=device-width,initial-scale=1"></head>'
+		. '<body style="margin:0;padding:0;background:#eef1f2;">'
+		. '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#eef1f2;padding:32px 12px;">'
+		. '<tr><td align="center">'
+		. '<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:12px;overflow:hidden;">'
+		// Header — logo on teal
+		. '<tr><td style="background:' . $teal . ';padding:26px 32px;text-align:center;">'
+		. '<img src="' . esc_url( $logo ) . '" alt="Leap Distributors" width="170" style="display:inline-block;width:170px;max-width:170px;height:auto;border:0;">'
+		. '</td></tr>'
+		// Accent bar
+		. '<tr><td style="height:4px;background:' . $orange . ';font-size:0;line-height:0;">&nbsp;</td></tr>'
+		// Body
+		. '<tr><td style="padding:32px;">'
+		. '<h1 style="margin:0 0 8px;font:700 20px/1.3 Arial,Helvetica,sans-serif;color:' . $teal . ';">' . esc_html( $heading ) . '</h1>'
+		. $intro_html
+		. $rows_html
+		. $message_html
+		. '</td></tr>'
+		// Footer
+		. '<tr><td style="padding:20px 32px 28px;border-top:1px solid #e2e8ea;">'
+		. '<p style="margin:0;font:400 12px/1.5 Arial,Helvetica,sans-serif;color:#9aa8ac;">Automated notification from '
+		. '<a href="https://leapdistributors.com" style="color:' . $teal . ';text-decoration:none;">leapdistributors.com</a> &middot; &copy; ' . $year . ' Leap Distributors</p>'
+		. '</td></tr>'
+		. '</table></td></tr></table></body></html>';
+}
+
 // ── Contact Form Handler ──────────────────────────────────────
 function leap_handle_contact_form() {
 	// Verify nonce
@@ -376,12 +447,19 @@ function leap_handle_contact_form() {
 
 	$to      = 'enochwick@gmail.com';
 	$subject = "New Contact Form Submission — {$first_name} {$last_name}";
-	$body    = "Name: {$first_name} {$last_name}\n";
-	$body   .= "Email: {$email}\n";
-	$body   .= "Role: {$role}\n\n";
-	$body   .= "Message:\n{$message}";
+	$body    = leap_build_email(
+		'New Contact Form Submission',
+		'A visitor submitted the contact form on leapdistributors.com.',
+		[
+			'Name'  => "{$first_name} {$last_name}",
+			'Email' => $email,
+			'Role'  => $role,
+		],
+		'Message',
+		$message
+	);
 	$headers = [
-		'Content-Type: text/plain; charset=UTF-8',
+		'Content-Type: text/html; charset=UTF-8',
 		"Reply-To: {$first_name} {$last_name} <{$email}>",
 	];
 
@@ -417,8 +495,15 @@ function leap_handle_newsletter_form() {
 
 	$to      = 'enochwick@gmail.com';
 	$subject = 'New Newsletter Signup — Leap Distributors';
-	$body    = "Email: {$email}\nAudience: {$audience}";
-	$headers = [ 'Content-Type: text/plain; charset=UTF-8' ];
+	$body    = leap_build_email(
+		'New Newsletter Signup',
+		'Someone subscribed to the newsletter on leapdistributors.com.',
+		[
+			'Email'    => $email,
+			'Audience' => $audience,
+		]
+	);
+	$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
 
 	$sent   = wp_mail( $to, $subject, $body, $headers );
 	$status = $sent ? 'success' : 'error';
@@ -482,15 +567,22 @@ function leap_handle_application_form() {
 
 	$to      = 'htadesse@totalancillary.com';
 	$subject = "New Job Application — {$position} — {$first} {$last}";
-	$body    = "Position: {$position}\n";
-	$body   .= "Name: {$first} {$last}\n";
-	$body   .= "Email: {$email}\n";
-	$body   .= "Phone: {$phone}\n";
-	$body   .= "LinkedIn / Portfolio: {$linkedin}\n";
-	$body   .= "{$resume_note}\n\n";
-	$body   .= "Why Leap:\n" . ( $message ?: '(none provided)' );
+	$body    = leap_build_email(
+		'New Job Application',
+		'A candidate applied via the careers page on leapdistributors.com.',
+		[
+			'Position'  => $position,
+			'Name'      => "{$first} {$last}",
+			'Email'     => $email,
+			'Phone'     => $phone,
+			'LinkedIn'  => $linkedin,
+			'Resume'    => $resume_note,
+		],
+		'Why Leap',
+		$message ?: '(none provided)'
+	);
 	$headers = [
-		'Content-Type: text/plain; charset=UTF-8',
+		'Content-Type: text/html; charset=UTF-8',
 		"Reply-To: {$first} {$last} <{$email}>",
 	];
 
@@ -537,14 +629,21 @@ function leap_handle_walkthrough_form() {
 
 	$to      = 'enochwick@gmail.com';
 	$subject = "Walkthrough Request — {$first} {$last}" . ( $company ? " ({$company})" : '' );
-	$body    = "Name: {$first} {$last}\n";
-	$body   .= "Email: {$email}\n";
-	$body   .= "Company: {$company}\n";
-	$body   .= "Role: {$role}\n";
-	$body   .= "Phone: {$phone}\n\n";
-	$body   .= "What they'd like to see:\n" . ( $message ?: '(none provided)' );
+	$body    = leap_build_email(
+		'New Walkthrough Request',
+		'Someone requested a platform walkthrough on leapdistributors.com.',
+		[
+			'Name'    => "{$first} {$last}",
+			'Email'   => $email,
+			'Company' => $company,
+			'Role'    => $role,
+			'Phone'   => $phone,
+		],
+		"What they'd like to see",
+		$message ?: '(none provided)'
+	);
 	$headers = [
-		'Content-Type: text/plain; charset=UTF-8',
+		'Content-Type: text/html; charset=UTF-8',
 		"Reply-To: {$first} {$last} <{$email}>",
 	];
 
@@ -802,12 +901,20 @@ function leap_notify_team_handover( $name, $contact, $message, $transcript = '' 
 	}
 
 	$subject = 'Chat handover request from ' . ( $name ?: $contact ?: 'a website visitor' );
-	$body    = "A visitor asked to speak with a person via the website chat.\n\n"
-		. 'Name: ' . ( $name ?: '(not given)' ) . "\n"
-		. 'Contact: ' . ( $contact ?: '(not given)' ) . "\n\n"
-		. "Message:\n{$message}\n\n"
-		. ( $transcript ? "— Conversation so far —\n{$transcript}\n" : '' );
-	$headers = is_email( $contact ) ? [ 'Reply-To: ' . $contact ] : [];
+	$body    = leap_build_email(
+		'New Chat Handover Request',
+		'A visitor asked to speak with a person via the website chat.',
+		[
+			'Name'    => $name ?: '(not given)',
+			'Contact' => $contact ?: '(not given)',
+		],
+		'Details',
+		trim( $message . ( $transcript ? "\n\n— Conversation so far —\n" . $transcript : '' ) )
+	);
+	$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
+	if ( is_email( $contact ) ) {
+		$headers[] = 'Reply-To: ' . $contact;
+	}
 	wp_mail( $to, $subject, $body, $headers );
 
 	// Optional Slack notification.
