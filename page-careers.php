@@ -23,15 +23,15 @@
 				<div style="display:flex;flex-direction:column;gap:var(--space-5);">
 					<div class="reveal" style="display:flex;gap:var(--space-4);align-items:flex-start;">
 						<div style="width:8px;height:8px;border-radius:50%;background:var(--color-orange);margin-top:6px;flex-shrink:0;"></div>
-						<div><strong>Mission-first culture</strong> — We make decisions based on what's right for healthcare, not just what's profitable.</div>
+						<div><strong>Mission-first culture.</strong> We make decisions based on what's right for healthcare, not just what's profitable.</div>
 					</div>
 					<div class="reveal" style="display:flex;gap:var(--space-4);align-items:flex-start;">
 						<div style="width:8px;height:8px;border-radius:50%;background:var(--color-orange);margin-top:6px;flex-shrink:0;"></div>
-						<div><strong>Ownership mentality</strong> — You won't get lost in a giant org chart here. Your contributions are visible and valued.</div>
+						<div><strong>Ownership mentality.</strong> You won't get lost in a giant org chart here. Your contributions are visible and valued.</div>
 					</div>
 					<div class="reveal" style="display:flex;gap:var(--space-4);align-items:flex-start;">
 						<div style="width:8px;height:8px;border-radius:50%;background:var(--color-orange);margin-top:6px;flex-shrink:0;"></div>
-						<div><strong>Growing fast</strong> — We're expanding our network, our team, and our impact. There's room to grow with us.</div>
+						<div><strong>Growing fast.</strong> We're expanding our network, our team, and our impact. There's room to grow with us.</div>
 					</div>
 				</div>
 			</div>
@@ -52,11 +52,7 @@
 			<h2 class="reveal">Current Opportunities</h2>
 		</div>
 
-		<?php if ( isset( $_GET['application'] ) && $_GET['application'] === 'success' ) : ?>
-			<div class="form-feedback form-feedback--success" style="max-width:820px;margin:0 auto var(--space-8);">
-				<strong>Application received.</strong> Thanks — our team will review it and be in touch.
-			</div>
-		<?php elseif ( isset( $_GET['application'] ) && $_GET['application'] === 'error' ) : ?>
+		<?php if ( isset( $_GET['application'] ) && $_GET['application'] === 'error' ) : ?>
 			<div class="form-feedback form-feedback--error" style="max-width:820px;margin:0 auto var(--space-8);">
 				Something went wrong. Please try again or email your resume to <a href="mailto:careers@leapdistributors.com">careers@leapdistributors.com</a>.
 			</div>
@@ -84,10 +80,10 @@
 					</summary>
 
 					<div class="job-detail">
-					<p>Bring your talents to an industry leader in medical technology and healthcare solutions. You can be proud to sell medical technologies in an ever changing, fast paced environment that restores quality of life for patients. Our expansive portfolio delivers measurable clinical and economic value — and opens doors. You will be empowered to shape your own career. We support your growth with the training, mentorship, and guidance you need to own your future success.</p>
+					<p>Bring your talents to an industry leader in medical technology and healthcare solutions. You can be proud to sell medical technologies in an ever changing, fast paced environment that restores quality of life for patients. Our expansive portfolio delivers measurable clinical and economic value, and opens doors. You will be empowered to shape your own career. We support your growth with the training, mentorship, and guidance you need to own your future success.</p>
 
 					<h5>Who We Are</h5>
-					<p>Leap Distributors is a leading supplier of innovative products and services to the medical community, helping our clients stay up to date on the latest procedural solutions. We act as a one-stop-shop — with the right tools, right patients, latest tech, and less hassle. More than just hardware and biologics, we keep surgeons at the top of their game with new innovative ways to approach surgery and the growth of their practice.</p>
+					<p>Leap Distributors is a leading supplier of innovative products and services to the medical community, helping our clients stay up to date on the latest procedural solutions. We act as a one-stop-shop, with the right tools, right patients, latest tech, and less hassle. More than just hardware and biologics, we keep surgeons at the top of their game with new innovative ways to approach surgery and the growth of their practice.</p>
 
 					<h5>Who You Are</h5>
 					<p>You embody the entrepreneurial spirit, thrive in a high-energy environment, and consider yourself a problem-solver. You don't mind working independently and taking ownership of your responsibilities. Networking comes naturally to you, and you have the innate ability to recognize opportunities as they come your way. Learning is important to you, and you are interested in new innovative products and how they can positively impact the surgical environment. You are organized, precise, and rarely drop the ball when it comes to juggling multiple tasks.</p>
@@ -95,7 +91,7 @@
 					<h5>What You'll Do</h5>
 					<p>At Leap Distributors, the Surgical Consultant supports the Spine, Orthopedics and Biologics business in the areas of surgical coverage, follow-up support, troubleshooting, and customer service. This person will be engaged in basic market development activities depending upon the needs of the assigned territory and district. This is a field-based role. Responsibilities may include the following:</p>
 					<ul>
-						<li>Advance the Company's sales of surgical products by providing clinical and logistical expertise in hospitals and operating rooms — such as independent coverage of surgical cases, management of billing/purchase orders, logistics, and asset management.</li>
+						<li>Advance the Company's sales of surgical products by providing clinical and logistical expertise in hospitals and operating rooms, such as independent coverage of surgical cases, management of billing/purchase orders, logistics, and asset management.</li>
 						<li>Represent and cover surgical cases professionally, efficiently, and effectively.</li>
 						<li>Articulate and train on the appropriate use of surgical instruments and implants to surgeons, nurses, and sales representatives.</li>
 						<li>Process instrument sets and paperwork efficiently and promptly.</li>
@@ -132,7 +128,7 @@
 						<li>Experienced in data analysis and excellent problem-solving skills.</li>
 						<li>Results orientation / prioritization.</li>
 						<li>Ability to work independently and autonomously.</li>
-						<li>Partnership and collaboration — ability to work in a complex reporting structure.</li>
+						<li>Partnership and collaboration, with the ability to work in a complex reporting structure.</li>
 						<li>High level of accuracy and attention to detail.</li>
 						<li>Demonstrated ability to understand, interpret, communicate, and work in complex environments.</li>
 						<li>Functional knowledge of human anatomy and physiology, basic knowledge of surgery.</li>
@@ -241,5 +237,19 @@
 		</form>
 	</div>
 </div>
+
+<?php if ( isset( $_GET['application'] ) && $_GET['application'] === 'success' ) : ?>
+<!-- Application success popup -->
+<div class="apply-modal apply-success is-open" id="apply-success" role="dialog" aria-modal="true" aria-live="polite" aria-label="Application received">
+	<div class="apply-modal__dialog apply-success__dialog" role="document">
+		<button type="button" class="apply-modal__close" data-close-success aria-label="Close">&times;</button>
+		<div class="apply-success__icon" aria-hidden="true">
+			<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+		</div>
+		<h3 class="apply-success__title">Application received</h3>
+		<p class="apply-success__text">Thanks, our team will review it and be in touch.</p>
+	</div>
+</div>
+<?php endif; ?>
 
 <?php get_footer(); ?>

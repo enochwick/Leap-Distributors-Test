@@ -54,7 +54,7 @@
 	<div class="container">
 		<figure class="feature-band__media">
 			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/built-for/distributors-band.webp' ); ?>" alt="Two medical device representatives meeting in a hospital lobby" loading="lazy" decoding="async">
-			<figcaption class="feature-band__caption">A brand that walks in with you — and a back office behind you.</figcaption>
+			<figcaption class="feature-band__caption">A brand that walks in with you, and a back office behind you.</figcaption>
 		</figure>
 	</div>
 </section>

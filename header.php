@@ -41,7 +41,7 @@
 <header class="site-header" id="site-header">
 	<div class="site-header__inner">
 
-		<a class="site-header__logo" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php bloginfo( 'name' ); ?> — Home">
+		<a class="site-header__logo" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php bloginfo( 'name' ); ?> Home">
 			<?php $logo = get_template_directory_uri() . '/assets/images/leap-mark.png'; ?>
 			<img src="<?php echo esc_url( $logo ); ?>" alt="<?php bloginfo( 'name' ); ?>" class="logo--color" width="210" height="58">
 			<img src="<?php echo esc_url( $logo ); ?>" alt="<?php bloginfo( 'name' ); ?>" class="logo--white" width="210" height="58">

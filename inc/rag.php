@@ -314,7 +314,7 @@ function leap_kb_build() {
 	// from racing and writing a half-finished index. It auto-expires as a safety
 	// net in case a build dies mid-way.
 	if ( get_transient( 'leap_kb_building' ) ) {
-		return new WP_Error( 'busy', 'A knowledge base build is already running — give it a few seconds.' );
+		return new WP_Error( 'busy', 'A knowledge base build is already running. Give it a few seconds.' );
 	}
 	set_transient( 'leap_kb_building', 1, 5 * MINUTE_IN_SECONDS );
 

@@ -6868,6 +6868,23 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   font-size: var(--text-sm);
   color: var(--color-text-3);
 }
+/* Application success popup (careers) */
+.apply-success { align-items: center; }
+.apply-success__dialog { max-width: 440px; text-align: center; }
+.apply-success__icon {
+  width: 68px;
+  height: 68px;
+  margin: 0 auto var(--space-5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  background: rgba(230, 83, 0, 0.12);
+  color: var(--color-orange);
+}
+.apply-success__title { margin: 0 0 var(--space-2); }
+.apply-success__text { color: var(--color-text-2); margin: 0; }
+
 @media (prefers-reduced-motion: reduce) {
   .apply-modal__dialog { animation: none; }
   .job-toggle__icon { transition: none; }

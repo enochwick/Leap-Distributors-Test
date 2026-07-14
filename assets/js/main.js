@@ -714,6 +714,34 @@ document.addEventListener('DOMContentLoaded', () => {
     if (/[?&]application=error/.test(window.location.search)) openModal();
   }
 
+  // ── Application success popup (careers) ───────────────────
+  // Server renders #apply-success (with .is-open) on ?application=success.
+  // The apply form has already closed on the fresh page load, so this pops up
+  // in its place, holds for 8 seconds, then fades out.
+  var applySuccess = document.getElementById('apply-success');
+  if (applySuccess) {
+    document.body.style.overflow = 'hidden';
+    var successDone = false;
+    var closeSuccess = function () {
+      if (successDone) return;
+      successDone = true;
+      applySuccess.style.transition = 'opacity .4s ease';
+      applySuccess.style.opacity = '0';
+      document.body.style.overflow = '';
+      setTimeout(function () {
+        if (applySuccess.parentNode) applySuccess.parentNode.removeChild(applySuccess);
+      }, 420);
+    };
+    applySuccess.querySelectorAll('[data-close-success]').forEach(function (b) {
+      b.addEventListener('click', closeSuccess);
+    });
+    applySuccess.addEventListener('click', function (e) { if (e.target === applySuccess) closeSuccess(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeSuccess();
+    });
+    setTimeout(closeSuccess, 8000);
+  }
+
   // ── Walkthrough request modal (platform) ──────────────────
   var wtModal = document.getElementById('walkthrough-modal');
   if (wtModal) {
@@ -1428,11 +1456,11 @@ document.addEventListener('DOMContentLoaded', () => {
           handoverOpen = false;
           appendMsg('ai', (json.success && json.data.reply)
             ? json.data.reply
-            : (json.data || 'Something went wrong — please email info@leapdistributors.com.'));
+            : (json.data || 'Something went wrong. Please email info@leapdistributors.com.'));
         } catch (_) {
           sendBtn.disabled = false;
           sendBtn.textContent = 'Send to the team';
-          appendMsg('ai', 'Connection error — please email info@leapdistributors.com.');
+          appendMsg('ai', 'Connection error. Please email info@leapdistributors.com.');
         }
       });
     });

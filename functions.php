@@ -466,7 +466,7 @@ function leap_handle_contact_form() {
 	}
 
 	$to      = leap_forms_email();
-	$subject = "New Contact Form Submission — {$first_name} {$last_name}";
+	$subject = "New Contact Form Submission - {$first_name} {$last_name}";
 	$body    = leap_build_email(
 		'New Contact Form Submission',
 		'A visitor submitted the contact form on leapdistributors.com.',
@@ -514,7 +514,7 @@ function leap_handle_newsletter_form() {
 	}
 
 	$to      = leap_forms_email();
-	$subject = 'New Newsletter Signup — Leap Distributors';
+	$subject = 'New Newsletter Signup - Leap Distributors';
 	$body    = leap_build_email(
 		'New Newsletter Signup',
 		'Someone subscribed to the newsletter on leapdistributors.com.',
@@ -586,7 +586,7 @@ function leap_handle_application_form() {
 	}
 
 	$to      = leap_careers_email();
-	$subject = "New Job Application — {$position} — {$first} {$last}";
+	$subject = "New Job Application - {$position} - {$first} {$last}";
 	$body    = leap_build_email(
 		'New Job Application',
 		'A candidate applied via the careers page on leapdistributors.com.',
@@ -648,7 +648,7 @@ function leap_handle_walkthrough_form() {
 	}
 
 	$to      = leap_forms_email();
-	$subject = "Walkthrough Request — {$first} {$last}" . ( $company ? " ({$company})" : '' );
+	$subject = "Walkthrough Request - {$first} {$last}" . ( $company ? " ({$company})" : '' );
 	$body    = leap_build_email(
 		'New Walkthrough Request',
 		'Someone requested a platform walkthrough on leapdistributors.com.',
@@ -738,7 +738,7 @@ function leap_ai_chat() {
 	$rl_bucket = 'leap_rl_' . md5( leap_client_ip() ) . '_' . floor( time() / MINUTE_IN_SECONDS );
 	$rl_count  = (int) get_transient( $rl_bucket );
 	if ( $rl_count >= $rl_max ) {
-		wp_send_json_success( [ 'reply' => "You're sending messages a bit quickly — give me a moment and try again shortly." ] );
+		wp_send_json_success( [ 'reply' => "You're sending messages a bit quickly. Give me a moment and try again shortly." ] );
 	}
 	set_transient( $rl_bucket, $rl_count + 1, 2 * MINUTE_IN_SECONDS );
 
@@ -750,7 +750,7 @@ function leap_ai_chat() {
 	// Friendly handling for greetings / thanks so they don't hit the cold refusal.
 	$normalized = strtolower( trim( $message, " \t\n\r.!?," ) );
 	if ( preg_match( '/^(hi|hey|hello|yo|howdy|hiya|good (morning|afternoon|evening)|greetings)$/', $normalized ) ) {
-		wp_send_json_success( [ 'reply' => "Hi, I'm Trey, your Leap assistant. Ask me anything about Leap — our distribution services, the Stride platform, or how we work with surgeons, hospitals, and manufacturers." ] );
+		wp_send_json_success( [ 'reply' => "Hi, I'm Trey, your Leap assistant. Ask me anything about Leap, our distribution services, the Stride platform, or how we work with surgeons, hospitals, and manufacturers." ] );
 	}
 	if ( preg_match( '/^(thanks|thank you|thx|ty|cheers|appreciate it)$/', $normalized ) ) {
 		wp_send_json_success( [ 'reply' => "You're welcome! Anything else about Leap I can help with?" ] );
@@ -791,13 +791,14 @@ function leap_ai_chat() {
 	$system = "You are Trey, the warm, helpful AI assistant for Leap Distributors, a medical device distribution company based in Dallas, TX. If asked your name, you're Trey.
 
 HOW TO ANSWER:
-- Ground your answers in the CONTEXT below — it's your source of truth about Leap.
+- Ground your answers in the CONTEXT below. It's your source of truth about Leap.
 - Never invent facts, numbers, names, products, prices, or medical claims. If a specific detail isn't in the CONTEXT, don't make it up.
 - If the user tells you who they are (e.g. \"I'm a surgeon\", a hospital, a manufacturer, or a rep), warmly welcome them and, using the CONTEXT, explain how Leap works with that audience and offer a helpful next step.
-- Always try to be useful. If the CONTEXT doesn't hold the exact answer, share the closest relevant thing Leap does and point them to info@leapdistributors.com or +1 888-776-5553 for specifics — do NOT give a blunt refusal.
+- Always try to be useful. If the CONTEXT doesn't hold the exact answer, share the closest relevant thing Leap does and point them to info@leapdistributors.com or +1 888-776-5553 for specifics. Do NOT give a blunt refusal.
 - Treat conversational messages naturally; you don't need context to say hello or acknowledge someone.
-- Be concise, warm, and professional — usually 1 to 4 sentences.
-- If the visitor wants a person to follow up, or asks to be contacted, collect their details with this exact question: \"Could you please share your name and the best way to reach you (email or phone number)?\" Once they give an email or phone number, warmly confirm that a Leap team member will reach out — their details are forwarded to the team automatically, so never promise a follow-up before they've shared contact info.
+- Be concise, warm, and professional, usually 1 to 4 sentences.
+- Write with plain punctuation. Do not use em dashes; use commas, periods, or parentheses instead.
+- If the visitor wants a person to follow up, or asks to be contacted, collect their details with this exact question: \"Could you please share your name and the best way to reach you (email or phone number)?\" Once they give an email or phone number, warmly confirm that a Leap team member will reach out. Their details are forwarded to the team automatically, so never promise a follow-up before they've shared contact info.
 
 CONTEXT:
 " . trim( $context );
@@ -830,7 +831,7 @@ CONTEXT:
 	// Never surface a hard error to a visitor — degrade gracefully.
 	if ( $text === '' ) {
 		wp_send_json_success( [
-			'reply' => "I'm having a brief hiccup on my end. Please try again in a moment — or reach our team at info@leapdistributors.com or +1 888-776-5553.",
+			'reply' => "I'm having a brief hiccup on my end. Please try again in a moment, or reach our team at info@leapdistributors.com or +1 888-776-5553.",
 		] );
 	}
 
@@ -929,7 +930,7 @@ function leap_notify_team_handover( $name, $contact, $message, $transcript = '' 
 			'Contact' => $contact ?: '(not given)',
 		],
 		'Details',
-		trim( $message . ( $transcript ? "\n\n— Conversation so far —\n" . $transcript : '' ) )
+		trim( $message . ( $transcript ? "\n\nConversation so far:\n" . $transcript : '' ) )
 	);
 	$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
 	if ( is_email( $contact ) ) {
@@ -1168,7 +1169,7 @@ function leap_ai_settings_page() {
 						<input name="leap_recaptcha_site_key" id="leap_recaptcha_site_key" type="text" autocomplete="off"
 							value="<?php echo esc_attr( get_option( 'leap_recaptcha_site_key', '' ) ); ?>"
 							class="regular-text" placeholder="6Lc…">
-						<p class="description">Bot protection for all public forms (contact, newsletter, application, walkthrough). Create keys at <a href="https://www.google.com/recaptcha/admin/create" target="_blank" rel="noopener">google.com/recaptcha</a> — choose <strong>reCAPTCHA v3</strong> and add your domain.</p>
+						<p class="description">Bot protection for all public forms (contact, newsletter, application, walkthrough). Create keys at <a href="https://www.google.com/recaptcha/admin/create" target="_blank" rel="noopener">google.com/recaptcha</a>, choose <strong>reCAPTCHA v3</strong> and add your domain.</p>
 					</td>
 				</tr>
 				<tr>
@@ -1202,12 +1203,12 @@ function leap_ai_settings_page() {
 				<?php endif; ?>
 				<?php echo $kb_built ? '· last indexed ' . esc_html( $kb_built ) : ''; ?>.
 				<?php if ( $kb_stale ) : ?>
-					<br><span style="color:#b26a00;">Site content has changed since the last index — it will refresh automatically within the hour, or click Rebuild now.</span>
+					<br><span style="color:#b26a00;">Site content has changed since the last index. It will refresh automatically within the hour, or click Rebuild now.</span>
 				<?php endif; ?>
 			<?php elseif ( $kb_building ) : ?>
-				Status: <strong style="color:#b26a00;">Building now…</strong> — this refreshes automatically; reload this page in a few seconds.
+				Status: <strong style="color:#b26a00;">Building now…</strong> This refreshes automatically; reload this page in a few seconds.
 			<?php else : ?>
-				Status: <strong style="color:#b32d2e;">Not built yet</strong> — it rebuilds itself automatically within a minute, or click Rebuild now to do it immediately.
+				Status: <strong style="color:#b32d2e;">Not built yet.</strong> It rebuilds itself automatically within a minute, or click Rebuild now to do it immediately.
 			<?php endif; ?>
 		</p>
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">

@@ -138,7 +138,7 @@
 						<span class="news-card__type news-card__type--insight">Newsletter</span>
 						<span>December 2025</span>
 					</div>
-					<h3 class="news-card__hed">THE LEAP — December Edition</h3>
+					<h3 class="news-card__hed">THE LEAP: December Edition</h3>
 					<p class="news-card__excerpt">Our monthly roundup of industry insights, product spotlights, and company news.</p>
 					<div class="news-card__footer">
 						<span class="news-card__source">Leap Distributors</span>
@@ -174,7 +174,7 @@
 						<span>August 2025</span>
 					</div>
 					<h3 class="news-card__hed">The Value of Surgeon Choice in an Aggregated Model</h3>
-					<p class="news-card__excerpt">Everyone in the medical device world is under pressure — with competing needs among hospitals, distributors, suppliers, and surgeons.</p>
+					<p class="news-card__excerpt">Everyone in the medical device world is under pressure, with competing needs among hospitals, distributors, suppliers, and surgeons.</p>
 					<div class="news-card__footer">
 						<span class="news-card__source">Leap Distributors</span>
 						<span class="news-card__arrow" aria-hidden="true">→</span>
@@ -191,7 +191,7 @@
 						<span class="news-card__type news-card__type--insight">Insight</span>
 						<span>September 2025</span>
 					</div>
-					<h3 class="news-card__hed">Surgeon Preference Isn't the Problem — It's the Point</h3>
+					<h3 class="news-card__hed">Surgeon Preference Isn't the Problem: It's the Point</h3>
 					<p class="news-card__excerpt">Their preferences aren't personal quirks. They're clinical judgments backed by thousands of hours in the OR.</p>
 					<div class="news-card__footer">
 						<span class="news-card__source">Leap Distributors</span>
@@ -264,7 +264,7 @@
 						<span>July 2025</span>
 					</div>
 					<h3 class="news-card__hed">Building an Infrastructure Meant to Share</h3>
-					<p class="news-card__excerpt">What it takes to run the back office once — and share it across every rep and partner.</p>
+					<p class="news-card__excerpt">What it takes to run the back office once, and share it across every rep and partner.</p>
 					<div class="news-card__footer">
 						<span class="news-card__source">Leap Distributors</span>
 						<span class="news-card__arrow" aria-hidden="true">→</span>

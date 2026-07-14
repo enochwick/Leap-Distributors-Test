@@ -71,7 +71,7 @@ $img_base = get_template_directory_uri() . '/assets/images/blog';
 		<div class="container container--wide">
 			<img
 				src="<?php echo esc_url( $img_base . '/surgeon-voice-banner.png' ); ?>"
-				alt="Surgeon focused in the operating room — black and white"
+				alt="Surgeon focused in the operating room, black and white"
 				loading="lazy" decoding="async"
 			>
 		</div>
@@ -128,7 +128,7 @@ $img_base = get_template_directory_uri() . '/assets/images/blog';
 			<h2>Distributors Are the Missing Piece</h2>
 			<p>Surgeons may not get to pick their contracts, but they often get to pick you.</p>
 			<p>That trust matters. And it only works if you can actually deliver on it.</p>
-			<p>But when you're blocked from bringing in the right product, or buried in 47 open tasks trying to juggle logistics, compliance, and customer service — it's hard to focus on supporting your surgeons.</p>
+			<p>But when you're blocked from bringing in the right product, or buried in 47 open tasks trying to juggle logistics, compliance, and customer service, it's hard to focus on supporting your surgeons.</p>
 			<p>That's why we built Leap: to give reps and distributors the structure, flexibility, and scale to be the partners they're capable of being.</p>
 		</div>
 
@@ -194,7 +194,7 @@ $img_base = get_template_directory_uri() . '/assets/images/blog';
 		<div class="insight-closing">
 			<h2>You Don't Have to Trade Control for Support</h2>
 			<p>The old model says you have to pick: be small and nimble or big and structured.</p>
-			<p>We say — why not both?</p>
+			<p>We say: why not both?</p>
 			<p>Leap gives you the autonomy of an independent, the power of a national platform, and the systems to support surgeon choice without turning it into a fight.</p>
 			<p>Because at the end of the day, the best decisions are made by the people in the OR. Not just the ones in the boardroom.</p>
 		</div>

@@ -8,7 +8,7 @@
 			<nav class="breadcrumb"><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a> <span class="breadcrumb-sep">›</span> <span>Orders</span></nav>
 			<span class="page-hero__eyebrow">Order Management</span>
 			<h1 class="page-hero__title">Manage Your Orders</h1>
-			<p class="page-hero__lead">Access your order history, track shipments, and manage your account — all in one place.</p>
+			<p class="page-hero__lead">Access your order history, track shipments, and manage your account, all in one place.</p>
 		</div>
 	</div>
 </section>

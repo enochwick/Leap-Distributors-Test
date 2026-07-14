@@ -7,7 +7,7 @@
 	<!-- Header text -->
 	<div class="phg-header">
 		<div class="phg-header__inner">
-			<span class="section-label section-label--blue section-label--no-line phg-fade">Stride — The Leap Platform</span>
+			<span class="section-label section-label--blue section-label--no-line phg-fade">Stride: The Leap Platform</span>
 			<h1 class="phg-title phg-fade">The custom tech<br>that runs every case.</h1>
 			<p class="phg-lead phg-fade">Stride is Leap's own platform. Reps log every case in the OR as it happens, the paperwork generates itself, and every side of the relationship gets sharper data with every case.</p>
 			<div class="phg-fade" style="margin-top:var(--space-8);">
@@ -78,7 +78,7 @@
 			<div class="platform-cap__copy">
 				<span class="platform-cap__num">02</span>
 				<h3 class="platform-cap__h">Patients before products.</h3>
-				<p>The platform doesn't replace the rep. It frees them to do the real work — knowing the procedure, the surgeon, and the patient on the table. Stride handles the paperwork so our reps don't have to look down. They stay in the case, advocating for surgeon choice and the right call for the patient.</p>
+				<p>The platform doesn't replace the rep. It frees them to do the real work: knowing the procedure, the surgeon, and the patient on the table. Stride handles the paperwork so our reps don't have to look down. They stay in the case, advocating for surgeon choice and the right call for the patient.</p>
 			</div>
 			<div class="platform-cap__visual platform-cap__visual--device">
 				<div class="tablet-mockup">
