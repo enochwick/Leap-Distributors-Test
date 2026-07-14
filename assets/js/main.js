@@ -1012,7 +1012,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     sync();
     if (mq.addEventListener) mq.addEventListener('change', sync); else mq.addListener(sync);
-    window.addEventListener('resize', function () { if (mq.matches) { lockContentHeight(); layout(); render(); } });
+
+    // Only re-fit on real width changes. On mobile the address bar showing /
+    // hiding on touch or scroll fires resize with a new *height* constantly;
+    // re-rendering there would replay the bio blur-in every time. Height-only
+    // changes are ignored, and width changes re-fit without re-animating the bio
+    // (the blur-in only plays when actually switching partners).
+    var lastW = window.innerWidth;
+    window.addEventListener('resize', function () {
+      if (!mq.matches) return;
+      if (window.innerWidth === lastW) return;
+      lastW = window.innerWidth;
+      lockContentHeight();
+      nameEl.textContent = data[active].name;
+      roleEl.textContent = data[active].role;
+      bioEl.textContent  = data[active].bio; // static, no blur-in replay
+      layout();
+    });
   })();
 
   // ── Roadmap timeline: reveal cards one-by-one, fill the rail on scroll ──
