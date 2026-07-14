@@ -13,6 +13,30 @@ if ( $is_newsletter ) {
 		$pdf_url = wp_get_attachment_url( $first->ID );
 	}
 }
+
+// Top image for each post — matched to the card image on /news/ so the
+// individual page and its listing card show the same visual. Keyed by slug.
+$card_images = array(
+	'product-agnostic-distribution-wins-for-surgeons-and-hospitals' => array( 'LeapDistributors3-e1769101290191.webp' ),
+	'the-leap-dec-edition'                              => array( 'Leap-Distributors-BlogImg1-2.webp' ),
+	'creating-your-sales-system-oct-2025'              => array( 'Leap-Distributors-BlogImg1-2.webp' ),
+	'surgeon-choice-august-2025'                       => array( 'Leap-Distributors-BlogImg1-2.webp' ),
+	'surgeon-preference-isnt-the-problem-its-the-point'=> array( 'LeapDistributors00-e1757003978173.webp' ),
+	'hospitals-should-rethink-distributor-partnerships'=> array( 'LeapDistributorsBlog1-e1755620018111.webp' ),
+	'the-magic-of-aggregation-jul-2025'                => array( 'Leap-Distributors-BlogImg1-2.webp' ),
+	'why-independent-doesnt-mean-alone-anymore'        => array( 'Leap-Distributors-BlogImg-1.webp' ),
+	'building-an-infrastructure-meant-to-share'        => array( 'Leap-Distributors-BlogImg-e1752595306217.webp' ),
+	'scaling-smarter'                                  => array( 'LD_Blog-feature-image_16_1.webp', 'contain' ),
+);
+$post_slug   = get_post_field( 'post_name', get_post() );
+$card_image  = '';
+$card_fit    = 'cover';
+if ( isset( $card_images[ $post_slug ] ) ) {
+	$card_image = get_template_directory_uri() . '/assets/images/blog-news/' . $card_images[ $post_slug ][0];
+	if ( ! empty( $card_images[ $post_slug ][1] ) && 'contain' === $card_images[ $post_slug ][1] ) {
+		$card_fit = 'contain';
+	}
+}
 ?>
 
 <section class="page-hero page-hero--post">
@@ -34,7 +58,11 @@ if ( $is_newsletter ) {
 
 <section class="content-section">
 	<div class="container">
-		<?php if ( has_post_thumbnail() && ! ( $is_newsletter && $pdf_url ) ) : ?>
+		<?php if ( $card_image ) : ?>
+			<figure class="post-hero-media"<?php echo 'contain' === $card_fit ? ' style="background:#02283A;"' : ''; ?>>
+				<img src="<?php echo esc_url( $card_image ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" loading="eager"<?php echo 'contain' === $card_fit ? ' style="object-fit:contain;"' : ''; ?>>
+			</figure>
+		<?php elseif ( has_post_thumbnail() && ! ( $is_newsletter && $pdf_url ) ) : ?>
 			<figure class="post-hero-media">
 				<?php the_post_thumbnail( 'large' ); ?>
 			</figure>
