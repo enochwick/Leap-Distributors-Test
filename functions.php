@@ -347,6 +347,18 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_add_inline_script( 'google-recaptcha', $inline );
 } );
 
+// ── Form recipient helpers (editable in Settings → Leap AI) ───
+/** Where contact / newsletter / walkthrough submissions go. */
+function leap_forms_email() {
+	$e = get_option( 'leap_forms_email', '' );
+	return is_email( $e ) ? $e : 'info@leapdistributors.com';
+}
+/** Where job application submissions go. */
+function leap_careers_email() {
+	$e = get_option( 'leap_careers_email', '' );
+	return is_email( $e ) ? $e : 'htadesse@totalancillary.com';
+}
+
 // ── Branded HTML email template ───────────────────────────────
 /**
  * Wrap notification content in a branded Leap HTML email (logo + brand colors).
@@ -445,7 +457,7 @@ function leap_handle_contact_form() {
 		exit;
 	}
 
-	$to      = 'enochwick@gmail.com';
+	$to      = leap_forms_email();
 	$subject = "New Contact Form Submission — {$first_name} {$last_name}";
 	$body    = leap_build_email(
 		'New Contact Form Submission',
@@ -493,7 +505,7 @@ function leap_handle_newsletter_form() {
 		exit;
 	}
 
-	$to      = 'enochwick@gmail.com';
+	$to      = leap_forms_email();
 	$subject = 'New Newsletter Signup — Leap Distributors';
 	$body    = leap_build_email(
 		'New Newsletter Signup',
@@ -565,7 +577,7 @@ function leap_handle_application_form() {
 		}
 	}
 
-	$to      = 'htadesse@totalancillary.com';
+	$to      = leap_careers_email();
 	$subject = "New Job Application — {$position} — {$first} {$last}";
 	$body    = leap_build_email(
 		'New Job Application',
@@ -627,7 +639,7 @@ function leap_handle_walkthrough_form() {
 		exit;
 	}
 
-	$to      = 'enochwick@gmail.com';
+	$to      = leap_forms_email();
 	$subject = "Walkthrough Request — {$first} {$last}" . ( $company ? " ({$company})" : '' );
 	$body    = leap_build_email(
 		'New Walkthrough Request',
@@ -1064,6 +1076,12 @@ add_action( 'admin_init', function() {
 	register_setting( 'leap_ai_settings', 'leap_handover_email', [
 		'type' => 'string', 'sanitize_callback' => 'sanitize_email', 'default' => '',
 	] );
+	register_setting( 'leap_ai_settings', 'leap_forms_email', [
+		'type' => 'string', 'sanitize_callback' => 'sanitize_email', 'default' => '',
+	] );
+	register_setting( 'leap_ai_settings', 'leap_careers_email', [
+		'type' => 'string', 'sanitize_callback' => 'sanitize_email', 'default' => '',
+	] );
 	register_setting( 'leap_ai_settings', 'leap_slack_webhook', [
 		'type' => 'string', 'sanitize_callback' => 'esc_url_raw', 'default' => '',
 	] );
@@ -1123,12 +1141,30 @@ function leap_ai_settings_page() {
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="leap_handover_email">Handover email</label></th>
+					<th scope="row"><label for="leap_forms_email">Form notifications email</label></th>
+					<td>
+						<input name="leap_forms_email" id="leap_forms_email" type="email"
+							value="<?php echo esc_attr( get_option( 'leap_forms_email', '' ) ); ?>"
+							class="regular-text" placeholder="info@leapdistributors.com">
+						<p class="description">Where the <strong>Contact ("Let's Talk"), Newsletter, and Walkthrough</strong> form submissions are emailed. Defaults to info@leapdistributors.com.</p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="leap_handover_email">Chat handover email</label></th>
 					<td>
 						<input name="leap_handover_email" id="leap_handover_email" type="email"
 							value="<?php echo esc_attr( get_option( 'leap_handover_email', '' ) ); ?>"
 							class="regular-text" placeholder="info@leapdistributors.com">
-						<p class="description">Where "Talk to a person" requests are emailed. Defaults to info@leapdistributors.com.</p>
+						<p class="description">Where chat "Talk to a person" requests and captured leads are emailed. Defaults to htadesse@totalancillary.com.</p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="leap_careers_email">Careers / applications email</label></th>
+					<td>
+						<input name="leap_careers_email" id="leap_careers_email" type="email"
+							value="<?php echo esc_attr( get_option( 'leap_careers_email', '' ) ); ?>"
+							class="regular-text" placeholder="careers@leapdistributors.com">
+						<p class="description">Where job application submissions are emailed. Defaults to htadesse@totalancillary.com.</p>
 					</td>
 				</tr>
 				<tr>
