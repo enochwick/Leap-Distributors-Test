@@ -217,12 +217,11 @@ add_action( 'wp_enqueue_scripts', function() {
 	}
 } );
 
-// Newsletter page-flip PDF viewer — single newsletter posts only
+// Newsletter PDF viewer — single newsletter posts only
 add_action( 'wp_enqueue_scripts', function() {
 	if ( is_single() && has_category( 'newsletters' ) ) {
-		wp_enqueue_script( 'pdfjs',     'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/legacy/build/pdf.min.js',        [],                        '3.11.174', true );
-		wp_enqueue_script( 'page-flip', 'https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js',       [],                        '2.0.7',    true );
-		wp_enqueue_script( 'leap-pdf-flip', get_template_directory_uri() . '/assets/js/pdf-flip.js', [ 'pdfjs', 'page-flip' ], filemtime( get_template_directory() . '/assets/js/pdf-flip.js' ), true );
+		wp_enqueue_script( 'pdfjs', 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/legacy/build/pdf.min.js', [], '3.11.174', true );
+		wp_enqueue_script( 'leap-pdf-flip', get_template_directory_uri() . '/assets/js/pdf-flip.js', [ 'pdfjs' ], filemtime( get_template_directory() . '/assets/js/pdf-flip.js' ), true );
 		wp_localize_script( 'leap-pdf-flip', 'leapPdf', [
 			'worker' => 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/legacy/build/pdf.worker.min.js',
 		] );
