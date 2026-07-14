@@ -66,13 +66,23 @@ if ( isset( $card_images[ $post_slug ] ) ) {
 
 		<div class="entry-content">
 			<?php
+			$content = apply_filters( 'the_content', get_the_content() );
+
 			if ( $is_newsletter && $pdf_url ) {
 				// Show the intro copy but drop the "Download" button — the flipbook replaces it.
-				$content = apply_filters( 'the_content', get_the_content() );
-				echo preg_replace( '#<p>\s*<a[^>]*class="[^"]*btn[^"]*"[^>]*>.*?</a>\s*</p>#is', '', $content );
-			} else {
-				the_content();
+				$content = preg_replace( '#<p>\s*<a[^>]*class="[^"]*btn[^"]*"[^>]*>.*?</a>\s*</p>#is', '', $content );
 			}
+
+			// Insight posts end with a "Let's talk" CTA (heading + list + contact link).
+			// Wrap that trailing block so it reads as a visually separate section.
+			if ( preg_match( '#<h[2-4][^>]*>(?:(?!<h[2-4]).)*$#is', $content, $m, PREG_OFFSET_CAPTURE ) ) {
+				$tail = $m[0][0];
+				if ( preg_match( '#href="[^"]*/contact#i', $tail ) ) {
+					$content = substr( $content, 0, $m[0][1] ) . '<div class="post-cta">' . $tail . '</div>';
+				}
+			}
+
+			echo $content;
 			?>
 		</div>
 
@@ -98,7 +108,7 @@ if ( isset( $card_images[ $post_slug ] ) ) {
 		$prev_post = get_previous_post();
 		$next_post = get_next_post();
 		if ( $prev_post || $next_post ) : ?>
-			<nav class="news-pagination" aria-label="Post navigation" style="border-top:1px solid var(--color-border);margin-top:var(--space-16);padding-top:var(--space-8);">
+			<nav class="news-pagination news-pagination--post" aria-label="Post navigation" style="border-top:1px solid var(--color-border);margin-top:var(--space-16);padding-top:var(--space-8);">
 				<?php if ( $prev_post ) : ?>
 					<a class="news-pagination__arrow" href="<?php echo esc_url( get_permalink( $prev_post ) ); ?>" aria-label="Previous: <?php echo esc_attr( get_the_title( $prev_post ) ); ?>"><span aria-hidden="true">←</span></a>
 				<?php endif; ?>
