@@ -276,9 +276,13 @@
       viewport.addEventListener('touchcancel', endPinch);
     }
 
-    // On resize: switch between spread and single page, re-fit, and re-render.
-    var rt;
+    // Re-fit on real width changes only. On mobile the address bar showing /
+    // hiding fires resize with a new *height* constantly; re-rendering on those
+    // would cancel an in-progress page turn, so we ignore height-only changes.
+    var rt, lastW = window.innerWidth;
     window.addEventListener('resize', function () {
+      if (window.innerWidth === lastW) return;
+      lastW = window.innerWidth;
       clearTimeout(rt);
       rt = setTimeout(function () {
         var pv = computePerView();
