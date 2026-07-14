@@ -6870,7 +6870,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
 }
 /* Application success popup (careers) */
 .apply-success { align-items: center; }
-.apply-success__dialog { max-width: 440px; text-align: center; }
+.apply-success__dialog { max-width: min(560px, calc(100vw - var(--space-6) * 2)); text-align: center; }
 .apply-success__icon {
   width: 68px;
   height: 68px;
@@ -6883,7 +6883,7 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   color: var(--color-orange);
 }
 .apply-success__title { margin: 0 0 var(--space-2); }
-.apply-success__text { color: var(--color-text-2); margin: 0; }
+.apply-success__text { color: var(--color-text-2); margin: 0; white-space: nowrap; }
 
 @media (prefers-reduced-motion: reduce) {
   .apply-modal__dialog { animation: none; }
