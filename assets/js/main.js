@@ -1,26 +1,37 @@
 /* Leap Distributors — main.js */
 
-// ── Form success: clean URL + auto-dismiss the banner ─────
-// Forms redirect back with ?contact=success (etc.) to show a banner. We strip
-// the param so a refresh lands on the clean URL, then fade the banner out a few
-// seconds after it appears so it doesn't linger on the page.
+// ── Form success: keep ?…=success for tracking, clear on refresh ──
+// Forms redirect back with ?contact=success (etc.). We KEEP that param on the
+// first load so analytics/conversion tracking can fire on it, then fade the
+// on-page banner out. If the user REFRESHES that URL, we drop the param and
+// send them to the clean URL so it doesn't stick or re-track.
 (function () {
   var params = new URLSearchParams(window.location.search);
   var statusKeys = ['contact', 'newsletter', 'application', 'walkthrough'];
-  var changed = false;
-  statusKeys.forEach(function (k) {
-    if (params.has(k)) { params.delete(k); changed = true; }
-  });
-  if (!changed) return;
+  var hasStatus = statusKeys.some(function (k) { return params.has(k); });
+  if (!hasStatus) return;
 
-  // Strip the status param so a refresh lands on the clean URL.
-  if (window.history && window.history.replaceState) {
+  // Detect whether this pageview is a refresh vs. the initial redirect.
+  var navType = '';
+  try {
+    var entries = performance.getEntriesByType('navigation');
+    if (entries && entries.length) {
+      navType = entries[0].type;
+    } else if (performance.navigation) {
+      navType = performance.navigation.type === 1 ? 'reload' : 'navigate';
+    }
+  } catch (e) {}
+
+  if (navType === 'reload') {
+    // Refresh → strip the param and load the clean URL (banner won't render).
+    statusKeys.forEach(function (k) { params.delete(k); });
     var qs = params.toString();
     var clean = window.location.pathname + (qs ? '?' + qs : '') + window.location.hash;
-    window.history.replaceState(null, '', clean);
+    window.location.replace(clean);
+    return;
   }
 
-  // Fade out the success/error banner ~5s after it shows, then remove it.
+  // First load: leave the URL alone (tracking fires), just fade the banner out.
   function dismissBanner() {
     var el = document.querySelector('.form-feedback');
     if (!el) return;
