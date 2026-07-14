@@ -1,21 +1,39 @@
 /* Leap Distributors — main.js */
 
-// ── Clean form-status params from the URL after load ──────
-// Forms redirect back with ?contact=success (etc.) to show a banner. The
-// banner is rendered server-side, so once it's on screen we strip the param
-// so a refresh lands on the clean URL instead of re-showing the notice.
+// ── Form success: clean URL + auto-dismiss the banner ─────
+// Forms redirect back with ?contact=success (etc.) to show a banner. We strip
+// the param so a refresh lands on the clean URL, then fade the banner out a few
+// seconds after it appears so it doesn't linger on the page.
 (function () {
-  if (!window.history || !window.history.replaceState) return;
   var params = new URLSearchParams(window.location.search);
   var statusKeys = ['contact', 'newsletter', 'application', 'walkthrough'];
   var changed = false;
   statusKeys.forEach(function (k) {
     if (params.has(k)) { params.delete(k); changed = true; }
   });
-  if (changed) {
+  if (!changed) return;
+
+  // Strip the status param so a refresh lands on the clean URL.
+  if (window.history && window.history.replaceState) {
     var qs = params.toString();
     var clean = window.location.pathname + (qs ? '?' + qs : '') + window.location.hash;
     window.history.replaceState(null, '', clean);
+  }
+
+  // Fade out the success/error banner ~5s after it shows, then remove it.
+  function dismissBanner() {
+    var el = document.querySelector('.form-feedback');
+    if (!el) return;
+    setTimeout(function () {
+      el.style.transition = 'opacity .4s ease';
+      el.style.opacity = '0';
+      setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 450);
+    }, 5000);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', dismissBanner);
+  } else {
+    dismissBanner();
   }
 })();
 
