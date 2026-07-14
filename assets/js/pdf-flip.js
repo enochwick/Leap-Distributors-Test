@@ -4,22 +4,22 @@
  * Shows two pages side by side (a magazine spread) and pages through two at a
  * time. On narrow screens it falls back to one page at a time. Each page is
  * rendered with pdf.js at the exact zoom level, so text stays sharp at any
- * magnification. Page changes use a quick crossfade — no flip animation.
- * Loaded only on newsletter posts.
+ * magnification. Paging uses corner arrows (bottom-left / bottom-right) with a
+ * quick crossfade — no flip animation. Zoom via pinch (touch), ctrl/cmd+wheel
+ * (desktop), or the +/- buttons. Loaded only on newsletter posts.
  */
 (function () {
   var el = document.querySelector('.pdf-flip');
   if (!el || typeof pdfjsLib === 'undefined') return;
 
-  var url       = el.getAttribute('data-pdf');
-  var viewport  = el.closest('.pdf-flip-viewport');
-  var wrap      = el.closest('.pdf-flip-wrap');
-  var controls  = wrap ? wrap.querySelector('.pdf-flip__controls') : null;
-  var pageLabel = controls ? controls.querySelector('[data-flip-page]') : null;
-  var prevBtn   = controls ? controls.querySelector('[data-flip-prev]') : null;
-  var nextBtn   = controls ? controls.querySelector('[data-flip-next]') : null;
-  var zoomInBtn = controls ? controls.querySelector('[data-flip-zoom-in]') : null;
-  var zoomOutBtn= controls ? controls.querySelector('[data-flip-zoom-out]') : null;
+  var url        = el.getAttribute('data-pdf');
+  var viewport   = el.closest('.pdf-flip-viewport');
+  var wrap       = el.closest('.pdf-flip-wrap');
+  var prevBtn    = wrap ? wrap.querySelector('[data-flip-prev]') : null;
+  var nextBtn    = wrap ? wrap.querySelector('[data-flip-next]') : null;
+  var zoomBox    = wrap ? wrap.querySelector('.pdf-flip__zoom') : null;
+  var zoomInBtn  = wrap ? wrap.querySelector('[data-flip-zoom-in]') : null;
+  var zoomOutBtn = wrap ? wrap.querySelector('[data-flip-zoom-out]') : null;
 
   if (!url) return;
 
@@ -37,8 +37,6 @@
   var MAX_ZOOM    = 3;
   var ZOOM_STEP   = 0.5;
   var SPREAD_GAP  = 12;   // must match .pdf-spread gap in CSS
-  var MAX_LEAF_W  = 520;  // cap per-page width in a two-up spread
-  var MAX_SINGLE_W= 900;  // cap page width when showing one at a time
 
   var pdfDoc  = null;
   var total   = 0;
@@ -67,19 +65,15 @@
     return arr;
   }
 
-  // CSS width of a single leaf at the current zoom.
+  // CSS width of a single leaf at the current zoom. Fills the full container
+  // width: at 1x the spread spans edge to edge; zoom scales up from there.
   function leafWidth() {
     var avail = (viewport ? viewport.clientWidth : el.clientWidth) || 600;
-    var perLeaf;
-    if (perView === 2) {
-      perLeaf = Math.min((avail - SPREAD_GAP) / 2, MAX_LEAF_W);
-    } else {
-      perLeaf = Math.min(avail, MAX_SINGLE_W);
-    }
+    var perLeaf = perView === 2 ? (avail - SPREAD_GAP) / 2 : avail;
     return perLeaf * zoom;
   }
 
-  function render(resetScroll) {
+  function render(resetScroll, dir) {
     if (!pdfDoc) return;
     var token = ++renderToken;
     cancelTasks();
@@ -90,6 +84,8 @@
     var row     = document.createElement('div');
     row.className = 'pdf-spread';
     row.style.opacity = '0';
+    // Simple page-turn: new spread slides in from the direction of travel.
+    if (dir) row.style.transform = 'translateX(' + (dir * 26) + 'px)';
 
     // Pre-create canvases in reading order so pages never render out of order.
     var canvases = pages.map(function () {
@@ -118,8 +114,11 @@
       if (token !== renderToken) return;
       el.innerHTML = '';
       el.appendChild(row);
-      // Quick fade-in (next frame so the transition takes effect).
-      requestAnimationFrame(function () { row.style.opacity = '1'; });
+      // Settle in (next frame so the transition takes effect).
+      requestAnimationFrame(function () {
+        row.style.opacity = '1';
+        row.style.transform = 'translateX(0)';
+      });
       if (resetScroll && viewport) { viewport.scrollTop = 0; viewport.scrollLeft = 0; }
       updateUI();
     }).catch(function (err) {
@@ -133,10 +132,6 @@
   }
 
   function updateUI() {
-    if (pageLabel) {
-      var r = rightPage();
-      pageLabel.textContent = (r > pageNum ? pageNum + '–' + r : String(pageNum)) + ' / ' + total;
-    }
     if (prevBtn)    prevBtn.disabled    = pageNum <= 1;
     if (nextBtn)    nextBtn.disabled    = rightPage() >= total;
     if (zoomOutBtn) zoomOutBtn.disabled = zoom <= MIN_ZOOM;
@@ -148,11 +143,17 @@
     next = Math.max(1, Math.min(total, next));
     if (perView === 2 && next % 2 === 0) next--; // keep the left page odd
     if (next === pageNum) return;
+    var dir = next > pageNum ? 1 : -1;
     pageNum = next;
-    render(true);
+    render(true, dir);
   }
+
+  function clampZoom(z) {
+    return Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, z));
+  }
+
   function setZoom(z) {
-    z = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, Math.round(z * 10) / 10));
+    z = clampZoom(Math.round(z * 10) / 10);
     if (z === zoom) return;
     zoom = z;
     render(false);
@@ -164,7 +165,10 @@
     perView = computePerView();
     if (perView === 2 && pageNum % 2 === 0) pageNum--;
 
-    if (controls) controls.hidden = false;
+    if (prevBtn)  prevBtn.hidden = false;
+    if (nextBtn)  nextBtn.hidden = false;
+    if (zoomBox)  zoomBox.hidden = false;
+
     if (prevBtn)    prevBtn.addEventListener('click', function () { step(-1); });
     if (nextBtn)    nextBtn.addEventListener('click', function () { step(1); });
     if (zoomInBtn)  zoomInBtn.addEventListener('click', function () { setZoom(zoom + ZOOM_STEP); });
@@ -176,6 +180,47 @@
       if (e.key === 'ArrowRight') { step(1); e.preventDefault(); }
       else if (e.key === 'ArrowLeft') { step(-1); e.preventDefault(); }
     });
+
+    // Desktop zoom: ctrl/cmd + wheel.
+    if (viewport) {
+      viewport.addEventListener('wheel', function (e) {
+        if (!(e.ctrlKey || e.metaKey)) return;
+        e.preventDefault();
+        setZoom(zoom + (e.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP));
+      }, { passive: false });
+    }
+
+    // Touch pinch-to-zoom: scale the spread live, then re-render crisply on release.
+    if (viewport) {
+      var pinching = false, startDist = 0, startZoom = 1, liveZoom = 1, liveRow = null;
+      var touchDist = function (t) {
+        var dx = t[0].clientX - t[1].clientX, dy = t[0].clientY - t[1].clientY;
+        return Math.hypot(dx, dy);
+      };
+      viewport.addEventListener('touchstart', function (e) {
+        if (e.touches.length !== 2) return;
+        pinching  = true;
+        startDist = touchDist(e.touches);
+        startZoom = zoom;
+        liveZoom  = zoom;
+        liveRow   = el.querySelector('.pdf-spread');
+      }, { passive: true });
+      viewport.addEventListener('touchmove', function (e) {
+        if (!pinching || e.touches.length !== 2) return;
+        e.preventDefault();
+        var ratio = touchDist(e.touches) / (startDist || 1);
+        liveZoom = clampZoom(startZoom * ratio);
+        if (liveRow) liveRow.style.transform = 'scale(' + (liveZoom / startZoom) + ')';
+      }, { passive: false });
+      var endPinch = function () {
+        if (!pinching) return;
+        pinching = false;
+        if (liveRow) liveRow.style.transform = '';
+        setZoom(liveZoom);
+      };
+      viewport.addEventListener('touchend', endPinch);
+      viewport.addEventListener('touchcancel', endPinch);
+    }
 
     // On resize: switch between spread and single page, re-fit, and re-render.
     var rt;

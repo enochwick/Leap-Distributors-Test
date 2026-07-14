@@ -93,13 +93,11 @@ if ( isset( $card_images[ $post_slug ] ) ) {
 						<div class="pdf-flip__loading">Loading newsletter…</div>
 					</div>
 				</div>
-				<div class="pdf-flip__controls" hidden>
-					<button type="button" class="pdf-flip__btn" data-flip-prev aria-label="Previous page">&larr;</button>
-					<span class="pdf-flip__page" data-flip-page>1</span>
-					<button type="button" class="pdf-flip__btn" data-flip-next aria-label="Next page">&rarr;</button>
-						<span class="pdf-flip__divider" aria-hidden="true"></span>
-						<button type="button" class="pdf-flip__btn" data-flip-zoom-out aria-label="Zoom out">&minus;</button>
-						<button type="button" class="pdf-flip__btn" data-flip-zoom-in aria-label="Zoom in">+</button>
+				<button type="button" class="pdf-flip__nav pdf-flip__nav--prev" data-flip-prev aria-label="Previous page" hidden>&larr;</button>
+					<button type="button" class="pdf-flip__nav pdf-flip__nav--next" data-flip-next aria-label="Next page" hidden>&rarr;</button>
+					<div class="pdf-flip__zoom" hidden>
+						<button type="button" class="pdf-flip__zbtn" data-flip-zoom-in aria-label="Zoom in">+</button>
+						<button type="button" class="pdf-flip__zbtn" data-flip-zoom-out aria-label="Zoom out">&minus;</button>
 					</div>
 			</div>
 		<?php endif; ?>
