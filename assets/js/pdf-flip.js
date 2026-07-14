@@ -35,7 +35,7 @@
 
   var MIN_ZOOM    = 1;
   var MAX_ZOOM    = 3;
-  var ZOOM_STEP   = 0.5;
+  var ZOOM_STEP   = 0.25; // gradual steps for the +/- buttons and wheel
   var SPREAD_GAP  = 12;   // must match .pdf-spread gap in CSS
 
   var pdfDoc  = null;
@@ -149,14 +149,43 @@
   }
 
   function clampZoom(z) {
-    return Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, z));
+    return Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, Math.round(z * 100) / 100));
   }
 
+  // Re-render crisply at an exact zoom level (used after a live gesture settles).
   function setZoom(z) {
-    z = clampZoom(Math.round(z * 10) / 10);
+    z = clampZoom(z);
     if (z === zoom) return;
     zoom = z;
     render(false);
+  }
+
+  // Smooth, gradual zoom for the +/- buttons and wheel: animate a CSS scale on
+  // the current spread, then re-render sharp once it settles. Repeated clicks
+  // accumulate via pendingZoom so they ease continuously instead of jumping.
+  var pendingZoom = null;
+  var zoomSettle  = null;
+  function smoothZoomBy(delta) {
+    var base   = pendingZoom != null ? pendingZoom : zoom;
+    var target = clampZoom(base + delta);
+    if (target === base) return;
+    pendingZoom = target;
+    if (zoomInBtn)  zoomInBtn.disabled  = target >= MAX_ZOOM;
+    if (zoomOutBtn) zoomOutBtn.disabled = target <= MIN_ZOOM;
+
+    var row = el.querySelector('.pdf-spread');
+    if (!row) { setZoom(target); pendingZoom = null; return; }
+    row.style.transition      = 'transform .25s ease';
+    row.style.transformOrigin = 'center top';
+    row.style.transform       = 'scale(' + (target / zoom) + ')';
+
+    clearTimeout(zoomSettle);
+    zoomSettle = setTimeout(function () {
+      var t = pendingZoom;
+      pendingZoom = null;
+      row.style.transition = '';
+      setZoom(t);
+    }, 260);
   }
 
   pdfjsLib.getDocument(url).promise.then(function (pdf) {
@@ -171,8 +200,8 @@
 
     if (prevBtn)    prevBtn.addEventListener('click', function () { step(-1); });
     if (nextBtn)    nextBtn.addEventListener('click', function () { step(1); });
-    if (zoomInBtn)  zoomInBtn.addEventListener('click', function () { setZoom(zoom + ZOOM_STEP); });
-    if (zoomOutBtn) zoomOutBtn.addEventListener('click', function () { setZoom(zoom - ZOOM_STEP); });
+    if (zoomInBtn)  zoomInBtn.addEventListener('click', function () { smoothZoomBy(ZOOM_STEP); });
+    if (zoomOutBtn) zoomOutBtn.addEventListener('click', function () { smoothZoomBy(-ZOOM_STEP); });
 
     // Arrow keys page through when the viewer has focus.
     el.setAttribute('tabindex', '0');
@@ -186,7 +215,7 @@
       viewport.addEventListener('wheel', function (e) {
         if (!(e.ctrlKey || e.metaKey)) return;
         e.preventDefault();
-        setZoom(zoom + (e.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP));
+        smoothZoomBy(e.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP);
       }, { passive: false });
     }
 
@@ -204,6 +233,10 @@
         startZoom = zoom;
         liveZoom  = zoom;
         liveRow   = el.querySelector('.pdf-spread');
+        if (liveRow) {
+          liveRow.style.transition      = 'none'; // follow the fingers 1:1
+          liveRow.style.transformOrigin = 'center top';
+        }
       }, { passive: true });
       viewport.addEventListener('touchmove', function (e) {
         if (!pinching || e.touches.length !== 2) return;
@@ -215,7 +248,7 @@
       var endPinch = function () {
         if (!pinching) return;
         pinching = false;
-        if (liveRow) liveRow.style.transform = '';
+        if (liveRow) { liveRow.style.transition = ''; liveRow.style.transform = ''; }
         setZoom(liveZoom);
       };
       viewport.addEventListener('touchend', endPinch);
