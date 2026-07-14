@@ -3605,6 +3605,9 @@ select.form-input {
   font-weight: 300;
   margin: 0;
 }
+@media (max-width: 768px) {
+  .fcov__bio { font-size: 0.8125rem; } /* a touch smaller on mobile */
+}
 .fcov__nav {
   display: flex;
   gap: var(--space-4);
