@@ -6899,8 +6899,6 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   line-height: 1.8;
   color: var(--color-text-2);
   font-weight: 300;
-  /* Comfortable reading measure; body stays left-aligned under the full-width image */
-  max-width: 68ch;
 }
 .entry-content > * + * { margin-top: var(--space-6); }
 .entry-content p { margin: 0; }
