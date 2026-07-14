@@ -7001,6 +7001,10 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   overflow: hidden;
   aspect-ratio: 21 / 9;
   background: var(--color-surface);
+  /* Soften top & bottom so the image melts into the page while the rounded
+     corners stay visible against the navy background on the sides */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 7%, #000 80%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 7%, #000 80%, transparent 100%);
 }
 .post-hero-media img {
   width: 100%;
@@ -7008,14 +7012,14 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   object-fit: cover;
   display: block;
 }
-/* Tint the image into the site's dark navy theme */
+/* Tint the image into the site's dark navy theme + fade the base into the page */
 .post-hero-media::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(0,21,32,0.30) 0%, rgba(0,21,32,0.08) 45%, rgba(0,21,32,0.70) 100%),
+    linear-gradient(180deg, rgba(0,21,32,0.35) 0%, rgba(0,21,32,0.06) 42%, rgba(0,21,32,0.55) 78%, var(--color-bg) 100%),
     linear-gradient(215deg, rgba(42,125,225,0.20) 0%, transparent 55%);
   mix-blend-mode: multiply;
 }

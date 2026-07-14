@@ -30,12 +30,8 @@ $card_images = array(
 );
 $post_slug   = get_post_field( 'post_name', get_post() );
 $card_image  = '';
-$card_fit    = 'cover';
 if ( isset( $card_images[ $post_slug ] ) ) {
 	$card_image = get_template_directory_uri() . '/assets/images/blog-news/' . $card_images[ $post_slug ][0];
-	if ( ! empty( $card_images[ $post_slug ][1] ) && 'contain' === $card_images[ $post_slug ][1] ) {
-		$card_fit = 'contain';
-	}
 }
 ?>
 
@@ -59,8 +55,8 @@ if ( isset( $card_images[ $post_slug ] ) ) {
 <section class="content-section">
 	<div class="container">
 		<?php if ( $card_image ) : ?>
-			<figure class="post-hero-media"<?php echo 'contain' === $card_fit ? ' style="background:#02283A;"' : ''; ?>>
-				<img src="<?php echo esc_url( $card_image ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" loading="eager"<?php echo 'contain' === $card_fit ? ' style="object-fit:contain;"' : ''; ?>>
+			<figure class="post-hero-media">
+				<img src="<?php echo esc_url( $card_image ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" loading="eager">
 			</figure>
 		<?php elseif ( has_post_thumbnail() && ! ( $is_newsletter && $pdf_url ) ) : ?>
 			<figure class="post-hero-media">
