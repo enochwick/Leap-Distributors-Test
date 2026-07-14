@@ -54,11 +54,11 @@ if ( isset( $card_images[ $post_slug ] ) ) {
 
 <section class="content-section">
 	<div class="container">
-		<?php if ( $card_image ) : ?>
+		<?php if ( ! $is_newsletter && $card_image ) : ?>
 			<figure class="post-hero-media">
 				<img src="<?php echo esc_url( $card_image ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" loading="eager">
 			</figure>
-		<?php elseif ( has_post_thumbnail() && ! ( $is_newsletter && $pdf_url ) ) : ?>
+		<?php elseif ( ! $is_newsletter && has_post_thumbnail() ) : ?>
 			<figure class="post-hero-media">
 				<?php the_post_thumbnail( 'large' ); ?>
 			</figure>
@@ -97,10 +97,7 @@ if ( isset( $card_images[ $post_slug ] ) ) {
 					<button type="button" class="pdf-flip__btn" data-flip-prev aria-label="Previous page">&larr;</button>
 					<span class="pdf-flip__page" data-flip-page>1</span>
 					<button type="button" class="pdf-flip__btn" data-flip-next aria-label="Next page">&rarr;</button>
-					<span class="pdf-flip__divider" aria-hidden="true"></span>
-					<button type="button" class="pdf-flip__btn" data-flip-zoom-out aria-label="Zoom out">&minus;</button>
-					<button type="button" class="pdf-flip__btn" data-flip-zoom-in aria-label="Zoom in">+</button>
-				</div>
+																			</div>
 			</div>
 		<?php endif; ?>
 
