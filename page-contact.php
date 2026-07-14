@@ -20,11 +20,11 @@
 				<span class="section-label section-label--no-line reveal">Send a Message</span>
 
 				<?php if ( isset( $_GET['contact'] ) && $_GET['contact'] === 'success' ) : ?>
-					<div class="form-feedback form-feedback--success reveal" style="margin-top:var(--space-6);">
+					<div class="form-feedback form-feedback--success" style="margin-top:var(--space-6);">
 						<strong>Message sent.</strong> We'll be in touch shortly.
 					</div>
 				<?php elseif ( isset( $_GET['contact'] ) && $_GET['contact'] === 'error' ) : ?>
-					<div class="form-feedback form-feedback--error reveal" style="margin-top:var(--space-6);">
+					<div class="form-feedback form-feedback--error" style="margin-top:var(--space-6);">
 						Something went wrong. Please try again or email us directly at <a href="mailto:info@leapdistributors.com">info@leapdistributors.com</a>.
 					</div>
 				<?php endif; ?>

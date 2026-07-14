@@ -53,11 +53,11 @@
 		</div>
 
 		<?php if ( isset( $_GET['application'] ) && $_GET['application'] === 'success' ) : ?>
-			<div class="form-feedback form-feedback--success reveal" style="max-width:820px;margin:0 auto var(--space-8);">
+			<div class="form-feedback form-feedback--success" style="max-width:820px;margin:0 auto var(--space-8);">
 				<strong>Application received.</strong> Thanks — our team will review it and be in touch.
 			</div>
 		<?php elseif ( isset( $_GET['application'] ) && $_GET['application'] === 'error' ) : ?>
-			<div class="form-feedback form-feedback--error reveal" style="max-width:820px;margin:0 auto var(--space-8);">
+			<div class="form-feedback form-feedback--error" style="max-width:820px;margin:0 auto var(--space-8);">
 				Something went wrong. Please try again or email your resume to <a href="mailto:careers@leapdistributors.com">careers@leapdistributors.com</a>.
 			</div>
 		<?php endif; ?>

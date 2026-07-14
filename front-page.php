@@ -301,7 +301,7 @@ if ( $hero_headline_raw ) {
 			<h2 class="reveal">Better.<br>Together.</h2>
 			<p class="reveal">Monthly. The good stuff. No noise.</p>
 			<?php if ( isset( $_GET['newsletter'] ) && $_GET['newsletter'] === 'success' ) : ?>
-				<div class="form-feedback form-feedback--success reveal" style="margin-bottom:var(--space-6);">
+				<div class="form-feedback form-feedback--success" style="margin-bottom:var(--space-6);">
 					<strong>You're in.</strong> We'll be in touch with the good stuff.
 				</div>
 			<?php endif; ?>

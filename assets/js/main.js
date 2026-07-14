@@ -38,6 +38,9 @@
   function dismissBanner() {
     var el = document.querySelector('.form-feedback');
     if (!el) return;
+    // Guarantee it's visible immediately (never wait on a scroll-reveal).
+    el.style.opacity = '1';
+    el.style.transform = 'none';
     setTimeout(function () {
       el.style.transition = 'opacity .4s ease';
       el.style.opacity = '0';
