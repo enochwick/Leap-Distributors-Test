@@ -1,5 +1,24 @@
 /* Leap Distributors — main.js */
 
+// ── Clean form-status params from the URL after load ──────
+// Forms redirect back with ?contact=success (etc.) to show a banner. The
+// banner is rendered server-side, so once it's on screen we strip the param
+// so a refresh lands on the clean URL instead of re-showing the notice.
+(function () {
+  if (!window.history || !window.history.replaceState) return;
+  var params = new URLSearchParams(window.location.search);
+  var statusKeys = ['contact', 'newsletter', 'application', 'walkthrough'];
+  var changed = false;
+  statusKeys.forEach(function (k) {
+    if (params.has(k)) { params.delete(k); changed = true; }
+  });
+  if (changed) {
+    var qs = params.toString();
+    var clean = window.location.pathname + (qs ? '?' + qs : '') + window.location.hash;
+    window.history.replaceState(null, '', clean);
+  }
+})();
+
 // ── Mesh Background — runs on every .mesh-canvas found ────
 function createMeshBackground(canvas) {
   if (!canvas) return;
