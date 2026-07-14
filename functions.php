@@ -325,6 +325,14 @@ function leap_submission_is_bot( $action ) {
 	if ( is_wp_error( $resp ) ) { return false; } // can't reach Google → don't block real users
 
 	$data = json_decode( wp_remote_retrieve_body( $resp ), true );
+	// TEMP diagnostic: record exactly what Google returns so a mis-registered
+	// key (wrong pair / hostname) is visible in the mail debug log.
+	if ( function_exists( 'leap_mail_debug_log' ) ) {
+		leap_mail_debug_log( 'reCAPTCHA (' . $action . ') → success=' . ( empty( $data['success'] ) ? '0' : '1' )
+			. ' score=' . ( $data['score'] ?? 'n/a' )
+			. ' hostname=' . ( $data['hostname'] ?? 'n/a' )
+			. ' errors=' . ( ! empty( $data['error-codes'] ) ? implode( ',', (array) $data['error-codes'] ) : 'none' ) );
+	}
 	if ( empty( $data['success'] ) ) { return true; }
 	// v3 returns a 0..1 score; 0.5 is Google's suggested threshold.
 	if ( isset( $data['score'] ) && (float) $data['score'] < 0.5 ) { return true; }
