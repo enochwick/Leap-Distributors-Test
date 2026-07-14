@@ -6280,8 +6280,23 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   margin-top: var(--space-10);
 }
 
-/* Individual post nav (prev/next) sits left-aligned under the article */
-.news-pagination--post { justify-content: flex-start; }
+/* Individual post nav (prev/next) as text links: Previous left, Next right */
+.news-pagination--post { justify-content: space-between; gap: var(--space-4); }
+.news-pagination__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-2);
+  text-decoration: none;
+  transition: color 0.2s var(--ease-out);
+}
+.news-pagination__link:hover { color: var(--color-text); }
+.news-pagination__link span { transition: transform 0.2s var(--ease-out); }
+.news-pagination__link--next { margin-left: auto; } /* stays right even if Previous is missing */
+.news-pagination__link--prev:hover span { transform: translateX(-3px); }
+.news-pagination__link--next:hover span { transform: translateX(3px); }
 
 .news-pagination__pages {
   display: flex;

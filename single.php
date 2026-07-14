@@ -108,10 +108,10 @@ if ( isset( $card_images[ $post_slug ] ) ) {
 		if ( $prev_post || $next_post ) : ?>
 			<nav class="news-pagination news-pagination--post" aria-label="Post navigation" style="border-top:1px solid var(--color-border);margin-top:var(--space-16);padding-top:var(--space-8);">
 				<?php if ( $prev_post ) : ?>
-					<a class="news-pagination__arrow" href="<?php echo esc_url( get_permalink( $prev_post ) ); ?>" aria-label="Previous: <?php echo esc_attr( get_the_title( $prev_post ) ); ?>"><span aria-hidden="true">←</span></a>
+					<a class="news-pagination__link news-pagination__link--prev" href="<?php echo esc_url( get_permalink( $prev_post ) ); ?>" aria-label="Previous article: <?php echo esc_attr( get_the_title( $prev_post ) ); ?>"><span aria-hidden="true">&larr;</span> Previous article</a>
 				<?php endif; ?>
 				<?php if ( $next_post ) : ?>
-					<a class="news-pagination__arrow" href="<?php echo esc_url( get_permalink( $next_post ) ); ?>" aria-label="Next: <?php echo esc_attr( get_the_title( $next_post ) ); ?>"><span aria-hidden="true">→</span></a>
+					<a class="news-pagination__link news-pagination__link--next" href="<?php echo esc_url( get_permalink( $next_post ) ); ?>" aria-label="Next article: <?php echo esc_attr( get_the_title( $next_post ) ); ?>">Next article <span aria-hidden="true">&rarr;</span></a>
 				<?php endif; ?>
 			</nav>
 		<?php endif; ?>
