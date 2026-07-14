@@ -89,7 +89,7 @@ if ( isset( $card_images[ $post_slug ] ) ) {
 		<?php if ( $is_newsletter && $pdf_url ) : ?>
 			<div class="pdf-flip-wrap">
 				<div class="pdf-flip-viewport">
-					<div class="pdf-flip" data-pdf="<?php echo esc_url( $pdf_url ); ?>" aria-label="Newsletter, flip through the pages">
+					<div class="pdf-flip" data-pdf="<?php echo esc_url( $pdf_url ); ?>" aria-label="Newsletter viewer">
 						<div class="pdf-flip__loading">Loading newsletter…</div>
 					</div>
 				</div>
@@ -97,7 +97,10 @@ if ( isset( $card_images[ $post_slug ] ) ) {
 					<button type="button" class="pdf-flip__btn" data-flip-prev aria-label="Previous page">&larr;</button>
 					<span class="pdf-flip__page" data-flip-page>1</span>
 					<button type="button" class="pdf-flip__btn" data-flip-next aria-label="Next page">&rarr;</button>
-																			</div>
+						<span class="pdf-flip__divider" aria-hidden="true"></span>
+						<button type="button" class="pdf-flip__btn" data-flip-zoom-out aria-label="Zoom out">&minus;</button>
+						<button type="button" class="pdf-flip__btn" data-flip-zoom-in aria-label="Zoom in">+</button>
+					</div>
 			</div>
 		<?php endif; ?>
 

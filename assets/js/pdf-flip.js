@@ -1,22 +1,24 @@
 /**
- * Newsletter page-flip viewer (lightweight).
- * Renders each PDF page with pdf.js at screen resolution, then feeds the
- * images into StPageFlip for a magazine-style page turn. Loaded only on
- * newsletter posts.
+ * Newsletter PDF viewer (lightweight, crisp).
  *
- * Kept intentionally simple: page-turn + prev/next only (no zoom / pan / pinch),
- * and pages render as screen-sized JPEGs so the viewer loads fast and stays light.
+ * Renders one page at a time with pdf.js, re-rendering at the exact zoom level
+ * so text stays sharp at any magnification (no blurry upscaling). Navigation is
+ * simple next/previous paging; zoom in / out scales the page and the viewport
+ * scrolls. Loaded only on newsletter posts.
  */
 (function () {
   var el = document.querySelector('.pdf-flip');
-  if (!el || typeof pdfjsLib === 'undefined' || typeof St === 'undefined' || !St.PageFlip) return;
+  if (!el || typeof pdfjsLib === 'undefined') return;
 
   var url       = el.getAttribute('data-pdf');
+  var viewport  = el.closest('.pdf-flip-viewport');
   var wrap      = el.closest('.pdf-flip-wrap');
   var controls  = wrap ? wrap.querySelector('.pdf-flip__controls') : null;
   var pageLabel = controls ? controls.querySelector('[data-flip-page]') : null;
   var prevBtn   = controls ? controls.querySelector('[data-flip-prev]') : null;
   var nextBtn   = controls ? controls.querySelector('[data-flip-next]') : null;
+  var zoomInBtn = controls ? controls.querySelector('[data-flip-zoom-in]') : null;
+  var zoomOutBtn= controls ? controls.querySelector('[data-flip-zoom-out]') : null;
 
   if (!url) return;
 
@@ -30,96 +32,112 @@
       '<a href="' + url + '" target="_blank" rel="noopener">Open the PDF</a> instead.</div>';
   }
 
-  var isMobile = window.matchMedia('(max-width: 768px)').matches;
+  var MIN_ZOOM  = 1;
+  var MAX_ZOOM  = 3;
+  var ZOOM_STEP = 0.5;
+  var MAX_FIT_W = 900; // cap the fit-to-width size so pages aren't huge on wide screens
 
-  // Render each page to a JPEG sized for the screen (no zoom headroom). One leaf
-  // displays at ~500 CSS px, so ~2x that on retina is plenty sharp. JPEG + a
-  // modest resolution keeps rendering fast and the images small.
-  function renderPages(pdf) {
-    var pages = [];
-    var chain = Promise.resolve();
-    var dpr     = Math.min(window.devicePixelRatio || 1, 2);
-    var targetW = 640 * dpr; // one leaf at device resolution
-    for (var i = 1; i <= pdf.numPages; i++) {
-      (function (num) {
-        chain = chain.then(function () {
-          return pdf.getPage(num).then(function (page) {
-            var natural = page.getViewport({ scale: 1 });
-            var scale   = Math.min(2.5, Math.max(1, targetW / natural.width));
-            var vp      = page.getViewport({ scale: scale });
-            var canvas  = document.createElement('canvas');
-            canvas.width  = vp.width;
-            canvas.height = vp.height;
-            var ctx = canvas.getContext('2d');
-            return page.render({ canvasContext: ctx, viewport: vp }).promise
-              .then(function () {
-                pages.push({ src: canvas.toDataURL('image/jpeg', 0.82), ratio: vp.height / vp.width });
-              });
-          });
-        });
-      })(i);
-    }
-    return chain.then(function () { return pages; });
+  var pdfDoc  = null;
+  var total   = 0;
+  var pageNum = 1;
+  var zoom    = 1;
+  var canvas  = null;
+  var renderTask  = null;   // active pdf.js render (so we can cancel)
+  var renderToken = 0;      // guards against stale async renders
+
+  function baseWidth() {
+    var avail = (viewport ? viewport.clientWidth : el.clientWidth) || 600;
+    return Math.min(avail, MAX_FIT_W);
   }
 
-  pdfjsLib.getDocument(url).promise
-    .then(renderPages)
-    .then(function (pages) {
-      if (!pages.length) { fallback(); return; }
+  function render(resetScroll) {
+    if (!pdfDoc) return;
+    var token = ++renderToken;
 
-      var ratio = pages[0].ratio || 1.294;
+    pdfDoc.getPage(pageNum).then(function (page) {
+      if (token !== renderToken) return;
 
-      // On desktop it's a two-page spread. For the back cover to sit alone on the
-      // left the page count must be even — if it's odd, slip in a blank leaf.
-      if (!isMobile && pages.length > 2 && pages.length % 2 === 1) {
-        var bw = 800, bh = Math.round(bw * ratio);
-        var bc = document.createElement('canvas');
-        bc.width = bw; bc.height = bh;
-        var bctx = bc.getContext('2d');
-        bctx.fillStyle = '#ffffff';
-        bctx.fillRect(0, 0, bw, bh);
-        pages.splice(pages.length - 1, 0, { src: bc.toDataURL('image/jpeg', 0.82), ratio: ratio });
+      var unscaled = page.getViewport({ scale: 1 });
+      var cssW     = baseWidth() * zoom;
+      var cssScale = cssW / unscaled.width;
+      var dpr      = Math.min(window.devicePixelRatio || 1, 2);
+      var vp       = page.getViewport({ scale: cssScale * dpr });
+
+      if (!canvas) {
+        canvas = document.createElement('canvas');
+        el.innerHTML = '';
+        el.appendChild(canvas);
       }
 
-      var baseW = 600;
-      var baseH = Math.round(baseW * ratio);
+      // Device pixels for crispness; CSS size drives the on-screen dimensions.
+      canvas.width  = Math.floor(vp.width);
+      canvas.height = Math.floor(vp.height);
+      canvas.style.width  = Math.floor(vp.width / dpr) + 'px';
+      canvas.style.height = Math.floor(vp.height / dpr) + 'px';
+      canvas.style.opacity = '0';
 
-      el.innerHTML = '';
-      var flip = new St.PageFlip(el, {
-        width: baseW,
-        height: baseH,
-        size: 'stretch',
-        minWidth: 320,
-        maxWidth: 1000,
-        minHeight: Math.round(320 * ratio),
-        maxHeight: Math.round(1000 * ratio),
-        maxShadowOpacity: 0.4,
-        showCover: true,
-        mobileScrollSupport: false,
-        // One full page per view on phones; two-page spread on desktop.
-        usePortrait: isMobile
-      });
-
-      flip.loadFromImages(pages.map(function (p) { return p.src; }));
-
-      // ── Page controls ───────────────────────────────────
-      if (controls) {
-        controls.hidden = false;
-        var total = flip.getPageCount();
-        var update = function () {
-          var cur = flip.getCurrentPageIndex() + 1;
-          if (pageLabel) pageLabel.textContent = cur + ' / ' + total;
-          if (prevBtn) prevBtn.disabled = cur <= 1;
-          if (nextBtn) nextBtn.disabled = cur >= total;
-        };
-        flip.on('flip', update);
-        if (prevBtn) prevBtn.addEventListener('click', function () { flip.flipPrev(); });
-        if (nextBtn) nextBtn.addEventListener('click', function () { flip.flipNext(); });
-        update();
-      }
-    })
-    .catch(function (err) {
-      fallback();
+      if (renderTask) { try { renderTask.cancel(); } catch (e) {} }
+      var ctx = canvas.getContext('2d');
+      renderTask = page.render({ canvasContext: ctx, viewport: vp });
+      renderTask.promise.then(function () {
+        if (token !== renderToken) return;
+        canvas.style.opacity = '1';
+        if (resetScroll && viewport) { viewport.scrollTop = 0; viewport.scrollLeft = 0; }
+        updateUI();
+      }, function () { /* cancelled — ignore */ });
+    }).catch(function (err) {
       if (window.console && console.warn) console.warn('pdf-flip:', err);
     });
+  }
+
+  function updateUI() {
+    if (pageLabel) pageLabel.textContent = pageNum + ' / ' + total;
+    if (prevBtn)    prevBtn.disabled    = pageNum <= 1;
+    if (nextBtn)    nextBtn.disabled    = pageNum >= total;
+    if (zoomOutBtn) zoomOutBtn.disabled = zoom <= MIN_ZOOM;
+    if (zoomInBtn)  zoomInBtn.disabled  = zoom >= MAX_ZOOM;
+  }
+
+  function goTo(n) {
+    n = Math.max(1, Math.min(total, n));
+    if (n === pageNum) return;
+    pageNum = n;
+    render(true);
+  }
+  function setZoom(z) {
+    z = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, Math.round(z * 10) / 10));
+    if (z === zoom) return;
+    zoom = z;
+    render(false);
+  }
+
+  pdfjsLib.getDocument(url).promise.then(function (pdf) {
+    pdfDoc = pdf;
+    total  = pdf.numPages;
+
+    if (controls) controls.hidden = false;
+    if (prevBtn)    prevBtn.addEventListener('click', function () { goTo(pageNum - 1); });
+    if (nextBtn)    nextBtn.addEventListener('click', function () { goTo(pageNum + 1); });
+    if (zoomInBtn)  zoomInBtn.addEventListener('click', function () { setZoom(zoom + ZOOM_STEP); });
+    if (zoomOutBtn) zoomOutBtn.addEventListener('click', function () { setZoom(zoom - ZOOM_STEP); });
+
+    // Arrow keys page through when the viewer has focus.
+    el.setAttribute('tabindex', '0');
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { goTo(pageNum + 1); e.preventDefault(); }
+      else if (e.key === 'ArrowLeft') { goTo(pageNum - 1); e.preventDefault(); }
+    });
+
+    // Re-render to the new fit width on resize (keeps the current page + zoom).
+    var rt;
+    window.addEventListener('resize', function () {
+      clearTimeout(rt);
+      rt = setTimeout(function () { render(false); }, 200);
+    });
+
+    render(true);
+  }).catch(function (err) {
+    fallback();
+    if (window.console && console.warn) console.warn('pdf-flip:', err);
+  });
 })();
