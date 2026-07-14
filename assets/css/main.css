@@ -6989,9 +6989,12 @@ body:has(#leap-chat.is-open) .fabs { display: none; }
   width: -moz-max-content;
   width: max-content;
 }
-.pdf-flip canvas {
-  display: block;
-  transition: opacity .18s ease;
+.pdf-flip canvas { display: block; }
+.pdf-spread {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  transition: opacity .15s ease;
 }
 .pdf-flip__loading {
   width: 100%;
