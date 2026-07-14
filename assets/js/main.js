@@ -32,6 +32,9 @@
   }
 
   // First load: leave the URL alone (tracking fires), just fade the banner out.
+  // The careers/application form shows longer (8s) so applicants have time to
+  // read the confirmation; other forms use the standard 5s.
+  var visibleFor = params.has('application') ? 8000 : 5000;
   function dismissBanner() {
     var el = document.querySelector('.form-feedback');
     if (!el) return;
@@ -39,7 +42,7 @@
       el.style.transition = 'opacity .4s ease';
       el.style.opacity = '0';
       setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 450);
-    }, 5000);
+    }, visibleFor);
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', dismissBanner);

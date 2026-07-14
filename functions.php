@@ -897,7 +897,7 @@ function leap_chat_handover() {
 
 	leap_log_handover( $name, $email, $message, $transcript );
 
-	// Notify the team (email + optional Slack).
+	// Notify the team by email.
 	leap_notify_team_handover( $name, $email, $message, $transcript );
 
 	wp_send_json_success( [ 'reply' => "Thanks, {$name}! A Leap team member will reach out by email shortly." ] );
@@ -936,16 +936,6 @@ function leap_notify_team_handover( $name, $contact, $message, $transcript = '' 
 		$headers[] = 'Reply-To: ' . $contact;
 	}
 	wp_mail( $to, $subject, $body, $headers );
-
-	// Optional Slack notification.
-	$slack = get_option( 'leap_slack_webhook', '' );
-	if ( $slack ) {
-		wp_remote_post( $slack, [
-			'timeout' => 8,
-			'headers' => [ 'Content-Type' => 'application/json' ],
-			'body'    => wp_json_encode( [ 'text' => "*Chat handover* from {$name} ({$contact})\n>{$message}" ] ),
-		] );
-	}
 }
 
 /**
@@ -1090,9 +1080,6 @@ add_action( 'admin_init', function() {
 	register_setting( 'leap_ai_settings', 'leap_careers_email', [
 		'type' => 'string', 'sanitize_callback' => 'sanitize_email', 'default' => '',
 	] );
-	register_setting( 'leap_ai_settings', 'leap_slack_webhook', [
-		'type' => 'string', 'sanitize_callback' => 'esc_url_raw', 'default' => '',
-	] );
 	register_setting( 'leap_ai_settings', 'leap_recaptcha_site_key', [
 		'type' => 'string', 'sanitize_callback' => 'sanitize_text_field', 'default' => '',
 	] );
@@ -1173,15 +1160,6 @@ function leap_ai_settings_page() {
 							value="<?php echo esc_attr( get_option( 'leap_careers_email', '' ) ); ?>"
 							class="regular-text" placeholder="careers@leapdistributors.com">
 						<p class="description">Where job application submissions are emailed. Defaults to htadesse@totalancillary.com.</p>
-					</td>
-				</tr>
-				<tr>
-					<th scope="row"><label for="leap_slack_webhook">Slack webhook (optional)</label></th>
-					<td>
-						<input name="leap_slack_webhook" id="leap_slack_webhook" type="url"
-							value="<?php echo esc_attr( get_option( 'leap_slack_webhook', '' ) ); ?>"
-							class="regular-text" placeholder="https://hooks.slack.com/services/…">
-						<p class="description">If set, handover requests also post to this Slack channel.</p>
 					</td>
 				</tr>
 				<tr>
