@@ -1472,7 +1472,9 @@ p { line-height: 1.7; }
   background: var(--color-blue);
   transform-origin: top;
 }
-.vt-tab.is-active .vt-tab__progress {
+/* Progress bar only runs once the section has scrolled into view (JS adds
+   .is-playing); before that it stays empty and idle. */
+.vt-section.is-playing .vt-tab.is-active .vt-tab__progress {
   animation: vt-progress 5s linear forwards;
 }
 @keyframes vt-progress {

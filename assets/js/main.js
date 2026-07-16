@@ -1192,8 +1192,32 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Init — first slide already visible via CSS is-active
-    vtStart();
+    // Don't autoplay on load — wait until the section scrolls into view, then
+    // start the timer and the progress bar together. Pause when scrolled away.
+    if ('IntersectionObserver' in window) {
+      let vtStarted = false;
+      const vtIO = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            paused = false;
+            if (!vtStarted) {
+              vtStarted = true;
+              vtSection.classList.add('is-playing'); // kicks off the progress bar
+              const bar = tabs[current] && tabs[current].querySelector('.vt-tab__progress');
+              if (bar) { bar.style.animation = 'none'; bar.offsetHeight; bar.style.animation = ''; }
+              vtStart();
+            }
+          } else {
+            paused = true;
+          }
+        });
+      }, { threshold: 0.35 });
+      vtIO.observe(vtSection);
+    } else {
+      // No observer support — fall back to immediate autoplay.
+      vtSection.classList.add('is-playing');
+      vtStart();
+    }
   }
 
   // ── Spotlight glow cards ───────────────────────────────────
